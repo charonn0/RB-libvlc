@@ -1,9 +1,10 @@
 #tag Class
-Protected Class VLCInstance
+Private Class VLCInstance
 	#tag Method, Flags = &h0
-		Sub ClearErrorMsg()
+		Function AudioFilters() As libvlc.ModuleList
+		  Return New libvlc.ModuleList(libvlc_audio_filter_list_get(mHandle))
 		  
-		End Sub
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -14,12 +15,28 @@ Protected Class VLCInstance
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(argc As Integer, argv As String)
+		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
+		  
 		  mHandle = libvlc_new(argc, argv)
 		  
-		  If mHandle = Nil Then 
-		    mErrorMsg = libvlc.LastErrorMessage
-		    Raise New libvlc.VLCException(Me)
-		  End If
+		  If mHandle = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
+		  
+		  mUserAgent = "RB-VLC/1.0"
+		  Me.AppName = App.ExecutableFile.Name
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub Constructor(AddRef As VLCInstance)
+		  libvlc_retain(AddRef.mHandle)
+		  mHandle = AddRef.mHandle
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Destructor()
+		  If mHandle <> Nil Then libvlc_release(mHandle)
+		  mHandle = Nil
 		End Sub
 	#tag EndMethod
 
@@ -30,9 +47,16 @@ Protected Class VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function GetInstance() As libvlc.VLCInstance
-		  If mInstance = Nil Then mInstance = New libvlc.VLCInstance()
-		  Return mInstance
+		Attributes( deprecated )  Shared Function GetInstance() As VLCInstance
+		  Dim ret As VLCInstance
+		  If mInstance = Nil Or mInstance.Value = Nil Then 
+		    ret = New VLCInstance
+		    mInstance = New WeakRef(ret)
+		  ElseIf mInstance.Value IsA VLCInstance Then
+		    ret = VLCInstance(mInstance.Value)
+		  End If
+		  
+		  Return ret
 		End Function
 	#tag EndMethod
 
@@ -42,6 +66,32 @@ Protected Class VLCInstance
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function VideoFilters() As libvlc.ModuleList
+		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(mHandle))
+		  
+		End Function
+	#tag EndMethod
+
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mAppName
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  libvlc_set_user_agent(mHandle, value, mUserAgent)
+			  mAppName = value
+			End Set
+		#tag EndSetter
+		AppName As String
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mAppName As String
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mErrorMsg As String
@@ -51,9 +101,28 @@ Protected Class VLCInstance
 		Protected mHandle As Ptr
 	#tag EndProperty
 
-	#tag Property, Flags = &h1
-		Protected Shared mInstance As libvlc.VLCInstance
+	#tag Property, Flags = &h21
+		Private Shared mInstance As WeakRef
 	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mUserAgent As String
+	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mUserAgent
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  libvlc_set_user_agent(mHandle, mAppName, value)
+			  mUserAgent = value
+			End Set
+		#tag EndSetter
+		UserAgent As String
+	#tag EndComputedProperty
 
 
 	#tag ViewBehavior

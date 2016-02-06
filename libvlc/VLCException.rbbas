@@ -2,8 +2,8 @@
 Protected Class VLCException
 Inherits RuntimeException
 	#tag Method, Flags = &h1000
-		Sub Constructor(ErrantItem As libvlc.VLCInstance)
-		  Me.Message = ErrantItem.ErrorMsg
+		Sub Constructor(Message As String)
+		  Me.Message = Message
 		End Sub
 	#tag EndMethod
 

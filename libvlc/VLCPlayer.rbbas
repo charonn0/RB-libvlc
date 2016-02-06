@@ -1,25 +1,37 @@
 #tag Class
-Protected Class VLCPlayer
+Class VLCPlayer
 	#tag Method, Flags = &h0
-		Sub Constructor(MediaFile As FolderItem)
-		  Dim m As libvlc.VLCMedium
-		  m = m.LoadURL(MediaFile.URLPath)
-		  Me.Constructor(m)
+		Function AddInterface(InterfaceName As String) As Boolean
+		  Return libvlc_add_intf(mInstance.Handle, InterfaceName) = 0
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function CanPlay() As Boolean
+		  Return libvlc_media_player_will_play(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor()
+		  mInstance = VLCInstance.GetInstance
+		  mPlayer = libvlc_media_player_new(mInstance.Handle)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(Medium As libvlc.VLCMedium)
+		Protected Sub Constructor(Medium As VLCMedium)
+		  mInstance = Medium.Instance
 		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
-		  If mPlayer = Nil Then Raise New libvlc.VLCException(libvlc.GetInstance)
+		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Constructor(MediaURL As String)
-		  Dim m As libvlc.VLCMedium
-		  m = m.LoadURL(MediaURL)
-		  Me.Constructor(m)
+	#tag Method, Flags = &h21
+		Private Sub Destructor()
+		  If mPlayer <> Nil Then libvlc_media_player_release(mPlayer)
+		  mPlayer = Nil
+		  mInstance = Nil
 		End Sub
 	#tag EndMethod
 
@@ -48,14 +60,34 @@ Protected Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetPosition() As Integer
-		  
+		 Shared Function Load(MediaFile As FolderItem) As libvlc.VLCPlayer
+		  Return Load(MediaFile.URLPath)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function IsPlaying() As Boolean
-		  Return libvlc_media_player_is_playing(mPlayer)
+		 Shared Function Load(MediaURL As String) As libvlc.VLCPlayer
+		  Dim m As New VLCMedium(MediaURL)
+		  If m <> Nil Then Return New libvlc.VLCPlayer(m)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function Media() As VLCMedium
+		  Return libvlc_media_player_get_media(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub Media(Assigns NewMedium As VLCMedium)
+		  libvlc_media_player_set_media(mPlayer, NewMedium.Handle)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function MetaData() As libvlc.MetaData
+		  If Not Media.IsParsed Then Media.Parse
+		  Return New libvlc.MetaData(Media)
 		End Function
 	#tag EndMethod
 
@@ -78,21 +110,131 @@ Protected Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SetPosition(Percent As Integer)
-		  libvlc_media_player_set_position(mPlayer, Percent / 100)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Stop()
 		  libvlc_media_player_stop(mPlayer)
 		End Sub
 	#tag EndMethod
 
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_media_player_get_state(mPlayer)
+			End Get
+		#tag EndGetter
+		CurrentState As libvlc.VLCPlayer.PlayerStates
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_media_player_is_playing(mPlayer)
+			End Get
+		#tag EndGetter
+		IsPlaying As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_media_player_get_length(mPlayer)
+			End Get
+		#tag EndGetter
+		LengthMS As Int64
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Dim m As VLCMedium = Me.Media
+			  If m = Nil Then Return Nil
+			  Dim url As String = m.URL
+			  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  Me.Media = New VLCMedium(value.URLPath)
+			End Set
+		#tag EndSetter
+		MediaFile As FolderItem
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Dim m As VLCMedium = Me.Media
+			  If m <> Nil Then Return m.URL
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  Me.Media = New VLCMedium(value)
+			End Set
+		#tag EndSetter
+		MediaURL As String
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h1
+		Protected mInstance As VLCInstance
+	#tag EndProperty
+
 	#tag Property, Flags = &h21
 		Private mPlayer As Ptr
 	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mUserAgent As String
+	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_media_player_get_position(mPlayer) * 100
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  libvlc_media_player_set_position(mPlayer, value / 100)
+			End Set
+		#tag EndSetter
+		Position As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_media_player_get_time(mPlayer)
+			End Get
+		#tag EndGetter
+		TimeMS As Int64
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mUserAgent
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mUserAgent = value
+			End Set
+		#tag EndSetter
+		UserAgent As String
+	#tag EndComputedProperty
+
+
+	#tag Enum, Name = PlayerStates, Type = Integer, Flags = &h0
+		IDLE=0
+		  OPENING=1
+		  BUFFERING=2
+		  PLAYING=3
+		  PAUSED=4
+		  STOPPING=5
+		  ENDED=6
+		ERROR=7
+	#tag EndEnum
 
 
 	#tag ViewBehavior
@@ -101,6 +243,7 @@ Protected Class VLCPlayer
 			Visible=true
 			Group="ID"
 			InitialValue="-2147483648"
+			Type="Integer"
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty

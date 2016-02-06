@@ -1,8 +1,30 @@
 #tag Class
-Protected Class VLCMedium
+Private Class VLCMedium
+	#tag Method, Flags = &h0
+		Sub Constructor(MediaFile As FolderItem)
+		  Me.Constructor(MediaFile.URLPath)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Medium As Ptr)
 		  mMedium = Medium
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(URL As String)
+		  mInstance = VLCInstance.GetInstance
+		  Dim p As Ptr = libvlc_media_new_location(mInstance.Handle, URL)
+		  Me.Constructor(p)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(AddRef As VLCMedium)
+		  mInstance = AddRef.Instance
+		  libvlc_media_retain(AddRef.mMedium)
+		  Me.Constructor(AddRef.mMedium)
 		End Sub
 	#tag EndMethod
 
@@ -20,12 +42,40 @@ Protected Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function LoadURL(URL As String) As libvlc.VLCMedium
-		  Dim medium As Ptr = libvlc_media_new_location(libvlc.GetInstance.Handle, URL)
-		  If medium <> Nil Then Return New libvlc.VLCMedium(medium)
+		Function Instance() As VLCInstance
+		  Return mInstance
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function IsParsed() As Boolean
+		  Return libvlc_media_is_parsed(mMedium)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Operator_Convert(FromPtr As Ptr)
+		  Me.Constructor(FromPtr)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Parse()
+		  If mMedium <> Nil Then libvlc_media_parse(mMedium)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function URL() As String
+		  Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
+		  If mb <> Nil Then Return mb.CString(0)
+		End Function
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h1
+		Protected mInstance As VLCInstance
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mMedium As Ptr
