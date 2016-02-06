@@ -66,6 +66,12 @@ Private Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Type() As libvlc.MediaType
+		  Return libvlc_media_get_type(mMedium)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function URL() As String
 		  Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
 		  If mb <> Nil Then Return mb.CString(0)

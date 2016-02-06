@@ -2,7 +2,7 @@
 Protected Class MetaData
 	#tag Method, Flags = &h0
 		Sub Constructor(Owner As VLCMedium)
-		  mOwner = New WeakRef(Owner)
+		  mOwner = Owner
 		End Sub
 	#tag EndMethod
 
@@ -10,6 +10,12 @@ Protected Class MetaData
 		Sub Flush()
 		  If Not libvlc_media_save_meta(Owner.Handle) Then Raise New VLCException("Unable to flush metadata changes to the media.")
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function HasKey(Type As libvlc.MetaDataType) As Boolean
+		  Return Lookup(Type, "") <> ""
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -22,9 +28,7 @@ Protected Class MetaData
 
 	#tag Method, Flags = &h1
 		Protected Function Owner() As VLCMedium
-		  If mOwner <> Nil And mOwner.Value <> Nil And mOwner.Value IsA VLCMedium Then
-		    Return VLCMedium(mOwner.Value)
-		  End If
+		  Return mOwner
 		End Function
 	#tag EndMethod
 
@@ -44,7 +48,7 @@ Protected Class MetaData
 
 
 	#tag Property, Flags = &h21
-		Private mOwner As WeakRef
+		Private mOwner As VLCMedium
 	#tag EndProperty
 
 

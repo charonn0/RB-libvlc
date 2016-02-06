@@ -47,9 +47,9 @@ Private Class VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated )  Shared Function GetInstance() As VLCInstance
+		 Shared Function GetInstance() As VLCInstance
 		  Dim ret As VLCInstance
-		  If mInstance = Nil Or mInstance.Value = Nil Then 
+		  If mInstance = Nil Or mInstance.Value = Nil Then
 		    ret = New VLCInstance
 		    mInstance = New WeakRef(ret)
 		  ElseIf mInstance.Value IsA VLCInstance Then
@@ -127,6 +127,11 @@ Private Class VLCInstance
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -158,6 +163,11 @@ Private Class VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

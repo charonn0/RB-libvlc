@@ -58,6 +58,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_type Lib "libvlc" (Medium As Ptr) As libvlc.MediaType
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_is_parsed Lib "libvlc" (Medium As Ptr) As Boolean
 	#tag EndExternalMethod
 
@@ -67,6 +71,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_parse Lib "libvlc" (Medium As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_can_pause Lib "libvlc" (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -91,6 +99,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_is_playing Lib "libvlc" (Player As Ptr) As Boolean
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_is_seekable Lib "libvlc" (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -196,6 +208,15 @@ Protected Module libvlc
 		psz_help As Ptr
 	#tag EndStructure
 
+
+	#tag Enum, Name = MediaType, Type = Integer, Flags = &h1
+		Unknown
+		  File
+		  Directory
+		  Disc
+		  Stream
+		Playlist
+	#tag EndEnum
 
 	#tag Enum, Name = MetaDataType, Type = Integer, Flags = &h1
 		Title
