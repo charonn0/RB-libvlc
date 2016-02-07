@@ -5,6 +5,15 @@ Begin Menu MenuBar1
       Text = "&File"
       Index = -2147483648
       AutoEnable = True
+      Begin MenuItem OpenMedia
+         SpecialMenu = 0
+         Text = "&Open media..."
+         Index = -2147483648
+         ShortcutKey = "O"
+         Shortcut = "Cmd+O"
+         MenuModifier = True
+         AutoEnable = True
+      End
       Begin QuitMenuItem FileQuit
          SpecialMenu = 0
          Text = "#App.kFileQuit"
