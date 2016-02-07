@@ -1,5 +1,5 @@
 #tag Class
-Protected Class MediaListPlayer
+Protected Class ListPlayer
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  mInstance = VLCInstance.GetInstance
@@ -59,10 +59,16 @@ Protected Class MediaListPlayer
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function TruePlayer() As libvlc.VLCPlayer
+		  If mPlayer = Nil Then mPlayer = libvlc_media_list_player_get_media_player(mPlayer)
+		  If mPlayer <> Nil Then Return New libvlc.VLCPlayer(mPlayer, False)
+		End Function
+	#tag EndMethod
+
 
 	#tag Note, Name = About this class
-		This class plays a MediaList object containing one or more VLCMedium objects
-		
+		This class plays a PlayList object containing one or more VLCMedium objects
 	#tag EndNote
 
 
@@ -93,7 +99,7 @@ Protected Class MediaListPlayer
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
-		Protected mPlaylist As libvlc.MediaList
+		Protected mPlayList As libvlc.PlayList
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -103,16 +109,16 @@ Protected Class MediaListPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim p As Ptr = libvlc_media_list_media(mPlaylist.Handle)
-			  If p <> Nil Then Return p
+			  Return mPlayList
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  libvlc_media_list_player_set_media_list(mPlaylist.Handle, value.Handle)
+			  libvlc_media_list_player_set_media_list(mPlayer, value.Handle)
+			  mPlayList = value
 			End Set
 		#tag EndSetter
-		Playlist As libvlc.MediaList
+		Playlist As libvlc.PlayList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -140,6 +146,11 @@ Protected Class MediaListPlayer
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="IsPlaying"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Left"
 			Visible=true
 			Group="Position"
@@ -151,11 +162,6 @@ Protected Class MediaListPlayer
 			Visible=true
 			Group="ID"
 			InheritedFrom="Object"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="ReadOnly"
-			Group="Behavior"
-			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"

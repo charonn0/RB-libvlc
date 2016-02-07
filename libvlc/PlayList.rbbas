@@ -1,5 +1,5 @@
 #tag Class
-Protected Class MediaList
+Protected Class PlayList
 	#tag Method, Flags = &h0
 		Sub Append(Medium As FolderItem)
 		  Me.Append(Medium.URLPath)
@@ -189,8 +189,7 @@ Protected Class MediaList
 
 
 	#tag Note, Name = About this class
-		This class represents an array of VLCMedium objects
-		
+		This class represents an array of VLCMedium objects (i.e., a list of media to be played in a particular order.)
 	#tag EndNote
 
 
@@ -232,6 +231,11 @@ Protected Class MediaList
 			Visible=true
 			Group="ID"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ReadOnly"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
