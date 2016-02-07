@@ -154,6 +154,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_list_player_get_media_player Lib "libvlc" (ListPlayer As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_list_player_get_state Lib "libvlc" (ListPlayer As Ptr) As libvlc.PlayerState
 	#tag EndExternalMethod
 
@@ -275,6 +279,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_player_release Lib "libvlc" (Player As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_player_retain Lib "libvlc" (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
