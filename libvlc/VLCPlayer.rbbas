@@ -92,9 +92,9 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Play() As Boolean
-		  Return libvlc_media_player_play(mPlayer) = 0
-		End Function
+		Sub Play()
+		  If libvlc_media_player_play(mPlayer) <> 0 Then Raise New VLCException("The player cannot play the current media.")
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -336,6 +336,11 @@ Class VLCPlayer
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="Muted"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
@@ -364,6 +369,11 @@ Class VLCPlayer
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Volume"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
