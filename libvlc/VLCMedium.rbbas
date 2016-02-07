@@ -66,6 +66,12 @@ Private Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function TrackList() As libvlc.TrackList
+		  Return New libvlc.TrackList(Me)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Type() As libvlc.MediaType
 		  Return libvlc_media_get_type(mMedium)
 		End Function
