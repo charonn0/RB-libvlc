@@ -189,6 +189,9 @@ Begin Window Window1
       Width           =   32
    End
    Begin VLCPlayer Player
+      CanPause        =   ""
+      CanPlay         =   ""
+      CanSeek         =   ""
       Height          =   32
       Index           =   -2147483648
       IsPlaying       =   ""
@@ -226,6 +229,34 @@ Begin Window Window1
       UseFocusRing    =   True
       Visible         =   True
       Width           =   600
+   End
+   Begin Slider VolControl
+      AutoDeactivate  =   True
+      Enabled         =   True
+      Height          =   23
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   477
+      LineStep        =   1
+      LiveScroll      =   True
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Maximum         =   100
+      Minimum         =   0
+      PageStep        =   5
+      Scope           =   0
+      TabIndex        =   6
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TickStyle       =   1
+      Top             =   377
+      Value           =   0
+      Visible         =   True
+      Width           =   123
    End
 End
 #tag EndWindow
@@ -282,6 +313,7 @@ End
 		  mLock = True
 		  Try
 		    Slider1.Value = Player.Position
+		    VolControl.Value = Player.Volume
 		  Finally
 		    mLock = False
 		  End Try
@@ -292,6 +324,13 @@ End
 	#tag Event
 		Sub Open()
 		  Player.EmbedWithin(Me)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events VolControl
+	#tag Event
+		Sub ValueChanged()
+		  If Not mLock Then Player.Volume = Me.Value
 		End Sub
 	#tag EndEvent
 #tag EndEvents
