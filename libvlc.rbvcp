@@ -12,6 +12,7 @@ Class=VLCMedium;libvlc/VLCMedium.rbbas;&h5F905FFF;&h114C37FF;false
 Class=VLCPlayer;libvlc/VLCPlayer.rbbas;&h242987FF;&h114C37FF;false
 Class=VLCInstance;libvlc/VLCInstance.rbbas;&hA2F7FF;&h114C37FF;false
 Class=VLCException;libvlc/VLCException.rbbas;&h781507FF;&h114C37FF;false
+Class=TrackList;libvlc/TrackList.rbbas;&h36321FFF;&h114C37FF;false
 DefaultWindow=Window1
 AppMenuBar=MenuBar1
 MajorVersion=1
