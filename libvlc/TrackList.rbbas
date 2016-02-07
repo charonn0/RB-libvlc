@@ -110,8 +110,7 @@ Protected Class TrackList
 
 
 	#tag Note, Name = About this class
-		This class represents an array of VLC elementary stream description structures for a given instance of VLCMedium
-		
+		This class represents an array of VLC elementary stream description structures for a given instance of VLCMedium (i.e. one media file or URL)
 	#tag EndNote
 
 
