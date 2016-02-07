@@ -143,7 +143,22 @@ Class VLCPlayer
 			  Return libvlc_media_player_get_state(mPlayer)
 			End Get
 		#tag EndGetter
-		CurrentState As libvlc.VLCPlayer.PlayerStates
+		CurrentState As libvlc.PlayerState
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mEqualizer
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If libvlc_media_player_set_equalizer(mPlayer, value.Handle) <> 0 Then Raise New VLCException("Unable to assign the equalizer to this player.")
+			  mEqualizer = value
+			End Set
+		#tag EndSetter
+		Equalizer As libvlc.Equalizer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -196,8 +211,12 @@ Class VLCPlayer
 		MediaURL As String
 	#tag EndComputedProperty
 
-	#tag Property, Flags = &h1
-		Protected mInstance As VLCInstance
+	#tag Property, Flags = &h21
+		Private mEqualizer As libvlc.Equalizer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mInstance As VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -207,6 +226,20 @@ Class VLCPlayer
 	#tag Property, Flags = &h21
 		Private mUserAgent As String
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_audio_get_mute(mPlayer) = 1
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  libvlc_audio_set_mute(mPlayer, value)
+			End Set
+		#tag EndSetter
+		Muted As Boolean
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -245,20 +278,37 @@ Class VLCPlayer
 		UserAgent As String
 	#tag EndComputedProperty
 
-
-	#tag Enum, Name = PlayerStates, Type = Integer, Flags = &h0
-		IDLE=0
-		  OPENING=1
-		  BUFFERING=2
-		  PLAYING=3
-		  PAUSED=4
-		  STOPPING=5
-		  ENDED=6
-		ERROR=7
-	#tag EndEnum
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return libvlc_audio_get_volume(mPlayer)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If libvlc_audio_set_volume(mPlayer, value) = -1 Then Raise New VLCException("Volume percent is out of range (0-100)")
+			End Set
+		#tag EndSetter
+		Volume As Integer
+	#tag EndComputedProperty
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="CanPause"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CanPlay"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CanSeek"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
@@ -283,6 +333,7 @@ Class VLCPlayer
 			Name="MediaURL"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
@@ -312,6 +363,7 @@ Class VLCPlayer
 			Name="UserAgent"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
