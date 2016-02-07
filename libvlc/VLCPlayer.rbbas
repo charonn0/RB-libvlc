@@ -13,6 +13,14 @@ Class VLCPlayer
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  If AddRef Then libvlc_media_player_retain(FromPtr)
+		  mInstance = VLCInstance.GetInstance
+		  mPlayer = FromPtr
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Medium As VLCMedium)
 		  mInstance = Medium.Instance
