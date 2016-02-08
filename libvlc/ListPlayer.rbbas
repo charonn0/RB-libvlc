@@ -1,6 +1,20 @@
 #tag Class
 Protected Class ListPlayer
 	#tag Method, Flags = &h0
+		Function CanMoveNext() As Boolean
+		  
+		  Return mPlayList <> Nil And mListIndex < mPlayList.Count - 1
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function CanMovePrev() As Boolean
+		  
+		  Return mPlayList <> Nil And mListIndex > 0
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor()
 		  mInstance = VLCInstance.GetInstance
 		  mPlayer = libvlc_media_list_player_new(mInstance.Handle)
@@ -36,20 +50,28 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Sub Play()
+		  mListIndex = 0
 		  libvlc_media_list_player_play(mPlayer)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
-		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
+		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then 
+		    Raise New VLCException("The media list does not contain an entry at that index.")
+		  End If
+		  mListIndex = Index
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play(MediaURL As String)
-		  Dim m As New VLCMedium(MediaURL)
-		  If libvlc_media_list_player_play_item(mPlayer, m.Handle) <> 0 Then Raise New VLCException("That media is not included in the media list.")
+		  Dim index As Integer = mPlayList.IndexOf(MediaURL)
+		  If index > -1 Then
+		    Dim m As VLCMedium = mPlayList.Item(index)
+		    If libvlc_media_list_player_play_item(mPlayer, m.Handle) = 0 Then Return
+		  End If
+		  Raise New VLCException("That media is not included in the media list.")
 		End Sub
 	#tag EndMethod
 
@@ -89,6 +111,25 @@ Protected Class ListPlayer
 		#tag EndGetter
 		IsPlaying As Boolean
 	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mListIndex
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  Me.Play(value)
+			  Me.Pause
+			End Set
+		#tag EndSetter
+		ListIndex As Integer
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mEventManager As EventManager
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mInstance As VLCInstance
