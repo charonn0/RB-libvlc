@@ -34,6 +34,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_audio_equalizer_get_band_count Lib "libvlc" () As UInt32
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_audio_equalizer_get_band_frequency Lib "libvlc" (BandNumber As UInt32) As Single
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_audio_equalizer_get_preamp Lib "libvlc" (Equalizer As Ptr) As Single
 	#tag EndExternalMethod
 
@@ -85,6 +93,10 @@ Protected Module libvlc
 		Private Soft Declare Function libvlc_audio_set_volume Lib "libvlc" (Player As Ptr, Percent As Integer) As Integer
 	#tag EndExternalMethod
 
+	#tag DelegateDeclaration, Flags = &h21
+		Private Delegate Sub libvlc_callback_t(EventStruct As libvlc_event_t, UserData As Ptr)
+	#tag EndDelegateDeclaration
+
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_clearerr Lib "libvlc" ()
 	#tag EndExternalMethod
@@ -94,11 +106,23 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_event_attach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_event_detach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_compiler Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_version Lib "libvlc" () As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_event_manager Lib "libvlc" (Medium As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -123,6 +147,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_list_count Lib "libvlc" (MediaList As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_list_event_manager Lib "libvlc" (MediaList As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -202,6 +230,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_list_player_set_media_player Lib "libvlc" (ListPlayer As Ptr, NewVLCPlayer As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_list_player_set_playback_mode Lib "libvlc" (ListPlayer As Ptr, PlayMode As libvlc . PlaybackMode)
 	#tag EndExternalMethod
 
@@ -235,6 +267,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_can_pause Lib "libvlc" (Player As Ptr) As Boolean
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_event_manager Lib "libvlc" (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -376,6 +412,12 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
+
+	#tag Structure, Name = libvlc_event_t, Flags = &h21
+		Type As Integer
+		  Referent As Ptr
+		Data As Ptr
+	#tag EndStructure
 
 	#tag Structure, Name = libvlc_media_track_t, Flags = &h21
 		Codec As UInt32
