@@ -379,7 +379,6 @@ End
 		    Else
 		      mArtwork = Nil
 		    End If
-		    Player.Invalidate(False)
 		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
 		    MetaDataList.DeleteAllRows
 		    MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.MetaDataType.Actors, "Not set"))
@@ -409,6 +408,7 @@ End
 		    MetaDataList.AddRow("TrackTotal", Player.MetaData.Lookup(libvlc.MetaDataType.TrackTotal, "Not set"))
 		    MetaDataList.AddRow("URL", Player.MetaData.Lookup(libvlc.MetaDataType.URL, "Not set"))
 		  End If
+		  Player.Invalidate(False)
 		End Sub
 	#tag EndMethod
 
@@ -419,10 +419,6 @@ End
 
 	#tag Property, Flags = &h21
 		Private mLock As Boolean
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private StandByScaled As Picture
 	#tag EndProperty
 
 
@@ -501,40 +497,18 @@ End
 #tag Events Player
 	#tag Event
 		Sub Paint(g As Graphics)
-		  If StandByScaled = Nil Or StandByScaled.Width <> g.Width Or StandByScaled.Height <> g.Height Or _
-		    (mArtwork <> Nil And (mArtwork.Width <> g.Width Or mArtwork.Height <> g.Height)) Then
-		    If App.UseGDIPlus Or Not TargetWin32 Then
-		      StandByScaled = New Picture(g.Width, g.Height)
-		    Else
-		      StandByScaled = New Picture(g.Width, g.Height, 32)
-		      StandByScaled.Transparent = 1
-		    End If
-		    
-		    Dim wRatio, hRatio, ratio As Double
-		    ratio = 1.0
-		    Dim src As Picture
-		    If mArtwork <> Nil Then
-		      src = mArtwork
-		    Else
-		      src = standby
-		    End If
-		    If g.Width < src.Width Then ratio = g.Width / standby.Width
-		    If g.Height < src.Height Then ratio = Min(g.Height / src.Height, ratio)
-		    wRatio = (ratio * src.width)
-		    hRatio = (ratio * src.Height)
-		    Dim p As Picture
-		    If App.UseGDIPlus Or Not TargetWin32 Then
-		      p = New Picture(wRatio, hRatio)
-		    Else
-		      p = New Picture(wRatio, hRatio, 32)
-		      p.Transparent = 1
-		    End If
-		    p.Graphics.DrawPicture(src, 0, 0, p.Width, p.Height, 0, 0, src.Width, src.Height)
-		    StandByScaled.Graphics.DrawPicture(p, (g.Width - p.Width) / 2, (g.Height - p.Height) / 2)
-		  End If
-		  g.ForeColor = &c00000000
-		  g.FillRect(0, 0, g.Width, g.Height)
-		  g.DrawPicture(StandByScaled, 0, 0)
+		  Dim original As Picture
+		  If mArtwork <> Nil Then original = mArtwork Else original = standby
+		  
+		  Dim wRatio, hRatio, ratio As Double
+		  ratio = 1.0
+		  If g.Width < original.Width Then ratio = g.Width / original.Width
+		  If g.Height < original.Height Then ratio = Min(g.Height / original.Height, ratio)
+		  wRatio = (ratio * original.width)
+		  hRatio = (ratio * original.Height)
+		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
+		  
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
