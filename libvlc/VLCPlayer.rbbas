@@ -8,14 +8,18 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
+		  ' Constructs a new player instance
+		  
 		  mInstance = VLCInstance.GetInstance
 		  mPlayer = libvlc_media_player_new(mInstance.Handle)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub Constructor(Medium As libvlc.VLCMedium)
+	#tag Method, Flags = &h0
+		Sub Constructor(Medium As libvlc.VLCMedium)
+		  ' Constructs a new player instance from the passed media reference
+		  
 		  mInstance = Medium.Instance
 		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
@@ -25,6 +29,8 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  ' Takes ownership of the passed player ref
+		  
 		  If FromPtr = Nil Then Raise New NilObjectException
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mInstance = VLCInstance.GetInstance
