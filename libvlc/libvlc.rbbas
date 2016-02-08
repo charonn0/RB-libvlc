@@ -106,14 +106,6 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_event_attach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr) As Integer
-	#tag EndExternalMethod
-
-	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_event_detach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr)
-	#tag EndExternalMethod
-
-	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_compiler Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 

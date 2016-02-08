@@ -8,7 +8,7 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h0
 		Sub Amplification(Frequency As UInt32, NewAmplification As Single)
-		  If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Frequency) <> 0 Then 
+		  If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Frequency) <> 0 Then
 		    Raise New VLCException("Unable to set the amplification value for the specified frequency band.")
 		  End If
 		End Sub

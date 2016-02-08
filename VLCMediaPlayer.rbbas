@@ -70,7 +70,6 @@ Inherits Canvas
 	#tag Event
 		Sub Open()
 		  mPlayer = New VLCPlayer
-		  If Not mPlayer.EventManager.Subscribe(libvlc.EventType.PlayerAudioVolume) Then Break
 		  mPlayer.EmbedWithin(Me)
 		  RaiseEvent Open()
 		End Sub
@@ -336,12 +335,6 @@ Inherits Canvas
 			Group="Position"
 			Type="Boolean"
 			InheritedFrom="Canvas"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="MediaURL"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Muted"

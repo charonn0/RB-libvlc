@@ -71,7 +71,7 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
-		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then 
+		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
 		    Raise New VLCException("The media list does not contain an entry at that index.")
 		  End If
 		  mListIndex = Index
@@ -149,10 +149,6 @@ Protected Class ListPlayer
 		ListIndex As Integer
 	#tag EndComputedProperty
 
-	#tag Property, Flags = &h21
-		Private mEventManager As EventManager
-	#tag EndProperty
-
 	#tag Property, Flags = &h1
 		Protected mInstance As VLCInstance
 	#tag EndProperty
@@ -223,6 +219,11 @@ Protected Class ListPlayer
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ListIndex"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"

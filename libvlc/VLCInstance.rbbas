@@ -130,6 +130,7 @@ Private Class VLCInstance
 			Name="AppName"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -168,6 +169,7 @@ Private Class VLCInstance
 			Name="UserAgent"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

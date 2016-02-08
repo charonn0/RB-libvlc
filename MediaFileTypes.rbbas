@@ -41,7 +41,7 @@
 		Extension=.avi;.vfw;.avi
 		Flags=&h0
 		MacCreator=TVOD
-		MacType=VfW 
+		MacType=VfW
 		Name=video/avi
 	#tag EndFileType
 
@@ -50,7 +50,7 @@
 		Extension=.flc;.fli;.cel
 		Flags=&h0
 		MacCreator=TVOD
-		MacType=FLI 
+		MacType=FLI
 		Name=video/flc
 	#tag EndFileType
 
@@ -68,7 +68,7 @@
 		Extension=.sdv
 		Flags=&h0
 		MacCreator=TVOD
-		MacType=sdv 
+		MacType=sdv
 		Name=video/sd-video
 	#tag EndFileType
 
@@ -86,7 +86,7 @@
 		Extension=.m4v
 		Flags=&h0
 		MacCreator=hook
-		MacType=M4V 
+		MacType=M4V
 		Name=video/x-m4v
 	#tag EndFileType
 
@@ -114,7 +114,7 @@
 		Extension=.flv
 		Flags=&h0
 		MacCreator=TVOD
-		MacType=FLV 
+		MacType=FLV
 		Name=video/flv
 	#tag EndFileType
 
@@ -150,7 +150,7 @@
 		Extension=.m4a
 		Flags=&h0
 		MacCreator=hook
-		MacType=M4A 
+		MacType=M4A
 		Name=audio/m4a
 		UTI=public.mpeg-4-audio
 	#tag EndFileType
@@ -160,7 +160,7 @@
 		Extension=.m4b
 		Flags=&h0
 		MacCreator=hook
-		MacType=M4B 
+		MacType=M4B
 		Name=audio/m4b
 	#tag EndFileType
 
@@ -169,7 +169,7 @@
 		Extension=.m4p
 		Flags=&h0
 		MacCreator=hook
-		MacType=M4P 
+		MacType=M4P
 		Name=audio/m4p
 		UTI=com.apple.protected-mpeg-4-audio
 	#tag EndFileType
@@ -188,7 +188,7 @@
 		Extension=.mp3;.swa
 		Flags=&h0
 		MacCreator=TVOD
-		MacType=Mp3 
+		MacType=Mp3
 		Name=audio/mp3
 		UTI=public.mp3
 	#tag EndFileType

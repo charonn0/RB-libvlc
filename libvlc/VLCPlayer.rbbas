@@ -11,8 +11,6 @@ Class VLCPlayer
 		  mInstance = VLCInstance.GetInstance
 		  mPlayer = libvlc_media_player_new(mInstance.Handle)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
-		  AddHandler Me.EventManager.VLCEvent, AddressOf VLCEventHandler
-		  
 		End Sub
 	#tag EndMethod
 
@@ -201,24 +199,6 @@ Class VLCPlayer
 		LengthMS As Int64
 	#tag EndComputedProperty
 
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  Return libvlc_media_player_is_playing(mPlayer)
-			End Get
-		#tag EndGetter
-		IsPlaying As Boolean
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  Return libvlc_media_player_get_length(mPlayer)
-			End Get
-		#tag EndGetter
-		LengthMS As Int64
-	#tag EndComputedProperty
-
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
 	#tag EndProperty
@@ -336,12 +316,6 @@ Class VLCPlayer
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="MediaURL"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Muted"
