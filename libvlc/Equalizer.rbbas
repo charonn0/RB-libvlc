@@ -39,8 +39,20 @@ Protected Class Equalizer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function GetBandCount() As UInt32
+		  Return libvlc_audio_equalizer_get_band_count()
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function GetBandFrequency(BandNumber As UInt32) As Single
+		  Return libvlc_audio_equalizer_get_band_frequency(BandNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function GetPreset(Index As UInt32) As libvlc.Equalizer
-		  If Index > 0 And Index <= GetPresetCount() Then Return New Equalizer(Index)
+		  If Index > -1 And Index <= GetPresetCount() - 1 Then Return New Equalizer(Index)
 		End Function
 	#tag EndMethod
 
@@ -53,15 +65,6 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		Function Handle() As Ptr
 		  Return mEqualizer
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Name() As String
-		  If mIndex > -1 Then 
-		    Dim mb As MemoryBlock = libvlc_audio_equalizer_get_preset_name(mIndex)
-		    If mb <> Nil Then Return mb.CString(0)
-		  End If
 		End Function
 	#tag EndMethod
 
@@ -79,6 +82,18 @@ Protected Class Equalizer
 	#tag Property, Flags = &h21
 		Private mIndex As Integer = -1
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mIndex > -1 Then
+			    Dim mb As MemoryBlock = libvlc_audio_equalizer_get_preset_name(mIndex)
+			    If mb <> Nil Then Return mb.CString(0)
+			  End If
+			End Get
+		#tag EndGetter
+		Name As String
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -115,6 +130,11 @@ Protected Class Equalizer
 			Visible=true
 			Group="ID"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="PreAmplification"
+			Group="Behavior"
+			Type="Single"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
