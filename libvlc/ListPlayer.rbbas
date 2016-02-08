@@ -135,6 +135,10 @@ Protected Class ListPlayer
 		Protected mInstance As VLCInstance
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private mListIndex As Integer
+	#tag EndProperty
+
 	#tag Property, Flags = &h1
 		Protected mPlayer As Ptr
 	#tag EndProperty

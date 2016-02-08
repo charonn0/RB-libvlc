@@ -1,7 +1,7 @@
 #tag Class
 Protected Class MetaData
 	#tag Method, Flags = &h0
-		Sub Constructor(Owner As VLCMedium)
+		Sub Constructor(Owner As libvlc.VLCMedium)
 		  mOwner = Owner
 		End Sub
 	#tag EndMethod
@@ -27,7 +27,7 @@ Protected Class MetaData
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function Owner() As VLCMedium
+		Protected Function Owner() As libvlc.VLCMedium
 		  Return mOwner
 		End Function
 	#tag EndMethod
@@ -48,7 +48,7 @@ Protected Class MetaData
 
 
 	#tag Property, Flags = &h21
-		Private mOwner As VLCMedium
+		Private mOwner As libvlc.VLCMedium
 	#tag EndProperty
 
 

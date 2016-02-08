@@ -1,8 +1,16 @@
 #tag Class
-Private Class VLCMedium
+Protected Class VLCMedium
 	#tag Method, Flags = &h0
 		Sub Constructor(MediaFile As FolderItem)
 		  Me.Constructor(MediaFile.URLPath)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(AddRef As libvlc.VLCMedium)
+		  mInstance = AddRef.Instance
+		  libvlc_media_retain(AddRef.mMedium)
+		  Me.Constructor(AddRef.mMedium)
 		End Sub
 	#tag EndMethod
 
@@ -17,14 +25,6 @@ Private Class VLCMedium
 		  mInstance = VLCInstance.GetInstance
 		  Dim p As Ptr = libvlc_media_new_location(mInstance.Handle, URL)
 		  Me.Constructor(p)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Constructor(AddRef As VLCMedium)
-		  mInstance = AddRef.Instance
-		  libvlc_media_retain(AddRef.mMedium)
-		  Me.Constructor(AddRef.mMedium)
 		End Sub
 	#tag EndMethod
 
