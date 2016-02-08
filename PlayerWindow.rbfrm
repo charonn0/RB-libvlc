@@ -228,12 +228,15 @@ Begin Window PlayerWindow
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
+         IsPlaying       =   ""
          Left            =   11
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         Muted           =   ""
+         Position        =   ""
          Scope           =   0
          TabIndex        =   7
          TabPanelIndex   =   1
@@ -241,6 +244,7 @@ Begin Window PlayerWindow
          Top             =   30
          UseFocusRing    =   True
          Visible         =   True
+         Volume          =   ""
          Width           =   578
       End
       Begin Listbox MetaDataList
@@ -292,6 +296,37 @@ Begin Window PlayerWindow
          Width           =   584
          _ScrollWidth    =   -1
       End
+      Begin PushButton EqualizerButton
+         AutoDeactivate  =   True
+         Bold            =   ""
+         ButtonStyle     =   0
+         Cancel          =   ""
+         Caption         =   "Equalizer"
+         Default         =   ""
+         Enabled         =   False
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   15
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   8
+         TabPanelIndex   =   1
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   392
+         Underline       =   ""
+         Visible         =   True
+         Width           =   80
+      End
    End
 End
 #tag EndWindow
@@ -299,13 +334,13 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Resized()
-		  TabPanel1.Invalidate
+		  'TabPanel1.Invalidate
 		End Sub
 	#tag EndEvent
 
 	#tag Event
 		Sub Resizing()
-		  TabPanel1.Invalidate(False)
+		  'TabPanel1.Invalidate(False)
 		End Sub
 	#tag EndEvent
 
@@ -323,9 +358,29 @@ End
 		Private Sub LoadMedia()
 		  Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
 		  If f <> Nil Then
-		    Player.MediaFile = f
-		    
-		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.MediaURL) + "'"
+		    Player.Media = New libvlc.VLCMedium(f)
+		    If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
+		      Dim url As String = Player.MetaData.Value(libvlc.MetaDataType.ArtworkURL)
+		      Dim data As MemoryBlock
+		      Select Case Left(url, 5)
+		      Case "http:"
+		        Dim h As New HTTPSocket
+		        data = h.Get(url, 10)
+		        
+		      Case "file:"
+		        Dim art As FolderItem = GetFolderItem(url, FolderItem.PathTypeURL)
+		        If art <> Nil And art.Exists And Not art.Directory Then
+		          Dim bs As BinaryStream = BinaryStream.Open(art)
+		          data = bs.Read(bs.Length)
+		          bs.Close
+		        End If
+		      End Select
+		      If data <> Nil And data.Size > 0 Then mArtwork = Picture.FromData(data)
+		    Else
+		      mArtwork = Nil
+		    End If
+		    Player.Invalidate(False)
+		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
 		    MetaDataList.DeleteAllRows
 		    MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.MetaDataType.Actors, "Not set"))
 		    MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.MetaDataType.Album, "Not set"))
@@ -359,7 +414,15 @@ End
 
 
 	#tag Property, Flags = &h21
+		Private mArtwork As Picture
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLock As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private StandByScaled As Picture
 	#tag EndProperty
 
 
@@ -376,7 +439,9 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Play
-		  Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.MediaURL) + "'"
+		  Dim m As libvlc.VLCMedium = Player.Media
+		  Dim url As String = m.URL
+		  Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, url) + "'"
 		  PlayerTimer.Mode = Timer.ModeMultiple
 		End Sub
 	#tag EndEvent
@@ -385,7 +450,7 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Stop
-		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.MediaURL) + "'"
+		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -393,7 +458,7 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Pause
-		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.MediaURL) + "'"
+		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -408,12 +473,13 @@ End
 	#tag Event
 		Sub Action()
 		  If Player = Nil Then Return
-		  If Player.MediaFile = Nil And Player.MediaURL = "" Then
+		  If Player.Media.URL = "" Then
 		    PauseButton.Enabled = False
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
 		    Slider1.Enabled = False
 		    VolControl.Enabled = False
+		    EqualizerButton.Enabled = False
 		  Else
 		    mLock = True
 		    Try
@@ -427,7 +493,56 @@ End
 		    StopButton.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
+		    EqualizerButton.Enabled = True
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Player
+	#tag Event
+		Sub Paint(g As Graphics)
+		  If StandByScaled = Nil Or StandByScaled.Width <> g.Width Or StandByScaled.Height <> g.Height Or _
+		    (mArtwork <> Nil And (mArtwork.Width <> g.Width Or mArtwork.Height <> g.Height)) Then
+		    If App.UseGDIPlus Or Not TargetWin32 Then
+		      StandByScaled = New Picture(g.Width, g.Height)
+		    Else
+		      StandByScaled = New Picture(g.Width, g.Height, 32)
+		      StandByScaled.Transparent = 1
+		    End If
+		    
+		    Dim wRatio, hRatio, ratio As Double
+		    ratio = 1.0
+		    Dim src As Picture
+		    If mArtwork <> Nil Then
+		      src = mArtwork
+		    Else
+		      src = standby
+		    End If
+		    If g.Width < src.Width Then ratio = g.Width / standby.Width
+		    If g.Height < src.Height Then ratio = Min(g.Height / src.Height, ratio)
+		    wRatio = (ratio * src.width)
+		    hRatio = (ratio * src.Height)
+		    Dim p As Picture
+		    If App.UseGDIPlus Or Not TargetWin32 Then
+		      p = New Picture(wRatio, hRatio)
+		    Else
+		      p = New Picture(wRatio, hRatio, 32)
+		      p.Transparent = 1
+		    End If
+		    p.Graphics.DrawPicture(src, 0, 0, p.Width, p.Height, 0, 0, src.Width, src.Height)
+		    StandByScaled.Graphics.DrawPicture(p, (g.Width - p.Width) / 2, (g.Height - p.Height) / 2)
+		  End If
+		  g.ForeColor = &c00000000
+		  g.FillRect(0, 0, g.Width, g.Height)
+		  g.DrawPicture(StandByScaled, 0, 0)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events EqualizerButton
+	#tag Event
+		Sub Action()
+		  Dim w As New EqualizerWindow(Player.Equalizer)
+		  w.Show
 		End Sub
 	#tag EndEvent
 #tag EndEvents
