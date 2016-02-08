@@ -30,6 +30,20 @@ Protected Class ListPlayer
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
+		Sub EmbedWithin(Parent As RectControl)
+		  
+		  TruePlayer.EmbedWithin(Parent)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
+		Sub EmbedWithin(Parent As Window)
+		  
+		  TruePlayer.EmbedWithin(Parent)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function MoveNext() As Boolean
 		  Return libvlc_media_list_player_next(mPlayer) = 0
@@ -86,6 +100,14 @@ Protected Class ListPlayer
 		  If mPlayer = Nil Then mPlayer = libvlc_media_list_player_get_media_player(mPlayer)
 		  If mPlayer <> Nil Then Return New libvlc.VLCPlayer(mPlayer, False)
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub TruePlayer(Assigns NewVLCPlayer As libvlc.VLCPlayer)
+		  If mPlayer = Nil Then Raise New NilObjectException
+		  libvlc_media_list_player_set_media_player(mPlayer, NewVLCPlayer.Handle)
+		  
+		End Sub
 	#tag EndMethod
 
 
