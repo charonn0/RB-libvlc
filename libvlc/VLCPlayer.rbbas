@@ -10,22 +10,27 @@ Class VLCPlayer
 		Sub Constructor()
 		  mInstance = VLCInstance.GetInstance
 		  mPlayer = libvlc_media_player_new(mInstance.Handle)
+		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
+		  AddHandler Me.EventManager.VLCEvent, AddressOf VLCEventHandler
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub Constructor(Medium As libvlc.VLCMedium)
+		  mInstance = Medium.Instance
+		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
+		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  If FromPtr = Nil Then Raise New NilObjectException
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mInstance = VLCInstance.GetInstance
 		  mPlayer = FromPtr
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub Constructor(Medium As VLCMedium)
-		  mInstance = Medium.Instance
-		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
-		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		End Sub
 	#tag EndMethod
 
@@ -49,16 +54,24 @@ Class VLCPlayer
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
+	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As RectControl)
+		  
+		  Me.EmbedWithin(Parent.Handle)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
+		Sub EmbedWithin(Parent As Window)
+		  
 		  Me.EmbedWithin(Parent.Handle)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub EmbedWithin(Parent As Window)
-		  Me.EmbedWithin(Parent.Handle)
-		End Sub
+		Function Handle() As Ptr
+		  Return mPlayer
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -74,14 +87,14 @@ Class VLCPlayer
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function Media() As VLCMedium
+	#tag Method, Flags = &h0
+		Function Media() As libvlc.VLCMedium
 		  Return libvlc_media_player_get_media(mPlayer)
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub Media(Assigns NewMedium As VLCMedium)
+	#tag Method, Flags = &h0
+		Sub Media(Assigns NewMedium As libvlc.VLCMedium)
 		  libvlc_media_player_set_media(mPlayer, NewMedium.Handle)
 		End Sub
 	#tag EndMethod
@@ -157,6 +170,7 @@ Class VLCPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mEqualizer = Nil Then mEqualizer = New libvlc.Equalizer
 			  return mEqualizer
 			End Get
 		#tag EndGetter
@@ -190,33 +204,19 @@ Class VLCPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim m As VLCMedium = Me.Media
-			  If m = Nil Then Return Nil
-			  Dim url As String = m.URL
-			  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+			  Return libvlc_media_player_is_playing(mPlayer)
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  Me.Media = New VLCMedium(value.URLPath)
-			End Set
-		#tag EndSetter
-		MediaFile As FolderItem
+		IsPlaying As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim m As VLCMedium = Me.Media
-			  If m <> Nil Then Return m.URL
+			  Return libvlc_media_player_get_length(mPlayer)
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  Me.Media = New VLCMedium(value)
-			End Set
-		#tag EndSetter
-		MediaURL As String
+		LengthMS As Int64
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
