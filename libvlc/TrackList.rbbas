@@ -21,7 +21,7 @@ Protected Class TrackList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(Medium As VLCMedium)
+		Sub Constructor(Medium As libvlc.VLCMedium)
 		  If Not Medium.IsParsed Then Medium.Parse()
 		  mCount = libvlc_media_tracks_get(Medium.Handle, mList)
 		End Sub

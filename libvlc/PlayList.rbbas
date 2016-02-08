@@ -6,21 +6,21 @@ Protected Class PlayList
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Append(Medium As String)
-		  Dim m As New VLCMedium(Medium)
-		  Me.Append(m)
-		End Sub
-	#tag EndMethod
-
 	#tag Method, Flags = &h1
-		Protected Sub Append(Medium As VLCMedium)
+		Protected Sub Append(Medium As libvlc.VLCMedium)
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
 		  Finally
 		    Me.Unlock
 		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Append(Medium As String)
+		  Dim m As New VLCMedium(Medium)
+		  Me.Append(m)
 		End Sub
 	#tag EndMethod
 
@@ -67,15 +67,8 @@ Protected Class PlayList
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function IndexOf(Medium As String) As Integer
-		  Dim m As New VLCMedium(Medium)
-		  Return Me.IndexOf(m)
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h1
-		Protected Function IndexOf(Medium As VLCMedium) As Integer
+		Protected Function IndexOf(Medium As libvlc.VLCMedium) As Integer
 		  Dim ret As Integer
 		  Me.Lock
 		  Try
@@ -89,9 +82,27 @@ Protected Class PlayList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function IndexOf(Medium As String) As Integer
+		  Dim m As New VLCMedium(Medium)
+		  Return Me.IndexOf(m)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Insert(Index As Integer, Medium As FolderItem)
 		  Dim m As New VLCMedium(Medium)
 		  Me.Insert(Index, m)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub Insert(Index As Integer, Medium As libvlc.VLCMedium)
+		  Me.Lock
+		  Try
+		    If libvlc_media_list_insert_media(mList, Medium.Handle, Index) <> 0 Then Raise New VLCException("Unable to insert media into the media list.")
+		  Finally
+		    Me.Unlock
+		  End Try
 		End Sub
 	#tag EndMethod
 
@@ -102,19 +113,8 @@ Protected Class PlayList
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub Insert(Index As Integer, Medium As VLCMedium)
-		  Me.Lock
-		  Try
-		    If libvlc_media_list_insert_media(mList, Medium.Handle, Index) <> 0 Then Raise New VLCException("Unable to insert media into the media list.")
-		  Finally
-		    Me.Unlock
-		  End Try
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function Item(Index As Integer) As VLCMedium
+	#tag Method, Flags = &h0
+		Function Item(Index As Integer) As libvlc.VLCMedium
 		  Dim ret As VLCMedium
 		  Me.Lock
 		  Try
@@ -151,14 +151,14 @@ Protected Class PlayList
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function Media() As VLCMedium
+		Protected Function Media() As libvlc.VLCMedium
 		  Dim p As Ptr = libvlc_media_list_media(mList)
 		  If p <> Nil Then Return p
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub Media(Assigns NewMedium As VLCMedium)
+		Protected Sub Media(Assigns NewMedium As libvlc.VLCMedium)
 		  libvlc_media_list_set_media(mList, NewMedium.Handle)
 		End Sub
 	#tag EndMethod
