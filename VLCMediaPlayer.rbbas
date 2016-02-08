@@ -70,29 +70,9 @@ Inherits Canvas
 	#tag Event
 		Sub Open()
 		  mPlayer = New VLCPlayer
+		  If Not mPlayer.EventManager.Subscribe(libvlc.EventType.PlayerAudioVolume) Then Break
 		  mPlayer.EmbedWithin(Me)
 		  RaiseEvent Open()
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Sub Paint(g As Graphics)
-		  g.ForeColor = &c00000000
-		  g.FillRect(0, 0, g.Width, g.Height)
-		  Dim wRatio, hRatio, ratio As Double
-		  ratio = 1.0
-		  If g.Width < standby.Width Then ratio = g.Width / standby.Width
-		  If g.Height < standby.Height Then ratio = Min(g.Height / standby.Height, ratio)
-		  wRatio = (ratio * standby.width)
-		  hRatio = (ratio * standby.Height)
-		  Dim p As Picture
-		  If App.UseGDIPlus Or Not TargetWin32 Then
-		    p = New Picture(wRatio, hRatio)
-		  Else
-		    p = New Picture(wRatio, hRatio, 32)
-		  End If
-		  p.Graphics.DrawPicture(standby, 0, 0, p.Width, p.Height, 0, 0, standby.Width, standby.Height)
-		  g.DrawPicture(p, (g.Width - p.Width) / 2, (g.Height - p.Height) / 2)
 		End Sub
 	#tag EndEvent
 
@@ -121,11 +101,31 @@ Inherits Canvas
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function TruePlayer() As libvlc.VLCPlayer
+		  Return mPlayer
+		End Function
+	#tag EndMethod
+
 
 	#tag Hook, Flags = &h0
 		Event Open()
 	#tag EndHook
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mPlayer.Equalizer
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mPlayer.Equalizer = value
+			End Set
+		#tag EndSetter
+		Equalizer As libvlc.Equalizer
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -148,29 +148,15 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.MediaFile
+			  Return mPlayer.Media
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mPlayer.MediaFile = value
+			  mPlayer.Media = value
 			End Set
 		#tag EndSetter
-		MediaFile As FolderItem
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  Return mPlayer.MediaURL
-			End Get
-		#tag EndGetter
-		#tag Setter
-			Set
-			  mPlayer.MediaURL = value
-			End Set
-		#tag EndSetter
-		MediaURL As String
+		Media As libvlc.VLCMedium
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
@@ -185,7 +171,7 @@ Inherits Canvas
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mPlayer.Muted = value
+			  If mPlayer <> Nil Then mPlayer.Muted = value
 			End Set
 		#tag EndSetter
 		Muted As Boolean
@@ -199,7 +185,7 @@ Inherits Canvas
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mPlayer.Position = value
+			  If mPlayer <> Nil Then mPlayer.Position = value
 			End Set
 		#tag EndSetter
 		Position As Single
@@ -222,7 +208,7 @@ Inherits Canvas
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mPlayer.Volume = value
+			  If mPlayer <> Nil Then mPlayer.Volume = value
 			End Set
 		#tag EndSetter
 		Volume As Integer
@@ -312,6 +298,11 @@ Inherits Canvas
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="IsPlaying"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Left"
 			Visible=true
 			Group="Position"
@@ -347,11 +338,27 @@ Inherits Canvas
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="MediaURL"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Muted"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
 			Type="String"
 			InheritedFrom="Canvas"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Position"
+			Group="Behavior"
+			Type="Single"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
@@ -404,6 +411,11 @@ Inherits Canvas
 			InitialValue="True"
 			Type="Boolean"
 			InheritedFrom="Canvas"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Volume"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Width"
