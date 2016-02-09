@@ -94,7 +94,7 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Sub libvlc_callback_t(EventStruct As libvlc_event_t, UserData As Ptr)
+		Private Delegate Sub libvlc_callback_t(EventStruct As libvlc_event_t, UserData As Integer)
 	#tag EndDelegateDeclaration
 
 	#tag ExternalMethod, Flags = &h21
@@ -103,6 +103,14 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_errmsg Lib "libvlc" () As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_event_attach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_event_detach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -431,6 +439,71 @@ Protected Module libvlc
 		psz_help As Ptr
 	#tag EndStructure
 
+
+	#tag Enum, Name = EventType, Flags = &h1
+		MetaChanged
+		  SubItemAdded
+		  DurationChanged
+		  ParsedChanged
+		  Freed
+		  StateChanged
+		  SubitemTreeAdded
+		  PlayerMediaChanged
+		  PlayerNothingSpecial
+		  PlayerOpening
+		  PlayerBuffering
+		  PlayerPlaying
+		  PlayerPaused
+		  PlayerStopped
+		  PlayerForward
+		  PlayerBackward
+		  PlayerEndReached
+		  PlayerEncounteredError
+		  PlayerTimeChanged
+		  PlayerPositionChanged
+		  PlayerSeekableChanged
+		  PlayerPausableChanged
+		  PlayerTitleChanged
+		  PlayerSnapshotTaken
+		  PlayerLengthChanged
+		  PlayerVout
+		  PlayerScrambledChanged
+		  PlayerESAdded
+		  PlayerESDeleted
+		  PlayerESSelected
+		  PlayerCorked
+		  PlayerUncorked
+		  PlayerMuted
+		  PlayerUnmuted
+		  PlayerAudioVolume
+		  PlayerAudioDevice
+		  PlayerChapterChanged
+		  ListItemAdded
+		  ListWillAddItem
+		  ListItemDeleted
+		  ListWillDeleteItem
+		  ListEndReached
+		  ListViewItemAdded
+		  ListViewWillAddItem
+		  ListViewItemDeleted
+		  ListViewWillDeleteItem
+		  ListPlayerPlayed
+		  ListPlayerNextItemSet
+		  ListPlayerStopped
+		  DiscovererStarted
+		  DiscovererEnded
+		  VlmMediaAdded
+		  VlmMediaRemoved
+		  VlmMediaChanged
+		  VlmMediaInstanceStarted
+		  VlmMediaInstanceStopped
+		  VlmMediaStatusInit
+		  VlmMediaStatusOpening
+		  VlmMediaStatusPlaying
+		  VlmMediaStatusPause
+		  VlmMediaStatusEnd
+		VlmMediaStatusError
+	#tag EndEnum
 
 	#tag Enum, Name = MediaType, Type = Integer, Flags = &h1
 		Unknown

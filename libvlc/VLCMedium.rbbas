@@ -1,5 +1,6 @@
 #tag Class
 Protected Class VLCMedium
+Implements VLCHandle
 	#tag Method, Flags = &h0
 		Sub Constructor(MediaFile As FolderItem)
 		  Me.Constructor(MediaFile.URLPath)
@@ -37,6 +38,7 @@ Protected Class VLCMedium
 
 	#tag Method, Flags = &h0
 		Function Handle() As Ptr
+		  // Part of the libvlc.VLCHandle interface.
 		  Return mMedium
 		End Function
 	#tag EndMethod

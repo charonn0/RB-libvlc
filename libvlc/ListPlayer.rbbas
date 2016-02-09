@@ -1,5 +1,6 @@
 #tag Class
 Protected Class ListPlayer
+Implements VLCHandle
 	#tag Method, Flags = &h0
 		Function CanMoveNext() As Boolean
 		  
@@ -42,6 +43,13 @@ Protected Class ListPlayer
 		  
 		  TruePlayer.EmbedWithin(Parent)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Handle() As Ptr
+		  // Part of the libvlc.VLCHandle interface.
+		  Return mPlayer
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0

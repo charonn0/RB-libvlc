@@ -1,5 +1,6 @@
 #tag Class
 Protected Class PlayList
+Implements VLCHandle
 	#tag Method, Flags = &h0
 		Sub Append(Medium As FolderItem)
 		  Me.Append(Medium.URLPath)
@@ -56,6 +57,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h0
 		Function Handle() As Ptr
+		  // Part of the libvlc.VLCHandle interface.
 		  Return mList
 		End Function
 	#tag EndMethod

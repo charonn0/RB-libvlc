@@ -1,5 +1,6 @@
 #tag Class
 Class VLCPlayer
+Implements VLCHandle
 	#tag Method, Flags = &h0
 		Function AddInterface(InterfaceName As String) As Boolean
 		  Return libvlc_add_intf(mInstance.Handle, InterfaceName) = 0
@@ -73,7 +74,19 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function EventManager() As libvlc.EventReceiver
+		  If mEventManager = Nil Then
+		    Dim e As Ptr = libvlc_media_player_event_manager(mPlayer)
+		    If e <> Nil Then mEventManager = New EventManager(e, Me)
+		  End If
+		  
+		  Return mEventManager
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Handle() As Ptr
+		  // Part of the libvlc.VLCHandle interface.
 		  Return mPlayer
 		End Function
 	#tag EndMethod
@@ -207,6 +220,10 @@ Class VLCPlayer
 
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mEventManager As EventManager
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
