@@ -332,22 +332,19 @@ End
 #tag EndWindow
 
 #tag WindowCode
-	#tag Event
-		Sub Resized()
-		  'TabPanel1.Invalidate
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Sub Resizing()
-		  'TabPanel1.Invalidate(False)
-		End Sub
-	#tag EndEvent
-
+	#tag MenuHandler
+		Function OpenDir() As Boolean Handles OpenDir.Action
+			Dim f As FolderItem = SelectFolder()
+			If f <> Nil Then LoadMedia(f)
+			Return True
+			
+		End Function
+	#tag EndMenuHandler
 
 	#tag MenuHandler
 		Function OpenMedia() As Boolean Handles OpenMedia.Action
-			LoadMedia()
+			Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
+			If f <> Nil Then LoadMedia(f)
 			Return True
 			
 		End Function
@@ -355,8 +352,7 @@ End
 
 
 	#tag Method, Flags = &h21
-		Private Sub LoadMedia()
-		  Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
+		Private Sub LoadMedia(f As FolderItem)
 		  If f <> Nil Then
 		    Player.Media = New libvlc.VLCMedium(f)
 		    If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
