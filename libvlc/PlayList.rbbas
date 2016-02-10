@@ -34,6 +34,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h0
 		Function Count() As Integer
+		  If mHandle = Nil Then Return -1
 		  Dim ret As Integer
 		  Me.Lock
 		  Try
@@ -69,6 +70,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h1
 		Protected Function IndexOf(Medium As libvlc.VLCMedium) As Integer
+		  If mList = Nil Then Return -1
 		  Dim ret As Integer
 		  Me.Lock
 		  Try
@@ -97,6 +99,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h1
 		Protected Sub Insert(Index As Integer, Medium As libvlc.VLCMedium)
+		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_insert_media(mList, Medium.Handle, Index) <> 0 Then Raise New VLCException("Unable to insert media into the media list.")
@@ -115,6 +118,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h0
 		Function Item(Index As Integer) As libvlc.VLCMedium
+		  If mList = Nil Then Raise New OutOfBoundsException
 		  Dim ret As VLCMedium
 		  Me.Lock
 		  Try
@@ -146,20 +150,22 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h1
 		Protected Sub Lock()
-		  libvlc_media_list_lock(mList)
+		  If mList <> Nil Then libvlc_media_list_lock(mList) Else Raise New IllegalLockingException
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
 		Protected Function Media() As libvlc.VLCMedium
-		  Dim p As Ptr = libvlc_media_list_media(mList)
-		  If p <> Nil Then Return p
+		  If mList <> Nil Then 
+		    Dim p As Ptr = libvlc_media_list_media(mList)
+		    If p <> Nil Then Return p
+		  End If
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
 		Protected Sub Media(Assigns NewMedium As libvlc.VLCMedium)
-		  libvlc_media_list_set_media(mList, NewMedium.Handle)
+		  If mList <> Nil Then libvlc_media_list_set_media(mList, NewMedium.Handle)
 		End Sub
 	#tag EndMethod
 
@@ -172,6 +178,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
+		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_remove_index(mList, Index) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
@@ -183,7 +190,7 @@ Protected Class PlayList
 
 	#tag Method, Flags = &h1
 		Protected Sub Unlock()
-		  libvlc_media_list_unlock(mList)
+		  If mList <> Nil Then libvlc_media_list_unlock(mList) Else Raise New IllegalLockingException
 		End Sub
 	#tag EndMethod
 
@@ -204,7 +211,7 @@ Protected Class PlayList
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return libvlc_media_list_is_readonly(mList)
+			  If mList <> Nil Then Return libvlc_media_list_is_readonly(mList)
 			End Get
 		#tag EndGetter
 		ReadOnly As Boolean

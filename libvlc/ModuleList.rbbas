@@ -52,7 +52,7 @@ Protected Class ModuleList
 	#tag Method, Flags = &h0
 		Function LongName(Index As Integer) As String
 		  Dim mb As MemoryBlock = Me.Item(Index).psz_longname
-		  Return mb.CString(0)
+		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
 	#tag EndMethod
@@ -60,7 +60,7 @@ Protected Class ModuleList
 	#tag Method, Flags = &h0
 		Function Name(Index As Integer) As String
 		  Dim mb As MemoryBlock = Me.Item(Index).psz_name
-		  Return mb.CString(0)
+		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
 	#tag EndMethod
@@ -68,7 +68,7 @@ Protected Class ModuleList
 	#tag Method, Flags = &h0
 		Function ShortName(Index As Integer) As String
 		  Dim mb As MemoryBlock = Me.Item(Index).psz_shortname
-		  Return mb.CString(0)
+		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
 	#tag EndMethod

@@ -469,7 +469,9 @@ End
 	#tag Event
 		Sub Action()
 		  If Player = Nil Then Return
-		  If Player.Media.URL = "" Then
+		  Dim url As String
+		  If Player.Media <> Nil Then url = Player.Media.URL
+		  If url = "" Then
 		    PauseButton.Enabled = False
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False

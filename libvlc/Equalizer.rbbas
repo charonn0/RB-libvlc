@@ -2,14 +2,16 @@
 Protected Class Equalizer
 	#tag Method, Flags = &h0
 		Function Amplification(Frequency As UInt32) As Single
-		  Return libvlc_audio_equalizer_get_amp_at_index(mEqualizer, Frequency)
+		  If mEqualizer <> Nil Then Return libvlc_audio_equalizer_get_amp_at_index(mEqualizer, Frequency)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Amplification(Frequency As UInt32, NewAmplification As Single)
-		  If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Frequency) <> 0 Then
-		    Raise New VLCException("Unable to set the amplification value for the specified frequency band.")
+		  If mEqualizer <> Nil Then 
+		    If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Frequency) <> 0 Then
+		      Raise New VLCException("Unable to set the amplification value for the specified frequency band.")
+		    End If
 		  End If
 		End Sub
 	#tag EndMethod
@@ -98,12 +100,14 @@ Protected Class Equalizer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return libvlc_audio_equalizer_get_preamp(mEqualizer)
+			  If mEqualizer <> Nil Then Return libvlc_audio_equalizer_get_preamp(mEqualizer)
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If libvlc_audio_equalizer_set_preamp(mEqualizer, value) <> 0 Then Raise New VLCException("Unable to set the pre-amplification value for the equalizer.")
+			  If mEqualizer <> Nil Then 
+			    If libvlc_audio_equalizer_set_preamp(mEqualizer, value) <> 0 Then Raise New VLCException("Unable to set the pre-amplification value for the equalizer.")
+			  End If
 			End Set
 		#tag EndSetter
 		PreAmplification As Single
