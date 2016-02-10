@@ -214,12 +214,39 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub ToggleFullscreen()
+		  If mPlayer <> Nil Then libvlc_toggle_fullscreen(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ToggleTeletext()
+		  If mPlayer <> Nil Then libvlc_toggle_teletext(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.ModuleList
 		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(VLCInstance.GetInstance.Handle))
 		  
 		End Function
 	#tag EndMethod
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Dim mb As MemoryBlock = libvlc_video_get_aspect_ratio(mPlayer)
+			  Dim s As String
+			  If mb <> Nil Then 
+			    s = mb.CString(0)
+			    libvlc_free(mb)
+			  End If
+			  Return s
+			End Get
+		#tag EndGetter
+		AspectRatio As String
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
