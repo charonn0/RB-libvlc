@@ -136,6 +136,15 @@ Protected Class VLCMedium
 	#tag EndMethod
 
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMedium <> Nil Then Return libvlc_media_get_state(mMedium)
+			End Get
+		#tag EndGetter
+		CurrentState As libvlc.PlayerState
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h1
 		Protected mInstance As VLCInstance
 	#tag EndProperty
