@@ -366,6 +366,8 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(f As FolderItem)
+		  Player.CaptureKeyboard = False
+		  Player.CaptureMouse = False
 		  If f <> Nil Then
 		    Player.Media = New libvlc.VLCMedium(f)
 		    If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
@@ -436,13 +438,13 @@ End
 #tag Events EqualizerButton
 	#tag Event
 		Sub Action()
-		  'Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
-		  'If e <> Nil Then Player.Equalizer = e
-		  If Player.Fullscreen Then
-		    Player.Fullscreen = False
-		  Else
-		    Player.Fullscreen = True
-		  End If
+		  Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
+		  If e <> Nil Then Player.Equalizer = e
+		  'If Player.Fullscreen Then
+		  'Player.Fullscreen = False
+		  'Else
+		  'Player.Fullscreen = True
+		  'End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -530,9 +532,36 @@ End
 		  If g.Height < original.Height Then ratio = Min(g.Height / original.Height, ratio)
 		  wRatio = (ratio * original.width)
 		  hRatio = (ratio * original.Height)
+		  g.ForeColor = &c00000000
+		  g.FillRect(0, 0, g.Width, g.Height)
 		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
 		  
 		  
 		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub DoubleClick(X As Integer, Y As Integer)
+		  Break
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  Break
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function MouseWheel(X As Integer, Y As Integer, deltaX as Integer, deltaY as Integer) As Boolean
+		  Break
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Break
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  Break
+		End Function
 	#tag EndEvent
 #tag EndEvents
