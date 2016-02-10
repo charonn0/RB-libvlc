@@ -122,6 +122,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_get_fullscreen Lib "libvlc" (Player As Ptr) As Boolean
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_version Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 
@@ -399,6 +403,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_retain Lib "libvlc" (Instance As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_set_fullscreen Lib "libvlc" (Player As Ptr, IsFullscreen As Boolean)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21

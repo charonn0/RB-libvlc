@@ -22,6 +22,7 @@ Picture=standby;standby.jpg;&h75AA4FFF;&h0;false;0;&h0
 Window=EqualizerWindow;EqualizerWindow.rbfrm;&h523E3FFF;&h0;false
 Class=AudioOutputList;libvlc/AudioOutputList.rbbas;&h167E77FF;&h114C37FF;false
 Class=LinkedList;libvlc/LinkedList.rbbas;&h2F4DCFFF;&h114C37FF;false
+Window=FullscreenParent;FullscreenParent.rbfrm;&h4C038FFF;&h0;false
 DefaultWindow=PlayerWindow
 AppMenuBar=MenuBar1
 MajorVersion=1
