@@ -442,6 +442,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_key_input Lib "libvlc" (Player As Ptr, On As Boolean)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_mouse_input Lib "libvlc" (Player As Ptr, On As Boolean)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_set_spu Lib "libvlc" (Player As Ptr, Index As Integer) As Integer
 	#tag EndExternalMethod
 

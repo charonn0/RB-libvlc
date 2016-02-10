@@ -297,6 +297,40 @@ Class VLCPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Return mCaptureKeyboard
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then
+			    libvlc_video_set_key_input(mPlayer, value)
+			    mCaptureKeyboard = value
+			  End If
+			End Set
+		#tag EndSetter
+		CaptureKeyboard As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mCaptureMouse
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then
+			    libvlc_video_set_mouse_input(mPlayer, value)
+			    mCaptureMouse = value
+			  End If
+			End Set
+		#tag EndSetter
+		CaptureMouse As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_state(mPlayer)
 			End Get
 		#tag EndGetter
@@ -337,6 +371,14 @@ Class VLCPlayer
 		#tag EndGetter
 		LengthMS As Int64
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mCaptureKeyboard As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mCaptureMouse As Boolean = True
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mEmbeddedWithin As Integer
@@ -430,6 +472,15 @@ Class VLCPlayer
 			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="CaptureKeyboard"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CaptureMouse"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
