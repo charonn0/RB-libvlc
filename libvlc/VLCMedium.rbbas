@@ -84,10 +84,10 @@ Protected Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function TrackList() As libvlc.TrackList
+		Function TrackList() As libvlc.MediaTrackList
 		  ' Returns a TrackList object representing the tracks of the media (audio, video, subtitles, etc.)
 		  
-		  If mMedium <> Nil Then Return New libvlc.TrackList(Me)
+		  If mMedium <> Nil Then Return New libvlc.MediaTrackList(Me)
 		End Function
 	#tag EndMethod
 

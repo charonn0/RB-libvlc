@@ -1,5 +1,5 @@
 #tag Class
-Protected Class TrackList
+Protected Class MediaTrackList
 Inherits libvlc.LinkedList
 	#tag Method, Flags = &h0
 		Function AudioTrack(Index As Integer) As Ptr
