@@ -106,6 +106,36 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function GetCursorXY(Optional VideoIndex As Integer) As REALbasic.Point
+		  ' Returns the mouse position relative to the video's unscaled size (i.e. not in screen pixels)
+		  ' VLC supports multiple video streams. If you want a stream other than the first/only one, pass the index.
+		  
+		  If mPlayer = Nil Then Return Nil
+		  Dim x, y As Integer
+		  If libvlc_video_get_cursor(mPlayer, VideoIndex, x, y) <> 0 Then Return Nil
+		  Return New REALbasic.Point(x, y)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetSubtitleList() As libvlc.SubtitleTrackList
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetVideoDimensions(Optional VideoIndex As Integer) As REALbasic.Rect
+		  ' Returns the video's unscaled dimensions. VLC supports multiple video streams. If you want a stream other 
+		  ' than the first/only one, pass the index.
+		  
+		  If mPlayer = Nil Then Return Nil
+		  Dim w, h As Integer
+		  If libvlc_video_get_size(mPlayer, VideoIndex, w, h) <> 0 Then Return Nil
+		  Return New REALbasic.Rect(0, 0, w, h)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Handle() As Ptr
 		  Return mPlayer
 		End Function

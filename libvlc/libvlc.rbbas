@@ -409,6 +409,14 @@ Protected Module libvlc
 		Private Soft Declare Function libvlc_video_filter_list_get Lib "libvlc" (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_cursor Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef X As Integer, ByRef Y As Integer) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_size Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef Width As Integer, ByRef Height As Integer) As Integer
+	#tag EndExternalMethod
+
 	#tag Method, Flags = &h1
 		Protected Function VersionString() As String
 		  Dim mb As MemoryBlock = libvlc_get_version()
