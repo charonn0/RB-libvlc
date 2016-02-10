@@ -52,6 +52,22 @@ Protected Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function DurationMS() As Int64
+		  If Not Me.IsParsed Then Me.Parse()
+		  If mMedium <> Nil Then Return libvlc_media_get_duration(mMedium)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function GetStats() As libvlc_media_stats_t
+		  If mMedium <> Nil Then
+		    Dim p As libvlc_media_stats_t
+		    If libvlc_media_get_stats(mMedium, p) Then Return p
+		  End If
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Handle() As Ptr
 		  Return mMedium
 		End Function

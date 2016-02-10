@@ -138,11 +138,23 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_duration Lib "libvlc" (Medium As Ptr) As Int64
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_get_meta Lib "libvlc" (Medium As Ptr, DataType As libvlc . MetaDataType) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_get_mrl Lib "libvlc" (Medium As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_state Lib "libvlc" (Medium As Ptr) As libvlc.PlayerState
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_stats Lib "libvlc" (Medium As Ptr, ByRef StatsBuffer As libvlc_media_stats_t) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -494,6 +506,24 @@ Protected Module libvlc
 		Type As Integer
 		  Referent As Ptr
 		Data As Ptr
+	#tag EndStructure
+
+	#tag Structure, Name = libvlc_media_stats_t, Flags = &h21
+		ReadBytes As Integer
+		  InputBitrate As Single
+		  DemuxReadBytes As Integer
+		  BemuxBitrate As Single
+		  DemuxCorrupted As Integer
+		  DemuxDiscontinuity As Integer
+		  DecodedVideo As Integer
+		  DecodedAudio As Integer
+		  DisplayedPictures As Integer
+		  LostPictures As Integer
+		  PlayedABuffers As Integer
+		  LostABuffers As Integer
+		  SentPackets As Integer
+		  SentBytes As Integer
+		SendBitrate As Single
 	#tag EndStructure
 
 	#tag Structure, Name = libvlc_media_track_t, Flags = &h21
