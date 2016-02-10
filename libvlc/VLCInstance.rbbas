@@ -1,12 +1,5 @@
 #tag Class
 Private Class VLCInstance
-	#tag Method, Flags = &h0
-		Function AudioFilters() As libvlc.ModuleList
-		  If mHandle <> Nil Then Return New libvlc.ModuleList(libvlc_audio_filter_list_get(mHandle))
-		  
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h21
 		Private Sub Constructor()
 		  Me.Constructor(0, "")
@@ -66,13 +59,6 @@ Private Class VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function VideoFilters() As libvlc.ModuleList
-		  If mHandle <> Nil Then Return New libvlc.ModuleList(libvlc_video_filter_list_get(mHandle))
-		  
-		End Function
-	#tag EndMethod
-
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -82,7 +68,7 @@ Private Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mHandle <> Nil Then 
+			  If mHandle <> Nil Then
 			    libvlc_set_user_agent(mHandle, value, mUserAgent)
 			    mAppName = value
 			  End If
@@ -119,7 +105,7 @@ Private Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mHandle <> Nil Then 
+			  If mHandle <> Nil Then
 			    libvlc_set_user_agent(mHandle, mAppName, value)
 			    mUserAgent = value
 			  End If

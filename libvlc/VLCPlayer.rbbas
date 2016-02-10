@@ -7,6 +7,21 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function AudioFilters() As libvlc.ModuleList
+		  Return New libvlc.ModuleList(libvlc_audio_filter_list_get(VLCInstance.GetInstance.Handle))
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function AudioOutputs() As libvlc.AudioOutputList
+		  Dim p As Ptr = libvlc_audio_output_list_get(VLCInstance.GetInstance.Handle)
+		  If p <> Nil Then Return New libvlc.AudioOutputList(p)
+		  Raise New VLCException("Unable to get the list of audio output modules.")
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor()
 		  ' Constructs a new player instance
 		  
@@ -94,7 +109,7 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		Function Media() As libvlc.VLCMedium
-		  If mPlayer <> Nil Then 
+		  If mPlayer <> Nil Then
 		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
 		    If p <> Nil Then Return p
 		  End If
@@ -137,9 +152,25 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub SetAudioOutput(Index As Integer)
+		  If mPlayer = Nil Then Raise New NilObjectException
+		  Dim l As AudioOutputList = AudioOutputs
+		  If l = Nil Then Raise New VLCException("No audio outputs detected!")
+		  If libvlc_audio_output_set(mPlayer, l.Name(Index)) <> 0 Then Raise New VLCException("Unable to set the audio output to that index.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Stop()
 		  If mPlayer <> Nil Then libvlc_media_player_stop(mPlayer)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function VideoFilters() As libvlc.ModuleList
+		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(VLCInstance.GetInstance.Handle))
+		  
+		End Function
 	#tag EndMethod
 
 
@@ -271,7 +302,7 @@ Class VLCPlayer
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then 
+			  If mPlayer <> Nil Then
 			    If libvlc_audio_set_volume(mPlayer, value) = -1 Then Raise New VLCException("Volume percent is out of range (0-100)")
 			  End If
 			End Set
@@ -344,12 +375,6 @@ Class VLCPlayer
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="UserAgent"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Volume"

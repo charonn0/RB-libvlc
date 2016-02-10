@@ -86,6 +86,18 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_audio_output_list_get Lib "libvlc" (Instance As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_audio_output_list_release Lib "libvlc" (ListPtr As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_audio_output_set Lib "libvlc" (Player As Ptr, OutputName As CString) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_audio_set_mute Lib "libvlc" (Player As Ptr, DoMute As Boolean)
 	#tag EndExternalMethod
 
@@ -404,6 +416,11 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
+
+	#tag Structure, Name = libvlc_audio_output_t, Flags = &h21
+		psz_name As Ptr
+		psz_description As Ptr
+	#tag EndStructure
 
 	#tag Structure, Name = libvlc_event_t, Flags = &h21
 		Type As Integer
