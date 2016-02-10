@@ -115,12 +115,40 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  return mPlayer.Equalizer
+			  If mPlayer <> Nil Then Return mPlayer.CaptureKeyboard
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mPlayer.Equalizer = value
+			  If mPlayer <> Nil Then mPlayer.CaptureKeyboard = value
+			End Set
+		#tag EndSetter
+		CaptureKeyboard As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.CaptureMouse
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.CaptureMouse = value
+			End Set
+		#tag EndSetter
+		CaptureMouse As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then return mPlayer.Equalizer
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.Equalizer = value
 			End Set
 		#tag EndSetter
 		Equalizer As libvlc.Equalizer
@@ -129,11 +157,13 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.Fullscreen
+			  If mPlayer <> Nil Then Return mPlayer.Fullscreen
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  If mPlayer = Nil Then Return
+			  
 			  If value Then
 			    If TruePlayer.Fullscreen Then Return
 			    Dim w As New FullscreenParent
@@ -169,7 +199,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.IsPlaying
+			  If mPlayer <> Nil Then Return mPlayer.IsPlaying
 			End Get
 		#tag EndGetter
 		IsPlaying As Boolean
@@ -178,7 +208,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.LengthMS
+			  If mPlayer <> Nil Then Return mPlayer.LengthMS
 			End Get
 		#tag EndGetter
 		LengthMS As Int64
@@ -187,7 +217,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.Media
+			  If mPlayer <> Nil Then Return mPlayer.Media
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -205,7 +235,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.Muted
+			  If mPlayer <> Nil Then Return mPlayer.Muted
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -219,7 +249,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.Position
+			  If mPlayer <> Nil Then Return mPlayer.Position
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -233,7 +263,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.TimeMS
+			  If mPlayer <> Nil Then Return mPlayer.TimeMS
 			End Get
 		#tag EndGetter
 		TimeMS As Int64
@@ -242,7 +272,7 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayer.Volume
+			  If mPlayer <> Nil Then Return mPlayer.Volume
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -286,6 +316,16 @@ Inherits Canvas
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="CaptureKeyboard"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CaptureMouse"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="DoubleBuffer"
 			Visible=true
 			Group="Behavior"
@@ -308,6 +348,11 @@ Inherits Canvas
 			InitialValue="True"
 			Type="Boolean"
 			InheritedFrom="Canvas"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Fullscreen"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Height"
@@ -334,6 +379,7 @@ Inherits Canvas
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="InitialParent"
+			Group="Initial State"
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
