@@ -357,6 +357,23 @@ Class VLCPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return libvlc_get_fullscreen(mPlayer)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  Dim b As Boolean = Me.IsPlaying
+			  If b Then Me.Pause
+			  If mPlayer <> Nil Then libvlc_set_fullscreen(mPlayer, value)
+			  If b Then Me.Resume
+			End Set
+		#tag EndSetter
+		Fullscreen As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_is_playing(mPlayer)
 			End Get
 		#tag EndGetter
@@ -481,6 +498,12 @@ Class VLCPlayer
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Fullscreen"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
