@@ -54,52 +54,58 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h0
 		Function MoveNext() As Boolean
-		  Return libvlc_media_list_player_next(mPlayer) = 0
+		  If mPlayer <> Nil Then Return libvlc_media_list_player_next(mPlayer) = 0
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function MovePrev() As Boolean
-		  Return libvlc_media_list_player_previous(mPlayer) = 0
+		  If mPlayer <> Nil Then Return libvlc_media_list_player_previous(mPlayer) = 0
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Pause()
-		  libvlc_media_list_player_pause(mPlayer)
+		  If mPlayer <> Nil Then libvlc_media_list_player_pause(mPlayer)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play()
-		  mListIndex = 0
-		  libvlc_media_list_player_play(mPlayer)
+		  If mPlayer <> Nil Then 
+		    mListIndex = 0
+		    libvlc_media_list_player_play(mPlayer)
+		  End If
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
-		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
-		    Raise New VLCException("The media list does not contain an entry at that index.")
+		  If mPlayer <> Nil Then 
+		    If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
+		      Raise New VLCException("The media list does not contain an entry at that index.")
+		    End If
+		    mListIndex = Index
 		  End If
-		  mListIndex = Index
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play(MediaURL As String)
-		  Dim index As Integer = mPlayList.IndexOf(MediaURL)
-		  If index > -1 Then
-		    Dim m As VLCMedium = mPlayList.Item(index)
-		    If libvlc_media_list_player_play_item(mPlayer, m.Handle) = 0 Then Return
+		  If mPlayer <> Nil Then 
+		    Dim index As Integer = mPlayList.IndexOf(MediaURL)
+		    If index > -1 Then
+		      Dim m As VLCMedium = mPlayList.Item(index)
+		      If libvlc_media_list_player_play_item(mPlayer, m.Handle) = 0 Then Return
+		    End If
+		    Raise New VLCException("That media is not included in the media list.")
 		  End If
-		  Raise New VLCException("That media is not included in the media list.")
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Stop()
-		  libvlc_media_list_player_stop(mPlayer)
+		  If mPlayer <> Nil Then libvlc_media_list_player_stop(mPlayer)
 		End Sub
 	#tag EndMethod
 
@@ -127,7 +133,7 @@ Implements VLCHandle
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return libvlc_media_list_player_get_state(mPlayer)
+			  If mPlayer <> Nil Then Return libvlc_media_list_player_get_state(mPlayer)
 			End Get
 		#tag EndGetter
 		CurrentState As libvlc.PlayerState
@@ -136,7 +142,7 @@ Implements VLCHandle
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return libvlc_media_list_player_is_playing(mPlayer)
+			  If mPlayer <> Nil Then Return libvlc_media_list_player_is_playing(mPlayer)
 			End Get
 		#tag EndGetter
 		IsPlaying As Boolean
@@ -185,8 +191,10 @@ Implements VLCHandle
 		#tag EndGetter
 		#tag Setter
 			Set
-			  libvlc_media_list_player_set_media_list(mPlayer, value.Handle)
-			  mPlayList = value
+			  If mPlayer <> Nil Then 
+			    libvlc_media_list_player_set_media_list(mPlayer, value.Handle)
+			    mPlayList = value
+			  End If
 			End Set
 		#tag EndSetter
 		Playlist As libvlc.PlayList
@@ -200,8 +208,10 @@ Implements VLCHandle
 		#tag EndGetter
 		#tag Setter
 			Set
-			  libvlc_media_list_player_set_playback_mode(mPlayer, value)
-			  mPlayMode = value
+			  If mPlayer <> Nil Then 
+			    libvlc_media_list_player_set_playback_mode(mPlayer, value)
+			    mPlayMode = value
+			  End If
 			End Set
 		#tag EndSetter
 		PlayMode As libvlc.PlaybackMode

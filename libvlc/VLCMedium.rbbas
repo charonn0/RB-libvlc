@@ -17,6 +17,7 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Medium As Ptr)
+		  If Medium = Nil Then Raise New NilObjectException
 		  mMedium = Medium
 		End Sub
 	#tag EndMethod
@@ -51,7 +52,7 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h0
 		Function IsParsed() As Boolean
-		  Return libvlc_media_is_parsed(mMedium)
+		  If mMedium <> Nil Then Return libvlc_media_is_parsed(mMedium)
 		End Function
 	#tag EndMethod
 
@@ -69,20 +70,22 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h0
 		Function TrackList() As libvlc.TrackList
-		  Return New libvlc.TrackList(Me)
+		  If mMedium <> Nil Then Return New libvlc.TrackList(Me)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Type() As libvlc.MediaType
-		  Return libvlc_media_get_type(mMedium)
+		  If mMedium <> Nil Then Return libvlc_media_get_type(mMedium)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function URL() As String
-		  Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
-		  If mb <> Nil Then Return mb.CString(0)
+		  If mMedium <> Nil Then
+		    Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
+		    If mb <> Nil Then Return mb.CString(0)
+		  End If
 		End Function
 	#tag EndMethod
 
