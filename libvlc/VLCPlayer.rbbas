@@ -118,12 +118,6 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetSubtitleList() As libvlc.SubtitleTrackList
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function GetVideoDimensions(Optional VideoIndex As Integer) As REALbasic.Rect
 		  ' Returns the video's unscaled dimensions. VLC supports multiple video streams. If you want a stream other 
 		  ' than the first/only one, pass the index.
@@ -208,9 +202,49 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function SetSubtitleFile(SubtitleFile As FolderItem) As Boolean
+		  If mPlayer <> Nil Then Return libvlc_video_set_subtitle_file(mPlayer, SubtitleFile.AbsolutePath)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Stop()
 		  If mPlayer <> Nil Then libvlc_media_player_stop(mPlayer)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function SubtitleIndex() As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_spu(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SubtitleIndex(Assigns NewIndex As Integer)
+		  If mPlayer = Nil Then Return
+		  If libvlc_video_set_spu(mPlayer, NewIndex) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Subtitles() As libvlc.TrackList
+		  If mPlayer = Nil Then Return Nil
+		  Dim p As Ptr = libvlc_video_get_spu_description(mPlayer)
+		  If p <> Nil Then Return New libvlc.TrackList(p)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function TakeSnapshot(Optional VideoIndex As Integer) As Picture
+		  If mPlayer = Nil Then Return Nil
+		  
+		  Dim tmp As FolderItem = GetTemporaryFolderItem()
+		  Dim r As REALbasic.Rect = GetVideoDimensions()
+		  If libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath, r.Width, r.Height) = 0 Then
+		    Return Picture.Open(tmp)
+		  End If
+		  
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
