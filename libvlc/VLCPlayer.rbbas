@@ -72,6 +72,9 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h1
 		Protected Sub EmbedWithin(Parent As Integer)
+		  ' Pass the OS-specific handle of a Window, ContainerControl, or RectControl as 'Parent'. The video output (if any) superimposes 
+		  ' and obscures the Parent, and will move/resize automatically when the parent does.
+		  
 		  If mPlayer = Nil Then Raise New NilObjectException
 		  #If TargetWin32 Then
 		    libvlc_media_player_set_hwnd(mPlayer, Parent)
@@ -86,6 +89,8 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As RectControl)
+		  ' Pass a subclass of rectcontrol as 'Parent'. The video output (if any) superimposes and obscures the Parent, and 
+		  ' will move/resize automatically when the parent does.
 		  
 		  Me.EmbedWithin(Parent.Handle)
 		End Sub
@@ -93,6 +98,8 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As Window)
+		  ' Pass a subclass of Window (or a ContainerControl) as 'Parent'. The video output (if any) superimposes and obscures the Parent, and
+		  ' will move/resize automatically when the parent does.
 		  
 		  Me.EmbedWithin(Parent.Handle)
 		End Sub
