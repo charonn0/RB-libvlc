@@ -9,6 +9,15 @@ Protected Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Constructor(FileDescriptor As Integer)
+		  If FileDescriptor = 0 Then Raise New NilObjectException
+		  mInstance = VLCInstance.GetInstance()
+		  mMedium = libvlc_media_new_fd(mInstance.Handle, FileDescriptor)
+		  If mMedium = Nil Then Raise New VLCException("Unable to create a media reference for the file descriptor.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor(AddRef As libvlc.VLCMedium)
 		  ' Duplicates the VLCMedium. The duplicate is independent of the original.
 		  

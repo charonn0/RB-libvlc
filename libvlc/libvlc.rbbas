@@ -270,6 +270,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_new_fd Lib "libvlc" (Instance As Ptr, Descriptor As Integer) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_new_location Lib "libvlc" (Instance As Ptr, MediaURL As CString) As Ptr
 	#tag EndExternalMethod
 
