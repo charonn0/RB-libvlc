@@ -492,6 +492,11 @@ Protected Module libvlc
 		psz_help As Ptr
 	#tag EndStructure
 
+	#tag Structure, Name = libvlc_track_description_t, Flags = &h21
+		ID As Integer
+		Name As Ptr
+	#tag EndStructure
+
 
 	#tag Enum, Name = MediaType, Type = Integer, Flags = &h1
 		Unknown
