@@ -2,7 +2,7 @@
 Private Class VLCInstance
 	#tag Method, Flags = &h21
 		Private Sub Constructor()
-		  Me.Constructor(0, "")
+		  Me.Constructor(DEFAULT_ARGC, DEFAULT_ARGV)
 		End Sub
 	#tag EndMethod
 
@@ -113,6 +113,13 @@ Private Class VLCInstance
 		#tag EndSetter
 		UserAgent As String
 	#tag EndComputedProperty
+
+
+	#tag Constant, Name = DEFAULT_ARGC, Type = Double, Dynamic = False, Default = \"0", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = DEFAULT_ARGV, Type = String, Dynamic = False, Default = \"", Scope = Public
+	#tag EndConstant
 
 
 	#tag ViewBehavior
