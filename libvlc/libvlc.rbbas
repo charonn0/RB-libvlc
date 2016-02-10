@@ -118,6 +118,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_free Lib "libvlc" (Reference As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_compiler Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 

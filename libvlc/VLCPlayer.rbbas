@@ -270,6 +270,22 @@ Class VLCPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then 
+			    Dim mb As MemoryBlock = libvlc_video_get_aspect_ratio(mPlayer)
+			    If mb <> Nil Then
+			      Dim s As String = mb.CString(0)
+			      libvlc_free(mb)
+			      Return s
+			    End If
+			  End If
+			End Get
+		#tag EndGetter
+		AspectRatio As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_can_pause(mPlayer)
 			End Get
 		#tag EndGetter
@@ -468,11 +484,6 @@ Class VLCPlayer
 
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="AspectRatio"
-			Group="Behavior"
-			Type="String"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="CanPause"
 			Group="Behavior"
