@@ -284,6 +284,7 @@ Begin Window PlayerWindow
          Width           =   80
       End
       Begin Timer PlayerTimer
+         Enabled         =   True
          Height          =   32
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
@@ -292,8 +293,11 @@ Begin Window PlayerWindow
          Mode            =   2
          Period          =   500
          Scope           =   0
+         TabIndex        =   7
          TabPanelIndex   =   1
+         TabStop         =   True
          Top             =   360
+         Visible         =   True
          Width           =   32
       End
    End
@@ -538,30 +542,5 @@ End
 		  
 		  
 		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub DoubleClick(X As Integer, Y As Integer)
-		  Break
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Function MouseDown(X As Integer, Y As Integer) As Boolean
-		  Break
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function MouseWheel(X As Integer, Y As Integer, deltaX as Integer, deltaY as Integer) As Boolean
-		  Break
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
-		  Break
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
-		  Break
-		End Function
 	#tag EndEvent
 #tag EndEvents
