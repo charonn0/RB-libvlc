@@ -7,7 +7,7 @@ Begin Window PlayerWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   4.25e+2
+   Height          =   4.43e+2
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -23,12 +23,12 @@ Begin Window PlayerWindow
    Resizeable      =   True
    Title           =   "*"
    Visible         =   True
-   Width           =   6.0e+2
+   Width           =   6.18e+2
    Begin TabPanel TabPanel1
       AutoDeactivate  =   True
       Bold            =   ""
       Enabled         =   True
-      Height          =   425
+      Height          =   118
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -38,30 +38,110 @@ Begin Window PlayerWindow
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   True
-      LockTop         =   True
+      LockTop         =   False
       Panels          =   ""
       Scope           =   0
       SmallTabs       =   ""
-      TabDefinition   =   "Tab 0\rTab 1"
+      TabDefinition   =   "Controls\rMetadata"
       TabIndex        =   7
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   0
+      Top             =   325
       Underline       =   ""
       Value           =   0
       Visible         =   True
-      Width           =   600
-      Begin Slider Slider1
+      Width           =   618
+      Begin Listbox MetaDataList
          AutoDeactivate  =   True
+         AutoHideScrollbars=   True
+         Bold            =   ""
+         Border          =   True
+         ColumnCount     =   2
+         ColumnsResizable=   True
+         ColumnWidths    =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         DefaultRowHeight=   -1
+         Enabled         =   True
+         EnableDrag      =   ""
+         EnableDragReorder=   ""
+         GridLinesHorizontal=   0
+         GridLinesVertical=   0
+         HasHeading      =   True
+         HeadingIndex    =   -1
+         Height          =   78
+         HelpTag         =   ""
+         Hierarchical    =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         InitialValue    =   "Key	Value"
+         Italic          =   ""
+         Left            =   8
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         RequiresSelection=   ""
+         Scope           =   0
+         ScrollbarHorizontal=   ""
+         ScrollBarVertical=   True
+         SelectionType   =   0
+         TabIndex        =   0
+         TabPanelIndex   =   2
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   356
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   602
+         _ScrollWidth    =   -1
+      End
+      Begin PushButton EqualizerButton
+         AutoDeactivate  =   True
+         Bold            =   ""
+         ButtonStyle     =   0
+         Cancel          =   ""
+         Caption         =   "Equalizer"
+         Default         =   ""
          Enabled         =   False
-         Height          =   9
+         Height          =   22
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
-         Left            =   11
+         Italic          =   ""
+         Left            =   15
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   8
+         TabPanelIndex   =   1
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   410
+         Underline       =   ""
+         Visible         =   True
+         Width           =   80
+      End
+      Begin Slider VolControl
+         AutoDeactivate  =   True
+         Enabled         =   False
+         Height          =   23
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Left            =   358
          LineStep        =   1
          LiveScroll      =   True
          LockBottom      =   True
@@ -71,23 +151,23 @@ Begin Window PlayerWindow
          LockTop         =   False
          Maximum         =   100
          Minimum         =   0
-         PageStep        =   1
+         PageStep        =   5
          Scope           =   0
-         TabIndex        =   1
+         TabIndex        =   6
          TabPanelIndex   =   1
          TabStop         =   True
-         TickStyle       =   2
-         Top             =   379
-         Value           =   0
+         TickStyle       =   1
+         Top             =   409
+         Value           =   100
          Visible         =   True
-         Width           =   578
+         Width           =   249
       End
-      Begin PushButton PlayButton
+      Begin PushButton PauseButton
          AutoDeactivate  =   True
          Bold            =   ""
          ButtonStyle     =   0
          Cancel          =   ""
-         Caption         =   "Play"
+         Caption         =   "Pause"
          Default         =   ""
          Enabled         =   False
          Height          =   22
@@ -95,20 +175,20 @@ Begin Window PlayerWindow
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   183
+         Left            =   99
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   ""
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   2
+         TabIndex        =   5
          TabPanelIndex   =   1
          TabStop         =   True
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   392
+         Top             =   410
          Underline       =   ""
          Visible         =   True
          Width           =   80
@@ -139,50 +219,19 @@ Begin Window PlayerWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   392
+         Top             =   410
          Underline       =   ""
          Visible         =   True
          Width           =   80
       End
-      Begin PushButton PauseButton
-         AutoDeactivate  =   True
-         Bold            =   ""
-         ButtonStyle     =   0
-         Cancel          =   ""
-         Caption         =   "Pause"
-         Default         =   ""
-         Enabled         =   False
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   99
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   5
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   392
-         Underline       =   ""
-         Visible         =   True
-         Width           =   80
-      End
-      Begin Slider VolControl
+      Begin Slider Slider1
          AutoDeactivate  =   True
          Enabled         =   False
          Height          =   23
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
-         Left            =   358
+         Left            =   11
          LineStep        =   1
          LiveScroll      =   True
          LockBottom      =   True
@@ -192,116 +241,23 @@ Begin Window PlayerWindow
          LockTop         =   False
          Maximum         =   100
          Minimum         =   0
-         PageStep        =   5
+         PageStep        =   1
          Scope           =   0
-         TabIndex        =   6
+         TabIndex        =   1
          TabPanelIndex   =   1
          TabStop         =   True
-         TickStyle       =   1
-         Top             =   391
-         Value           =   100
+         TickStyle       =   2
+         Top             =   375
+         Value           =   0
          Visible         =   True
-         Width           =   231
+         Width           =   596
       End
-      Begin Timer PlayerTimer
-         Height          =   32
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Left            =   433
-         LockedInPosition=   False
-         Mode            =   2
-         Period          =   500
-         Scope           =   0
-         TabPanelIndex   =   1
-         Top             =   367
-         Width           =   32
-      End
-      Begin VLCMediaPlayer Player
-         AcceptFocus     =   ""
-         AcceptTabs      =   ""
-         AutoDeactivate  =   True
-         Backdrop        =   ""
-         DoubleBuffer    =   True
-         Enabled         =   True
-         EraseBackground =   False
-         Height          =   331
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         IsPlaying       =   ""
-         Left            =   11
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         Muted           =   ""
-         Position        =   ""
-         Scope           =   0
-         TabIndex        =   7
-         TabPanelIndex   =   1
-         TabStop         =   True
-         Top             =   30
-         UseFocusRing    =   True
-         Visible         =   True
-         Volume          =   ""
-         Width           =   578
-      End
-      Begin Listbox MetaDataList
-         AutoDeactivate  =   True
-         AutoHideScrollbars=   True
-         Bold            =   ""
-         Border          =   True
-         ColumnCount     =   2
-         ColumnsResizable=   True
-         ColumnWidths    =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         DefaultRowHeight=   -1
-         Enabled         =   True
-         EnableDrag      =   ""
-         EnableDragReorder=   ""
-         GridLinesHorizontal=   0
-         GridLinesVertical=   0
-         HasHeading      =   True
-         HeadingIndex    =   -1
-         Height          =   385
-         HelpTag         =   ""
-         Hierarchical    =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         InitialValue    =   "Key	Value"
-         Italic          =   ""
-         Left            =   8
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         RequiresSelection=   ""
-         Scope           =   0
-         ScrollbarHorizontal=   ""
-         ScrollBarVertical=   True
-         SelectionType   =   0
-         TabIndex        =   0
-         TabPanelIndex   =   2
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   31
-         Underline       =   ""
-         UseFocusRing    =   True
-         Visible         =   True
-         Width           =   584
-         _ScrollWidth    =   -1
-      End
-      Begin PushButton EqualizerButton
+      Begin PushButton PlayButton
          AutoDeactivate  =   True
          Bold            =   ""
          ButtonStyle     =   0
          Cancel          =   ""
-         Caption         =   "Equalizer"
+         Caption         =   "Play"
          Default         =   ""
          Enabled         =   False
          Height          =   22
@@ -309,29 +265,86 @@ Begin Window PlayerWindow
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   15
+         Left            =   182
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   ""
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   8
+         TabIndex        =   9
          TabPanelIndex   =   1
          TabStop         =   True
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   392
+         Top             =   410
          Underline       =   ""
          Visible         =   True
          Width           =   80
       End
+      Begin Timer PlayerTimer
+         Height          =   32
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Left            =   534
+         LockedInPosition=   False
+         Mode            =   2
+         Period          =   500
+         Scope           =   0
+         TabPanelIndex   =   1
+         Top             =   360
+         Width           =   32
+      End
+   End
+   Begin VLCMediaPlayer Player
+      AcceptFocus     =   ""
+      AcceptTabs      =   ""
+      AutoDeactivate  =   True
+      Backdrop        =   ""
+      DoubleBuffer    =   True
+      Enabled         =   False
+      EraseBackground =   False
+      Height          =   300
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      IsPlaying       =   ""
+      Left            =   11
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      Muted           =   ""
+      Position        =   ""
+      Scope           =   0
+      TabIndex        =   8
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Top             =   14
+      UseFocusRing    =   True
+      Visible         =   True
+      Volume          =   ""
+      Width           =   600
    End
 End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Resized()
+		  If Player.IsPlaying Then Self.Refresh(False)
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub Resizing()
+		  'If Player.IsPlaying Then TabPanel1.Invalidate(True)
+		End Sub
+	#tag EndEvent
+
+
 	#tag MenuHandler
 		Function OpenDir() As Boolean Handles OpenDir.Action
 			Dim f As FolderItem = SelectFolder()
@@ -420,6 +433,42 @@ End
 
 #tag EndWindowCode
 
+#tag Events EqualizerButton
+	#tag Event
+		Sub Action()
+		  'Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
+		  'If e <> Nil Then Player.Equalizer = e
+		  If Player.Fullscreen Then
+		    Player.Fullscreen = False
+		  Else
+		    Player.Fullscreen = True
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events VolControl
+	#tag Event
+		Sub ValueChanged()
+		  If Not mLock Then Player.Volume = Me.Value
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PauseButton
+	#tag Event
+		Sub Action()
+		  Player.Pause
+		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events StopButton
+	#tag Event
+		Sub Action()
+		  Player.Stop
+		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events Slider1
 	#tag Event
 		Sub ValueChanged()
@@ -435,29 +484,6 @@ End
 		  Dim url As String = m.URL
 		  Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, url) + "'"
 		  PlayerTimer.Mode = Timer.ModeMultiple
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events StopButton
-	#tag Event
-		Sub Action()
-		  Player.Stop
-		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events PauseButton
-	#tag Event
-		Sub Action()
-		  Player.Pause
-		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events VolControl
-	#tag Event
-		Sub ValueChanged()
-		  If Not mLock Then Player.Volume = Me.Value
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -507,14 +533,6 @@ End
 		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
 		  
 		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events EqualizerButton
-	#tag Event
-		Sub Action()
-		  Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
-		  If e <> Nil Then Player.Equalizer = e
 		End Sub
 	#tag EndEvent
 #tag EndEvents
