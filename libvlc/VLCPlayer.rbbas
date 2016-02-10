@@ -61,6 +61,15 @@ Class VLCPlayer
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function EmbeddedWithin() As Integer
+		  ' Returns an OS-specific handle to the window or control in which the player's video output is embedded.
+		  ' Use the EmbedWithin method to specify the window or control.
+		  
+		  Return mEmbeddedWithin
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub EmbedWithin(Parent As Integer)
 		  If mPlayer = Nil Then Raise New NilObjectException
@@ -71,6 +80,7 @@ Class VLCPlayer
 		  #Else
 		    libvlc_media_player_set_xwindow(mPlayer, Parent)
 		  #endif
+		  mEmbeddedWithin = Parent
 		End Sub
 	#tag EndMethod
 
@@ -244,6 +254,10 @@ Class VLCPlayer
 		#tag EndGetter
 		LengthMS As Int64
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h1
+		Protected mEmbeddedWithin As Integer
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
