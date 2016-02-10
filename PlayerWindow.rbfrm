@@ -517,8 +517,8 @@ End
 #tag Events EqualizerButton
 	#tag Event
 		Sub Action()
-		  Dim w As New EqualizerWindow(Player.Equalizer)
-		  w.Show
+		  Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
+		  If e <> Nil Then Player.Equalizer = e
 		End Sub
 	#tag EndEvent
 #tag EndEvents
