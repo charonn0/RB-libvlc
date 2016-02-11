@@ -24,6 +24,18 @@ Protected Class Equalizer
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Constructor(CopyFrequencies As libvlc.Equalizer)
+		  Me.Constructor()
+		  mIndex = CopyFrequencies.mIndex
+		  Dim c As UInt32 = Me.GetBandCount
+		  For i As Integer = 0 To c - 1
+		    Me.Amplification(i) = CopyFrequencies.Amplification(i)
+		  Next
+		  Me.PreAmplification = CopyFrequencies.PreAmplification
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Preset As UInt32)
 		  mEqualizer = libvlc_audio_equalizer_new_from_preset(Preset)
