@@ -35,7 +35,7 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h0
 		Function Count() As Integer
-		  If mHandle = Nil Then Return -1
+		  If mList = Nil Then Return -1
 		  Dim ret As Integer
 		  Me.Lock
 		  Try
@@ -158,7 +158,7 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h1
 		Protected Function Media() As libvlc.VLCMedium
-		  If mList <> Nil Then 
+		  If mList <> Nil Then
 		    Dim p As Ptr = libvlc_media_list_media(mList)
 		    If p <> Nil Then Return p
 		  End If

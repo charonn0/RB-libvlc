@@ -8,6 +8,21 @@ Implements VLCHandle
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function AudioFilters() As libvlc.ModuleList
+		  Return New libvlc.ModuleList(libvlc_audio_filter_list_get(VLCInstance.GetInstance.Handle))
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function AudioOutputs() As libvlc.AudioOutputList
+		  Dim p As Ptr = libvlc_audio_output_list_get(VLCInstance.GetInstance.Handle)
+		  If p <> Nil Then Return New libvlc.AudioOutputList(p)
+		  Raise New VLCException("Unable to get the list of audio output modules.")
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor()
 		  ' Constructs a new player instance
 		  
@@ -47,8 +62,20 @@ Implements VLCHandle
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function EmbeddedWithin() As Integer
+		  ' Returns an OS-specific handle to the window or control in which the player's video output is embedded.
+		  ' Use the EmbedWithin method to specify the window or control.
+		  
+		  Return mEmbeddedWithin
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub EmbedWithin(Parent As Integer)
+		  ' Pass the OS-specific handle of a Window, ContainerControl, or RectControl as 'Parent'. The video output (if any) superimposes 
+		  ' and obscures the Parent, and will move/resize automatically when the parent does.
+		  
 		  If mPlayer = Nil Then Raise New NilObjectException
 		  #If TargetWin32 Then
 		    libvlc_media_player_set_hwnd(mPlayer, Parent)
@@ -57,11 +84,14 @@ Implements VLCHandle
 		  #Else
 		    libvlc_media_player_set_xwindow(mPlayer, Parent)
 		  #endif
+		  mEmbeddedWithin = Parent
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As RectControl)
+		  ' Pass a subclass of rectcontrol as 'Parent'. The video output (if any) superimposes and obscures the Parent, and 
+		  ' will move/resize automatically when the parent does.
 		  
 		  Me.EmbedWithin(Parent.Handle)
 		End Sub
@@ -69,6 +99,8 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As Window)
+		  ' Pass a subclass of Window (or a ContainerControl) as 'Parent'. The video output (if any) superimposes and obscures the Parent, and
+		  ' will move/resize automatically when the parent does.
 		  
 		  Me.EmbedWithin(Parent.Handle)
 		End Sub
@@ -82,6 +114,29 @@ Implements VLCHandle
 		  End If
 		  
 		  Return mEventManager
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetCursorXY(Optional VideoIndex As Integer) As REALbasic.Point
+		  ' Returns the mouse position relative to the video's unscaled size (i.e. not in screen pixels)
+		  ' VLC supports multiple video streams. If you want a stream other than the first/only one, pass the index.
+		  
+		  If mPlayer = Nil Then Return Nil
+		  Dim x, y As Integer
+		  If libvlc_video_get_cursor(mPlayer, VideoIndex, x, y) <> 0 Then Return Nil
+		  Return New REALbasic.Point(x, y)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetVideoDimensions(Optional VideoIndex As Integer) As REALbasic.Rect
+		  ' Returns the video's unscaled dimensions. VLC supports multiple video streams. If you want a stream other 
+		  ' than the first/only one, pass the index.
+		  
+		  If mPlayer = Nil Then Return Nil
+		  Dim w, h As Integer
+		  If libvlc_video_get_size(mPlayer, VideoIndex, w, h) <> 0 Then Return Nil
+		  Return New REALbasic.Rect(0, 0, w, h)
 		End Function
 	#tag EndMethod
 
@@ -107,7 +162,7 @@ Implements VLCHandle
 
 	#tag Method, Flags = &h0
 		Function Media() As libvlc.VLCMedium
-		  If mPlayer <> Nil Then 
+		  If mPlayer <> Nil Then
 		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
 		    If p <> Nil Then Return p
 		  End If
@@ -150,11 +205,101 @@ Implements VLCHandle
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub SetAudioOutput(Index As Integer)
+		  If mPlayer = Nil Then Raise New NilObjectException
+		  Dim l As AudioOutputList = AudioOutputs
+		  If l = Nil Then Raise New VLCException("No audio outputs detected!")
+		  If libvlc_audio_output_set(mPlayer, l.Name(Index)) <> 0 Then Raise New VLCException("Unable to set the audio output to that index.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function SetSubtitleFile(SubtitleFile As FolderItem) As Boolean
+		  If mPlayer <> Nil Then Return libvlc_video_set_subtitle_file(mPlayer, SubtitleFile.AbsolutePath)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Stop()
 		  If mPlayer <> Nil Then libvlc_media_player_stop(mPlayer)
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function SubtitleCount() As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function SubtitleIndex() As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_spu(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SubtitleIndex(Assigns NewIndex As Integer)
+		  If mPlayer = Nil Then Return
+		  If libvlc_video_set_spu(mPlayer, NewIndex) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Subtitles() As libvlc.TrackList
+		  If mPlayer = Nil Then Return Nil
+		  Dim p As Ptr = libvlc_video_get_spu_description(mPlayer)
+		  If p <> Nil Then Return New libvlc.TrackList(p)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function TakeSnapshot(Optional VideoIndex As Integer) As Picture
+		  If mPlayer = Nil Then Return Nil
+		  
+		  Dim tmp As FolderItem = GetTemporaryFolderItem()
+		  Dim r As REALbasic.Rect = GetVideoDimensions()
+		  If libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath, r.Width, r.Height) = 0 Then
+		    Return Picture.Open(tmp)
+		  End If
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ToggleFullscreen()
+		  If mPlayer <> Nil Then libvlc_toggle_fullscreen(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ToggleTeletext()
+		  If mPlayer <> Nil Then libvlc_toggle_teletext(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function VideoFilters() As libvlc.ModuleList
+		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(VLCInstance.GetInstance.Handle))
+		  
+		End Function
+	#tag EndMethod
+
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then 
+			    Dim mb As MemoryBlock = libvlc_video_get_aspect_ratio(mPlayer)
+			    If mb <> Nil Then
+			      Dim s As String = mb.CString(0)
+			      libvlc_free(mb)
+			      Return s
+			    End If
+			  End If
+			End Get
+		#tag EndGetter
+		AspectRatio As String
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -186,6 +331,40 @@ Implements VLCHandle
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Return mCaptureKeyboard
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then
+			    libvlc_video_set_key_input(mPlayer, value)
+			    mCaptureKeyboard = value
+			  End If
+			End Set
+		#tag EndSetter
+		CaptureKeyboard As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mCaptureMouse
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then
+			    libvlc_video_set_mouse_input(mPlayer, value)
+			    mCaptureMouse = value
+			  End If
+			End Set
+		#tag EndSetter
+		CaptureMouse As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_state(mPlayer)
 			End Get
 		#tag EndGetter
@@ -212,6 +391,23 @@ Implements VLCHandle
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return libvlc_get_fullscreen(mPlayer)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  Dim b As Boolean = Me.IsPlaying
+			  If b Then Me.Pause
+			  If mPlayer <> Nil Then libvlc_set_fullscreen(mPlayer, value)
+			  If b Then Me.Resume
+			End Set
+		#tag EndSetter
+		Fullscreen As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_is_playing(mPlayer)
 			End Get
 		#tag EndGetter
@@ -226,6 +422,18 @@ Implements VLCHandle
 		#tag EndGetter
 		LengthMS As Int64
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mCaptureKeyboard As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mCaptureMouse As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h1
+		Protected mEmbeddedWithin As Integer
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
@@ -288,7 +496,7 @@ Implements VLCHandle
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then 
+			  If mPlayer <> Nil Then
 			    If libvlc_audio_set_volume(mPlayer, value) = -1 Then Raise New VLCException("Volume percent is out of range (0-100)")
 			  End If
 			End Set
@@ -310,6 +518,21 @@ Implements VLCHandle
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="CanSeek"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CaptureKeyboard"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CaptureMouse"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Fullscreen"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
@@ -361,12 +584,6 @@ Implements VLCHandle
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="UserAgent"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Volume"

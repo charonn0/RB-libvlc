@@ -86,6 +86,18 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_audio_output_list_get Lib "libvlc" (Instance As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_audio_output_list_release Lib "libvlc" (ListPtr As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_audio_output_set Lib "libvlc" (Player As Ptr, OutputName As CString) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_audio_set_mute Lib "libvlc" (Player As Ptr, DoMute As Boolean)
 	#tag EndExternalMethod
 
@@ -102,6 +114,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_clock Lib "libvlc" () As Int64
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_delay Lib "libvlc" (TimeUntil As Int64) As Int64
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_errmsg Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 
@@ -112,17 +132,41 @@ Protected Module libvlc
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_event_detach Lib "libvlc" (EventManager As Ptr, EventType As libvlc . EventType, EventHandler As Ptr, UserData As Ptr)
 	#tag EndExternalMethod
+	
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_free Lib "libvlc" (Reference As Ptr)
+	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_compiler Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_get_fullscreen Lib "libvlc" (Player As Ptr) As Boolean
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_version Lib "libvlc" () As Ptr
+	#tag EndExternalMethod
+
+	#tag DelegateDeclaration, Flags = &h21
+		Private Delegate Sub libvlc_log_cb(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
+	#tag EndDelegateDeclaration
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_log_set Lib "libvlc" (Instance As Ptr, Callback As Ptr, UserData As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_log_unset Lib "libvlc" (Instance As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_event_manager Lib "libvlc" (Medium As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_duration Lib "libvlc" (Medium As Ptr) As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -131,6 +175,14 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_get_mrl Lib "libvlc" (Medium As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_state Lib "libvlc" (Medium As Ptr) As libvlc.PlayerState
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_stats Lib "libvlc" (Medium As Ptr, ByRef StatsBuffer As libvlc_media_stats_t) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -255,6 +307,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_list_unlock Lib "libvlc" (MediaList As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_new_fd Lib "libvlc" (Instance As Ptr, Descriptor As Integer) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -398,11 +454,71 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_set_fullscreen Lib "libvlc" (Player As Ptr, IsFullscreen As Boolean)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_set_user_agent Lib "libvlc" (Instance As Ptr, Name As CString, UserAgent As CString)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_toggle_fullscreen Lib "libvlc" (Player As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_toggle_teletext Lib "libvlc" (Player As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_track_description_list_release Lib "libvlc" (ListPtr As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_filter_list_get Lib "libvlc" (Instance As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_aspect_ratio Lib "libvlc" (Player As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_cursor Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef X As Integer, ByRef Y As Integer) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_size Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef Width As Integer, ByRef Height As Integer) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_spu Lib "libvlc" (Player As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_spu_count Lib "libvlc" (Player As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_spu_description Lib "libvlc" (Player As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_key_input Lib "libvlc" (Player As Ptr, On As Boolean)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_mouse_input Lib "libvlc" (Player As Ptr, On As Boolean)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_set_spu Lib "libvlc" (Player As Ptr, Index As Integer) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_set_subtitle_file Lib "libvlc" (Player As Ptr, SubtitleFile As CString) As Boolean
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_take_snapshot Lib "libvlc" (Player As Ptr, VideoIndex As Integer, FilePath As CString, Width As Integer, Height As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag Method, Flags = &h1
@@ -412,11 +528,53 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function VLCTimeNow() As Int64
+		  ' Return the current time as defined by LibVLC. The unit is the microsecond. Time increases monotonically 
+		  ' (regardless of time zone changes and RTC adjustements). The origin is arbitrary but consistent across the 
+		  ' whole system (e.g. the system uptime).
+		  
+		  Return libvlc_clock()
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function VLCTimeUntil(PointInTime As Int64) As Int64
+		  ' Returns the number of Microseconds until (or since) the VLCTimeNow matches the specified PointInTime. Points in the past will be
+		  ' negative.
+		  
+		  Return libvlc_delay(PointInTime)
+		End Function
+	#tag EndMethod
+
+
+	#tag Structure, Name = libvlc_audio_output_t, Flags = &h21
+		psz_name As Ptr
+		psz_description As Ptr
+	#tag EndStructure
 
 	#tag Structure, Name = libvlc_event_t, Flags = &h21
 		Type As Integer
 		  Referent As Ptr
 		Data As Ptr
+	#tag EndStructure
+
+	#tag Structure, Name = libvlc_media_stats_t, Flags = &h21
+		ReadBytes As Integer
+		  InputBitrate As Single
+		  DemuxReadBytes As Integer
+		  BemuxBitrate As Single
+		  DemuxCorrupted As Integer
+		  DemuxDiscontinuity As Integer
+		  DecodedVideo As Integer
+		  DecodedAudio As Integer
+		  DisplayedPictures As Integer
+		  LostPictures As Integer
+		  PlayedABuffers As Integer
+		  LostABuffers As Integer
+		  SentPackets As Integer
+		  SentBytes As Integer
+		SendBitrate As Single
 	#tag EndStructure
 
 	#tag Structure, Name = libvlc_media_track_t, Flags = &h21
@@ -437,6 +595,11 @@ Protected Module libvlc
 		  psz_shortname As Ptr
 		  psz_longname As Ptr
 		psz_help As Ptr
+	#tag EndStructure
+
+	#tag Structure, Name = libvlc_track_description_t, Flags = &h21
+		ID As Integer
+		Name As Ptr
 	#tag EndStructure
 
 

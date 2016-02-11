@@ -7,8 +7,8 @@ Protected Class Equalizer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Amplification(Frequency As UInt32, NewAmplification As Single)
-		  If mEqualizer <> Nil Then 
+		Sub Amplification(Frequency As UInt32, Assigns NewAmplification As Single)
+		  If mEqualizer <> Nil Then
 		    If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Frequency) <> 0 Then
 		      Raise New VLCException("Unable to set the amplification value for the specified frequency band.")
 		    End If
@@ -21,6 +21,18 @@ Protected Class Equalizer
 		  mEqualizer = libvlc_audio_equalizer_new()
 		  If mEqualizer = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC equalizer.")
 		  mIndex = -1
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(CopyFrequencies As libvlc.Equalizer)
+		  Me.Constructor()
+		  mIndex = CopyFrequencies.mIndex
+		  Dim c As UInt32 = Me.GetBandCount
+		  For i As Integer = 0 To c - 1
+		    Me.Amplification(i) = CopyFrequencies.Amplification(i)
+		  Next
+		  Me.PreAmplification = CopyFrequencies.PreAmplification
 		End Sub
 	#tag EndMethod
 
@@ -105,7 +117,7 @@ Protected Class Equalizer
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mEqualizer <> Nil Then 
+			  If mEqualizer <> Nil Then
 			    If libvlc_audio_equalizer_set_preamp(mEqualizer, value) <> 0 Then Raise New VLCException("Unable to set the pre-amplification value for the equalizer.")
 			  End If
 			End Set
