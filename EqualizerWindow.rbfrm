@@ -741,7 +741,7 @@ Begin Window EqualizerWindow
       Top             =   215
       Transparent     =   True
       Underline       =   ""
-      Visible         =   True
+      Visible         =   False
       Width           =   47
    End
    Begin Slider BandFreq
@@ -886,6 +886,8 @@ End
 		          Exit For
 		        End If
 		      Next
+		    Else
+		      Presets.ListIndex = -1
 		    End If
 		    
 		  Finally
@@ -942,8 +944,10 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub Change()
-		  mEqualizer = Me.RowTag(Me.ListIndex)
-		  SetSliders()
+		  If Me.ListIndex > -1 Then
+		    mEqualizer = Me.RowTag(Me.ListIndex)
+		    SetSliders()
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
