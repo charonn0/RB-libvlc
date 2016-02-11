@@ -214,6 +214,12 @@ Class VLCPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function SubtitleCount() As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function SubtitleIndex() As Integer
 		  If mPlayer <> Nil Then Return libvlc_video_get_spu(mPlayer)
 		End Function

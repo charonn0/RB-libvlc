@@ -486,6 +486,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_spu_count Lib "libvlc" (Player As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_spu_description Lib "libvlc" (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
