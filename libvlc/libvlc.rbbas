@@ -114,6 +114,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_clock Lib "libvlc" () As Int64
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_delay Lib "libvlc" (TimeUntil As Int64) As Int64
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_errmsg Lib "libvlc" () As Ptr
 	#tag EndExternalMethod
 
@@ -131,6 +139,18 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_version Lib "libvlc" () As Ptr
+	#tag EndExternalMethod
+
+	#tag DelegateDeclaration, Flags = &h21
+		Private Delegate Sub libvlc_log_cb(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
+	#tag EndDelegateDeclaration
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_log_set Lib "libvlc" (Instance As Ptr, Callback As Ptr, UserData As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_log_unset Lib "libvlc" (Instance As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -493,6 +513,25 @@ Protected Module libvlc
 		Protected Function VersionString() As String
 		  Dim mb As MemoryBlock = libvlc_get_version()
 		  If mb <> Nil Then Return mb.CString(0)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function VLCTimeNow() As Int64
+		  ' Return the current time as defined by LibVLC. The unit is the microsecond. Time increases monotonically 
+		  ' (regardless of time zone changes and RTC adjustements). The origin is arbitrary but consistent across the 
+		  ' whole system (e.g. the system uptime).
+		  
+		  Return libvlc_clock()
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function VLCTimeUntil(PointInTime As Int64) As Int64
+		  ' Returns the number of Microseconds until (or since) the VLCTimeNow matches the specified PointInTime. Points in the past will be
+		  ' negative.
+		  
+		  Return libvlc_delay(PointInTime)
 		End Function
 	#tag EndMethod
 

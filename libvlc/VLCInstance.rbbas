@@ -23,12 +23,16 @@ Private Class VLCInstance
 		Protected Sub Constructor(AddRef As VLCInstance)
 		  libvlc_retain(AddRef.mHandle)
 		  mHandle = AddRef.mHandle
+		  libvlc_log_set(mHandle, AddressOf LogCallback, mHandle)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
-		  If mHandle <> Nil Then libvlc_release(mHandle)
+		  If mHandle <> Nil Then 
+		    If Me.Logging Then Me.Logging = False
+		    libvlc_release(mHandle)
+		  End If
 		  mHandle = Nil
 		End Sub
 	#tag EndMethod
@@ -41,15 +45,11 @@ Private Class VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function GetInstance() As VLCInstance
-		  Dim ret As VLCInstance
-		  If mInstance = Nil Or mInstance.Value = Nil Then
-		    ret = New VLCInstance
-		    mInstance = New WeakRef(ret)
-		  ElseIf mInstance.Value IsA VLCInstance Then
-		    ret = VLCInstance(mInstance.Value)
+		  If mInstance = Nil Then 
+		    mInstance = New VLCInstance
+		    If mInstance = Nil Then Break
 		  End If
-		  
-		  Return ret
+		  Return mInstance
 		End Function
 	#tag EndMethod
 
@@ -58,6 +58,26 @@ Private Class VLCInstance
 		  Return mHandle
 		End Function
 	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Sub LogCallback(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
+		  #pragma X86CallingConvention CDecl
+		  #pragma Unused UserData
+		  Dim mb As MemoryBlock = Args.Ptr(0)
+		  mInstance.VLCLog(Level, Context, Format, mb.CString(0))
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub VLCLog(Level As Integer, Context As Ptr, Format As String, Args As String)
+		  RaiseEvent VLCLog(Level, Context, Format, Args)
+		End Sub
+	#tag EndMethod
+
+
+	#tag Hook, Flags = &h0
+		Event VLCLog(Level As Integer, Context As Ptr, Format As String, Args As String)
+	#tag EndHook
 
 
 	#tag ComputedProperty, Flags = &h0
@@ -77,6 +97,26 @@ Private Class VLCInstance
 		AppName As String
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mLogging
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    libvlc_log_set(mHandle, AddressOf LogCallback, Nil)
+			  Else
+			    libvlc_log_unset(mHandle)
+			  End If
+			  
+			  mLogging = value
+			End Set
+		#tag EndSetter
+		Logging As Boolean
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h21
 		Private mAppName As String
 	#tag EndProperty
@@ -90,7 +130,11 @@ Private Class VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private Shared mInstance As WeakRef
+		Private Shared mInstance As VLCInstance
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLogging As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
