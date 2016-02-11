@@ -14,7 +14,7 @@ Begin Window PlayerWindow
    MaxHeight       =   32000
    MaximizeButton  =   True
    MaxWidth        =   32000
-   MenuBar         =   531314687
+   MenuBar         =   ""
    MenuBarVisible  =   True
    MinHeight       =   64
    MinimizeButton  =   True
@@ -103,37 +103,6 @@ Begin Window PlayerWindow
          Width           =   602
          _ScrollWidth    =   -1
       End
-      Begin PushButton EqualizerButton
-         AutoDeactivate  =   True
-         Bold            =   ""
-         ButtonStyle     =   0
-         Cancel          =   ""
-         Caption         =   "Equalizer"
-         Default         =   ""
-         Enabled         =   False
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   15
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   8
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   410
-         Underline       =   ""
-         Visible         =   True
-         Width           =   80
-      End
       Begin Slider VolControl
          AutoDeactivate  =   True
          Enabled         =   False
@@ -141,7 +110,7 @@ Begin Window PlayerWindow
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
-         Left            =   358
+         Left            =   416
          LineStep        =   1
          LiveScroll      =   True
          LockBottom      =   True
@@ -157,10 +126,10 @@ Begin Window PlayerWindow
          TabPanelIndex   =   1
          TabStop         =   True
          TickStyle       =   1
-         Top             =   409
+         Top             =   356
          Value           =   100
          Visible         =   True
-         Width           =   249
+         Width           =   195
       End
       Begin PushButton PauseButton
          AutoDeactivate  =   True
@@ -175,7 +144,7 @@ Begin Window PlayerWindow
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   99
+         Left            =   11
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -188,7 +157,7 @@ Begin Window PlayerWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   410
+         Top             =   384
          Underline       =   ""
          Visible         =   True
          Width           =   80
@@ -206,7 +175,7 @@ Begin Window PlayerWindow
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   266
+         Left            =   178
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -219,7 +188,7 @@ Begin Window PlayerWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   410
+         Top             =   384
          Underline       =   ""
          Visible         =   True
          Width           =   80
@@ -247,10 +216,10 @@ Begin Window PlayerWindow
          TabPanelIndex   =   1
          TabStop         =   True
          TickStyle       =   2
-         Top             =   375
+         Top             =   356
          Value           =   0
          Visible         =   True
-         Width           =   596
+         Width           =   396
       End
       Begin PushButton PlayButton
          AutoDeactivate  =   True
@@ -265,7 +234,7 @@ Begin Window PlayerWindow
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   182
+         Left            =   94
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -278,27 +247,108 @@ Begin Window PlayerWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   410
+         Top             =   384
          Underline       =   ""
          Visible         =   True
          Width           =   80
       End
-      Begin Timer PlayerTimer
+      Begin Label Label1
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
          Enabled         =   True
-         Height          =   32
+         Height          =   20
+         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
-         Left            =   534
+         Italic          =   ""
+         Left            =   270
+         LockBottom      =   ""
          LockedInPosition=   False
-         Mode            =   2
-         Period          =   500
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         Multiline       =   ""
          Scope           =   0
-         TabIndex        =   7
+         Selectable      =   False
+         TabIndex        =   10
+         TabPanelIndex   =   1
+         Text            =   "Subtitle:"
+         TextAlign       =   2
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   384
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   55
+      End
+      Begin ComboBox SubtitleTracks
+         AutoComplete    =   False
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   False
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         InitialValue    =   ""
+         Italic          =   ""
+         Left            =   329
+         ListIndex       =   0
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   11
          TabPanelIndex   =   1
          TabStop         =   True
-         Top             =   360
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   384
+         Underline       =   ""
+         UseFocusRing    =   True
          Visible         =   True
-         Width           =   32
+         Width           =   166
+      End
+      Begin PushButton EqualizerButton
+         AutoDeactivate  =   True
+         Bold            =   ""
+         ButtonStyle     =   0
+         Cancel          =   ""
+         Caption         =   "Equalizer"
+         Default         =   ""
+         Enabled         =   False
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   94
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   12
+         TabPanelIndex   =   1
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   410
+         Underline       =   ""
+         Visible         =   True
+         Width           =   80
       End
    End
    Begin VLCMediaPlayer Player
@@ -306,9 +356,12 @@ Begin Window PlayerWindow
       AcceptTabs      =   ""
       AutoDeactivate  =   True
       Backdrop        =   ""
+      CaptureKeyboard =   ""
+      CaptureMouse    =   ""
       DoubleBuffer    =   True
       Enabled         =   False
       EraseBackground =   False
+      Fullscreen      =   ""
       Height          =   300
       HelpTag         =   ""
       Index           =   -2147483648
@@ -332,6 +385,19 @@ Begin Window PlayerWindow
       Volume          =   ""
       Width           =   600
    End
+   Begin Timer PlayerTimer
+      Height          =   32
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   877
+      LockedInPosition=   False
+      Mode            =   2
+      Period          =   500
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   366
+      Width           =   32
+   End
 End
 #tag EndWindow
 
@@ -349,81 +415,62 @@ End
 	#tag EndEvent
 
 
-	#tag MenuHandler
-		Function OpenDir() As Boolean Handles OpenDir.Action
-			Dim f As FolderItem = SelectFolder()
-			If f <> Nil Then LoadMedia(f)
-			Return True
-			
-		End Function
-	#tag EndMenuHandler
-
-	#tag MenuHandler
-		Function OpenMedia() As Boolean Handles OpenMedia.Action
-			Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
-			If f <> Nil Then LoadMedia(f)
-			Return True
-			
-		End Function
-	#tag EndMenuHandler
-
-
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(f As FolderItem)
-		  Player.CaptureKeyboard = False
-		  Player.CaptureMouse = False
-		  If f <> Nil Then
-		    Player.Media = New libvlc.VLCMedium(f)
-		    If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
-		      Dim url As String = Player.MetaData.Value(libvlc.MetaDataType.ArtworkURL)
-		      Dim data As MemoryBlock
-		      Select Case Left(url, 5)
-		      Case "http:"
-		        Dim h As New HTTPSocket
-		        data = h.Get(url, 10)
-		        
-		      Case "file:"
-		        Dim art As FolderItem = GetFolderItem(url, FolderItem.PathTypeURL)
-		        If art <> Nil And art.Exists And Not art.Directory Then
-		          Dim bs As BinaryStream = BinaryStream.Open(art)
-		          data = bs.Read(bs.Length)
-		          bs.Close
-		        End If
-		      End Select
-		      If data <> Nil And data.Size > 0 Then mArtwork = Picture.FromData(data)
-		    Else
-		      mArtwork = Nil
-		    End If
-		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
-		    MetaDataList.DeleteAllRows
-		    MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.MetaDataType.Actors, "Not set"))
-		    MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.MetaDataType.Album, "Not set"))
-		    MetaDataList.AddRow("AlbumArtist", Player.MetaData.Lookup(libvlc.MetaDataType.AlbumArtist, "Not set"))
-		    MetaDataList.AddRow("Artist", Player.MetaData.Lookup(libvlc.MetaDataType.Artist, "Not set"))
-		    MetaDataList.AddRow("ArtworkURL", Player.MetaData.Lookup(libvlc.MetaDataType.ArtworkURL, "Not set"))
-		    MetaDataList.AddRow("Copyright", Player.MetaData.Lookup(libvlc.MetaDataType.Copyright, "Not set"))
-		    MetaDataList.AddRow("Date", Player.MetaData.Lookup(libvlc.MetaDataType.Date, "Not set"))
-		    MetaDataList.AddRow("Description", Player.MetaData.Lookup(libvlc.MetaDataType.Description, "Not set"))
-		    MetaDataList.AddRow("Director", Player.MetaData.Lookup(libvlc.MetaDataType.Director, "Not set"))
-		    MetaDataList.AddRow("DiscNumber", Player.MetaData.Lookup(libvlc.MetaDataType.DiscNumber, "Not set"))
-		    MetaDataList.AddRow("DiscTotal", Player.MetaData.Lookup(libvlc.MetaDataType.DiscTotal, "Not set"))
-		    MetaDataList.AddRow("EncodedBy", Player.MetaData.Lookup(libvlc.MetaDataType.EncodedBy, "Not set"))
-		    MetaDataList.AddRow("Episode", Player.MetaData.Lookup(libvlc.MetaDataType.Episode, "Not set"))
-		    MetaDataList.AddRow("Genre", Player.MetaData.Lookup(libvlc.MetaDataType.Genre, "Not set"))
-		    MetaDataList.AddRow("Language", Player.MetaData.Lookup(libvlc.MetaDataType.Language, "Not set"))
-		    MetaDataList.AddRow("NowPlaying", Player.MetaData.Lookup(libvlc.MetaDataType.NowPlaying, "Not set"))
-		    MetaDataList.AddRow("Publisher", Player.MetaData.Lookup(libvlc.MetaDataType.Publisher, "Not set"))
-		    MetaDataList.AddRow("Rating", Player.MetaData.Lookup(libvlc.MetaDataType.Rating, "Not set"))
-		    MetaDataList.AddRow("Season", Player.MetaData.Lookup(libvlc.MetaDataType.Season, "Not set"))
-		    MetaDataList.AddRow("Setting", Player.MetaData.Lookup(libvlc.MetaDataType.Setting, "Not set"))
-		    MetaDataList.AddRow("ShowName", Player.MetaData.Lookup(libvlc.MetaDataType.ShowName, "Not set"))
-		    MetaDataList.AddRow("Title", Player.MetaData.Lookup(libvlc.MetaDataType.Title, "Not set"))
-		    MetaDataList.AddRow("TrackID", Player.MetaData.Lookup(libvlc.MetaDataType.TrackID, "Not set"))
-		    MetaDataList.AddRow("TrackNumber", Player.MetaData.Lookup(libvlc.MetaDataType.TrackNumber, "Not set"))
-		    MetaDataList.AddRow("TrackTotal", Player.MetaData.Lookup(libvlc.MetaDataType.TrackTotal, "Not set"))
-		    MetaDataList.AddRow("URL", Player.MetaData.Lookup(libvlc.MetaDataType.URL, "Not set"))
+		  'Player.CaptureKeyboard = False
+		  'Player.CaptureMouse = False
+		  If f = Nil Then Return
+		  Player.Media = New libvlc.VLCMedium(f)
+		  If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
+		    Dim url As String = Player.MetaData.Value(libvlc.MetaDataType.ArtworkURL)
+		    Dim data As MemoryBlock
+		    Select Case Left(url, 5)
+		      'Case "http:"
+		      'Dim h As New HTTPSocket
+		      'data = h.Get(url, 10)
+		      
+		    Case "file:"
+		      Dim art As FolderItem = GetFolderItem(url, FolderItem.PathTypeURL)
+		      If art <> Nil And art.Exists And Not art.Directory Then
+		        Dim bs As BinaryStream = BinaryStream.Open(art)
+		        data = bs.Read(bs.Length)
+		        bs.Close
+		      End If
+		    End Select
+		    If data <> Nil And data.Size > 0 Then mArtwork = Picture.FromData(data)
+		  Else
+		    mArtwork = Nil
 		  End If
+		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
+		  MetaDataList.DeleteAllRows
+		  MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.MetaDataType.Actors, "Not set"))
+		  MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.MetaDataType.Album, "Not set"))
+		  MetaDataList.AddRow("AlbumArtist", Player.MetaData.Lookup(libvlc.MetaDataType.AlbumArtist, "Not set"))
+		  MetaDataList.AddRow("Artist", Player.MetaData.Lookup(libvlc.MetaDataType.Artist, "Not set"))
+		  MetaDataList.AddRow("ArtworkURL", Player.MetaData.Lookup(libvlc.MetaDataType.ArtworkURL, "Not set"))
+		  MetaDataList.AddRow("Copyright", Player.MetaData.Lookup(libvlc.MetaDataType.Copyright, "Not set"))
+		  MetaDataList.AddRow("Date", Player.MetaData.Lookup(libvlc.MetaDataType.Date, "Not set"))
+		  MetaDataList.AddRow("Description", Player.MetaData.Lookup(libvlc.MetaDataType.Description, "Not set"))
+		  MetaDataList.AddRow("Director", Player.MetaData.Lookup(libvlc.MetaDataType.Director, "Not set"))
+		  MetaDataList.AddRow("DiscNumber", Player.MetaData.Lookup(libvlc.MetaDataType.DiscNumber, "Not set"))
+		  MetaDataList.AddRow("DiscTotal", Player.MetaData.Lookup(libvlc.MetaDataType.DiscTotal, "Not set"))
+		  MetaDataList.AddRow("EncodedBy", Player.MetaData.Lookup(libvlc.MetaDataType.EncodedBy, "Not set"))
+		  MetaDataList.AddRow("Episode", Player.MetaData.Lookup(libvlc.MetaDataType.Episode, "Not set"))
+		  MetaDataList.AddRow("Genre", Player.MetaData.Lookup(libvlc.MetaDataType.Genre, "Not set"))
+		  MetaDataList.AddRow("Language", Player.MetaData.Lookup(libvlc.MetaDataType.Language, "Not set"))
+		  MetaDataList.AddRow("NowPlaying", Player.MetaData.Lookup(libvlc.MetaDataType.NowPlaying, "Not set"))
+		  MetaDataList.AddRow("Publisher", Player.MetaData.Lookup(libvlc.MetaDataType.Publisher, "Not set"))
+		  MetaDataList.AddRow("Rating", Player.MetaData.Lookup(libvlc.MetaDataType.Rating, "Not set"))
+		  MetaDataList.AddRow("Season", Player.MetaData.Lookup(libvlc.MetaDataType.Season, "Not set"))
+		  MetaDataList.AddRow("Setting", Player.MetaData.Lookup(libvlc.MetaDataType.Setting, "Not set"))
+		  MetaDataList.AddRow("ShowName", Player.MetaData.Lookup(libvlc.MetaDataType.ShowName, "Not set"))
+		  MetaDataList.AddRow("Title", Player.MetaData.Lookup(libvlc.MetaDataType.Title, "Not set"))
+		  MetaDataList.AddRow("TrackID", Player.MetaData.Lookup(libvlc.MetaDataType.TrackID, "Not set"))
+		  MetaDataList.AddRow("TrackNumber", Player.MetaData.Lookup(libvlc.MetaDataType.TrackNumber, "Not set"))
+		  MetaDataList.AddRow("TrackTotal", Player.MetaData.Lookup(libvlc.MetaDataType.TrackTotal, "Not set"))
+		  MetaDataList.AddRow("URL", Player.MetaData.Lookup(libvlc.MetaDataType.URL, "Not set"))
 		  Player.Invalidate(False)
+		  
 		End Sub
 	#tag EndMethod
 
@@ -439,19 +486,6 @@ End
 
 #tag EndWindowCode
 
-#tag Events EqualizerButton
-	#tag Event
-		Sub Action()
-		  Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
-		  If e <> Nil Then Player.Equalizer = e
-		  'If Player.Fullscreen Then
-		  'Player.Fullscreen = False
-		  'Else
-		  'Player.Fullscreen = True
-		  'End If
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events VolControl
 	#tag Event
 		Sub ValueChanged()
@@ -493,6 +527,91 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events SubtitleTracks
+	#tag Event
+		Sub Change()
+		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		    Player.TruePlayer.SubtitleIndex = Me.RowTag(Me.ListIndex).Int32Value
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events EqualizerButton
+	#tag Event
+		Sub Action()
+		  Dim p As Picture = Player.TruePlayer.TakeSnapshot()
+		  Break
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Player
+	#tag Event
+		Sub Paint(g As Graphics)
+		  Dim original As Picture
+		  If mArtwork <> Nil Then original = mArtwork Else original = standby
+		  
+		  Dim wRatio, hRatio, ratio As Double
+		  ratio = 1.0
+		  If g.Width < original.Width Then ratio = g.Width / original.Width
+		  If g.Height < original.Height Then ratio = Min(g.Height / original.Height, ratio)
+		  wRatio = (ratio * original.width)
+		  hRatio = (ratio * original.Height)
+		  g.ForeColor = &c00000000
+		  g.FillRect(0, 0, g.Width, g.Height)
+		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
+		  
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  Dim play, pause, stop, resume, equ, opend, openf As MenuItem
+		  play = New MenuItem("Play")
+		  stop = New MenuItem("Stop")
+		  resume = New MenuItem("Resume")
+		  pause = New MenuItem("Pause")
+		  equ = New MenuItem("Equalizer")
+		  openf = New MenuItem("Load file")
+		  opend = New MenuItem("Load directory/disc")
+		  play.Enabled = (Me.IsPlaying Or Me.Media <> Nil)
+		  
+		  base.Append(play)
+		  base.Append(stop)
+		  If Me.TruePlayer.CurrentState = libvlc.PlayerState.PAUSED Then
+		    base.Append(resume)
+		  Else
+		    base.Append(pause)
+		  End If
+		  base.Append(equ)
+		  base.Append(openf)
+		  base.Append(opend)
+		  
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case  hitItem.Text
+		  Case "Play", "Resume"
+		    Me.Play
+		  Case "Stop"
+		    Me.Stop
+		  Case "Pause"
+		    Me.Pause
+		  Case "Equalizer"
+		    Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
+		    If e <> Nil Then Player.Equalizer = e
+		  Case "Load file"
+		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
+		    If f <> Nil Then LoadMedia(f)
+		  Case "Load directory/disc"
+		    Dim f As FolderItem = SelectFolder()
+		    If f <> Nil Then LoadMedia(f)
+		  End Select
+		  Return True
+		End Function
+	#tag EndEvent
+#tag EndEvents
 #tag Events PlayerTimer
 	#tag Event
 		Sub Action()
@@ -520,27 +639,23 @@ End
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
 		    EqualizerButton.Enabled = True
+		    
+		    Dim c As Integer = Player.TruePlayer.SubtitleCount
+		    If Not SubtitleTracks.Enabled And c > 0 Then
+		      SubtitleTracks.DeleteAllRows
+		      If c > 0 Then
+		        Dim lst As libvlc.TrackList = Player.TruePlayer.Subtitles
+		        For i As Integer = 0 To c - 1
+		          SubtitleTracks.AddRow(lst.Name(i))
+		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = lst.ID(i)
+		        Next
+		        SubtitleTracks.Enabled = True
+		      Else
+		        SubtitleTracks.Enabled = False
+		      End If
+		    End If
+		    
 		  End If
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events Player
-	#tag Event
-		Sub Paint(g As Graphics)
-		  Dim original As Picture
-		  If mArtwork <> Nil Then original = mArtwork Else original = standby
-		  
-		  Dim wRatio, hRatio, ratio As Double
-		  ratio = 1.0
-		  If g.Width < original.Width Then ratio = g.Width / original.Width
-		  If g.Height < original.Height Then ratio = Min(g.Height / original.Height, ratio)
-		  wRatio = (ratio * original.width)
-		  hRatio = (ratio * original.Height)
-		  g.ForeColor = &c00000000
-		  g.FillRect(0, 0, g.Width, g.Height)
-		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
-		  
-		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
