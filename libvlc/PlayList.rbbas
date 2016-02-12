@@ -136,8 +136,7 @@ Protected Class PlayList
 		Function ItemPath(Index As Integer) As FolderItem
 		  Dim m As VLCMedium = Me.Item(Index)
 		  If m = Nil Then Return Nil
-		  Dim url As String = m.URL
-		  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+		  Return m.MediaFile
 		End Function
 	#tag EndMethod
 

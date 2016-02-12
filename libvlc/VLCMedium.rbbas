@@ -89,6 +89,13 @@ Protected Class VLCMedium
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function MediaFile() As FolderItem
+		  Dim url As String = Me.URL
+		  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromPtr As Ptr)
 		  ' Constructs an Instance of VLCMedium using FromPtr without incrementing VLC's internal refcount for the Ptr.
 		  ' This method assumes that the refcount was incremented when the Ptr was created so we don't need to do it again.
