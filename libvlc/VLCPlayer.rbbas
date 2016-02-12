@@ -112,8 +112,8 @@ Implements VLCHandle
 		    Dim e As Ptr = libvlc_media_player_event_manager(mPlayer)
 		    If e <> Nil Then mEventManager = New EventManager(e, Me)
 		  End If
-		End Function
 		  Return mEventManager
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
