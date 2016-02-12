@@ -19,7 +19,7 @@ Begin Window PlayerWindow
    MinHeight       =   64
    MinimizeButton  =   True
    MinWidth        =   64
-   Placement       =   0
+   Placement       =   2
    Resizeable      =   True
    Title           =   "*"
    Visible         =   True
@@ -319,20 +319,20 @@ Begin Window PlayerWindow
          Visible         =   True
          Width           =   166
       End
-      Begin PushButton EqualizerButton
+      Begin PushButton LoadBtn
          AutoDeactivate  =   True
          Bold            =   ""
          ButtonStyle     =   0
          Cancel          =   ""
-         Caption         =   "Equalizer"
+         Caption         =   "Load"
          Default         =   ""
-         Enabled         =   False
+         Enabled         =   True
          Height          =   22
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   94
+         Left            =   11
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -416,11 +416,11 @@ End
 
 
 	#tag Method, Flags = &h21
-		Private Sub LoadMedia(f As FolderItem)
+		Private Sub LoadMedia(Media As libvlc.VLCMedium)
 		  'Player.CaptureKeyboard = False
 		  'Player.CaptureMouse = False
-		  If f = Nil Then Return
-		  Player.Media = New libvlc.VLCMedium(f)
+		  If Media = Nil Then Return
+		  Player.Media = Media
 		  If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
 		    Dim url As String = Player.MetaData.Value(libvlc.MetaDataType.ArtworkURL)
 		    Dim data As MemoryBlock
@@ -536,11 +536,11 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events EqualizerButton
+#tag Events LoadBtn
 	#tag Event
 		Sub Action()
-		  Dim p As Picture = Player.TruePlayer.TakeSnapshot()
-		  Break
+		  Dim m As libvlc.VLCMedium = OpenMedia.Load(Player.Media)
+		  If m <> Nil Then LoadMedia(m)
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -565,6 +565,9 @@ End
 	#tag EndEvent
 	#tag Event
 		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
+		  
 		  Dim play, pause, stop, resume, equ, opend, openf As MenuItem
 		  play = New MenuItem("Play")
 		  stop = New MenuItem("Stop")
@@ -603,10 +606,10 @@ End
 		    If e <> Nil Then Player.Equalizer = e
 		  Case "Load file"
 		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
-		    If f <> Nil Then LoadMedia(f)
+		    If f <> Nil Then LoadMedia(New libvlc.VLCMedium(f))
 		  Case "Load directory/disc"
 		    Dim f As FolderItem = SelectFolder()
-		    If f <> Nil Then LoadMedia(f)
+		    If f <> Nil Then LoadMedia(New libvlc.VLCMedium(f))
 		  End Select
 		  Return True
 		End Function
@@ -624,7 +627,7 @@ End
 		    StopButton.Enabled = False
 		    Slider1.Enabled = False
 		    VolControl.Enabled = False
-		    EqualizerButton.Enabled = False
+		    
 		  Else
 		    mLock = True
 		    Try
@@ -638,7 +641,6 @@ End
 		    StopButton.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
-		    EqualizerButton.Enabled = True
 		    
 		    Dim c As Integer = Player.TruePlayer.SubtitleCount
 		    If Not SubtitleTracks.Enabled And c > 0 Then
