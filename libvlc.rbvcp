@@ -23,6 +23,7 @@ Class=AudioOutputList;libvlc/AudioOutputList.rbbas;&h167E77FF;&h114C37FF;false
 Class=LinkedList;libvlc/LinkedList.rbbas;&h2F4DCFFF;&h114C37FF;false
 Class=TrackList;libvlc/TrackList.rbbas;&h58224FFF;&h114C37FF;false
 Window=FullscreenParent;FullscreenParent.rbfrm;&h4C038FFF;&h0;false
+Window=OpenMedia;OpenMedia.rbfrm;&h61FECFFF;&h0;false
 DefaultWindow=PlayerWindow
 MajorVersion=1
 MinorVersion=0
