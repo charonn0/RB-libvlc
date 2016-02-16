@@ -245,6 +245,13 @@ End
 
 #tag EndWindowCode
 
+#tag Events MediaURL
+	#tag Event
+		Sub TextChange()
+		  mMedium = Me.Text
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events GetFile
 	#tag Event
 		Sub Action()
@@ -255,7 +262,7 @@ End
 		  dlg.ActionButtonCaption = "Open media"
 		  dlg.Filter = MediaFileTypes.All
 		  If f <> Nil Then
-		     If f.Directory Then dlg.InitialDirectory = f Else dlg.InitialDirectory = f.Parent
+		    If f.Directory Then dlg.InitialDirectory = f Else dlg.InitialDirectory = f.Parent
 		  End If
 		  f = dlg.ShowModal()
 		  If f <> Nil Then MediaURL.Text = f.URLPath
@@ -284,7 +291,7 @@ End
 #tag Events OKBtn
 	#tag Event
 		Sub Action()
-		  mMedium = New libvlc.VLCMedium(MediaURL.Text)
+		  mMedium = MediaURL.Text
 		  Self.Close
 		End Sub
 	#tag EndEvent

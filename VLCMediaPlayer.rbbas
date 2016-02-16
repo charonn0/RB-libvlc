@@ -172,7 +172,7 @@ Inherits Canvas
 			    If b Then Stop
 			    TruePlayer.EmbedWithin(w)
 			    TruePlayer.Fullscreen = True
-			    If b Then 
+			    If b Then
 			      Position = pos
 			      Play
 			    End If
@@ -181,7 +181,7 @@ Inherits Canvas
 			    pos = Position
 			    If b Then Stop
 			    TruePlayer.EmbedWithin(Me)
-			    If b Then 
+			    If b Then
 			      Position = pos
 			      Play
 			    End If

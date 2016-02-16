@@ -606,10 +606,10 @@ End
 		    If e <> Nil Then Player.Equalizer = e
 		  Case "Load file"
 		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
-		    If f <> Nil Then LoadMedia(New libvlc.VLCMedium(f))
+		    If f <> Nil Then LoadMedia(f)
 		  Case "Load directory/disc"
 		    Dim f As FolderItem = SelectFolder()
-		    If f <> Nil Then LoadMedia(New libvlc.VLCMedium(f))
+		    If f <> Nil Then LoadMedia(f)
 		  End Select
 		  Return True
 		End Function

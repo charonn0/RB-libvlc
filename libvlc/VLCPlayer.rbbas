@@ -1,21 +1,24 @@
 #tag Class
 Class VLCPlayer
+Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Function AddInterface(InterfaceName As String) As Boolean
-		  Return libvlc_add_intf(mInstance.Handle, InterfaceName) = 0
+		  Return libvlc_add_intf(Me.Instance, InterfaceName) = 0
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioFilters() As libvlc.ModuleList
-		  Return New libvlc.ModuleList(libvlc_audio_filter_list_get(VLCInstance.GetInstance.Handle))
+		  Dim i As New VLCInstance
+		  Return New libvlc.ModuleList(libvlc_audio_filter_list_get(i.Instance))
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioOutputs() As libvlc.AudioOutputList
-		  Dim p As Ptr = libvlc_audio_output_list_get(VLCInstance.GetInstance.Handle)
+		  Dim i As New VLCInstance
+		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
 		  If p <> Nil Then Return New libvlc.AudioOutputList(p)
 		  Raise New VLCException("Unable to get the list of audio output modules.")
 		End Function
@@ -25,8 +28,8 @@ Class VLCPlayer
 		Sub Constructor()
 		  ' Constructs a new player instance
 		  
-		  mInstance = VLCInstance.GetInstance
-		  mPlayer = libvlc_media_player_new(mInstance.Handle)
+		  Super.Constructor()
+		  mPlayer = libvlc_media_player_new(Me.Instance)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		End Sub
 	#tag EndMethod
@@ -35,7 +38,7 @@ Class VLCPlayer
 		Sub Constructor(Medium As libvlc.VLCMedium)
 		  ' Constructs a new player instance from the passed media reference
 		  
-		  mInstance = Medium.Instance
+		  Super.Constructor(Medium)
 		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		  
@@ -47,8 +50,8 @@ Class VLCPlayer
 		  ' Takes ownership of the passed player ref
 		  
 		  If FromPtr = Nil Then Raise New NilObjectException
+		  Super.Constructor()
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
-		  mInstance = VLCInstance.GetInstance
 		  mPlayer = FromPtr
 		End Sub
 	#tag EndMethod
@@ -57,7 +60,6 @@ Class VLCPlayer
 		Private Sub Destructor()
 		  If mPlayer <> Nil Then libvlc_media_player_release(mPlayer)
 		  mPlayer = Nil
-		  mInstance = Nil
 		End Sub
 	#tag EndMethod
 
@@ -72,7 +74,7 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h1
 		Protected Sub EmbedWithin(Parent As Integer)
-		  ' Pass the OS-specific handle of a Window, ContainerControl, or RectControl as 'Parent'. The video output (if any) superimposes 
+		  ' Pass the OS-specific handle of a Window, ContainerControl, or RectControl as 'Parent'. The video output (if any) superimposes
 		  ' and obscures the Parent, and will move/resize automatically when the parent does.
 		  
 		  If mPlayer = Nil Then Raise New NilObjectException
@@ -89,7 +91,7 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As RectControl)
-		  ' Pass a subclass of rectcontrol as 'Parent'. The video output (if any) superimposes and obscures the Parent, and 
+		  ' Pass a subclass of rectcontrol as 'Parent'. The video output (if any) superimposes and obscures the Parent, and
 		  ' will move/resize automatically when the parent does.
 		  
 		  Me.EmbedWithin(Parent.Handle)
@@ -119,7 +121,7 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		Function GetVideoDimensions(Optional VideoIndex As Integer) As REALbasic.Rect
-		  ' Returns the video's unscaled dimensions. VLC supports multiple video streams. If you want a stream other 
+		  ' Returns the video's unscaled dimensions. VLC supports multiple video streams. If you want a stream other
 		  ' than the first/only one, pass the index.
 		  
 		  If mPlayer = Nil Then Return Nil
@@ -143,7 +145,7 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		 Shared Function Load(MediaURL As String) As libvlc.VLCPlayer
-		  Dim m As New VLCMedium(MediaURL)
+		  Dim m As VLCMedium = MediaURL
 		  If m <> Nil Then Return New libvlc.VLCPlayer(m)
 		End Function
 	#tag EndMethod
@@ -165,10 +167,19 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		Function MetaData() As libvlc.MetaData
-		  If Media <> Nil Then
-		    If Not Media.IsParsed Then Media.Parse
-		    Return New libvlc.MetaData(Media)
+		  Dim m As libvlc.VLCMedium = Media
+		  If m <> Nil Then
+		    If Not m.IsParsed Then m.Parse
+		    Return New libvlc.MetaData(m)
 		  End If
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Operator_Compare(OtherInstance As libvlc.VLCPlayer) As Integer
+		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
+		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))
+		  Return i
 		End Function
 	#tag EndMethod
 
@@ -267,7 +278,8 @@ Class VLCPlayer
 
 	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.ModuleList
-		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(VLCInstance.GetInstance.Handle))
+		  Dim i As New VLCInstance
+		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(i.Instance))
 		  
 		End Function
 	#tag EndMethod
@@ -276,7 +288,7 @@ Class VLCPlayer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then 
+			  If mPlayer <> Nil Then
 			    Dim mb As MemoryBlock = libvlc_video_get_aspect_ratio(mPlayer)
 			    If mb <> Nil Then
 			      Dim s As String = mb.CString(0)
@@ -428,10 +440,6 @@ Class VLCPlayer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mInstance As VLCInstance
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
 		Private mPlayer As Ptr
 	#tag EndProperty
 
@@ -490,6 +498,11 @@ Class VLCPlayer
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="AspectRatio"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="CanPause"
 			Group="Behavior"

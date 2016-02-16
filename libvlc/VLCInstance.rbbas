@@ -1,18 +1,20 @@
 #tag Class
-Private Class VLCInstance
-	#tag Method, Flags = &h21
-		Private Sub Constructor()
-		  Me.Constructor(DEFAULT_ARGC, DEFAULT_ARGV)
-		End Sub
-	#tag EndMethod
-
+Protected Class VLCInstance
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(argc As Integer, argv As String)
+		Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  
-		  mHandle = libvlc_new(argc, argv)
+		  If Singleton = Nil Then 
+		    mInstance = libvlc_new(argc, argv)
+		    If argc = DEFAULT_ARGC And argv = DEFAULT_ARGV Then Singleton = Me
+		    libvlc_log_set(mInstance, AddressOf LogCallback, mInstance)
+		    RefCount = RefCount + 1
+		    System.DebugLog(CurrentMethodName + ": " + Str(RefCount))
+		  Else
+		    Me.Constructor(Singleton)
+		  End If
 		  
-		  If mHandle = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
+		  If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
 		  
 		  mUserAgent = "RB-VLC/1.0"
 		  Me.AppName = App.ExecutableFile.Name
@@ -21,19 +23,27 @@ Private Class VLCInstance
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(AddRef As VLCInstance)
-		  libvlc_retain(AddRef.mHandle)
-		  mHandle = AddRef.mHandle
-		  libvlc_log_set(mHandle, AddressOf LogCallback, mHandle)
+		  libvlc_retain(AddRef.Instance)
+		  mInstance = AddRef.Instance
+		  libvlc_log_set(Me.Instance, AddressOf LogCallback, Me.Instance)
+		  RefCount = RefCount + 1
+		  System.DebugLog(CurrentMethodName + ": " + Str(RefCount))
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
-		  If mHandle <> Nil Then 
+		  If mInstance <> Nil Then
 		    If Me.Logging Then Me.Logging = False
-		    libvlc_release(mHandle)
+		    libvlc_release(mInstance)
+		    RefCount = RefCount - 1
 		  End If
-		  mHandle = Nil
+		  
+		  mInstance = Nil
+		  
+		  If RefCount < 0 Then Break
+		  System.DebugLog(CurrentMethodName + ": " + Str(RefCount))
+		  
 		End Sub
 	#tag EndMethod
 
@@ -43,19 +53,9 @@ Private Class VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		 Shared Function GetInstance() As VLCInstance
-		  If mInstance = Nil Then 
-		    mInstance = New VLCInstance
-		    If mInstance = Nil Then Break
-		  End If
+	#tag Method, Flags = &h1
+		Protected Function Instance() As Ptr
 		  Return mInstance
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Handle() As Ptr
-		  Return mHandle
 		End Function
 	#tag EndMethod
 
@@ -64,8 +64,16 @@ Private Class VLCInstance
 		  #pragma X86CallingConvention CDecl
 		  #pragma Unused UserData
 		  Dim mb As MemoryBlock = Args.Ptr(0)
-		  mInstance.VLCLog(Level, Context, Format, mb.CString(0))
+		  'mInstance.VLCLog(Level, Context, Format, mb.CString(0))
+		  #pragma Warning "Fix me"
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Operator_Compare(OtherInstance As libvlc.VLCInstance) As Integer
+		  If OtherInstance Is Nil Then Return 1
+		  Return Sign(Integer(mInstance) - Integer(OtherInstance.mInstance))
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -88,8 +96,8 @@ Private Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mHandle <> Nil Then
-			    libvlc_set_user_agent(mHandle, value, mUserAgent)
+			  If mInstance <> Nil Then
+			    libvlc_set_user_agent(mInstance, value, mUserAgent)
 			    mAppName = value
 			  End If
 			End Set
@@ -106,9 +114,9 @@ Private Class VLCInstance
 		#tag Setter
 			Set
 			  If value Then
-			    libvlc_log_set(mHandle, AddressOf LogCallback, Nil)
+			    libvlc_log_set(mInstance, AddressOf LogCallback, Nil)
 			  Else
-			    libvlc_log_unset(mHandle)
+			    libvlc_log_unset(mInstance)
 			  End If
 			  
 			  mLogging = value
@@ -125,12 +133,8 @@ Private Class VLCInstance
 		Protected mErrorMsg As String
 	#tag EndProperty
 
-	#tag Property, Flags = &h1
-		Protected mHandle As Ptr
-	#tag EndProperty
-
 	#tag Property, Flags = &h21
-		Private Shared mInstance As VLCInstance
+		Private mInstance As Ptr
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -138,8 +142,30 @@ Private Class VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private Shared mSingleton As WeakRef
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mUserAgent As String
 	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private Shared RefCount As Integer
+	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h21
+		#tag Getter
+			Get
+			  If mSingleton <> Nil And mSingleton.Value <> Nil And mSingleton.Value IsA VLCInstance Then return VLCInstance(mSingleton.Value)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mSingleton = New WeakRef(value)
+			End Set
+		#tag EndSetter
+		Private Shared Singleton As libvlc.VLCInstance
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -149,8 +175,8 @@ Private Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mHandle <> Nil Then
-			    libvlc_set_user_agent(mHandle, mAppName, value)
+			  If mInstance <> Nil Then
+			    libvlc_set_user_agent(mInstance, mAppName, value)
 			    mUserAgent = value
 			  End If
 			End Set
@@ -159,10 +185,10 @@ Private Class VLCInstance
 	#tag EndComputedProperty
 
 
-	#tag Constant, Name = DEFAULT_ARGC, Type = Double, Dynamic = False, Default = \"0", Scope = Public
+	#tag Constant, Name = DEFAULT_ARGC, Type = Double, Dynamic = False, Default = \"0", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = DEFAULT_ARGV, Type = String, Dynamic = False, Default = \"", Scope = Public
+	#tag Constant, Name = DEFAULT_ARGV, Type = String, Dynamic = False, Default = \"", Scope = Protected
 	#tag EndConstant
 
 
@@ -186,6 +212,11 @@ Private Class VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
