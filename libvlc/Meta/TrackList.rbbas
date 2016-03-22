@@ -1,6 +1,6 @@
 #tag Class
 Protected Class TrackList
-Inherits libvlc.LinkedList
+Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h1000
 		Sub Constructor(ListPtr As Ptr)
 		  // Calling the overridden superclass constructor.
@@ -20,6 +20,14 @@ Inherits libvlc.LinkedList
 		  If mb <> Nil Then Return mb.CString(0)
 		End Function
 	#tag EndMethod
+
+
+	#tag Note, Name = libvlc_track_description_t
+		This class wraps a pointer to a libvlc_track_description_t structure. The libvlc_track_description_t
+		structure contains information about available video, audio and subtitle tracks for a media descriptor.
+		
+		https://www.videolan.org/developers/vlc/doc/doxygen/html/structlibvlc__track__description__t.html
+	#tag EndNote
 
 
 	#tag ViewBehavior
