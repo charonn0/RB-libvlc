@@ -68,7 +68,15 @@ Inherits libvlc.VLCInstance
 		  ' Returns an OS-specific handle to the window or control in which the player's video output is embedded.
 		  ' Use the EmbedWithin method to specify the window or control.
 		  
-		  Return mEmbeddedWithin
+		  If mPlayer = Nil Then Return 0
+		  #If TargetWin32 Then
+		    Return libvlc_media_player_get_hwnd(mPlayer)
+		  #ElseIf TargetMacOS
+		    Return libvlc_media_player_get_nsobject(mPlayer)
+		  #Else
+		    Return libvlc_media_player_get_xwindow(mPlayer)
+		  #endif
+		  
 		End Function
 	#tag EndMethod
 
@@ -85,7 +93,6 @@ Inherits libvlc.VLCInstance
 		  #Else
 		    libvlc_media_player_set_xwindow(mPlayer, Parent)
 		  #endif
-		  mEmbeddedWithin = Parent
 		End Sub
 	#tag EndMethod
 
@@ -429,10 +436,6 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mCaptureMouse As Boolean = True
-	#tag EndProperty
-
-	#tag Property, Flags = &h1
-		Protected mEmbeddedWithin As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
