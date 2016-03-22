@@ -150,6 +150,7 @@ Begin Window OpenMedia
       Selectable      =   False
       TabIndex        =   5
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "Media URL:"
       TextAlign       =   0
       TextColor       =   &h000000
@@ -229,7 +230,7 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h0
-		Function Load(Optional InitialValue As libvlc.VLCMedium) As libvlc.VLCMedium
+		Function Load(Optional InitialValue As libvlc.Medium) As libvlc.Medium
 		  mMedium = InitialValue
 		  If mMedium <> Nil Then MediaURL.Text = mMedium.URL
 		  Me.ShowModal
@@ -239,7 +240,7 @@ End
 
 
 	#tag Property, Flags = &h21
-		Private mMedium As libvlc.VLCMedium
+		Private mMedium As libvlc.Medium
 	#tag EndProperty
 
 
