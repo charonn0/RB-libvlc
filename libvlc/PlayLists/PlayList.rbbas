@@ -2,7 +2,7 @@
 Protected Class PlayList
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
-		Sub Append(Medium As libvlc.VLCMedium)
+		Sub Append(Medium As libvlc.Medium)
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
@@ -36,7 +36,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function CurrentItem() As libvlc.VLCMedium
+		Function CurrentItem() As libvlc.Medium
 		  If mList <> Nil Then
 		    Dim p As Ptr = libvlc_media_list_media(mList)
 		    If p <> Nil Then Return p
@@ -45,7 +45,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub CurrentItem(Assigns NewMedium As libvlc.VLCMedium)
+		Sub CurrentItem(Assigns NewMedium As libvlc.Medium)
 		  Dim i As Integer = Me.IndexOf(NewMedium)
 		  If i > -1 Then
 		    libvlc_media_list_set_media(mList, Me.Item(i).Handle)
@@ -69,7 +69,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function IndexOf(Medium As libvlc.VLCMedium) As Integer
+		Function IndexOf(Medium As libvlc.Medium) As Integer
 		  If mList = Nil Then Return -1
 		  Dim ret As Integer
 		  Me.Lock
@@ -84,7 +84,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Insert(Index As Integer, Medium As libvlc.VLCMedium)
+		Sub Insert(Index As Integer, Medium As libvlc.Medium)
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock
 		  Try
@@ -96,9 +96,9 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Item(Index As Integer) As libvlc.VLCMedium
+		Function Item(Index As Integer) As libvlc.Medium
 		  If mList = Nil Then Raise New OutOfBoundsException
-		  Dim ret As VLCMedium
+		  Dim ret As Medium
 		  Me.Lock
 		  Try
 		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
@@ -118,7 +118,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Operator_Compare(OtherInstance As libvlc.PlayList) As Integer
+		Function Operator_Compare(OtherInstance As libvlc.PlayLists.PlayList) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mList) - Integer(OtherInstance.mList))
 		  Return i
@@ -152,7 +152,7 @@ Inherits libvlc.VLCInstance
 
 
 	#tag Note, Name = About this class
-		This class represents an array of VLCMedium objects (i.e., a list of media to be played in a particular order.)
+		This class represents an array of Medium objects (i.e., a list of media to be played in a particular order.)
 	#tag EndNote
 
 
@@ -172,6 +172,13 @@ Inherits libvlc.VLCInstance
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -184,6 +191,12 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
@@ -208,6 +221,13 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

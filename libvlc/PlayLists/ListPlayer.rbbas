@@ -57,7 +57,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Operator_Compare(OtherInstance As libvlc.ListPlayer) As Integer
+		Function Operator_Compare(OtherInstance As libvlc.PlayLists.ListPlayer) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))
 		  Return i
@@ -95,7 +95,7 @@ Inherits libvlc.VLCInstance
 		  If mPlayer <> Nil Then
 		    Dim index As Integer = mPlayList.IndexOf(MediaURL)
 		    If index > -1 Then
-		      Dim m As VLCMedium = mPlayList.Item(index)
+		      Dim m As Medium = mPlayList.Item(index)
 		      If libvlc_media_list_player_play_item(mPlayer, m.Handle) = 0 Then Return
 		    End If
 		    Raise New VLCException("That media is not included in the media list.")
@@ -111,8 +111,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function TruePlayer() As libvlc.VLCPlayer
-		  If mPlayer = Nil Then mPlayer = libvlc_media_list_player_get_media_player(mPlayer)
-		  If mPlayer <> Nil Then Return New libvlc.VLCPlayer(mPlayer, False)
+		  If mPlayer = Nil Then Return Nil
+		  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library?
+		  If System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
+		    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
+		    If p <> Nil Then Return New libvlc.VLCPlayer(p)
+		  End If
 		End Function
 	#tag EndMethod
 
@@ -126,7 +130,7 @@ Inherits libvlc.VLCInstance
 
 
 	#tag Note, Name = About this class
-		This class plays a PlayList object containing one or more VLCMedium objects
+		This class plays a PlayList object containing one or more Medium objects
 	#tag EndNote
 
 
@@ -172,7 +176,7 @@ Inherits libvlc.VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
-		Protected mPlayList As libvlc.PlayList
+		Protected mPlayList As libvlc.PlayLists.PlayList
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -193,7 +197,7 @@ Inherits libvlc.VLCInstance
 			  End If
 			End Set
 		#tag EndSetter
-		Playlist As libvlc.PlayList
+		Playlist As libvlc.PlayLists.PlayList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -215,6 +219,13 @@ Inherits libvlc.VLCInstance
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
@@ -240,6 +251,12 @@ Inherits libvlc.VLCInstance
 			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
@@ -257,6 +274,13 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
