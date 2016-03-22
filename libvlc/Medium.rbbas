@@ -1,5 +1,5 @@
 #tag Class
-Protected Class VLCMedium
+Protected Class Medium
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(FileDescriptor As Integer)
@@ -11,8 +11,8 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(AddRef As libvlc.VLCMedium)
-		  ' Duplicates the VLCMedium. The duplicate is independent of the original.
+		Sub Constructor(AddRef As libvlc.Medium)
+		  ' Duplicates the Medium. The duplicate is independent of the original.
 		  
 		  Super.Constructor(AddRef)
 		  libvlc_media_retain(AddRef.mMedium)
@@ -66,7 +66,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Operator_Compare(OtherInstance As libvlc.VLCMedium) As Integer
+		Function Operator_Compare(OtherInstance As libvlc.Medium) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mMedium) - Integer(OtherInstance.mMedium))
 		  Return i
@@ -75,7 +75,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromFolderItem As FolderItem)
-		  ' Constructs a new VLCMedium from the specified FolderItem. The FolderItem may be a file or a directory/disk drive.
+		  ' Constructs a new Medium from the specified FolderItem. The FolderItem may be a file or a directory/disk drive.
 		  
 		  Me.Operator_Convert(FromFolderItem.URLPath)
 		End Sub
@@ -83,9 +83,9 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromPtr As Ptr)
-		  ' Constructs an Instance of VLCMedium using FromPtr without incrementing VLC's internal refcount for the Ptr.
+		  ' Constructs an Instance of Medium using FromPtr without incrementing VLC's internal refcount for the Ptr.
 		  ' This method assumes that the refcount was incremented when the Ptr was created so we don't need to do it again.
-		  ' However, the refcount WILL be decremented by VLCMedium.Destructor; refer to the specific VLC function docs to
+		  ' However, the refcount WILL be decremented by Medium.Destructor; refer to the specific VLC function docs to
 		  ' determine whether this is appropriate.
 		  
 		  Super.Constructor()
@@ -95,7 +95,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromURL As String)
-		  ' Constructs a new VLCMedium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
+		  ' Constructs a new Medium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
 		  
 		  Super.Constructor()
 		  mMedium = libvlc_media_new_location(Me.Instance, FromURL)
@@ -113,10 +113,10 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function TrackList() As libvlc.MediaTrackList
+		Function TrackList() As libvlc.Meta.MediaTrackList
 		  ' Returns a TrackList object representing the tracks of the media (audio, video, subtitles, etc.)
 		  
-		  If mMedium <> Nil Then Return New libvlc.MediaTrackList(Me)
+		  If mMedium <> Nil Then Return New libvlc.Meta.MediaTrackList(Me)
 		End Function
 	#tag EndMethod
 
@@ -156,6 +156,13 @@ Inherits libvlc.VLCInstance
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -168,6 +175,12 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
@@ -187,6 +200,13 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
