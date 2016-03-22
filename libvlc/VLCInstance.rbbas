@@ -6,10 +6,8 @@ Protected Class VLCInstance
 		  
 		  If Singleton = Nil Then 
 		    mInstance = libvlc_new(argc, argv)
-		    If argc = DEFAULT_ARGC And argv = DEFAULT_ARGV Then Singleton = Me
-		    libvlc_log_set(mInstance, AddressOf LogCallback, mInstance)
-		    RefCount = RefCount + 1
-		    System.DebugLog(CurrentMethodName + ": " + Str(RefCount))
+		    Singleton = Me
+		    Me.Logging = DebugBuild
 		  Else
 		    Me.Constructor(Singleton)
 		  End If
@@ -25,24 +23,17 @@ Protected Class VLCInstance
 		Protected Sub Constructor(AddRef As VLCInstance)
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
-		  libvlc_log_set(Me.Instance, AddressOf LogCallback, Me.Instance)
-		  RefCount = RefCount + 1
-		  System.DebugLog(CurrentMethodName + ": " + Str(RefCount))
+		  Me.Logging = DebugBuild
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mInstance <> Nil Then
-		    If Me.Logging Then Me.Logging = False
+		    Me.Logging = False
 		    libvlc_release(mInstance)
-		    RefCount = RefCount - 1
 		  End If
-		  
 		  mInstance = Nil
-		  
-		  If RefCount < 0 Then Break
-		  System.DebugLog(CurrentMethodName + ": " + Str(RefCount))
 		  
 		End Sub
 	#tag EndMethod
@@ -62,10 +53,20 @@ Protected Class VLCInstance
 	#tag Method, Flags = &h21
 		Private Shared Sub LogCallback(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
 		  #pragma X86CallingConvention CDecl
-		  #pragma Unused UserData
-		  Dim mb As MemoryBlock = Args.Ptr(0)
-		  'mInstance.VLCLog(Level, Context, Format, mb.CString(0))
-		  #pragma Warning "Fix me"
+		  
+		  Dim vlc As WeakRef = mInstances.Lookup(UserData, Nil)
+		  If vlc <> Nil And vlc.Value <> Nil And vlc.Value IsA VLCInstance Then
+		    Dim mb As MemoryBlock = Args
+		    VLCInstance(vlc.Value).VLCLog(Level, Context, Format, mb.CString(0))
+		    Return
+		  End If
+		  
+		  #If TargetWin32 Then
+		    Declare Function sprintf Lib "msvcrt" (Char As Ptr, Frmt As CString, Arg As Ptr) As Integer
+		    Dim buffer As New MemoryBlock(1024)
+		    Call sprintf(buffer, Format, Args)
+		    System.DebugLog(buffer.CString(0))
+		  #endif
 		End Sub
 	#tag EndMethod
 
@@ -78,7 +79,12 @@ Protected Class VLCInstance
 
 	#tag Method, Flags = &h21
 		Private Sub VLCLog(Level As Integer, Context As Ptr, Format As String, Args As String)
-		  RaiseEvent VLCLog(Level, Context, Format, Args)
+		  #pragma BreakOnExceptions Off
+		  Try
+		    RaiseEvent VLCLog(Level, Context, Format, Args)
+		  Catch
+		    System.DebugLog("Post-mortem debug message: " + Format)
+		  End Try
 		End Sub
 	#tag EndMethod
 
@@ -113,10 +119,13 @@ Protected Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
+			  If mInstances = Nil Then mInstances = New Dictionary
 			  If value Then
-			    libvlc_log_set(mInstance, AddressOf LogCallback, Nil)
+			    libvlc_log_set(mInstance, AddressOf LogCallback, mInstance)
+			    mInstances.Value(mInstance) = New WeakRef(Me)
 			  Else
 			    libvlc_log_unset(mInstance)
+			    If mInstances.HasKey(mInstance) Then mInstances.Remove(mInstance)
 			  End If
 			  
 			  mLogging = value
@@ -138,6 +147,10 @@ Protected Class VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private Shared mInstances As Dictionary
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLogging As Boolean
 	#tag EndProperty
 
@@ -147,10 +160,6 @@ Protected Class VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mUserAgent As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private Shared RefCount As Integer
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h21
