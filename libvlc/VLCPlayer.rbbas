@@ -8,18 +8,18 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function AudioFilters() As libvlc.ModuleList
+		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
 		  Dim i As New VLCInstance
-		  Return New libvlc.ModuleList(libvlc_audio_filter_list_get(i.Instance))
+		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance))
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function AudioOutputs() As libvlc.AudioOutputList
+		 Shared Function AudioOutputs() As libvlc.Meta.AudioOutputList
 		  Dim i As New VLCInstance
 		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
-		  If p <> Nil Then Return New libvlc.AudioOutputList(p)
+		  If p <> Nil Then Return New libvlc.Meta.AudioOutputList(p)
 		  Raise New VLCException("Unable to get the list of audio output modules.")
 		End Function
 	#tag EndMethod
@@ -35,7 +35,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(Medium As libvlc.VLCMedium)
+		Sub Constructor(Medium As libvlc.Medium)
 		  ' Constructs a new player instance from the passed media reference
 		  
 		  Super.Constructor(Medium)
@@ -145,13 +145,13 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function Load(MediaURL As String) As libvlc.VLCPlayer
-		  Dim m As VLCMedium = MediaURL
+		  Dim m As Medium = MediaURL
 		  If m <> Nil Then Return New libvlc.VLCPlayer(m)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Media() As libvlc.VLCMedium
+		Function Media() As libvlc.Medium
 		  If mPlayer <> Nil Then
 		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
 		    If p <> Nil Then Return p
@@ -160,17 +160,17 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Media(Assigns NewMedium As libvlc.VLCMedium)
+		Sub Media(Assigns NewMedium As libvlc.Medium)
 		  If mPlayer <> Nil Then libvlc_media_player_set_media(mPlayer, NewMedium.Handle)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function MetaData() As libvlc.MetaData
-		  Dim m As libvlc.VLCMedium = Media
+		Function MetaData() As libvlc.Meta.MetaData
+		  Dim m As libvlc.Medium = Media
 		  If m <> Nil Then
 		    If Not m.IsParsed Then m.Parse
-		    Return New libvlc.MetaData(m)
+		    Return New libvlc.Meta.MetaData(m)
 		  End If
 		End Function
 	#tag EndMethod
@@ -206,7 +206,7 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub SetAudioOutput(Index As Integer)
 		  If mPlayer = Nil Then Raise New NilObjectException
-		  Dim l As AudioOutputList = AudioOutputs
+		  Dim l As libvlc.Meta.AudioOutputList = AudioOutputs
 		  If l = Nil Then Raise New VLCException("No audio outputs detected!")
 		  If libvlc_audio_output_set(mPlayer, l.Name(Index)) <> 0 Then Raise New VLCException("Unable to set the audio output to that index.")
 		End Sub
@@ -244,10 +244,10 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Subtitles() As libvlc.TrackList
+		Function Subtitles() As libvlc.Meta.TrackList
 		  If mPlayer = Nil Then Return Nil
 		  Dim p As Ptr = libvlc_video_get_spu_description(mPlayer)
-		  If p <> Nil Then Return New libvlc.TrackList(p)
+		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
 		End Function
 	#tag EndMethod
 
@@ -277,9 +277,9 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function VideoFilters() As libvlc.ModuleList
+		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
 		  Dim i As New VLCInstance
-		  Return New libvlc.ModuleList(libvlc_video_filter_list_get(i.Instance))
+		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance))
 		  
 		End Function
 	#tag EndMethod
@@ -499,9 +499,17 @@ Inherits libvlc.VLCInstance
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="AspectRatio"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="CanPause"
@@ -554,6 +562,12 @@ Inherits libvlc.VLCInstance
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Muted"
 			Group="Behavior"
 			Type="Boolean"
@@ -581,6 +595,13 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Volume"
