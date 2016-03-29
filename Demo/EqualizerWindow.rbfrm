@@ -358,6 +358,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   14
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "Preamp"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -392,6 +393,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   15
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -426,6 +428,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   16
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -460,6 +463,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   17
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -494,6 +498,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   18
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -528,6 +533,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   19
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -562,6 +568,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   20
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -596,6 +603,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   21
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -630,6 +638,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   22
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -664,6 +673,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   23
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -698,6 +708,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   24
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -732,6 +743,7 @@ Begin Window EqualizerWindow
       Selectable      =   False
       TabIndex        =   25
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -926,7 +938,7 @@ End
 #tag EndEvents
 #tag Events BandFreq
 	#tag Event
-		Sub ValueChanged(index as Integer)
+		Sub ValueChanged()
 		  If Not mLock Then mEqualizer.Amplification(index) = Me.Value
 		End Sub
 	#tag EndEvent

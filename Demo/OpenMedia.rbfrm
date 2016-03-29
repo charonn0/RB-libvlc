@@ -150,6 +150,7 @@ Begin Window OpenMedia
       Selectable      =   False
       TabIndex        =   5
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "Media URL:"
       TextAlign       =   0
       TextColor       =   &h000000
@@ -229,7 +230,7 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h0
-		Function Load(Optional InitialValue As libvlc.VLCMedium) As libvlc.VLCMedium
+		Function Load(Optional InitialValue As libvlc.Medium) As libvlc.Medium
 		  mMedium = InitialValue
 		  If mMedium <> Nil Then MediaURL.Text = mMedium.URL
 		  Me.ShowModal
@@ -239,12 +240,19 @@ End
 
 
 	#tag Property, Flags = &h21
-		Private mMedium As libvlc.VLCMedium
+		Private mMedium As libvlc.Medium
 	#tag EndProperty
 
 
 #tag EndWindowCode
 
+#tag Events MediaURL
+	#tag Event
+		Sub TextChange()
+		  mMedium = Me.Text
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events GetFile
 	#tag Event
 		Sub Action()
@@ -255,7 +263,7 @@ End
 		  dlg.ActionButtonCaption = "Open media"
 		  dlg.Filter = MediaFileTypes.All
 		  If f <> Nil Then
-		     If f.Directory Then dlg.InitialDirectory = f Else dlg.InitialDirectory = f.Parent
+		    If f.Directory Then dlg.InitialDirectory = f Else dlg.InitialDirectory = f.Parent
 		  End If
 		  f = dlg.ShowModal()
 		  If f <> Nil Then MediaURL.Text = f.URLPath
@@ -284,7 +292,7 @@ End
 #tag Events OKBtn
 	#tag Event
 		Sub Action()
-		  mMedium = New libvlc.VLCMedium(MediaURL.Text)
+		  mMedium = MediaURL.Text
 		  Self.Close
 		End Sub
 	#tag EndEvent

@@ -1,5 +1,6 @@
 #tag Class
 Protected Class ListPlayer
+Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Function CanMoveNext() As Boolean
 		  
@@ -16,8 +17,8 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
-		  mInstance = VLCInstance.GetInstance
-		  mPlayer = libvlc_media_list_player_new(mInstance.Handle)
+		  Super.Constructor()
+		  mPlayer = libvlc_media_list_player_new(Me.Instance)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list player.")
 		End Sub
 	#tag EndMethod
@@ -26,7 +27,6 @@ Protected Class ListPlayer
 		Private Sub Destructor()
 		  If mPlayer <> Nil Then libvlc_media_list_player_release(mPlayer)
 		  mPlayer = Nil
-		  mInstance = Nil
 		End Sub
 	#tag EndMethod
 
@@ -57,6 +57,14 @@ Protected Class ListPlayer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Operator_Compare(OtherInstance As libvlc.PlayLists.ListPlayer) As Integer
+		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
+		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))
+		  Return i
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Pause()
 		  If mPlayer <> Nil Then libvlc_media_list_player_pause(mPlayer)
 		End Sub
@@ -64,7 +72,7 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Sub Play()
-		  If mPlayer <> Nil Then 
+		  If mPlayer <> Nil Then
 		    mListIndex = 0
 		    libvlc_media_list_player_play(mPlayer)
 		  End If
@@ -73,7 +81,7 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
-		  If mPlayer <> Nil Then 
+		  If mPlayer <> Nil Then
 		    If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
 		      Raise New VLCException("The media list does not contain an entry at that index.")
 		    End If
@@ -84,10 +92,10 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Sub Play(MediaURL As String)
-		  If mPlayer <> Nil Then 
+		  If mPlayer <> Nil Then
 		    Dim index As Integer = mPlayList.IndexOf(MediaURL)
 		    If index > -1 Then
-		      Dim m As VLCMedium = mPlayList.Item(index)
+		      Dim m As Medium = mPlayList.Item(index)
 		      If libvlc_media_list_player_play_item(mPlayer, m.Handle) = 0 Then Return
 		    End If
 		    Raise New VLCException("That media is not included in the media list.")
@@ -103,8 +111,12 @@ Protected Class ListPlayer
 
 	#tag Method, Flags = &h0
 		Function TruePlayer() As libvlc.VLCPlayer
-		  If mPlayer = Nil Then mPlayer = libvlc_media_list_player_get_media_player(mPlayer)
-		  If mPlayer <> Nil Then Return New libvlc.VLCPlayer(mPlayer, False)
+		  If mPlayer = Nil Then Return Nil
+		  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library?
+		  If System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
+		    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
+		    If p <> Nil Then Return New libvlc.VLCPlayer(p)
+		  End If
 		End Function
 	#tag EndMethod
 
@@ -118,7 +130,7 @@ Protected Class ListPlayer
 
 
 	#tag Note, Name = About this class
-		This class plays a PlayList object containing one or more VLCMedium objects
+		This class plays a PlayList object containing one or more Medium objects
 	#tag EndNote
 
 
@@ -155,10 +167,6 @@ Protected Class ListPlayer
 		ListIndex As Integer
 	#tag EndComputedProperty
 
-	#tag Property, Flags = &h1
-		Protected mInstance As VLCInstance
-	#tag EndProperty
-
 	#tag Property, Flags = &h21
 		Private mListIndex As Integer
 	#tag EndProperty
@@ -168,7 +176,7 @@ Protected Class ListPlayer
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
-		Protected mPlayList As libvlc.PlayList
+		Protected mPlayList As libvlc.PlayLists.PlayList
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -183,13 +191,13 @@ Protected Class ListPlayer
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then 
+			  If mPlayer <> Nil Then
 			    libvlc_media_list_player_set_media_list(mPlayer, value.Handle)
 			    mPlayList = value
 			  End If
 			End Set
 		#tag EndSetter
-		Playlist As libvlc.PlayList
+		Playlist As libvlc.PlayLists.PlayList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -200,7 +208,7 @@ Protected Class ListPlayer
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then 
+			  If mPlayer <> Nil Then
 			    libvlc_media_list_player_set_playback_mode(mPlayer, value)
 			    mPlayMode = value
 			  End If
@@ -211,6 +219,13 @@ Protected Class ListPlayer
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
@@ -236,6 +251,12 @@ Protected Class ListPlayer
 			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
@@ -253,6 +274,13 @@ Protected Class ListPlayer
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

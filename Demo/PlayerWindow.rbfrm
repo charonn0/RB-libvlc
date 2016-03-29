@@ -274,6 +274,7 @@ Begin Window PlayerWindow
          Selectable      =   False
          TabIndex        =   10
          TabPanelIndex   =   1
+         TabStop         =   True
          Text            =   "Subtitle:"
          TextAlign       =   2
          TextColor       =   &h000000
@@ -386,6 +387,7 @@ Begin Window PlayerWindow
       Width           =   600
    End
    Begin Timer PlayerTimer
+      Enabled         =   True
       Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
@@ -394,8 +396,11 @@ Begin Window PlayerWindow
       Mode            =   2
       Period          =   500
       Scope           =   0
+      TabIndex        =   2
       TabPanelIndex   =   0
+      TabStop         =   True
       Top             =   366
+      Visible         =   True
       Width           =   32
    End
 End
@@ -416,13 +421,13 @@ End
 
 
 	#tag Method, Flags = &h21
-		Private Sub LoadMedia(Media As libvlc.VLCMedium)
+		Private Sub LoadMedia(Media As libvlc.Medium)
 		  'Player.CaptureKeyboard = False
 		  'Player.CaptureMouse = False
 		  If Media = Nil Then Return
 		  Player.Media = Media
-		  If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
-		    Dim url As String = Player.MetaData.Value(libvlc.MetaDataType.ArtworkURL)
+		  If Player.MetaData.HasKey(libvlc.Meta.MetaDataType.ArtworkURL) Then
+		    Dim url As String = Player.MetaData.Value(libvlc.Meta.MetaDataType.ArtworkURL)
 		    Dim data As MemoryBlock
 		    Select Case Left(url, 5)
 		      'Case "http:"
@@ -441,34 +446,34 @@ End
 		  Else
 		    mArtwork = Nil
 		  End If
-		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
+		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
 		  MetaDataList.DeleteAllRows
-		  MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.MetaDataType.Actors, "Not set"))
-		  MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.MetaDataType.Album, "Not set"))
-		  MetaDataList.AddRow("AlbumArtist", Player.MetaData.Lookup(libvlc.MetaDataType.AlbumArtist, "Not set"))
-		  MetaDataList.AddRow("Artist", Player.MetaData.Lookup(libvlc.MetaDataType.Artist, "Not set"))
-		  MetaDataList.AddRow("ArtworkURL", Player.MetaData.Lookup(libvlc.MetaDataType.ArtworkURL, "Not set"))
-		  MetaDataList.AddRow("Copyright", Player.MetaData.Lookup(libvlc.MetaDataType.Copyright, "Not set"))
-		  MetaDataList.AddRow("Date", Player.MetaData.Lookup(libvlc.MetaDataType.Date, "Not set"))
-		  MetaDataList.AddRow("Description", Player.MetaData.Lookup(libvlc.MetaDataType.Description, "Not set"))
-		  MetaDataList.AddRow("Director", Player.MetaData.Lookup(libvlc.MetaDataType.Director, "Not set"))
-		  MetaDataList.AddRow("DiscNumber", Player.MetaData.Lookup(libvlc.MetaDataType.DiscNumber, "Not set"))
-		  MetaDataList.AddRow("DiscTotal", Player.MetaData.Lookup(libvlc.MetaDataType.DiscTotal, "Not set"))
-		  MetaDataList.AddRow("EncodedBy", Player.MetaData.Lookup(libvlc.MetaDataType.EncodedBy, "Not set"))
-		  MetaDataList.AddRow("Episode", Player.MetaData.Lookup(libvlc.MetaDataType.Episode, "Not set"))
-		  MetaDataList.AddRow("Genre", Player.MetaData.Lookup(libvlc.MetaDataType.Genre, "Not set"))
-		  MetaDataList.AddRow("Language", Player.MetaData.Lookup(libvlc.MetaDataType.Language, "Not set"))
-		  MetaDataList.AddRow("NowPlaying", Player.MetaData.Lookup(libvlc.MetaDataType.NowPlaying, "Not set"))
-		  MetaDataList.AddRow("Publisher", Player.MetaData.Lookup(libvlc.MetaDataType.Publisher, "Not set"))
-		  MetaDataList.AddRow("Rating", Player.MetaData.Lookup(libvlc.MetaDataType.Rating, "Not set"))
-		  MetaDataList.AddRow("Season", Player.MetaData.Lookup(libvlc.MetaDataType.Season, "Not set"))
-		  MetaDataList.AddRow("Setting", Player.MetaData.Lookup(libvlc.MetaDataType.Setting, "Not set"))
-		  MetaDataList.AddRow("ShowName", Player.MetaData.Lookup(libvlc.MetaDataType.ShowName, "Not set"))
-		  MetaDataList.AddRow("Title", Player.MetaData.Lookup(libvlc.MetaDataType.Title, "Not set"))
-		  MetaDataList.AddRow("TrackID", Player.MetaData.Lookup(libvlc.MetaDataType.TrackID, "Not set"))
-		  MetaDataList.AddRow("TrackNumber", Player.MetaData.Lookup(libvlc.MetaDataType.TrackNumber, "Not set"))
-		  MetaDataList.AddRow("TrackTotal", Player.MetaData.Lookup(libvlc.MetaDataType.TrackTotal, "Not set"))
-		  MetaDataList.AddRow("URL", Player.MetaData.Lookup(libvlc.MetaDataType.URL, "Not set"))
+		  MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Actors, "Not set"))
+		  MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Album, "Not set"))
+		  MetaDataList.AddRow("AlbumArtist", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.AlbumArtist, "Not set"))
+		  MetaDataList.AddRow("Artist", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Artist, "Not set"))
+		  MetaDataList.AddRow("ArtworkURL", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.ArtworkURL, "Not set"))
+		  MetaDataList.AddRow("Copyright", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Copyright, "Not set"))
+		  MetaDataList.AddRow("Date", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Date, "Not set"))
+		  MetaDataList.AddRow("Description", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Description, "Not set"))
+		  MetaDataList.AddRow("Director", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Director, "Not set"))
+		  MetaDataList.AddRow("DiscNumber", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.DiscNumber, "Not set"))
+		  MetaDataList.AddRow("DiscTotal", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.DiscTotal, "Not set"))
+		  MetaDataList.AddRow("EncodedBy", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.EncodedBy, "Not set"))
+		  MetaDataList.AddRow("Episode", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Episode, "Not set"))
+		  MetaDataList.AddRow("Genre", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Genre, "Not set"))
+		  MetaDataList.AddRow("Language", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Language, "Not set"))
+		  MetaDataList.AddRow("NowPlaying", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.NowPlaying, "Not set"))
+		  MetaDataList.AddRow("Publisher", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Publisher, "Not set"))
+		  MetaDataList.AddRow("Rating", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Rating, "Not set"))
+		  MetaDataList.AddRow("Season", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Season, "Not set"))
+		  MetaDataList.AddRow("Setting", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Setting, "Not set"))
+		  MetaDataList.AddRow("ShowName", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.ShowName, "Not set"))
+		  MetaDataList.AddRow("Title", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, "Not set"))
+		  MetaDataList.AddRow("TrackID", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.TrackID, "Not set"))
+		  MetaDataList.AddRow("TrackNumber", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.TrackNumber, "Not set"))
+		  MetaDataList.AddRow("TrackTotal", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.TrackTotal, "Not set"))
+		  MetaDataList.AddRow("URL", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.URL, "Not set"))
 		  Player.Invalidate(False)
 		  
 		End Sub
@@ -497,7 +502,7 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Pause
-		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
+		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -505,7 +510,7 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Stop
-		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
+		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -520,9 +525,9 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Play
-		  Dim m As libvlc.VLCMedium = Player.Media
+		  Dim m As libvlc.Medium = Player.Media
 		  Dim url As String = m.URL
-		  Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, url) + "'"
+		  Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "'"
 		  PlayerTimer.Mode = Timer.ModeMultiple
 		End Sub
 	#tag EndEvent
@@ -539,7 +544,7 @@ End
 #tag Events LoadBtn
 	#tag Event
 		Sub Action()
-		  Dim m As libvlc.VLCMedium = OpenMedia.Load(Player.Media)
+		  Dim m As libvlc.Medium = OpenMedia.Load(Player.Media)
 		  If m <> Nil Then LoadMedia(m)
 		End Sub
 	#tag EndEvent
@@ -548,7 +553,7 @@ End
 	#tag Event
 		Sub Paint(g As Graphics)
 		  Dim original As Picture
-		  If mArtwork <> Nil Then original = mArtwork Else original = standby
+		  If mArtwork <> Nil Then original = mArtwork Else original = New Picture(g.Width, g.Height)
 		  
 		  Dim wRatio, hRatio, ratio As Double
 		  ratio = 1.0
@@ -606,10 +611,10 @@ End
 		    If e <> Nil Then Player.Equalizer = e
 		  Case "Load file"
 		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
-		    If f <> Nil Then LoadMedia(New libvlc.VLCMedium(f))
+		    If f <> Nil Then LoadMedia(f)
 		  Case "Load directory/disc"
 		    Dim f As FolderItem = SelectFolder()
-		    If f <> Nil Then LoadMedia(New libvlc.VLCMedium(f))
+		    If f <> Nil Then LoadMedia(f)
 		  End Select
 		  Return True
 		End Function
@@ -646,7 +651,7 @@ End
 		    If Not SubtitleTracks.Enabled And c > 0 Then
 		      SubtitleTracks.DeleteAllRows
 		      If c > 0 Then
-		        Dim lst As libvlc.TrackList = Player.TruePlayer.Subtitles
+		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.Subtitles
 		        For i As Integer = 0 To c - 1
 		          SubtitleTracks.AddRow(lst.Name(i))
 		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = lst.ID(i)

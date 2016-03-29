@@ -1,6 +1,6 @@
 #tag Class
 Protected Class MediaTrackList
-Inherits libvlc.LinkedList
+Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h0
 		Function AudioTrack(Index As Integer) As Ptr
 		  If Me.Type(Index) = libvlc.TrackType.Audio Then Return Me.Item(Index).libvlc_media_track_t(0).TrackPtr
@@ -22,7 +22,7 @@ Inherits libvlc.LinkedList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(Medium As libvlc.VLCMedium)
+		Sub Constructor(Medium As libvlc.Medium)
 		  If Not Medium.IsParsed Then Medium.Parse()
 		  Dim p As Ptr
 		  mCount = libvlc_media_tracks_get(Medium.Handle, p)
@@ -92,7 +92,7 @@ Inherits libvlc.LinkedList
 
 
 	#tag Note, Name = About this class
-		This class represents an array of VLC elementary stream description structures for a given instance of VLCMedium (i.e. one media file or URL)
+		This class represents an array of VLC elementary stream description structures for a given instance of Medium (i.e. one media file or URL)
 	#tag EndNote
 
 

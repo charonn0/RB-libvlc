@@ -1,6 +1,7 @@
 #tag Class
-Protected Class VLCMediaPlayer
+Class VLCMediaPlayer
 Inherits Canvas
+	#tag CompatibilityFlags = TargetHasGUI
 	#tag Event
 		Function DragEnter(obj As DragItem, action As Integer) As Boolean
 		  ' This event is not raised
@@ -70,6 +71,7 @@ Inherits Canvas
 	#tag Event
 		Sub Open()
 		  mPlayer = New VLCPlayer
+		  AddHandler mPlayer.VLCLog, WeakAddressOf VLCLogHandler
 		  mPlayer.EmbedWithin(Me)
 		  RaiseEvent Open()
 		End Sub
@@ -77,7 +79,7 @@ Inherits Canvas
 
 
 	#tag Method, Flags = &h0
-		Function MetaData() As libvlc.MetaData
+		Function MetaData() As libvlc.Meta.MetaData
 		  Return mPlayer.MetaData
 		End Function
 	#tag EndMethod
@@ -104,6 +106,14 @@ Inherits Canvas
 		Function TruePlayer() As libvlc.VLCPlayer
 		  Return mPlayer
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub VLCLogHandler(Sender As libvlc.VLCPlayer, Level As Integer, Context As Ptr, Format As String, Args As String)
+		  #pragma Unused Sender
+		  #pragma Unused Context
+		  System.DebugLog("libvlc: severity: " + Str(Level) + " " + Format + " (" + Args + ")")
+		End Sub
 	#tag EndMethod
 
 
@@ -172,7 +182,7 @@ Inherits Canvas
 			    If b Then Stop
 			    TruePlayer.EmbedWithin(w)
 			    TruePlayer.Fullscreen = True
-			    If b Then 
+			    If b Then
 			      Position = pos
 			      Play
 			    End If
@@ -181,7 +191,7 @@ Inherits Canvas
 			    pos = Position
 			    If b Then Stop
 			    TruePlayer.EmbedWithin(Me)
-			    If b Then 
+			    If b Then
 			      Position = pos
 			      Play
 			    End If
@@ -225,7 +235,7 @@ Inherits Canvas
 			  mPlayer.Media = value
 			End Set
 		#tag EndSetter
-		Media As libvlc.VLCMedium
+		Media As libvlc.Medium
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1

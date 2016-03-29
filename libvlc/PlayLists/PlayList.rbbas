@@ -1,13 +1,8 @@
 #tag Class
 Protected Class PlayList
+Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
-		Sub Append(Medium As FolderItem)
-		  Me.Append(Medium.URLPath)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub Append(Medium As libvlc.VLCMedium)
+		Sub Append(Medium As libvlc.Medium)
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
@@ -18,16 +13,9 @@ Protected Class PlayList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Append(Medium As String)
-		  Dim m As New VLCMedium(Medium)
-		  Me.Append(m)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor()
-		  mInstance = VLCInstance.GetInstance
-		  mList = libvlc_media_list_new(mInstance.Handle)
+		  Super.Constructor()
+		  mList = libvlc_media_list_new(Me.Instance)
 		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
 		End Sub
 	#tag EndMethod
@@ -47,11 +35,30 @@ Protected Class PlayList
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function CurrentItem() As libvlc.Medium
+		  If mList <> Nil Then
+		    Dim p As Ptr = libvlc_media_list_media(mList)
+		    If p <> Nil Then Return p
+		  End If
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub CurrentItem(Assigns NewMedium As libvlc.Medium)
+		  Dim i As Integer = Me.IndexOf(NewMedium)
+		  If i > -1 Then
+		    libvlc_media_list_set_media(mList, Me.Item(i).Handle)
+		  Else
+		    Raise New VLCException("That medium is not in the list.")
+		  End If
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mList <> Nil Then libvlc_media_list_release(mList)
 		  mList = Nil
-		  mInstance = Nil
 		End Sub
 	#tag EndMethod
 
@@ -62,14 +69,7 @@ Protected Class PlayList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function IndexOf(Medium As FolderItem) As Integer
-		  Dim m As New VLCMedium(Medium)
-		  Return Me.IndexOf(m)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function IndexOf(Medium As libvlc.VLCMedium) As Integer
+		Function IndexOf(Medium As libvlc.Medium) As Integer
 		  If mList = Nil Then Return -1
 		  Dim ret As Integer
 		  Me.Lock
@@ -84,21 +84,7 @@ Protected Class PlayList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function IndexOf(Medium As String) As Integer
-		  Dim m As New VLCMedium(Medium)
-		  Return Me.IndexOf(m)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Insert(Index As Integer, Medium As FolderItem)
-		  Dim m As New VLCMedium(Medium)
-		  Me.Insert(Index, m)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub Insert(Index As Integer, Medium As libvlc.VLCMedium)
+		Sub Insert(Index As Integer, Medium As libvlc.Medium)
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock
 		  Try
@@ -110,16 +96,9 @@ Protected Class PlayList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Insert(Index As Integer, Medium As String)
-		  Dim m As New VLCMedium(Medium)
-		  Me.Insert(Index, m)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Item(Index As Integer) As libvlc.VLCMedium
+		Function Item(Index As Integer) As libvlc.Medium
 		  If mList = Nil Then Raise New OutOfBoundsException
-		  Dim ret As VLCMedium
+		  Dim ret As Medium
 		  Me.Lock
 		  Try
 		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
@@ -132,45 +111,23 @@ Protected Class PlayList
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function ItemPath(Index As Integer) As FolderItem
-		  Dim m As VLCMedium = Me.Item(Index)
-		  If m = Nil Then Return Nil
-		  Return m.MediaFile
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function ItemURL(Index As Integer) As String
-		  Dim m As VLCMedium = Me.Item(Index)
-		  Return m.URL
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h1
 		Protected Sub Lock()
 		  If mList <> Nil Then libvlc_media_list_lock(mList) Else Raise New IllegalLockingException
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function Media() As libvlc.VLCMedium
-		  If mList <> Nil Then
-		    Dim p As Ptr = libvlc_media_list_media(mList)
-		    If p <> Nil Then Return p
-		  End If
+	#tag Method, Flags = &h0
+		Function Operator_Compare(OtherInstance As libvlc.PlayLists.PlayList) As Integer
+		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
+		  If i = 0 Then i = Sign(Integer(mList) - Integer(OtherInstance.mList))
+		  Return i
 		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub Media(Assigns NewMedium As libvlc.VLCMedium)
-		  If mList <> Nil Then libvlc_media_list_set_media(mList, NewMedium.Handle)
-		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromPtr As Ptr)
-		  mInstance = VLCInstance.GetInstance()
+		  Super.Constructor()
 		  mList = FromPtr
 		End Sub
 	#tag EndMethod
@@ -195,13 +152,9 @@ Protected Class PlayList
 
 
 	#tag Note, Name = About this class
-		This class represents an array of VLCMedium objects (i.e., a list of media to be played in a particular order.)
+		This class represents an array of Medium objects (i.e., a list of media to be played in a particular order.)
 	#tag EndNote
 
-
-	#tag Property, Flags = &h1
-		Protected mInstance As VLCInstance
-	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mList As Ptr
@@ -219,6 +172,13 @@ Protected Class PlayList
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="AppName"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -231,6 +191,12 @@ Protected Class PlayList
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Logging"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
@@ -255,6 +221,13 @@ Protected Class PlayList
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UserAgent"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="libvlc.VLCInstance"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

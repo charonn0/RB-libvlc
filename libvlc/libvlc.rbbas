@@ -322,11 +322,19 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_get_hwnd Lib "libvlc" (Player As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_get_length Lib "libvlc" (Player As Ptr) As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_get_media Lib "libvlc" (Player As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_get_nsobject Lib "libvlc" (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -339,6 +347,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_get_time Lib "libvlc" (Player As Ptr) As Int64
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_get_xwindow Lib "libvlc" (Player As Ptr) As UInt32
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
