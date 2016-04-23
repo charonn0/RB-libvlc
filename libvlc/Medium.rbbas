@@ -10,8 +10,8 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Constructor(AddRef As libvlc.Medium)
+	#tag Method, Flags = &h1
+		Protected Sub Constructor(AddRef As libvlc.Medium)
 		  ' Duplicates the Medium. The duplicate is independent of the original.
 		  
 		  Super.Constructor(AddRef)
