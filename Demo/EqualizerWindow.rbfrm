@@ -926,11 +926,11 @@ End
 		    Dim c As UInt32 = mEqualizer.GetBandCount
 		    For i As Integer = 0 To c - 1
 		      BandFreq(i).Visible = True
-		      BandFreq(i).Value = mEqualizer.Amplification(i)
+		      BandFreq(i).Value = mEqualizer.Amplification(i) * -1
 		      BandName(i).Visible = True
 		      BandName(i).Text = FormatHertz(mEqualizer.GetBandFrequency(i))
 		    Next
-		    PreAmp.Value = mEqualizer.PreAmplification
+		    PreAmp.Value = mEqualizer.PreAmplification * -1
 		    Dim nm As String = mEqualizer.Name
 		    If nm <> "" Then
 		      For i As Integer = 0 To Presets.ListCount - 1
@@ -973,14 +973,14 @@ End
 #tag Events PreAmp
 	#tag Event
 		Sub ValueChanged()
-		  If Not mLock Then mEqualizer.PreAmplification = Me.Value
+		  If Not mLock Then mEqualizer.PreAmplification = Me.Value * -1
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events BandFreq
 	#tag Event
-		Sub ValueChanged()
-		  If Not mLock Then mEqualizer.Amplification(index) = Me.Value
+		Sub ValueChanged(index as Integer)
+		  If Not mLock Then mEqualizer.Amplification(index) = Me.Value * -1
 		End Sub
 	#tag EndEvent
 #tag EndEvents
