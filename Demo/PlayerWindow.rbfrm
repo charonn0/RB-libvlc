@@ -553,7 +553,7 @@ End
 	#tag Event
 		Sub Paint(g As Graphics)
 		  Dim original As Picture
-		  If mArtwork <> Nil Then original = mArtwork Else original = New Picture(g.Width, g.Height)
+		  If mArtwork <> Nil Then original = mArtwork Else original = movielogo
 		  
 		  Dim wRatio, hRatio, ratio As Double
 		  ratio = 1.0
