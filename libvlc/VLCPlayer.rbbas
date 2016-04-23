@@ -159,16 +159,27 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Media() As libvlc.Medium
-		  If mPlayer <> Nil Then
-		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
-		    If p <> Nil Then Return p
+		  If mMedium = Nil Then
+		    If mPlayer <> Nil Then
+		      Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
+		      If p <> Nil Then mMedium = p
+		    End If
 		  End If
+		  Return mMedium
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Media(Assigns NewMedium As libvlc.Medium)
-		  If mPlayer <> Nil Then libvlc_media_player_set_media(mPlayer, NewMedium.Handle)
+		  If mPlayer <> Nil Then
+		    Me.Stop()
+		    If NewMedium <> Nil Then
+		      libvlc_media_player_set_media(mPlayer, NewMedium.Handle)
+		    Else
+		      libvlc_media_player_set_media(mPlayer, Nil)
+		    End If
+		    mMedium = NewMedium
+		  End If
 		End Sub
 	#tag EndMethod
 
@@ -440,6 +451,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mMedium As libvlc.Medium
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
