@@ -879,6 +879,47 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h21
+		Private Function FormatHertz(hertz As UInt64, precision As Integer = 2) As String
+		  //Converts raw Hertz into SI formatted strings. 1KHz = 1000 Hertz.
+		  //Optionally pass an integer representing the number of decimal places to return. The default is two decimal places. You may specify
+		  //between 0 and 16 decimal places. Specifying more than 16 will append extra zeros to make up the length. Passing 0
+		  //shows no decimal places and no decimal point.
+		  
+		  Const kilo = 1000
+		  Dim mega As UInt64 = 1000 * kilo
+		  Dim giga As UInt64 = 1000 * mega
+		  Dim tera As UInt64 = 1000 * giga
+		  
+		  Dim suffix, precisionZeros As String
+		  Dim strHertz As Double
+		  
+		  If hertz < kilo Then
+		    strHertz = hertz
+		    suffix = "Hz"
+		  ElseIf hertz >= kilo And hertz < mega Then
+		    strHertz = hertz / kilo
+		    suffix = "KHz"
+		  ElseIf hertz >= mega And hertz < giga Then
+		    strHertz = hertz / mega
+		    suffix = "MHz"
+		  ElseIf hertz >= giga And hertz < tera Then
+		    strHertz = hertz / giga
+		    suffix = "GHz"
+		  ElseIf hertz > tera Then
+		    strHertz = hertz / tera
+		    suffix = "THz"
+		  End If
+		  
+		  While precisionZeros.Len < precision
+		    precisionZeros = precisionZeros + "0"
+		  Wend
+		  If precisionZeros.Trim <> "" Then precisionZeros = "." + precisionZeros
+		  Return Format(strHertz, "###0" + precisionZeros) + " " + suffix
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub SetSliders()
 		  mLock = True
 		  Try
@@ -887,7 +928,7 @@ End
 		      BandFreq(i).Visible = True
 		      BandFreq(i).Value = mEqualizer.Amplification(i)
 		      BandName(i).Visible = True
-		      BandName(i).Text = Format(mEqualizer.GetBandFrequency(i), "#######0.0#") + "Hz"
+		      BandName(i).Text = FormatHertz(mEqualizer.GetBandFrequency(i))
 		    Next
 		    PreAmp.Value = mEqualizer.PreAmplification
 		    Dim nm As String = mEqualizer.Name
