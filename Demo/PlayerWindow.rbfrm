@@ -142,14 +142,14 @@ Begin Window PlayerWindow
       LockLeft        =   True
       LockRight       =   True
       LockTop         =   False
-      Maximum         =   100
+      Maximum         =   10000
       Minimum         =   0
       PageStep        =   1
       Scope           =   0
       TabIndex        =   13
       TabPanelIndex   =   0
       TabStop         =   True
-      TickStyle       =   2
+      TickStyle       =   0
       Top             =   326
       Value           =   0
       Visible         =   True
@@ -623,7 +623,7 @@ End
 		  Else
 		    mLock = True
 		    Try
-		      Slider1.Value = Player.Position
+		      Slider1.Value = Player.Position * 100
 		      VolControl.Value = Player.Volume
 		    Finally
 		      mLock = False
@@ -694,7 +694,9 @@ End
 #tag Events Slider1
 	#tag Event
 		Sub ValueChanged()
-		  If Not mLock Then Player.Position = Me.Value
+		  If Not mLock Then 
+		    Player.Position = Me.Value \ 100
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
