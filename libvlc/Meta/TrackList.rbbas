@@ -10,13 +10,13 @@ Inherits libvlc.Meta.LinkedList
 
 	#tag Method, Flags = &h0
 		Function ID(Index As Integer) As Integer
-		  Return Me.Item(Index).libvlc_track_description_t(0).ID
+		  Return Me.Item(Index).libvlc_track_description_t.ID
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Name(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_track_description_t(0).name
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_track_description_t.name
 		  If mb <> Nil Then Return mb.CString(0)
 		End Function
 	#tag EndMethod
