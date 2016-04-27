@@ -49,7 +49,7 @@ Protected Class MetaData
 
 	#tag Note, Name = About this class
 		This class provides a Dictionary-like interface for reading/editing the metadata embedded within
-		a media file (e.g. IDv3 tags in an MP3). Refer to the libvlc.Meta.MetaDataType enum for a list of
+		a media file (e.g. IDv3 tags in an MP3). Refer to the libvlc.MetaDataType enum for a list of
 		possible meta data types.
 		
 		If you edit any tags then you MUST call the Flush method to save your changes.
