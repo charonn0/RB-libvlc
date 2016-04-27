@@ -7,7 +7,7 @@ Begin Window PlayerWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   4.43e+2
+   Height          =   5.26e+2
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -24,334 +24,6 @@ Begin Window PlayerWindow
    Title           =   "*"
    Visible         =   True
    Width           =   6.18e+2
-   Begin TabPanel TabPanel1
-      AutoDeactivate  =   True
-      Bold            =   ""
-      Enabled         =   True
-      Height          =   118
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   0
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   False
-      Panels          =   ""
-      Scope           =   0
-      SmallTabs       =   ""
-      TabDefinition   =   "Controls\rMetadata"
-      TabIndex        =   7
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   325
-      Underline       =   ""
-      Value           =   0
-      Visible         =   True
-      Width           =   618
-      Begin Listbox MetaDataList
-         AutoDeactivate  =   True
-         AutoHideScrollbars=   True
-         Bold            =   ""
-         Border          =   True
-         ColumnCount     =   2
-         ColumnsResizable=   True
-         ColumnWidths    =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         DefaultRowHeight=   -1
-         Enabled         =   True
-         EnableDrag      =   ""
-         EnableDragReorder=   ""
-         GridLinesHorizontal=   0
-         GridLinesVertical=   0
-         HasHeading      =   True
-         HeadingIndex    =   -1
-         Height          =   78
-         HelpTag         =   ""
-         Hierarchical    =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         InitialValue    =   "Key	Value"
-         Italic          =   ""
-         Left            =   8
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         RequiresSelection=   ""
-         Scope           =   0
-         ScrollbarHorizontal=   ""
-         ScrollBarVertical=   True
-         SelectionType   =   0
-         TabIndex        =   0
-         TabPanelIndex   =   2
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   356
-         Underline       =   ""
-         UseFocusRing    =   True
-         Visible         =   True
-         Width           =   602
-         _ScrollWidth    =   -1
-      End
-      Begin Slider VolControl
-         AutoDeactivate  =   True
-         Enabled         =   False
-         Height          =   23
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Left            =   416
-         LineStep        =   1
-         LiveScroll      =   True
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   False
-         Maximum         =   100
-         Minimum         =   0
-         PageStep        =   5
-         Scope           =   0
-         TabIndex        =   6
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TickStyle       =   1
-         Top             =   356
-         Value           =   100
-         Visible         =   True
-         Width           =   195
-      End
-      Begin PushButton PauseButton
-         AutoDeactivate  =   True
-         Bold            =   ""
-         ButtonStyle     =   0
-         Cancel          =   ""
-         Caption         =   "Pause"
-         Default         =   ""
-         Enabled         =   False
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   11
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   5
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   384
-         Underline       =   ""
-         Visible         =   True
-         Width           =   80
-      End
-      Begin PushButton StopButton
-         AutoDeactivate  =   True
-         Bold            =   ""
-         ButtonStyle     =   0
-         Cancel          =   ""
-         Caption         =   "Stop"
-         Default         =   ""
-         Enabled         =   False
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   178
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   3
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   384
-         Underline       =   ""
-         Visible         =   True
-         Width           =   80
-      End
-      Begin Slider Slider1
-         AutoDeactivate  =   True
-         Enabled         =   False
-         Height          =   23
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Left            =   11
-         LineStep        =   1
-         LiveScroll      =   True
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   False
-         Maximum         =   100
-         Minimum         =   0
-         PageStep        =   1
-         Scope           =   0
-         TabIndex        =   1
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TickStyle       =   2
-         Top             =   356
-         Value           =   0
-         Visible         =   True
-         Width           =   396
-      End
-      Begin PushButton PlayButton
-         AutoDeactivate  =   True
-         Bold            =   ""
-         ButtonStyle     =   0
-         Cancel          =   ""
-         Caption         =   "Play"
-         Default         =   ""
-         Enabled         =   False
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   94
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   9
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   384
-         Underline       =   ""
-         Visible         =   True
-         Width           =   80
-      End
-      Begin Label Label1
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   270
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   True
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   10
-         TabPanelIndex   =   1
-         TabStop         =   True
-         Text            =   "Subtitle:"
-         TextAlign       =   2
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   384
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   55
-      End
-      Begin ComboBox SubtitleTracks
-         AutoComplete    =   False
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   False
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         InitialValue    =   ""
-         Italic          =   ""
-         Left            =   329
-         ListIndex       =   0
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   11
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   384
-         Underline       =   ""
-         UseFocusRing    =   True
-         Visible         =   True
-         Width           =   166
-      End
-      Begin PushButton LoadBtn
-         AutoDeactivate  =   True
-         Bold            =   ""
-         ButtonStyle     =   0
-         Cancel          =   ""
-         Caption         =   "Load"
-         Default         =   ""
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   11
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   12
-         TabPanelIndex   =   1
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   410
-         Underline       =   ""
-         Visible         =   True
-         Width           =   80
-      End
-   End
    Begin VLCMediaPlayer Player
       AcceptFocus     =   ""
       AcceptTabs      =   ""
@@ -363,7 +35,7 @@ Begin Window PlayerWindow
       Enabled         =   False
       EraseBackground =   False
       Fullscreen      =   ""
-      Height          =   300
+      Height          =   296
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -387,21 +59,472 @@ Begin Window PlayerWindow
       Width           =   600
    End
    Begin Timer PlayerTimer
-      Enabled         =   True
       Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   877
+      Left            =   643
       LockedInPosition=   False
       Mode            =   2
       Period          =   500
       Scope           =   0
-      TabIndex        =   2
+      TabPanelIndex   =   0
+      Top             =   282
+      Width           =   32
+   End
+   Begin Slider VolControl
+      AutoDeactivate  =   True
+      Enabled         =   False
+      Height          =   23
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   416
+      LineStep        =   1
+      LiveScroll      =   True
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      Maximum         =   100
+      Minimum         =   0
+      PageStep        =   5
+      Scope           =   0
+      TabIndex        =   10
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   366
+      TickStyle       =   1
+      Top             =   326
+      Value           =   100
       Visible         =   True
-      Width           =   32
+      Width           =   195
+   End
+   Begin PushButton PauseButton
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Pause"
+      Default         =   ""
+      Enabled         =   False
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   11
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   11
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   354
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin PushButton StopButton
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Stop"
+      Default         =   ""
+      Enabled         =   False
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   178
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   12
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   354
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin Slider Slider1
+      AutoDeactivate  =   True
+      Enabled         =   False
+      Height          =   23
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   11
+      LineStep        =   1
+      LiveScroll      =   True
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   False
+      Maximum         =   100
+      Minimum         =   0
+      PageStep        =   1
+      Scope           =   0
+      TabIndex        =   13
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TickStyle       =   2
+      Top             =   326
+      Value           =   0
+      Visible         =   True
+      Width           =   396
+   End
+   Begin PushButton PlayButton
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Play"
+      Default         =   ""
+      Enabled         =   False
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   94
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   14
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   354
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin Label Label1
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   103
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   15
+      TabPanelIndex   =   0
+      Text            =   "Subtitle:"
+      TextAlign       =   2
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   382
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   55
+   End
+   Begin ComboBox SubtitleTracks
+      AutoComplete    =   False
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   False
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      InitialValue    =   ""
+      Italic          =   ""
+      Left            =   162
+      ListIndex       =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   16
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   382
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   True
+      Width           =   166
+   End
+   Begin PushButton LoadBtn
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Load"
+      Default         =   ""
+      Enabled         =   True
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   11
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   17
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   380
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin GroupBox GroupBox1
+      AutoDeactivate  =   True
+      Bold            =   ""
+      Caption         =   "Metadata"
+      Enabled         =   True
+      Height          =   100
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   11
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   18
+      TabPanelIndex   =   0
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   414
+      Underline       =   ""
+      Visible         =   True
+      Width           =   587
+      Begin Listbox MetaDataList
+         AutoDeactivate  =   True
+         AutoHideScrollbars=   True
+         Bold            =   ""
+         Border          =   True
+         ColumnCount     =   2
+         ColumnsResizable=   True
+         ColumnWidths    =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         DefaultRowHeight=   -1
+         Enabled         =   True
+         EnableDrag      =   ""
+         EnableDragReorder=   ""
+         GridLinesHorizontal=   0
+         GridLinesVertical=   0
+         HasHeading      =   True
+         HeadingIndex    =   -1
+         Height          =   74
+         HelpTag         =   ""
+         Hierarchical    =   ""
+         Index           =   -2147483648
+         InitialParent   =   "GroupBox1"
+         InitialValue    =   "Key	Value"
+         Italic          =   ""
+         Left            =   20
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         RequiresSelection=   ""
+         Scope           =   0
+         ScrollbarHorizontal=   ""
+         ScrollBarVertical=   True
+         SelectionType   =   0
+         TabIndex        =   0
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   432
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   568
+         _ScrollWidth    =   -1
+      End
+   End
+   Begin CheckBox IsMuted
+      AutoDeactivate  =   True
+      Bold            =   ""
+      Caption         =   "Muted"
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   416
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   False
+      LockRight       =   True
+      LockTop         =   False
+      Scope           =   0
+      State           =   0
+      TabIndex        =   20
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   353
+      Underline       =   ""
+      Value           =   False
+      Visible         =   True
+      Width           =   100
+   End
+   Begin Label Label2
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   846
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   21
+      TabPanelIndex   =   0
+      Text            =   "Untitled"
+      TextAlign       =   0
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   205
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   208
+   End
+   Begin Label Label3
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   340
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   22
+      TabPanelIndex   =   0
+      Text            =   "Video track:"
+      TextAlign       =   2
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   381
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   93
+   End
+   Begin ComboBox VideoTracks
+      AutoComplete    =   False
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   False
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialValue    =   ""
+      Italic          =   ""
+      Left            =   439
+      ListIndex       =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   23
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   380
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   True
+      Width           =   172
    End
 End
 #tag EndWindow
@@ -446,7 +569,7 @@ End
 		  Else
 		    mArtwork = Nil
 		  End If
-		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		  'Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
 		  MetaDataList.DeleteAllRows
 		  MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Actors, "Not set"))
 		  MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Album, "Not set"))
@@ -491,64 +614,6 @@ End
 
 #tag EndWindowCode
 
-#tag Events VolControl
-	#tag Event
-		Sub ValueChanged()
-		  If Not mLock Then Player.Volume = Me.Value
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events PauseButton
-	#tag Event
-		Sub Action()
-		  Player.Pause
-		  Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events StopButton
-	#tag Event
-		Sub Action()
-		  Player.Stop
-		  Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events Slider1
-	#tag Event
-		Sub ValueChanged()
-		  If Not mLock Then Player.Position = Me.Value
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events PlayButton
-	#tag Event
-		Sub Action()
-		  Player.Play
-		  Dim m As libvlc.Medium = Player.Media
-		  Dim url As String = m.URL
-		  Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "'"
-		  PlayerTimer.Mode = Timer.ModeMultiple
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events SubtitleTracks
-	#tag Event
-		Sub Change()
-		  If Me.RowTag(Me.ListIndex) <> Nil Then
-		    Player.TruePlayer.SubtitleIndex = Me.RowTag(Me.ListIndex).Int32Value
-		  End If
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events LoadBtn
-	#tag Event
-		Sub Action()
-		  Dim m As libvlc.Medium = OpenMedia.Load(Player.Media)
-		  If m <> Nil Then LoadMedia(m)
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events Player
 	#tag Event
 		Sub Paint(g As Graphics)
@@ -624,8 +689,36 @@ End
 	#tag Event
 		Sub Action()
 		  If Player = Nil Then Return
+		  Label2.Text = Str(Player.TruePlayer.VideoTrackCount)
 		  Dim url As String
 		  If Player.Media <> Nil Then url = Player.Media.URL
+		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
+		  Dim wndttl As String
+		  Select Case Player.TruePlayer.CurrentState
+		  Case libvlc.PlayerState.BUFFERING
+		    wndttl = "(buffering)"
+		  Case libvlc.PlayerState.ENDED
+		    wndttl = "(finished)"
+		  Case libvlc.PlayerState.ERROR
+		    wndttl = "(error)"
+		  Case libvlc.PlayerState.IDLE
+		    wndttl = "(idle)"
+		  Case libvlc.PlayerState.OPENING
+		    wndttl = "(opening)"
+		  Case libvlc.PlayerState.PAUSED
+		    wndttl = "(paused)"
+		  Case libvlc.PlayerState.PLAYING
+		    wndttl = "(playing)"
+		  Case libvlc.PlayerState.STOPPING
+		    wndttl = "(stopping)"
+		  End Select
+		  
+		  If Player.MetaData <> Nil Then 
+		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "' " + wndttl
+		  Else
+		    Self.Title = "libvlc demo"
+		  End If
+		  
 		  If url = "" Then
 		    PauseButton.Enabled = False
 		    PlayButton.Enabled = False
@@ -662,6 +755,103 @@ End
 		      End If
 		    End If
 		    
+		    c = Player.TruePlayer.VideoTrackCount
+		    If Not VideoTracks.Enabled And c > 0 Then
+		      VideoTracks.DeleteAllRows
+		      If c > 0 Then
+		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.VideoTracks
+		        For i As Integer = 0 To c - 1
+		          VideoTracks.AddRow(lst.Name(i))
+		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = lst.ID(i)
+		        Next
+		        VideoTracks.Enabled = True
+		      Else
+		        VideoTracks.Enabled = False
+		      End If
+		    End If
+		    
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events VolControl
+	#tag Event
+		Sub ValueChanged()
+		  If Not mLock Then Player.Volume = Me.Value
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PauseButton
+	#tag Event
+		Sub Action()
+		  Player.Pause
+		  'Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events StopButton
+	#tag Event
+		Sub Action()
+		  Player.Stop
+		  'Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Slider1
+	#tag Event
+		Sub ValueChanged()
+		  If Not mLock Then Player.Position = Me.Value
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PlayButton
+	#tag Event
+		Sub Action()
+		  Player.Play
+		  'Dim m As libvlc.Medium = Player.Media
+		  'Dim url As String = m.URL
+		  'Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "'"
+		  PlayerTimer.Mode = Timer.ModeMultiple
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events SubtitleTracks
+	#tag Event
+		Sub Change()
+		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		    Try
+		      Player.TruePlayer.SubtitleIndex = Me.RowTag(Me.ListIndex).Int32Value
+		    Catch err As libvlc.VLCException
+		      MsgBox(err.Message)
+		    End Try
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events LoadBtn
+	#tag Event
+		Sub Action()
+		  Dim m As libvlc.Medium = OpenMedia.Load(Player.Media)
+		  If m <> Nil Then LoadMedia(m)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events IsMuted
+	#tag Event
+		Sub Action()
+		  Player.TruePlayer.Muted = Me.Value
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events VideoTracks
+	#tag Event
+		Sub Change()
+		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		    Try
+		      Player.TruePlayer.VideoTrack = Me.RowTag(Me.ListIndex).Int32Value
+		    Catch err As libvlc.VLCException
+		      MsgBox(err.Message)
+		    End Try
 		  End If
 		End Sub
 	#tag EndEvent
