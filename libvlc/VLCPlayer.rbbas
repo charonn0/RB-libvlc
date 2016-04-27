@@ -302,6 +302,48 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function VideoTrack() As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_track(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub VideoTrack(Assigns NewTrack As Integer)
+		  If mPlayer = Nil Then Raise New NilObjectException
+		  If libvlc_video_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the video track to that index.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function VideoTrackCount() As Integer
+		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
+		  If lst <> Nil Then Return lst.Count
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function VideoTrackDescription(TrackNumber As Integer) As String
+		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
+		  If lst <> Nil Then Return lst.Name(TrackNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function VideoTrackID(TrackNumber As Integer) As Integer
+		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
+		  If lst <> Nil Then Return lst.ID(TrackNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function VideoTracks() As libvlc.Meta.TrackList
+		  If mPlayer = Nil Then Return Nil
+		  Dim p As Ptr = libvlc_video_get_track_description(mPlayer)
+		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
+		End Function
+	#tag EndMethod
+
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter

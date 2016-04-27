@@ -506,6 +506,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_track Lib "libvlc" (Player As Ptr) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_track_description Lib "libvlc" (Player As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_video_set_key_input Lib "libvlc" (Player As Ptr, On As Boolean)
 	#tag EndExternalMethod
 
@@ -519,6 +527,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_set_subtitle_file Lib "libvlc" (Player As Ptr, SubtitleFile As CString) As Boolean
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_set_track Lib "libvlc" (Player As Ptr, TrackID As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
