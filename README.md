@@ -3,12 +3,11 @@ This project wraps libvlc, the open-source multimedia library behind VLC Media P
 Windows 7 using REALstuio 2011R4.3. Other platforms supported by libvlc should work, but have not been tested.
 
 ##Synopsis
-There are two main modes of operation: using the VLCPlayer class to play media without a GUI and the VLCMediaPlayer which provides
-a GUI.
+There are two main modes of operation: using the [VLCPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer) class to play media without a GUI and the [VLCMediaPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer) which provides a GUI. libvlc also supports playlists through a separate [PlayList](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists) interface.
 
-###VLCPlayer
-This class represents an instance of a VLC media player object.
-
-###VLCMediaPlayer
-The VLCMediaPlayer class subclasses the Canvas class, meaning it can be used in the window editor like any other control. It
-uses the VLCPlayer class to control the media.
+##Example
+```vbnet
+ Dim vlc As New VLCPlayer
+ vlc.Media = GetFolderItem("C:\example\music.mp3")
+ vlc.Play()
+```
