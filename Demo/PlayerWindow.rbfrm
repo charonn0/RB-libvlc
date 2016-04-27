@@ -24,40 +24,6 @@ Begin Window PlayerWindow
    Title           =   "*"
    Visible         =   True
    Width           =   6.18e+2
-   Begin VLCMediaPlayer Player
-      AcceptFocus     =   ""
-      AcceptTabs      =   ""
-      AutoDeactivate  =   True
-      Backdrop        =   ""
-      CaptureKeyboard =   ""
-      CaptureMouse    =   ""
-      DoubleBuffer    =   True
-      Enabled         =   False
-      EraseBackground =   False
-      Fullscreen      =   ""
-      Height          =   296
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      IsPlaying       =   ""
-      Left            =   11
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   True
-      Muted           =   ""
-      Position        =   ""
-      Scope           =   0
-      TabIndex        =   8
-      TabPanelIndex   =   0
-      TabStop         =   True
-      Top             =   14
-      UseFocusRing    =   True
-      Visible         =   True
-      Volume          =   ""
-      Width           =   600
-   End
    Begin Timer PlayerTimer
       Height          =   32
       Index           =   -2147483648
@@ -426,40 +392,6 @@ Begin Window PlayerWindow
       Visible         =   True
       Width           =   100
    End
-   Begin Label Label2
-      AutoDeactivate  =   True
-      Bold            =   ""
-      DataField       =   ""
-      DataSource      =   ""
-      Enabled         =   True
-      Height          =   20
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   846
-      LockBottom      =   ""
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   ""
-      LockTop         =   True
-      Multiline       =   ""
-      Scope           =   0
-      Selectable      =   False
-      TabIndex        =   21
-      TabPanelIndex   =   0
-      Text            =   "Untitled"
-      TextAlign       =   0
-      TextColor       =   &h000000
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   205
-      Transparent     =   False
-      Underline       =   ""
-      Visible         =   True
-      Width           =   208
-   End
    Begin Label Label3
       AutoDeactivate  =   True
       Bold            =   ""
@@ -525,6 +457,40 @@ Begin Window PlayerWindow
       UseFocusRing    =   True
       Visible         =   True
       Width           =   172
+   End
+   Begin libvlc.VLCMediaPlayer Player
+      AcceptFocus     =   False
+      AcceptTabs      =   False
+      AutoDeactivate  =   True
+      Backdrop        =   ""
+      CaptureKeyboard =   True
+      CaptureMouse    =   True
+      DoubleBuffer    =   False
+      Enabled         =   True
+      EraseBackground =   True
+      Fullscreen      =   ""
+      Height          =   314
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      IsPlaying       =   ""
+      Left            =   1
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      Muted           =   False
+      Position        =   0.0
+      Scope           =   0
+      TabIndex        =   24
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Top             =   0
+      UseFocusRing    =   True
+      Visible         =   True
+      Volume          =   100
+      Width           =   617
    End
 End
 #tag EndWindow
@@ -614,82 +580,10 @@ End
 
 #tag EndWindowCode
 
-#tag Events Player
-	#tag Event
-		Sub Paint(g As Graphics)
-		  Dim original As Picture
-		  If mArtwork <> Nil Then original = mArtwork Else original = movielogo
-		  
-		  Dim wRatio, hRatio, ratio As Double
-		  ratio = 1.0
-		  If g.Width < original.Width Then ratio = g.Width / original.Width
-		  If g.Height < original.Height Then ratio = Min(g.Height / original.Height, ratio)
-		  wRatio = (ratio * original.width)
-		  hRatio = (ratio * original.Height)
-		  g.ForeColor = &c00000000
-		  g.FillRect(0, 0, g.Width, g.Height)
-		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
-		  
-		  
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
-		  #pragma Unused x
-		  #pragma Unused y
-		  
-		  Dim play, pause, stop, resume, equ, opend, openf As MenuItem
-		  play = New MenuItem("Play")
-		  stop = New MenuItem("Stop")
-		  resume = New MenuItem("Resume")
-		  pause = New MenuItem("Pause")
-		  equ = New MenuItem("Equalizer")
-		  openf = New MenuItem("Load file")
-		  opend = New MenuItem("Load directory/disc")
-		  play.Enabled = (Me.IsPlaying Or Me.Media <> Nil)
-		  
-		  base.Append(play)
-		  base.Append(stop)
-		  If Me.TruePlayer.CurrentState = libvlc.PlayerState.PAUSED Then
-		    base.Append(resume)
-		  Else
-		    base.Append(pause)
-		  End If
-		  base.Append(equ)
-		  base.Append(openf)
-		  base.Append(opend)
-		  
-		  Return True
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
-		  Select Case  hitItem.Text
-		  Case "Play", "Resume"
-		    Me.Play
-		  Case "Stop"
-		    Me.Stop
-		  Case "Pause"
-		    Me.Pause
-		  Case "Equalizer"
-		    Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
-		    If e <> Nil Then Player.Equalizer = e
-		  Case "Load file"
-		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
-		    If f <> Nil Then LoadMedia(f)
-		  Case "Load directory/disc"
-		    Dim f As FolderItem = SelectFolder()
-		    If f <> Nil Then LoadMedia(f)
-		  End Select
-		  Return True
-		End Function
-	#tag EndEvent
-#tag EndEvents
 #tag Events PlayerTimer
 	#tag Event
 		Sub Action()
 		  If Player = Nil Then Return
-		  Label2.Text = Str(Player.TruePlayer.VideoTrackCount)
 		  Dim url As String
 		  If Player.Media <> Nil Then url = Player.Media.URL
 		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
@@ -853,6 +747,77 @@ End
 		      MsgBox(err.Message)
 		    End Try
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Player
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
+		  
+		  Dim play, pause, stop, resume, equ, opend, openf As MenuItem
+		  play = New MenuItem("Play")
+		  stop = New MenuItem("Stop")
+		  resume = New MenuItem("Resume")
+		  pause = New MenuItem("Pause")
+		  equ = New MenuItem("Equalizer")
+		  openf = New MenuItem("Load file")
+		  opend = New MenuItem("Load directory/disc")
+		  play.Enabled = (Me.IsPlaying Or Me.Media <> Nil)
+		  
+		  base.Append(play)
+		  base.Append(stop)
+		  If Me.TruePlayer.CurrentState = libvlc.PlayerState.PAUSED Then
+		    base.Append(resume)
+		  Else
+		    base.Append(pause)
+		  End If
+		  base.Append(equ)
+		  base.Append(openf)
+		  base.Append(opend)
+		  
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case  hitItem.Text
+		  Case "Play", "Resume"
+		    Me.Play
+		  Case "Stop"
+		    Me.Stop
+		  Case "Pause"
+		    Me.Pause
+		  Case "Equalizer"
+		    Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
+		    If e <> Nil Then Player.Equalizer = e
+		  Case "Load file"
+		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
+		    If f <> Nil Then LoadMedia(f)
+		  Case "Load directory/disc"
+		    Dim f As FolderItem = SelectFolder()
+		    If f <> Nil Then LoadMedia(f)
+		  End Select
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub Paint(g As Graphics)
+		  Dim original As Picture
+		  If mArtwork <> Nil Then original = mArtwork Else original = movielogo
+		  
+		  Dim wRatio, hRatio, ratio As Double
+		  ratio = 1.0
+		  If g.Width < original.Width Then ratio = g.Width / original.Width
+		  If g.Height < original.Height Then ratio = Min(g.Height / original.Height, ratio)
+		  wRatio = (ratio * original.width)
+		  hRatio = (ratio * original.Height)
+		  g.ForeColor = &c00000000
+		  g.FillRect(0, 0, g.Width, g.Height)
+		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
+		  
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
