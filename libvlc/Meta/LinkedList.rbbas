@@ -1,7 +1,7 @@
 #tag Class
 Protected Class LinkedList
-	#tag Method, Flags = &h1
-		Protected Sub Constructor(ListPtr As Ptr, StructSize As Integer)
+	#tag Method, Flags = &h0
+		Sub Constructor(ListPtr As Ptr, StructSize As Integer)
 		  mList = ListPtr
 		  mStructSize = StructSize
 		End Sub
@@ -24,6 +24,7 @@ Protected Class LinkedList
 		  Dim p As Ptr = mList
 		  Dim count As Integer
 		  Do Until p = Nil
+		    Dim i As Integer = Integer(p) + mStructSize
 		    If count = Index Then Return p
 		    p = p.Ptr(mStructSize)
 		    count = count + 1
