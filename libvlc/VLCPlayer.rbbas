@@ -25,6 +25,48 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function AudioTrack() As Integer
+		  If mPlayer <> Nil Then Return libvlc_audio_get_track(mPlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub AudioTrack(Assigns NewTrack As Integer)
+		  If mPlayer = Nil Then Raise New NilObjectException
+		  If libvlc_audio_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the audio track to that index.")
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AudioTrackCount() As Integer
+		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
+		  If lst <> Nil Then Return lst.Count
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AudioTrackDescription(TrackNumber As Integer) As String
+		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
+		  If lst <> Nil Then Return lst.Name(TrackNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AudioTrackID(TrackNumber As Integer) As Integer
+		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
+		  If lst <> Nil Then Return lst.ID(TrackNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AudioTracks() As libvlc.Meta.TrackList
+		  If mPlayer = Nil Then Return Nil
+		  Dim p As Ptr = libvlc_audio_get_track_description(mPlayer)
+		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor()
 		  ' Constructs a new player instance
 		  

@@ -7,7 +7,7 @@ Begin Window PlayerWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   5.26e+2
+   Height          =   5.71e+2
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -44,7 +44,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   416
+      Left            =   414
       LineStep        =   1
       LiveScroll      =   True
       LockBottom      =   True
@@ -60,7 +60,7 @@ Begin Window PlayerWindow
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   1
-      Top             =   326
+      Top             =   316
       Value           =   100
       Visible         =   True
       Width           =   195
@@ -78,7 +78,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   11
+      Left            =   9
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -91,7 +91,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   354
+      Top             =   344
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -109,7 +109,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   178
+      Left            =   176
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -122,7 +122,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   354
+      Top             =   344
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -134,7 +134,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   11
+      Left            =   9
       LineStep        =   1
       LiveScroll      =   True
       LockBottom      =   True
@@ -150,7 +150,7 @@ Begin Window PlayerWindow
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   326
+      Top             =   316
       Value           =   0
       Visible         =   True
       Width           =   396
@@ -168,7 +168,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   94
+      Left            =   92
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -181,7 +181,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   354
+      Top             =   344
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -197,7 +197,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   103
+      Left            =   101
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -214,7 +214,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   382
+      Top             =   372
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
@@ -233,7 +233,7 @@ Begin Window PlayerWindow
       InitialParent   =   ""
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   162
+      Left            =   160
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -247,7 +247,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   382
+      Top             =   372
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   True
@@ -266,7 +266,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   11
+      Left            =   9
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -279,7 +279,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   380
+      Top             =   370
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -289,12 +289,12 @@ Begin Window PlayerWindow
       Bold            =   ""
       Caption         =   "Metadata"
       Enabled         =   True
-      Height          =   100
+      Height          =   151
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   11
+      Left            =   9
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -306,7 +306,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   414
+      Top             =   400
       Underline       =   ""
       Visible         =   True
       Width           =   587
@@ -328,14 +328,14 @@ Begin Window PlayerWindow
          GridLinesVertical=   0
          HasHeading      =   True
          HeadingIndex    =   -1
-         Height          =   74
+         Height          =   125
          HelpTag         =   ""
          Hierarchical    =   ""
          Index           =   -2147483648
          InitialParent   =   "GroupBox1"
          InitialValue    =   "Key	Value"
          Italic          =   ""
-         Left            =   20
+         Left            =   18
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -352,7 +352,7 @@ Begin Window PlayerWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   432
+         Top             =   418
          Underline       =   ""
          UseFocusRing    =   True
          Visible         =   True
@@ -372,7 +372,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   416
+      Left            =   268
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   False
@@ -386,11 +386,11 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   353
+      Top             =   345
       Underline       =   ""
       Value           =   False
       Visible         =   True
-      Width           =   100
+      Width           =   75
    End
    Begin Label Label3
       AutoDeactivate  =   True
@@ -403,7 +403,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   340
+      Left            =   338
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -420,7 +420,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   381
+      Top             =   371
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
@@ -438,7 +438,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   439
+      Left            =   437
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -452,7 +452,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   380
+      Top             =   370
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   True
@@ -465,9 +465,9 @@ Begin Window PlayerWindow
       Backdrop        =   ""
       CaptureKeyboard =   True
       CaptureMouse    =   True
-      DoubleBuffer    =   False
+      DoubleBuffer    =   True
       Enabled         =   True
-      EraseBackground =   True
+      EraseBackground =   False
       Fullscreen      =   ""
       Height          =   314
       HelpTag         =   ""
@@ -491,6 +491,72 @@ Begin Window PlayerWindow
       Visible         =   True
       Volume          =   100
       Width           =   617
+   End
+   Begin ComboBox AudioTracks
+      AutoComplete    =   False
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   False
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialValue    =   ""
+      Italic          =   ""
+      Left            =   437
+      ListIndex       =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   25
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   344
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   True
+      Width           =   172
+   End
+   Begin Label Label4
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   338
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   26
+      TabPanelIndex   =   0
+      Text            =   "Audio track:"
+      TextAlign       =   2
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   345
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   93
    End
 End
 #tag EndWindow
@@ -607,7 +673,7 @@ End
 		    wndttl = "(stopping)"
 		  End Select
 		  
-		  If Player.MetaData <> Nil Then 
+		  If Player.MetaData <> Nil Then
 		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "' " + wndttl
 		  Else
 		    Self.Title = "libvlc demo"
@@ -664,6 +730,21 @@ End
 		      End If
 		    End If
 		    
+		    c = Player.TruePlayer.AudioTrackCount
+		    If Not AudioTracks.Enabled And c > 0 Then
+		      AudioTracks.DeleteAllRows
+		      If c > 0 Then
+		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.AudioTracks
+		        For i As Integer = 0 To c - 1
+		          AudioTracks.AddRow(lst.Name(i))
+		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = lst.ID(i)
+		        Next
+		        AudioTracks.Enabled = True
+		      Else
+		        AudioTracks.Enabled = False
+		      End If
+		    End If
+		    
 		  End If
 		End Sub
 	#tag EndEvent
@@ -694,7 +775,7 @@ End
 #tag Events Slider1
 	#tag Event
 		Sub ValueChanged()
-		  If Not mLock Then 
+		  If Not mLock Then
 		    Player.Position = Me.Value \ 100
 		  End If
 		End Sub
@@ -820,6 +901,19 @@ End
 		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
 		  
 		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events AudioTracks
+	#tag Event
+		Sub Change()
+		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		    Try
+		      Player.TruePlayer.AudioTrack = Me.RowTag(Me.ListIndex).Int32Value
+		    Catch err As libvlc.VLCException
+		      MsgBox(err.Message)
+		    End Try
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
