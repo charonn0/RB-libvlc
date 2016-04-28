@@ -8,6 +8,20 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function FormatTime(Milliseconds As Int64) As String
+		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
+		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
+		  Dim seconds As Integer = (Milliseconds / 1000) Mod 60
+		  Dim out As String
+		  If hours > 0 Then out = Str(hours) + ":"
+		  out = out + Format(minutes, "#0") + ":"
+		  out = out + Format(seconds, "00")
+		  Return out
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function IsAvailable() As Boolean
 		  Static available As Boolean
 		  If Not available Then available = System.IsFunctionAvailable("libvlc_new", "libvlc")
