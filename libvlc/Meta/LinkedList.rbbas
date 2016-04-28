@@ -24,7 +24,6 @@ Protected Class LinkedList
 		  Dim p As Ptr = mList
 		  Dim count As Integer
 		  Do Until p = Nil
-		    Dim i As Integer = Integer(p) + mStructSize
 		    If count = Index Then Return p
 		    p = p.Ptr(mStructSize)
 		    count = count + 1
