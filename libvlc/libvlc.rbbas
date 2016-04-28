@@ -8,6 +8,18 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function DiscoverMedia(Category As libvlc.DiscoveryCategory, Instance As libvlc.VLCInstance) As libvlc.Meta.LinkedList
+		  Dim mb As New MemoryBlock(4)
+		  Dim i As UInt32 = libvlc_media_discoverer_list_get(Instance.Instance, Category, mb)
+		  If i > 0 Then
+		    Break
+		  Else
+		    Break
+		  End If
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function IsAvailable() As Boolean
 		  Static available As Boolean
 		  If Not available Then available = System.IsFunctionAvailable("libvlc_new", "libvlc")
@@ -167,6 +179,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_log_unset Lib "libvlc" (Instance As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_discoverer_list_get Lib "libvlc" (Instance As Ptr, Category As libvlc . DiscoveryCategory, Services As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -634,6 +650,13 @@ Protected Module libvlc
 		Name As Ptr
 	#tag EndStructure
 
+
+	#tag Enum, Name = DiscoveryCategory, Type = Integer, Flags = &h1
+		Devices=0
+		  LAN
+		  Podcasts
+		LocalDirs
+	#tag EndEnum
 
 	#tag Enum, Name = MediaType, Type = Integer, Flags = &h1
 		Unknown
