@@ -1,6 +1,17 @@
 #tag Class
 Protected Class Medium
 Inherits libvlc.VLCInstance
+	#tag Method, Flags = &h0
+		Sub AddOption(Options As String, Flags As UInt32 = 0)
+		  If mMedium = Nil Then Return
+		  If Flags = 0 Then
+		    libvlc_media_add_option(mMedium, Options)
+		  Else
+		    libvlc_media_add_option_flag(mMedium, Options, Flags)
+		  End If
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(FileDescriptor As Integer)
 		  If FileDescriptor = 0 Then Raise New NilObjectException

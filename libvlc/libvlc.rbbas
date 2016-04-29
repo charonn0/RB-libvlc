@@ -188,6 +188,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_add_option Lib "libvlc" (Medium As Ptr, Options As CString)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_add_option_flag Lib "libvlc" (Medium As Ptr, Options As CString, Flags As UInt32)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_event_manager Lib "libvlc" (Medium As Ptr) As Ptr
 	#tag EndExternalMethod
 
