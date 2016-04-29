@@ -698,7 +698,7 @@ End
 		  Else
 		    mLock = True
 		    Try
-		      Slider1.Value = Player.Position * 100
+		      Slider1.Value = (Player.TimeMS * 100 / Player.LengthMS) * 100
 		      VolControl.Value = Player.Volume
 		    Finally
 		      mLock = False
@@ -776,7 +776,7 @@ End
 	#tag Event
 		Sub ValueChanged()
 		  If Not mLock Then
-		    Player.Position = Me.Value \ 100
+		    Player.Position = (Me.Value * 100 / Me.Maximum) / 100
 		  End If
 		End Sub
 	#tag EndEvent

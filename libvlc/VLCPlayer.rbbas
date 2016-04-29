@@ -562,7 +562,7 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return libvlc_media_player_get_position(mPlayer) * 100
+			  If mPlayer <> Nil Then Return libvlc_media_player_get_position(mPlayer)
 			End Get
 		#tag EndGetter
 		#tag Setter
