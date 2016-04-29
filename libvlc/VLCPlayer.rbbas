@@ -58,8 +58,8 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function AudioTracks() As libvlc.Meta.TrackList
+	#tag Method, Flags = &h1
+		Protected Function AudioTracks() As libvlc.Meta.TrackList
 		  If mPlayer = Nil Then Return Nil
 		  Dim p As Ptr = libvlc_audio_get_track_description(mPlayer)
 		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
@@ -378,8 +378,8 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function VideoTracks() As libvlc.Meta.TrackList
+	#tag Method, Flags = &h1
+		Protected Function VideoTracks() As libvlc.Meta.TrackList
 		  If mPlayer = Nil Then Return Nil
 		  Dim p As Ptr = libvlc_video_get_track_description(mPlayer)
 		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
