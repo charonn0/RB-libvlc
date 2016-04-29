@@ -706,6 +706,7 @@ Begin Window PlayerWindow
       Visible         =   True
       Width           =   64
    End
+   Begin UpDownArrows ScaleChange
       AcceptFocus     =   False
       AutoDeactivate  =   True
       Enabled         =   True
@@ -1133,6 +1134,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events ScaleChange
 	#tag Event
 		Sub Down()
 		  Player.TruePlayer.Scale = Player.TruePlayer.Scale - 0.1
