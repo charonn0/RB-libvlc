@@ -8,7 +8,7 @@ Begin Window FullscreenParent
    FullScreen      =   False
    HasBackColor    =   False
    Height          =   8.7e+1
-   ImplicitInstance=   False
+   ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
    MaxHeight       =   32000
@@ -64,6 +64,36 @@ End
 		  Me.FullScreen = True
 		End Sub
 	#tag EndEvent
+
+
+	#tag Method, Flags = &h0
+		Sub ShowPlayer(Player As libvlc.VLCMediaPlayer)
+		  Me.ShowPlayer(Player.TruePlayer)
+		  Dim time As Int64 = Player.TimeMS
+		  Player.Stop
+		  Player.TruePlayer.EmbedWithin(Player)
+		  Player.TruePlayer.Play
+		  Do
+		    App.YieldToNextThread
+		  Loop Until Player.TruePlayer.CurrentState <> libvlc.PlayerState.OPENING
+		  Player.TruePlayer.Position = (Player.LengthMS * 100 / time) / 100
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ShowPlayer(Player As libvlc.VLCPlayer)
+		  Dim time As Int64 = Player.TimeMS
+		  Player.Stop
+		  Player.EmbedWithin(0)
+		  Player.EmbedWithin(Self)
+		  Player.Play
+		  Do
+		    App.YieldToNextThread
+		  Loop Until Player.CurrentState <> libvlc.PlayerState.OPENING
+		  Player.Position = (Player.LengthMS * 100 / time) / 100
+		  Me.ShowModal
+		End Sub
+	#tag EndMethod
 
 
 #tag EndWindowCode
