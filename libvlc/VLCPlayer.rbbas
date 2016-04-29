@@ -122,8 +122,8 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub EmbedWithin(Parent As Integer)
+	#tag Method, Flags = &h0
+		Sub EmbedWithin(Parent As Integer)
 		  ' Pass the OS-specific handle of a Window, ContainerControl, or RectControl as 'Parent'. The video output (if any) superimposes
 		  ' and obscures the Parent, and will move/resize automatically when the parent does.
 		  
