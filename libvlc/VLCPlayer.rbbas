@@ -573,6 +573,20 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return libvlc_video_get_scale(mPlayer)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then libvlc_video_set_scale(mPlayer, value)
+			End Set
+		#tag EndSetter
+		Scale As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_rate(mPlayer)
 			End Get
 		#tag EndGetter

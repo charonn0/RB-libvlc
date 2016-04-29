@@ -532,6 +532,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_scale Lib "libvlc" (Player As Ptr) As Single
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_size Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef Width As Integer, ByRef Height As Integer) As Integer
 	#tag EndExternalMethod
 
@@ -561,6 +565,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_video_set_mouse_input Lib "libvlc" (Player As Ptr, On As Boolean)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_scale Lib "libvlc" (Player As Ptr, ScaleFactor As Single)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
