@@ -646,7 +646,7 @@ Begin Window PlayerWindow
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
-      Width           =   100
+      Width           =   64
    End
    Begin Timer RefreshTimer
       Height          =   32
@@ -672,6 +672,61 @@ Begin Window PlayerWindow
       Top             =   217
       Width           =   32
    End
+   Begin Label ScaleLabel
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   467
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   31
+      TabPanelIndex   =   0
+      Text            =   "Scale: 1.0"
+      TextAlign       =   0
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   345
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   64
+   End
+      AcceptFocus     =   False
+      AutoDeactivate  =   True
+      Enabled         =   True
+      Height          =   23
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   448
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   32
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Top             =   343
+      Visible         =   True
+      Width           =   13
+   End
 End
 #tag EndWindow
 
@@ -694,6 +749,7 @@ End
 		  'Player.CaptureKeyboard = False
 		  'Player.CaptureMouse = False
 		  If Media = Nil Then Return
+		  'Media.AddOption("--rotate-angle=180")
 		  Player.Media = Media
 		  If Player.MetaData.HasKey(libvlc.Meta.MetaDataType.ArtworkURL) Then
 		    Dim url As String = Player.MetaData.Value(libvlc.Meta.MetaDataType.ArtworkURL)
@@ -1074,6 +1130,19 @@ End
 		  Else
 		    Player.Position = mLastPosition
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+	#tag Event
+		Sub Down()
+		  Player.TruePlayer.Scale = Player.TruePlayer.Scale - 0.1
+		  ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Up()
+		  Player.TruePlayer.Scale = Player.TruePlayer.Scale + 0.1
+		  ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
