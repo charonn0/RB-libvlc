@@ -44,7 +44,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   414
+      Left            =   498
       LineStep        =   1
       LiveScroll      =   True
       LockBottom      =   True
@@ -63,7 +63,7 @@ Begin Window PlayerWindow
       Top             =   316
       Value           =   100
       Visible         =   True
-      Width           =   195
+      Width           =   111
    End
    Begin PushButton StopButton
       AutoDeactivate  =   True
@@ -103,8 +103,8 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   68
-      LineStep        =   1
+      Left            =   107
+      LineStep        =   100
       LiveScroll      =   True
       LockBottom      =   True
       LockedInPosition=   False
@@ -113,7 +113,7 @@ Begin Window PlayerWindow
       LockTop         =   False
       Maximum         =   10000
       Minimum         =   0
-      PageStep        =   1
+      PageStep        =   100
       Scope           =   0
       TabIndex        =   13
       TabPanelIndex   =   0
@@ -122,7 +122,7 @@ Begin Window PlayerWindow
       Top             =   316
       Value           =   0
       Visible         =   True
-      Width           =   337
+      Width           =   385
    End
    Begin PushButton PlayButton
       AutoDeactivate  =   True
@@ -539,17 +539,17 @@ Begin Window PlayerWindow
       InitialParent   =   ""
       Italic          =   ""
       Left            =   3
-      LockBottom      =   ""
+      LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   ""
-      LockTop         =   True
+      LockTop         =   False
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
       TabIndex        =   27
       TabPanelIndex   =   0
-      Text            =   "00:00/00.00"
+      Text            =   "00:00:00/00:00:00"
       TextAlign       =   0
       TextColor       =   &h000000
       TextFont        =   "System"
@@ -559,7 +559,94 @@ Begin Window PlayerWindow
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
-      Width           =   63
+      Width           =   92
+   End
+   Begin PushButton FullscreenBtn
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Full Screen"
+      Default         =   ""
+      Enabled         =   False
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   260
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   28
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   344
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin UpDownArrows SpeedChange
+      AcceptFocus     =   False
+      AutoDeactivate  =   True
+      Enabled         =   True
+      Height          =   23
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   368
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   29
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Top             =   343
+      Visible         =   True
+      Width           =   13
+   End
+   Begin Label SpeedLabel
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   387
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   30
+      TabPanelIndex   =   0
+      Text            =   "Speed: 1.0"
+      TextAlign       =   0
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   345
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   100
    End
 End
 #tag EndWindow
@@ -692,6 +779,7 @@ End
 		  If url = "" Then
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
+		    FullscreenBtn.Enabled = False
 		    Slider1.Enabled = False
 		    VolControl.Enabled = False
 		    
@@ -705,6 +793,7 @@ End
 		    End Try
 		    PlayButton.Enabled = True
 		    StopButton.Enabled = True
+		    FullscreenBtn.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
 		    
@@ -727,10 +816,9 @@ End
 		    If Not VideoTracks.Enabled And c > 0 Then
 		      VideoTracks.DeleteAllRows
 		      If c > 0 Then
-		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.VideoTracks
 		        For i As Integer = 0 To c - 1
-		          VideoTracks.AddRow(lst.Name(i))
-		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = lst.ID(i)
+		          VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
+		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = Player.TruePlayer.VideoTrackID(i)
 		        Next
 		        VideoTracks.Enabled = True
 		      Else
@@ -742,10 +830,9 @@ End
 		    If Not AudioTracks.Enabled And c > 0 Then
 		      AudioTracks.DeleteAllRows
 		      If c > 0 Then
-		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.AudioTracks
 		        For i As Integer = 0 To c - 1
-		          AudioTracks.AddRow(lst.Name(i))
-		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = lst.ID(i)
+		          AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
+		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = Player.TruePlayer.AudioTrackDescription(i)
 		        Next
 		        AudioTracks.Enabled = True
 		      Else
@@ -785,6 +872,7 @@ End
 	#tag Event
 		Sub Action()
 		  If Me.Caption = "Play" Then
+		    If Player.TruePlayer.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop()
 		    Player.Play
 		    Me.Caption = "Pause"
 		  Else
@@ -917,6 +1005,27 @@ End
 		      MsgBox(err.Message)
 		    End Try
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events FullscreenBtn
+	#tag Event
+		Sub Action()
+		  FullscreenParent.ShowPlayer(Player)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events SpeedChange
+	#tag Event
+		Sub Up()
+		  Player.TruePlayer.Speed = Player.TruePlayer.Speed + 0.1
+		  SpeedLabel.Text = "Speed: " + Format(Player.TruePlayer.Speed, "##0.0##")
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Down()
+		  Player.TruePlayer.Speed = Player.TruePlayer.Speed - 0.1
+		  SpeedLabel.Text = "Speed: " + Format(Player.TruePlayer.Speed, "##0.0##")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
