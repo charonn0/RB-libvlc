@@ -65,37 +65,6 @@ Begin Window PlayerWindow
       Visible         =   True
       Width           =   195
    End
-   Begin PushButton PauseButton
-      AutoDeactivate  =   True
-      Bold            =   ""
-      ButtonStyle     =   0
-      Cancel          =   ""
-      Caption         =   "Pause"
-      Default         =   ""
-      Enabled         =   False
-      Height          =   22
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   9
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      Scope           =   0
-      TabIndex        =   11
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   344
-      Underline       =   ""
-      Visible         =   True
-      Width           =   80
-   End
    Begin PushButton StopButton
       AutoDeactivate  =   True
       Bold            =   ""
@@ -134,7 +103,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   9
+      Left            =   68
       LineStep        =   1
       LiveScroll      =   True
       LockBottom      =   True
@@ -153,7 +122,7 @@ Begin Window PlayerWindow
       Top             =   316
       Value           =   0
       Visible         =   True
-      Width           =   396
+      Width           =   337
    End
    Begin PushButton PlayButton
       AutoDeactivate  =   True
@@ -197,7 +166,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   101
+      Left            =   9
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -214,7 +183,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   372
+      Top             =   370
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
@@ -233,7 +202,7 @@ Begin Window PlayerWindow
       InitialParent   =   ""
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   160
+      Left            =   68
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -247,11 +216,11 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   372
+      Top             =   370
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   True
-      Width           =   166
+      Width           =   112
    End
    Begin PushButton LoadBtn
       AutoDeactivate  =   True
@@ -279,7 +248,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   370
+      Top             =   344
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -372,7 +341,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   268
+      Left            =   534
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   False
@@ -386,7 +355,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   345
+      Top             =   338
       Underline       =   ""
       Value           =   False
       Visible         =   True
@@ -403,7 +372,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   338
+      Left            =   399
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -438,7 +407,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   437
+      Left            =   498
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -456,7 +425,7 @@ Begin Window PlayerWindow
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   True
-      Width           =   172
+      Width           =   112
    End
    Begin libvlc.VLCMediaPlayer Player
       AcceptFocus     =   False
@@ -504,7 +473,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   437
+      Left            =   283
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -518,11 +487,11 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   344
+      Top             =   369
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   True
-      Width           =   172
+      Width           =   112
    End
    Begin Label Label4
       AutoDeactivate  =   True
@@ -535,7 +504,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   338
+      Left            =   184
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -552,11 +521,45 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   345
+      Top             =   370
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
       Width           =   93
+   End
+   Begin Label TimeLabel
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   3
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   27
+      TabPanelIndex   =   0
+      Text            =   "00:00/00.00"
+      TextAlign       =   0
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   316
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   63
    End
 End
 #tag EndWindow
@@ -669,9 +672,16 @@ End
 		    wndttl = "(paused)"
 		  Case libvlc.PlayerState.PLAYING
 		    wndttl = "(playing)"
+		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
 		  Case libvlc.PlayerState.STOPPING
 		    wndttl = "(stopping)"
 		  End Select
+		  
+		  If Player.TruePlayer.CurrentState = libvlc.PlayerState.PLAYING Then
+		    PlayButton.Caption = "Pause"
+		  Else
+		    PlayButton.Caption = "Play"
+		  End If
 		  
 		  If Player.MetaData <> Nil Then
 		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "' " + wndttl
@@ -680,7 +690,6 @@ End
 		  End If
 		  
 		  If url = "" Then
-		    PauseButton.Enabled = False
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
 		    Slider1.Enabled = False
@@ -694,7 +703,6 @@ End
 		    Finally
 		      mLock = False
 		    End Try
-		    PauseButton.Enabled = True
 		    PlayButton.Enabled = True
 		    StopButton.Enabled = True
 		    Slider1.Enabled = True
@@ -756,14 +764,6 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events PauseButton
-	#tag Event
-		Sub Action()
-		  Player.Pause
-		  'Self.Title = "Paused '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events StopButton
 	#tag Event
 		Sub Action()
@@ -784,10 +784,13 @@ End
 #tag Events PlayButton
 	#tag Event
 		Sub Action()
-		  Player.Play
-		  'Dim m As libvlc.Medium = Player.Media
-		  'Dim url As String = m.URL
-		  'Self.Title = "Playing '" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "'"
+		  If Me.Caption = "Play" Then
+		    Player.Play
+		    Me.Caption = "Pause"
+		  Else
+		    Player.Pause
+		    Me.Caption = "Play"
+		  End If
 		  PlayerTimer.Mode = Timer.ModeMultiple
 		End Sub
 	#tag EndEvent
