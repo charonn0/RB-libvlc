@@ -567,7 +567,7 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then libvlc_media_player_set_position(mPlayer, value / 100)
+			  If mPlayer <> Nil Then libvlc_media_player_set_position(mPlayer, value)
 			End Set
 		#tag EndSetter
 		Position As Single
