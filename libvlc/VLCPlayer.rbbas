@@ -507,6 +507,33 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Return Me.AudioTrackCount > 0
+			End Get
+		#tag EndGetter
+		HasAudio As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return Me.SubtitleCount > 0
+			End Get
+		#tag EndGetter
+		HasSubtitles As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return Me.VideoTrackCount > 0
+			End Get
+		#tag EndGetter
+		HasVideo As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_is_playing(mPlayer)
 			End Get
 		#tag EndGetter
