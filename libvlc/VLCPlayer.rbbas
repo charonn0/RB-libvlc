@@ -576,6 +576,20 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return libvlc_media_player_get_rate(mPlayer)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then libvlc_media_player_set_rate(mPlayer, value)
+			End Set
+		#tag EndSetter
+		Speed As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_time(mPlayer)
 			End Get
 		#tag EndGetter

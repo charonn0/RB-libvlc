@@ -372,6 +372,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_player_get_rate Lib "libvlc" (Player As Ptr) As Single
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_get_state Lib "libvlc" (Player As Ptr) As libvlc.PlayerState
 	#tag EndExternalMethod
 
@@ -433,6 +437,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_player_set_position Lib "libvlc" (Player As Ptr, Percent As Single)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_player_set_rate Lib "libvlc" (Player As Ptr, RewRate As Single)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
