@@ -16,8 +16,9 @@ Protected Module libvlc
 		  Else
 		    Break
 		  End If
+		End Function
 	#tag EndMethod
-	
+
 	#tag Method, Flags = &h1
 		Protected Function FormatTime(Milliseconds As Int64) As String
 		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
