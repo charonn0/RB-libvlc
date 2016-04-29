@@ -167,48 +167,6 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return mPlayer.Fullscreen
-			End Get
-		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer = Nil Then Return
-			  
-			  If value Then
-			    If TruePlayer.Fullscreen Then Return
-			    Dim w As New FullscreenParent
-			    Dim b As Boolean = IsPlaying
-			    Dim pos As Single = Position
-			    If b Then Stop
-			    TruePlayer.EmbedWithin(w)
-			    TruePlayer.Fullscreen = True
-			    If b Then
-			      Position = pos
-			      Play
-			    End If
-			    w.ShowModal
-			    b = IsPlaying
-			    pos = Position
-			    If b Then Stop
-			    TruePlayer.EmbedWithin(Me)
-			    If b Then
-			      Position = pos
-			      Play
-			    End If
-			  Else
-			    TruePlayer.Fullscreen = False
-			    If Not TruePlayer.EmbeddedWithin = Me.Handle Then
-			      TruePlayer.EmbedWithin(Me)
-			    End If
-			  End If
-			End Set
-		#tag EndSetter
-		Fullscreen As Boolean
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
 			  If mPlayer <> Nil Then Return mPlayer.IsPlaying
 			End Get
 		#tag EndGetter

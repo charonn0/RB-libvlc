@@ -498,10 +498,7 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  Dim b As Boolean = Me.IsPlaying
-			  If b Then Me.Pause
 			  If mPlayer <> Nil Then libvlc_set_fullscreen(mPlayer, value)
-			  If b Then Me.Resume
 			End Set
 		#tag EndSetter
 		Fullscreen As Boolean
