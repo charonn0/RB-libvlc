@@ -574,7 +574,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   260
+      Left            =   262
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -648,13 +648,37 @@ Begin Window PlayerWindow
       Visible         =   True
       Width           =   100
    End
+   Begin Timer RefreshTimer
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   643
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   200
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   248
+      Width           =   32
+   End
+   Begin Timer FullscreenRevertTimer
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   643
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   1
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   217
+      Width           =   32
+   End
 End
 #tag EndWindow
 
 #tag WindowCode
 	#tag Event
 		Sub Resized()
-		  If Player.IsPlaying Then Self.Refresh(False)
+		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndEvent
 
@@ -727,6 +751,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mArtwork As Picture
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLastPosition As Single
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -991,6 +1019,7 @@ End
 		  g.FillRect(0, 0, g.Width, g.Height)
 		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
 		  
+		  System.DebugLog(CurrentMethodName)
 		  
 		End Sub
 	#tag EndEvent
@@ -1011,7 +1040,8 @@ End
 #tag Events FullscreenBtn
 	#tag Event
 		Sub Action()
-		  FullscreenParent.ShowPlayer(Player)
+		  mLastPosition = FullscreenParent.ShowPlayer(Player)
+		  FullscreenRevertTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1026,6 +1056,24 @@ End
 		Sub Down()
 		  Player.TruePlayer.Speed = Player.TruePlayer.Speed - 0.1
 		  SpeedLabel.Text = "Speed: " + Format(Player.TruePlayer.Speed, "##0.0##")
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events RefreshTimer
+	#tag Event
+		Sub Action()
+		  Self.Refresh(True)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events FullscreenRevertTimer
+	#tag Event
+		Sub Action()
+		  If Player.TruePlayer.CurrentState <> libvlc.PlayerState.PLAYING Then
+		    Me.Reset
+		  Else
+		    Player.Position = mLastPosition
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
