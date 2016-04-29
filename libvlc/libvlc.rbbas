@@ -13,8 +13,12 @@ Protected Module libvlc
 		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
 		  Dim seconds As Integer = (Milliseconds / 1000) Mod 60
 		  Dim out As String
-		  If hours > 0 Then out = Str(hours) + ":"
-		  out = out + Format(minutes, "00") + ":"
+		  If hours > 0 Then 
+		    out = Str(hours) + ":"
+		    out = out + Format(minutes, "00") + ":"
+		  Else
+		    out = out + Format(minutes, "#0") + ":"
+		  End If
 		  out = out + Format(seconds, "00")
 		  Return out
 		  
