@@ -8,6 +8,19 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function CreateTranscoder(Media As libvlc.Medium, Options As libvlc.TranscodeOptions, InstanceOptions As libvlc.TranscodeOptions) As libvlc.VLCPlayer
+		  Dim s As String = InstanceOptions.ToCommandLine
+		  Dim t As New libvlc.Transcoder(s.Len, s)
+		  't.Media = Media
+		  'Return t
+		  Media.AddOption(Options.ToCommandLine)
+		  t.Media = Media
+		  Return t
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function FormatTime(Milliseconds As Int64) As String
 		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
 		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
