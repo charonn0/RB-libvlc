@@ -31,7 +31,7 @@ Begin Window PlayerWindow
       Left            =   643
       LockedInPosition=   False
       Mode            =   2
-      Period          =   500
+      Period          =   250
       Scope           =   0
       TabPanelIndex   =   0
       Top             =   282
@@ -1086,7 +1086,7 @@ End
 		      If c > 0 Then
 		        For i As Integer = 0 To c - 1
 		          AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
-		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = Player.TruePlayer.AudioTrackDescription(i)
+		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = Player.TruePlayer.AudioTrackID(i)
 		        Next
 		        AudioTracks.Enabled = True
 		      Else
@@ -1128,7 +1128,10 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub Down()
-		  Player.Speed = Player.Speed - 0.1
+		  Dim Speed As Single = Player.Speed
+		  Speed = Speed - 0.1
+		  If Speed < 0.0001 Then Speed = 0.0
+		  Player.Speed = Speed
 		  SpeedLabel.Text = "Speed: " + Format(Player.Speed, "##0.0##")
 		End Sub
 	#tag EndEvent
