@@ -355,7 +355,7 @@ Begin Window PlayerWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   338
+      Top             =   343
       Underline       =   ""
       Value           =   False
       Visible         =   True
@@ -437,7 +437,6 @@ Begin Window PlayerWindow
       DoubleBuffer    =   True
       Enabled         =   True
       EraseBackground =   False
-      Fullscreen      =   ""
       Height          =   314
       HelpTag         =   ""
       Index           =   -2147483648
@@ -825,49 +824,12 @@ End
 	#tag Event
 		Sub Action()
 		  If Player = Nil Then Return
-		  Dim url As String
-		  If Player.Media <> Nil Then url = Player.Media.URL
-		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
-		  Dim wndttl As String
-		  Select Case Player.TruePlayer.CurrentState
-		  Case libvlc.PlayerState.BUFFERING
-		    wndttl = "(buffering)"
-		  Case libvlc.PlayerState.ENDED
-		    wndttl = "(finished)"
-		  Case libvlc.PlayerState.ERROR
-		    wndttl = "(error)"
-		  Case libvlc.PlayerState.IDLE
-		    wndttl = "(idle)"
-		  Case libvlc.PlayerState.OPENING
-		    wndttl = "(opening)"
-		  Case libvlc.PlayerState.PAUSED
-		    wndttl = "(paused)"
-		  Case libvlc.PlayerState.PLAYING
-		    wndttl = "(playing)"
-		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
-		  Case libvlc.PlayerState.STOPPING
-		    wndttl = "(stopping)"
-		  End Select
-		  
-		  If Player.TruePlayer.CurrentState = libvlc.PlayerState.PLAYING Then
-		    PlayButton.Caption = "Pause"
-		  Else
-		    PlayButton.Caption = "Play"
-		  End If
-		  
-		  If Player.MetaData <> Nil Then
-		    Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, url) + "' " + wndttl
-		  Else
-		    Self.Title = "libvlc demo"
-		  End If
-		  
-		  If url = "" Then
+		  If Player.Media = Nil Then 
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
 		    FullscreenBtn.Enabled = False
 		    Slider1.Enabled = False
 		    VolControl.Enabled = False
-		    
 		  Else
 		    mLock = True
 		    Try
@@ -876,54 +838,18 @@ End
 		    Finally
 		      mLock = False
 		    End Try
+		    If Player.MetaData <> Nil Then
+		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		    Else
+		      Self.Title = "libvlc demo"
+		    End If
+		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
+		    ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
 		    PlayButton.Enabled = True
 		    StopButton.Enabled = True
 		    FullscreenBtn.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
-		    
-		    Dim c As Integer = Player.TruePlayer.SubtitleCount
-		    If Not SubtitleTracks.Enabled And c > 0 Then
-		      SubtitleTracks.DeleteAllRows
-		      If c > 0 Then
-		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.Subtitles
-		        For i As Integer = 0 To c - 1
-		          SubtitleTracks.AddRow(lst.Name(i))
-		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = lst.ID(i)
-		        Next
-		        SubtitleTracks.Enabled = True
-		      Else
-		        SubtitleTracks.Enabled = False
-		      End If
-		    End If
-		    
-		    c = Player.TruePlayer.VideoTrackCount
-		    If Not VideoTracks.Enabled And c > 0 Then
-		      VideoTracks.DeleteAllRows
-		      If c > 0 Then
-		        For i As Integer = 0 To c - 1
-		          VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
-		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = Player.TruePlayer.VideoTrackID(i)
-		        Next
-		        VideoTracks.Enabled = True
-		      Else
-		        VideoTracks.Enabled = False
-		      End If
-		    End If
-		    
-		    c = Player.TruePlayer.AudioTrackCount
-		    If Not AudioTracks.Enabled And c > 0 Then
-		      AudioTracks.DeleteAllRows
-		      If c > 0 Then
-		        For i As Integer = 0 To c - 1
-		          AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
-		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = Player.TruePlayer.AudioTrackDescription(i)
-		        Next
-		        AudioTracks.Enabled = True
-		      Else
-		        AudioTracks.Enabled = False
-		      End If
-		    End If
 		    
 		  End If
 		End Sub
@@ -957,7 +883,7 @@ End
 	#tag Event
 		Sub Action()
 		  If Me.Caption = "Play" Then
-		    If Player.TruePlayer.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop()
+		    If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop()
 		    Player.Play
 		    Me.Caption = "Pause"
 		  Else
@@ -1027,7 +953,7 @@ End
 		  
 		  base.Append(play)
 		  base.Append(stop)
-		  If Me.TruePlayer.CurrentState = libvlc.PlayerState.PAUSED Then
+		  If Me.CurrentState = libvlc.PlayerState.PAUSED Then
 		    base.Append(resume)
 		  Else
 		    base.Append(pause)
@@ -1076,8 +1002,99 @@ End
 		  g.FillRect(0, 0, g.Width, g.Height)
 		  g.DrawPicture(original, (g.Width - wRatio) / 2, (g.Height - hRatio) / 2, wRatio, hRatio, 0, 0, original.Width, original.Height)
 		  
-		  System.DebugLog(CurrentMethodName)
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub ChangedState()
+		  If Player = Nil Then Return
+		  Dim url As String
+		  If Player.Media <> Nil Then url = Player.Media.URL
+		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
+		  Dim state As libvlc.PlayerState = Player.CurrentState
+		  Dim wndttl As String
+		  Select Case state
+		  Case libvlc.PlayerState.BUFFERING
+		    wndttl = "(buffering)"
+		  Case libvlc.PlayerState.ENDED
+		    wndttl = "(finished)"
+		  Case libvlc.PlayerState.ERROR
+		    wndttl = "(error)"
+		  Case libvlc.PlayerState.IDLE
+		    wndttl = "(idle)"
+		  Case libvlc.PlayerState.OPENING
+		    wndttl = "(opening)"
+		  Case libvlc.PlayerState.PAUSED
+		    wndttl = "(paused)"
+		  Case libvlc.PlayerState.PLAYING
+		    wndttl = "(playing)"
+		  Case libvlc.PlayerState.STOPPING
+		    wndttl = "(stopping)"
+		  End Select
 		  
+		  If state = libvlc.PlayerState.PLAYING Then
+		    PlayButton.Caption = "Pause"
+		  Else
+		    PlayButton.Caption = "Play"
+		  End If
+		  
+		  If url = "" Then
+		    PlayButton.Enabled = False
+		    StopButton.Enabled = False
+		    FullscreenBtn.Enabled = False
+		    Slider1.Enabled = False
+		    VolControl.Enabled = False
+		    
+		  Else
+		    PlayButton.Enabled = True
+		    StopButton.Enabled = True
+		    FullscreenBtn.Enabled = True
+		    Slider1.Enabled = True
+		    VolControl.Enabled = True
+		    
+		    Dim c As Integer = Player.TruePlayer.SubtitleCount
+		    If Not SubtitleTracks.Enabled And c > 0 Then
+		      SubtitleTracks.DeleteAllRows
+		      If c > 0 Then
+		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.Subtitles
+		        For i As Integer = 0 To c - 1
+		          SubtitleTracks.AddRow(lst.Name(i))
+		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = lst.ID(i)
+		        Next
+		        SubtitleTracks.Enabled = True
+		      Else
+		        SubtitleTracks.Enabled = False
+		      End If
+		    End If
+		    
+		    c = Player.TruePlayer.VideoTrackCount
+		    If Not VideoTracks.Enabled And c > 0 Then
+		      VideoTracks.DeleteAllRows
+		      If c > 0 Then
+		        For i As Integer = 0 To c - 1
+		          VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
+		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = Player.TruePlayer.VideoTrackID(i)
+		        Next
+		        VideoTracks.Enabled = True
+		      Else
+		        VideoTracks.Enabled = False
+		      End If
+		    End If
+		    
+		    c = Player.TruePlayer.AudioTrackCount
+		    If Not AudioTracks.Enabled And c > 0 Then
+		      AudioTracks.DeleteAllRows
+		      If c > 0 Then
+		        For i As Integer = 0 To c - 1
+		          AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
+		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = Player.TruePlayer.AudioTrackDescription(i)
+		        Next
+		        AudioTracks.Enabled = True
+		      Else
+		        AudioTracks.Enabled = False
+		      End If
+		    End If
+		    
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1105,14 +1122,14 @@ End
 #tag Events SpeedChange
 	#tag Event
 		Sub Up()
-		  Player.TruePlayer.Speed = Player.TruePlayer.Speed + 0.1
-		  SpeedLabel.Text = "Speed: " + Format(Player.TruePlayer.Speed, "##0.0##")
+		  Player.Speed = Player.Speed + 0.1
+		  SpeedLabel.Text = "Speed: " + Format(Player.Speed, "##0.0##")
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Sub Down()
-		  Player.TruePlayer.Speed = Player.TruePlayer.Speed - 0.1
-		  SpeedLabel.Text = "Speed: " + Format(Player.TruePlayer.Speed, "##0.0##")
+		  Player.Speed = Player.Speed - 0.1
+		  SpeedLabel.Text = "Speed: " + Format(Player.Speed, "##0.0##")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1126,7 +1143,7 @@ End
 #tag Events FullscreenRevertTimer
 	#tag Event
 		Sub Action()
-		  If Player.TruePlayer.CurrentState <> libvlc.PlayerState.PLAYING Then
+		  If Player.CurrentState <> libvlc.PlayerState.PLAYING Then
 		    Me.Reset
 		  Else
 		    Player.Position = mLastPosition
@@ -1137,14 +1154,17 @@ End
 #tag Events ScaleChange
 	#tag Event
 		Sub Down()
-		  Player.TruePlayer.Scale = Player.TruePlayer.Scale - 0.1
-		  ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
+		  Dim scale As Single = Player.Scale 
+		  scale = scale - 0.1
+		  If scale < 0.0001 Then scale = 0.0
+		  Player.Scale = scale
+		  ScaleLabel.Text = "Scale: " + Format(Player.Scale, "##0.0##")
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Sub Up()
-		  Player.TruePlayer.Scale = Player.TruePlayer.Scale + 0.1
-		  ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
+		  Player.Scale = Player.Scale + 0.1
+		  ScaleLabel.Text = "Scale: " + Format(Player.Scale, "##0.0##")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
