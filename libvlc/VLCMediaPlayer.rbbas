@@ -137,29 +137,37 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return mPlayer.CaptureKeyboard
+			  If mPlayer <> Nil Then Return mPlayer.CanPause
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer <> Nil Then mPlayer.CaptureKeyboard = value
-			End Set
-		#tag EndSetter
-		CaptureKeyboard As Boolean
+		CanPause As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return mPlayer.CaptureMouse
+			  If mPlayer <> Nil Then Return mPlayer.CanPlay
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer <> Nil Then mPlayer.CaptureMouse = value
-			End Set
-		#tag EndSetter
-		CaptureMouse As Boolean
+		CanPlay As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.CanSeek
+			End Get
+		#tag EndGetter
+		CanSeek As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.CurrentState
+			End Get
+		#tag EndGetter
+		CurrentState As libvlc.PlayerState
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -174,6 +182,33 @@ Inherits Canvas
 			End Set
 		#tag EndSetter
 		Equalizer As libvlc.Equalizer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.HasAudio
+			End Get
+		#tag EndGetter
+		HasAudio As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.HasSubtitles
+			End Get
+		#tag EndGetter
+		HasSubtitles As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.HasVideo
+			End Get
+		#tag EndGetter
+		HasVideo As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -238,6 +273,34 @@ Inherits Canvas
 			End Set
 		#tag EndSetter
 		Position As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then return mPlayer.Scale
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.Scale = value
+			End Set
+		#tag EndSetter
+		Scale As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then return mPlayer.Speed
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.Speed = value
+			End Set
+		#tag EndSetter
+		Speed As Single
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -328,11 +391,6 @@ Inherits Canvas
 			InitialValue="True"
 			Type="Boolean"
 			InheritedFrom="Canvas"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Fullscreen"
-			Group="Behavior"
-			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Height"
