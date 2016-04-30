@@ -432,11 +432,15 @@ Begin Window PlayerWindow
       AcceptTabs      =   False
       AutoDeactivate  =   True
       Backdrop        =   ""
-      CaptureKeyboard =   True
-      CaptureMouse    =   True
+      CanPause        =   ""
+      CanPlay         =   ""
+      CanSeek         =   ""
       DoubleBuffer    =   True
       Enabled         =   True
       EraseBackground =   False
+      HasAudio        =   ""
+      HasSubtitles    =   ""
+      HasVideo        =   ""
       Height          =   314
       HelpTag         =   ""
       Index           =   -2147483648
@@ -450,7 +454,9 @@ Begin Window PlayerWindow
       LockTop         =   True
       Muted           =   False
       Position        =   0.0
+      Scale           =   ""
       Scope           =   0
+      Speed           =   ""
       TabIndex        =   24
       TabPanelIndex   =   0
       TabStop         =   True
@@ -824,7 +830,7 @@ End
 	#tag Event
 		Sub Action()
 		  If Player = Nil Then Return
-		  If Player.Media = Nil Then 
+		  If Player.Media = Nil Then
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
 		    FullscreenBtn.Enabled = False
@@ -1157,7 +1163,7 @@ End
 #tag Events ScaleChange
 	#tag Event
 		Sub Down()
-		  Dim scale As Single = Player.Scale 
+		  Dim scale As Single = Player.Scale
 		  scale = scale - 0.1
 		  If scale < 0.0001 Then scale = 0.0
 		  Player.Scale = scale

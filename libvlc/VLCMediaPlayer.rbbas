@@ -359,12 +359,17 @@ Inherits Canvas
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="CaptureKeyboard"
+			Name="CanPause"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="CaptureMouse"
+			Name="CanPlay"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CanSeek"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
@@ -391,6 +396,21 @@ Inherits Canvas
 			InitialValue="True"
 			Type="Boolean"
 			InheritedFrom="Canvas"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasAudio"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasSubtitles"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasVideo"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Height"
@@ -474,6 +494,16 @@ Inherits Canvas
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Position"
+			Group="Behavior"
+			Type="Single"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Scale"
+			Group="Behavior"
+			Type="Single"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Speed"
 			Group="Behavior"
 			Type="Single"
 		#tag EndViewProperty
