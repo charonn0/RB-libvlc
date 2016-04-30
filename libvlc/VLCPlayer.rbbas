@@ -73,6 +73,11 @@ Inherits libvlc.VLCInstance
 		  Super.Constructor()
 		  mPlayer = libvlc_media_player_new(Me.Instance)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
+		  
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 150
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
 		End Sub
 	#tag EndMethod
 
@@ -84,6 +89,10 @@ Inherits libvlc.VLCInstance
 		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		  
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 150
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
 		End Sub
 	#tag EndMethod
 
@@ -95,6 +104,11 @@ Inherits libvlc.VLCInstance
 		  Super.Constructor()
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mPlayer = FromPtr
+		  
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 150
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
 		End Sub
 	#tag EndMethod
 
@@ -278,6 +292,16 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub StateChangeTimerHandler(Sender As Timer)
+		  #pragma Unused Sender
+		  If mPlayer <> Nil And Me.CurrentState <> mLastState Then
+		    mLastState = Me.CurrentState
+		    RaiseEvent ChangedState()
+		  End If
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Sub Stop()
 		  If mPlayer <> Nil Then libvlc_media_player_stop(mPlayer)
@@ -385,6 +409,11 @@ Inherits libvlc.VLCInstance
 		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
 		End Function
 	#tag EndMethod
+
+
+	#tag Hook, Flags = &h0
+		Event ChangedState()
+	#tag EndHook
 
 
 	#tag ComputedProperty, Flags = &h0
@@ -562,11 +591,19 @@ Inherits libvlc.VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastState As libvlc.PlayerState
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mMedium As libvlc.Medium
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mPlayer As Ptr
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mStateChangeTimer As Timer
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0

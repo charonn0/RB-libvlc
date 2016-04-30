@@ -72,11 +72,19 @@ Inherits Canvas
 		Sub Open()
 		  mPlayer = New VLCPlayer
 		  AddHandler mPlayer.VLCLog, WeakAddressOf VLCLogHandler
+		  AddHandler mPlayer.ChangedState, WeakAddressOf ChangedStateHandler
 		  mPlayer.EmbedWithin(Me)
 		  RaiseEvent Open()
 		End Sub
 	#tag EndEvent
 
+
+	#tag Method, Flags = &h21
+		Private Sub ChangedStateHandler(Sender As libvlc.VLCPlayer)
+		  #pragma Unused Sender
+		  RaiseEvent ChangedState()
+		End Sub
+	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function MetaData() As libvlc.Meta.MetaData
@@ -116,6 +124,10 @@ Inherits Canvas
 		End Sub
 	#tag EndMethod
 
+
+	#tag Hook, Flags = &h0
+		Event ChangedState()
+	#tag EndHook
 
 	#tag Hook, Flags = &h0
 		Event Open()
