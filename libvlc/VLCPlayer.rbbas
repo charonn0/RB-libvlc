@@ -361,6 +361,18 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function VideoAdjustment(Option As libvlc.AdjustOption) As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, UInt32(Option))
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub VideoAdjustment(Option As libvlc.AdjustOption, Assigns NewValue As Integer)
+		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, UInt32(Option), NewValue)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
 		  Dim i As New VLCInstance
 		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance))
@@ -505,6 +517,28 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  return mDeinterlace
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value <> "" Then
+			    Dim mb As New MemoryBlock(value.Len + 1)
+			    mb.CString(0) = value
+			    libvlc_video_set_deinterlace(mPlayer, mb)
+			    mDeinterlace = value
+			  Else
+			    libvlc_video_set_deinterlace(mPlayer, Nil)
+			    mDeinterlace = ""
+			  End If
+			End Set
+		#tag EndSetter
+		Deinterlace As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mEqualizer = Nil Then mEqualizer = New libvlc.Equalizer
 			  return mEqualizer
 			End Get
@@ -584,6 +618,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mCaptureMouse As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mDeinterlace As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -733,6 +771,21 @@ Inherits libvlc.VLCInstance
 			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="HasAudio"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasSubtitles"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasVideo"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -771,6 +824,16 @@ Inherits libvlc.VLCInstance
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Position"
+			Group="Behavior"
+			Type="Single"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Scale"
+			Group="Behavior"
+			Type="Single"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Speed"
 			Group="Behavior"
 			Type="Single"
 		#tag EndViewProperty

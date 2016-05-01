@@ -13,7 +13,7 @@ Protected Module libvlc
 		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
 		  Dim seconds As Integer = (Milliseconds / 1000) Mod 60
 		  Dim out As String
-		  If hours > 0 Then 
+		  If hours > 0 Then
 		    out = Str(hours) + ":"
 		    out = out + Format(minutes, "00") + ":"
 		  Else
@@ -532,6 +532,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_adjust_int Lib "libvlc" (Player As Ptr, Option As UInt32) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_aspect_ratio Lib "libvlc" (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
@@ -565,6 +569,14 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_track_description Lib "libvlc" (Player As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_adjust_int Lib "libvlc" (Player As Ptr, Option As UInt32, Value As Integer)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_deinterlace Lib "libvlc" (Player As Ptr, Mode As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -676,6 +688,26 @@ Protected Module libvlc
 		Name As Ptr
 	#tag EndStructure
 
+
+	#tag Enum, Name = AdjustOption, Type = Integer, Flags = &h1
+		Enable
+		  Contrast
+		  Brightness
+		  Hue
+		  Saturation
+		Gamma
+	#tag EndEnum
+
+	#tag Enum, Name = LogoOption, Type = Integer, Flags = &h1
+		Enable
+		  File
+		  X
+		  Y
+		  Delay
+		  Repeat
+		  Opacity
+		Position
+	#tag EndEnum
 
 	#tag Enum, Name = MediaType, Type = Integer, Flags = &h1
 		Unknown
