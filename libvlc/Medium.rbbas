@@ -21,6 +21,15 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Constructor(Options As libvlc.InstanceOptions, MediaURL As String)
+		  Dim cmdline As String = Options.ToCommandLine
+		  Super.Constructor(1, cmdline)
+		  mMedium = libvlc_media_new_location(Me.Instance, MediaURL)
+		  If mMedium = Nil Then Raise New UnsupportedFormatException
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(AddRef As libvlc.Medium)
 		  ' Duplicates the Medium. The duplicate is independent of the original.
