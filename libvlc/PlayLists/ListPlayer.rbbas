@@ -3,14 +3,12 @@ Protected Class ListPlayer
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Function CanMoveNext() As Boolean
-		  
 		  Return mPlayList <> Nil And mListIndex < mPlayList.Count - 1
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function CanMovePrev() As Boolean
-		  
 		  Return mPlayList <> Nil And mListIndex > 0
 		End Function
 	#tag EndMethod
@@ -91,12 +89,11 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Play(MediaURL As String)
+		Sub Play(Media As libvlc.Medium)
 		  If mPlayer <> Nil Then
-		    Dim index As Integer = mPlayList.IndexOf(MediaURL)
+		    Dim index As Integer = mPlayList.IndexOf(Media)
 		    If index > -1 Then
-		      Dim m As Medium = mPlayList.Item(index)
-		      If libvlc_media_list_player_play_item(mPlayer, m.Handle) = 0 Then Return
+		      If libvlc_media_list_player_play_item(mPlayer, Media.Handle) = 0 Then Return
 		    End If
 		    Raise New VLCException("That media is not included in the media list.")
 		  End If
