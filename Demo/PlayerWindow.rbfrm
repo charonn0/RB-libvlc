@@ -752,8 +752,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(Media As libvlc.Medium)
-		  'Player.CaptureKeyboard = False
-		  'Player.CaptureMouse = False
+		  mListPlayer = Nil
 		  If Media = Nil Then Return
 		  'Media.AddOption("--rotate-angle=180")
 		  Player.Media = Media
@@ -761,9 +760,13 @@ End
 		    Dim url As String = Player.MetaData.Value(libvlc.Meta.MetaDataType.ArtworkURL)
 		    Dim data As MemoryBlock
 		    Select Case Left(url, 5)
-		      'Case "http:"
-		      'Dim h As New HTTPSocket
-		      'data = h.Get(url, 10)
+		    Case "http:"
+		      Dim h As New HTTPSocket
+		      data = h.Get(url, 10)
+		      
+		    Case "https"
+		      Dim h As New HTTPSecureSocket
+		      data = h.Get(url, 10)
 		      
 		    Case "file:"
 		      Dim art As FolderItem = GetFolderItem(url, FolderItem.PathTypeURL)
@@ -845,7 +848,8 @@ End
 		      mLock = False
 		    End Try
 		    If Player.MetaData <> Nil Then
-		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'" + _
+		      "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		    Else
 		      Self.Title = "libvlc demo"
 		    End If
@@ -1016,28 +1020,8 @@ End
 		  Dim url As String
 		  If Player.Media <> Nil Then url = Player.Media.URL
 		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
-		  Dim state As libvlc.PlayerState = Player.CurrentState
-		  Dim wndttl As String
-		  Select Case state
-		  Case libvlc.PlayerState.BUFFERING
-		    wndttl = "(buffering)"
-		  Case libvlc.PlayerState.ENDED
-		    wndttl = "(finished)"
-		  Case libvlc.PlayerState.ERROR
-		    wndttl = "(error)"
-		  Case libvlc.PlayerState.IDLE
-		    wndttl = "(idle)"
-		  Case libvlc.PlayerState.OPENING
-		    wndttl = "(opening)"
-		  Case libvlc.PlayerState.PAUSED
-		    wndttl = "(paused)"
-		  Case libvlc.PlayerState.PLAYING
-		    wndttl = "(playing)"
-		  Case libvlc.PlayerState.STOPPING
-		    wndttl = "(stopping)"
-		  End Select
 		  
-		  If state = libvlc.PlayerState.PLAYING Then
+		  If Player.CurrentState = libvlc.PlayerState.PLAYING Then
 		    PlayButton.Caption = "Pause"
 		  Else
 		    PlayButton.Caption = "Play"
