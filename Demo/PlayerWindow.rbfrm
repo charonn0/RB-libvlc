@@ -752,9 +752,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(Media As libvlc.Medium)
-		  mListPlayer = Nil
 		  If Media = Nil Then Return
-		  'Media.AddOption("--rotate-angle=180")
 		  Player.Media = Media
 		  If Player.MetaData.HasKey(libvlc.Meta.MetaDataType.ArtworkURL) Then
 		    Dim url As String = Player.MetaData.Value(libvlc.Meta.MetaDataType.ArtworkURL)
@@ -780,7 +778,7 @@ End
 		  Else
 		    mArtwork = Nil
 		  End If
-		  'Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		  
 		  MetaDataList.DeleteAllRows
 		  MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Actors, "Not set"))
 		  MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Album, "Not set"))
