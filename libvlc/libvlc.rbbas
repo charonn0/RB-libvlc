@@ -608,6 +608,29 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag Method, Flags = &h1
+		Protected Function PlayerStateName(State As libvlc.PlayerState) As String
+		  Select Case State
+		  Case libvlc.PlayerState.BUFFERING
+		    Return "buffering"
+		  Case libvlc.PlayerState.ENDED
+		    Return "finished"
+		  Case libvlc.PlayerState.ERROR
+		    Return "error"
+		  Case libvlc.PlayerState.IDLE
+		    Return "idle"
+		  Case libvlc.PlayerState.OPENING
+		    Return "opening"
+		  Case libvlc.PlayerState.PAUSED
+		    Return "paused"
+		  Case libvlc.PlayerState.PLAYING
+		    Return "playing"
+		  Case libvlc.PlayerState.STOPPING
+		    Return "stopping"
+		  End Select
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function VersionString() As String
 		  Dim mb As MemoryBlock = libvlc_get_version()
 		  If mb <> Nil Then Return mb.CString(0)
