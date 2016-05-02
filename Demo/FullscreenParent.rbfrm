@@ -67,10 +67,36 @@ Begin Window FullscreenParent
       Top             =   0
       Width           =   32
    End
+   Begin Timer SetPositionTimer1
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   245
+      LockedInPosition=   False
+      Mode            =   2
+      Period          =   150
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   35
+      Width           =   32
+   End
 End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Close()
+		  If mControls <> Nil Then mControls.Close
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub MouseMove(X As Integer, Y As Integer)
+		  #pragma Unused X
+		  #pragma Unused Y
+		  If mControls <> Nil Then mControls.Display
+		End Sub
+	#tag EndEvent
+
 	#tag Event
 		Sub Open()
 		  Me.FullScreen = True
@@ -111,6 +137,10 @@ End
 
 
 	#tag Property, Flags = &h21
+		Private mControls As FullscreenControls
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mPlayer As libvlc.VLCPlayer
 	#tag EndProperty
 
@@ -136,6 +166,20 @@ End
 		  Else
 		    mPlayer.Position = (mStartTime * 100 / mPlayer.LengthMS) / 100
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events SetPositionTimer1
+	#tag Event
+		Sub Action()
+		  If mPlayer = Nil Then Return
+		  If mPlayer.CurrentState = libvlc.PlayerState.ENDED Or _
+		    mPlayer.CurrentState = libvlc.PlayerState.ERROR Or mPlayer.CurrentState = libvlc.PlayerState.STOPPING Then Self.Close
+		    If mControls = Nil Then
+		      mControls = New FullscreenControls
+		      mControls.ShowPlayer(mPlayer, Self)
+		      mControls.Display
+		    End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
