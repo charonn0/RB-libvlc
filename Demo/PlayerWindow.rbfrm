@@ -16,9 +16,9 @@ Begin Window PlayerWindow
    MaxWidth        =   32000
    MenuBar         =   ""
    MenuBarVisible  =   True
-   MinHeight       =   64
+   MinHeight       =   571
    MinimizeButton  =   True
-   MinWidth        =   64
+   MinWidth        =   618
    Placement       =   2
    Resizeable      =   True
    Title           =   "*"
@@ -57,7 +57,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   448
+      Left            =   492
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -67,7 +67,7 @@ Begin Window PlayerWindow
       TabIndex        =   32
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   343
+      Top             =   341
       Visible         =   True
       Width           =   13
    End
@@ -82,7 +82,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   467
+      Left            =   435
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -94,16 +94,16 @@ Begin Window PlayerWindow
       TabIndex        =   31
       TabPanelIndex   =   0
       Text            =   "Scale: 1.0"
-      TextAlign       =   0
+      TextAlign       =   2
       TextColor       =   &h000000
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   345
+      Top             =   343
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
-      Width           =   64
+      Width           =   57
    End
    Begin Label SpeedLabel
       AutoDeactivate  =   True
@@ -116,7 +116,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   387
+      Left            =   348
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -128,16 +128,16 @@ Begin Window PlayerWindow
       TabIndex        =   30
       TabPanelIndex   =   0
       Text            =   "Speed: 1.0"
-      TextAlign       =   0
+      TextAlign       =   2
       TextColor       =   &h000000
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   345
+      Top             =   343
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
-      Width           =   64
+      Width           =   68
    End
    Begin UpDownArrows SpeedChange
       AcceptFocus     =   False
@@ -147,7 +147,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   368
+      Left            =   416
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -157,7 +157,7 @@ Begin Window PlayerWindow
       TabIndex        =   29
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   343
+      Top             =   341
       Visible         =   True
       Width           =   13
    End
@@ -1148,8 +1148,9 @@ End
 		        AudioTracks.Enabled = False
 		      End If
 		    End If
-		    
 		  End If
+		  
+		  If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
 		End Sub
 	#tag EndEvent
 #tag EndEvents
