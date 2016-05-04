@@ -920,7 +920,7 @@ End
 #tag Events AudioTracks
 	#tag Event
 		Sub Change()
-		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
 		      Player.TruePlayer.AudioTrack = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
@@ -933,7 +933,7 @@ End
 #tag Events VideoTracks
 	#tag Event
 		Sub Change()
-		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
 		      Player.TruePlayer.VideoTrack = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
@@ -961,7 +961,7 @@ End
 #tag Events SubtitleTracks
 	#tag Event
 		Sub Change()
-		  If Me.RowTag(Me.ListIndex) <> Nil Then
+		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
 		      Player.TruePlayer.SubtitleIndex = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
@@ -1105,49 +1105,54 @@ End
 		    FullscreenBtn.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
-		    
-		    Dim c As Integer = Player.TruePlayer.SubtitleCount
-		    If Not SubtitleTracks.Enabled And c > 0 Then
+		    Do Until Not mLock
+		      App.YieldToNextThread
+		    Loop
+		    Try
+		      Dim c As Integer = Player.TruePlayer.SubtitleCount
 		      SubtitleTracks.DeleteAllRows
 		      If c > 0 Then
-		        Dim lst As libvlc.Meta.TrackList = Player.TruePlayer.Subtitles
 		        For i As Integer = 0 To c - 1
-		          SubtitleTracks.AddRow(lst.Name(i))
-		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = lst.ID(i)
+		          Dim ID As Integer = Player.TruePlayer.Subtitles.ID(i)
+		          SubtitleTracks.AddRow(Player.TruePlayer.Subtitles.Name(i))
+		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = Player.TruePlayer.Subtitles.ID(i)
+		          If ID = Player.TruePlayer.SubtitleIndex Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
 		        Next
 		        SubtitleTracks.Enabled = True
 		      Else
 		        SubtitleTracks.Enabled = False
 		      End If
-		    End If
-		    
-		    c = Player.TruePlayer.VideoTrackCount
-		    If Not VideoTracks.Enabled And c > 0 Then
+		      
+		      c = Player.TruePlayer.VideoTrackCount
 		      VideoTracks.DeleteAllRows
 		      If c > 0 Then
 		        For i As Integer = 0 To c - 1
+		          Dim ID As Integer = Player.TruePlayer.VideoTrackID(i)
 		          VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
-		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = Player.TruePlayer.VideoTrackID(i)
+		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = ID
+		          If ID = Player.TruePlayer.VideoTrack Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
 		        Next
 		        VideoTracks.Enabled = True
 		      Else
 		        VideoTracks.Enabled = False
 		      End If
-		    End If
-		    
-		    c = Player.TruePlayer.AudioTrackCount
-		    If Not AudioTracks.Enabled And c > 0 Then
+		      
+		      c = Player.TruePlayer.AudioTrackCount
 		      AudioTracks.DeleteAllRows
 		      If c > 0 Then
 		        For i As Integer = 0 To c - 1
+		          Dim ID As Integer = Player.TruePlayer.AudioTrackID(i)
 		          AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
-		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = Player.TruePlayer.AudioTrackID(i)
+		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = ID
+		          If ID = Player.TruePlayer.AudioTrack Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
 		        Next
 		        AudioTracks.Enabled = True
 		      Else
 		        AudioTracks.Enabled = False
 		      End If
-		    End If
+		    Finally
+		      mLock = False
+		    End Try
 		  End If
 		  
 		  If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
