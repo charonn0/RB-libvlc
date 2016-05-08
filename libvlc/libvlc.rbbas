@@ -8,10 +8,11 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function FormatTime(Milliseconds As Int64) As String
+		Protected Function FormatTime(Milliseconds As Int64, FractionalSeconds As Boolean = False) As String
 		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
 		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
 		  Dim seconds As Integer = (Milliseconds / 1000) Mod 60
+		  Dim frac As Integer  = Milliseconds Mod 1000
 		  Dim out As String
 		  If hours > 0 Then
 		    out = Str(hours) + ":"
@@ -19,7 +20,11 @@ Protected Module libvlc
 		  Else
 		    out = out + Format(minutes, "#0") + ":"
 		  End If
-		  out = out + Format(seconds, "00")
+		  If FractionalSeconds Then
+		    out = out + Format(seconds + (frac / 1000), "00.00")
+		  Else
+		    out = out + Format(seconds, "00")
+		  End If
 		  Return out
 		  
 		End Function
