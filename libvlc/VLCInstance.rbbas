@@ -7,7 +7,7 @@ Protected Class VLCInstance
 		  If Singleton = Nil Then 
 		    mInstance = libvlc_new(argc, argv)
 		    Singleton = Me
-		    Me.Logging = DebugBuild
+		    'Me.Logging = DebugBuild
 		  Else
 		    Me.Constructor(Singleton)
 		  End If
@@ -23,14 +23,14 @@ Protected Class VLCInstance
 		Protected Sub Constructor(AddRef As VLCInstance)
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
-		  Me.Logging = DebugBuild
+		  'Me.Logging = DebugBuild
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mInstance <> Nil Then
-		    Me.Logging = False
+		    'Me.Logging = False
 		    libvlc_release(mInstance)
 		  End If
 		  mInstance = Nil
