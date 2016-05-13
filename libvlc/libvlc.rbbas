@@ -9,6 +9,11 @@ Protected Module libvlc
 
 	#tag Method, Flags = &h1
 		Protected Function FormatTime(Milliseconds As Int64, FractionalSeconds As Boolean = False) As String
+		  ' Formats the period of time denoted by Milliseconds as HH:MM:SS. If FractionalSeconds is true then fractions of a second are included.
+		  '
+		  ' See: 
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.FormatTime
+		  
 		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
 		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
 		  Dim seconds As Integer = (Milliseconds / 1000) Mod 60
