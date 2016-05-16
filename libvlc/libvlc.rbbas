@@ -20,18 +20,28 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function FormatTime(Milliseconds As Int64) As String
+		Protected Function FormatTime(Milliseconds As Int64, FractionalSeconds As Boolean = False) As String
+		  ' Formats the period of time denoted by Milliseconds as HH:MM:SS. If FractionalSeconds is true then fractions of a second are included.
+		  '
+		  ' See: 
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.FormatTime
+		  
 		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
 		  Dim minutes As Integer = (Milliseconds / (1000 * 60)) Mod 60
 		  Dim seconds As Integer = (Milliseconds / 1000) Mod 60
+		  Dim frac As Integer  = Milliseconds Mod 1000
 		  Dim out As String
-		  If hours > 0 Then 
+		  If hours > 0 Then
 		    out = Str(hours) + ":"
 		    out = out + Format(minutes, "00") + ":"
 		  Else
 		    out = out + Format(minutes, "#0") + ":"
 		  End If
-		  out = out + Format(seconds, "00")
+		  If FractionalSeconds Then
+		    out = out + Format(seconds + (frac / 1000), "00.00")
+		  Else
+		    out = out + Format(seconds, "00")
+		  End If
 		  Return out
 		  
 		End Function
@@ -544,6 +554,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_adjust_int Lib "libvlc" (Player As Ptr, Option As UInt32) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_aspect_ratio Lib "libvlc" (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
@@ -580,6 +594,14 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_adjust_int Lib "libvlc" (Player As Ptr, Option As UInt32, Value As Integer)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_deinterlace Lib "libvlc" (Player As Ptr, Mode As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_video_set_key_input Lib "libvlc" (Player As Ptr, On As Boolean)
 	#tag EndExternalMethod
 
@@ -606,6 +628,29 @@ Protected Module libvlc
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_take_snapshot Lib "libvlc" (Player As Ptr, VideoIndex As Integer, FilePath As CString, Width As Integer, Height As Integer) As Integer
 	#tag EndExternalMethod
+
+	#tag Method, Flags = &h1
+		Protected Function PlayerStateName(State As libvlc.PlayerState) As String
+		  Select Case State
+		  Case libvlc.PlayerState.BUFFERING
+		    Return "buffering"
+		  Case libvlc.PlayerState.ENDED
+		    Return "finished"
+		  Case libvlc.PlayerState.ERROR
+		    Return "error"
+		  Case libvlc.PlayerState.IDLE
+		    Return "idle"
+		  Case libvlc.PlayerState.OPENING
+		    Return "opening"
+		  Case libvlc.PlayerState.PAUSED
+		    Return "paused"
+		  Case libvlc.PlayerState.PLAYING
+		    Return "playing"
+		  Case libvlc.PlayerState.STOPPING
+		    Return "stopping"
+		  End Select
+		End Function
+	#tag EndMethod
 
 	#tag Method, Flags = &h1
 		Protected Function VersionString() As String
@@ -688,6 +733,26 @@ Protected Module libvlc
 		Name As Ptr
 	#tag EndStructure
 
+
+	#tag Enum, Name = AdjustOption, Type = Integer, Flags = &h1
+		Enable
+		  Contrast
+		  Brightness
+		  Hue
+		  Saturation
+		Gamma
+	#tag EndEnum
+
+	#tag Enum, Name = LogoOption, Type = Integer, Flags = &h1
+		Enable
+		  File
+		  X
+		  Y
+		  Delay
+		  Repeat
+		  Opacity
+		Position
+	#tag EndEnum
 
 	#tag Enum, Name = MediaType, Type = Integer, Flags = &h1
 		Unknown

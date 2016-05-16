@@ -26,12 +26,16 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function AudioTrack() As Integer
+		  ' Returns the I_ID of the current track.
+		  
 		  If mPlayer <> Nil Then Return libvlc_audio_get_track(mPlayer)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub AudioTrack(Assigns NewTrack As Integer)
+		  ' Sets the audio track to the I_ID specified by NewTrack. Call AudioTrackID to get the I_ID.
+		  
 		  If mPlayer = Nil Then Raise New NilObjectException
 		  If libvlc_audio_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the audio track to that index.")
 		End Sub
@@ -53,8 +57,25 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function AudioTrackID(TrackNumber As Integer) As Integer
+		  ' Returns the I_ID member of the Audio Track at TrackNumber
+		  
 		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
 		  If lst <> Nil Then Return lst.ID(TrackNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AudioTrackIndex(TrackID As Integer) As Integer
+		  ' Returns the index of the Audio Track corresponding to TrackID, or -1
+		  
+		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
+		  If lst <> Nil Then 
+		    Dim c As Integer = lst.Count
+		    For i As Integer = 0 To c - 1
+		      If lst.ID(i) = TrackID Then Return i
+		    Next
+		  End If
+		  Return -1
 		End Function
 	#tag EndMethod
 
@@ -348,7 +369,7 @@ Inherits libvlc.VLCInstance
 		  
 		  Dim tmp As FolderItem = GetTemporaryFolderItem()
 		  Dim r As REALbasic.Rect = GetVideoDimensions()
-		  If libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath, r.Width, r.Height) = 0 Then
+		  If r <> Nil And libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath, r.Width, r.Height) = 0 Then
 		    Return Picture.Open(tmp)
 		  End If
 		  
@@ -364,6 +385,18 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub ToggleTeletext()
 		  If mPlayer <> Nil Then libvlc_toggle_teletext(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function VideoAdjustment(Option As libvlc.AdjustOption) As Integer
+		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, UInt32(Option))
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub VideoAdjustment(Option As libvlc.AdjustOption, Assigns NewValue As Integer)
+		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, UInt32(Option), NewValue)
 		End Sub
 	#tag EndMethod
 
@@ -406,6 +439,21 @@ Inherits libvlc.VLCInstance
 		Function VideoTrackID(TrackNumber As Integer) As Integer
 		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
 		  If lst <> Nil Then Return lst.ID(TrackNumber)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function VideoTrackIndex(TrackID As Integer) As Integer
+		  ' Returns the index of the Video Track corresponding to TrackID, or -1
+		  
+		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
+		  If lst <> Nil Then 
+		    Dim c As Integer = lst.Count
+		    For i As Integer = 0 To c - 1
+		      If lst.ID(i) = TrackID Then Return i
+		    Next
+		  End If
+		  Return -1
 		End Function
 	#tag EndMethod
 
@@ -512,6 +560,28 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  return mDeinterlace
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value <> "" Then
+			    Dim mb As New MemoryBlock(value.Len + 1)
+			    mb.CString(0) = value
+			    libvlc_video_set_deinterlace(mPlayer, mb)
+			    mDeinterlace = value
+			  Else
+			    libvlc_video_set_deinterlace(mPlayer, Nil)
+			    mDeinterlace = ""
+			  End If
+			End Set
+		#tag EndSetter
+		Deinterlace As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mEqualizer = Nil Then mEqualizer = New libvlc.Equalizer
 			  return mEqualizer
 			End Get
@@ -591,6 +661,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mCaptureMouse As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mDeinterlace As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -735,7 +809,27 @@ Inherits libvlc.VLCInstance
 			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="Deinterlace"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Fullscreen"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasAudio"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasSubtitles"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasVideo"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty

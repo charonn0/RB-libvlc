@@ -32,7 +32,7 @@ Inherits libvlc.Meta.LinkedList
 
 	#tag Method, Flags = &h0
 		Function Description(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t.Language
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t.Description
 		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
