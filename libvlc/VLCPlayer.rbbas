@@ -293,6 +293,24 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Play(StartPaused As Boolean = False) As Boolean
+		  If mPlayer = Nil Then Return False
+		  Me.Play()
+		  Do
+		    Select Case Me.CurrentState
+		    Case libvlc.PlayerState.BUFFERING, libvlc.PlayerState.IDLE, libvlc.PlayerState.OPENING
+		      App.YieldToNextThread
+		      Continue
+		    Case libvlc.PlayerState.PLAYING
+		      Return True
+		    Else
+		      Return False
+		    End Select
+		  Loop
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Resume()
 		  If mPlayer <> Nil Then libvlc_media_player_set_pause(mPlayer, 0)
 		End Sub
