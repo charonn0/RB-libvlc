@@ -84,7 +84,7 @@ Inherits libvlc.VLCInstance
 		  Case "dvd", "dvdsimple", "vcd", "cdda"
 		    Dim i As Integer = InStr(url, "://")
 		    If i > 1 Then
-		      Return GetFolderItem("file:///" + url.Right(url.Len - i - 2), FolderItem.PathTypeURL)
+		      Return GetFolderItem("file:/" + url.Right(url.Len - i), FolderItem.PathTypeURL)
 		    End If
 		  End Select
 		End Function
