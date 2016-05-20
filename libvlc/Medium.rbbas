@@ -80,6 +80,13 @@ Inherits libvlc.VLCInstance
 		Function MediaFile() As FolderItem
 		  Dim url As String = Me.MediaURL
 		  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+		  Select Case NthField(url, "://", 1)
+		  Case "dvd", "dvdsimple", "vcd", "cdda"
+		    Dim i As Integer = InStr(url, "://")
+		    If i > 1 Then
+		      Return GetFolderItem("file:///" + url.Right(url.Len - i - 2), FolderItem.PathTypeURL)
+		    End If
+		  End Select
 		End Function
 	#tag EndMethod
 
