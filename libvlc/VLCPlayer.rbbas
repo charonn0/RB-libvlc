@@ -295,7 +295,11 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Function Play(StartPaused As Boolean = False) As Boolean
 		  If mPlayer = Nil Then Return False
-		  Me.Play()
+		  Try
+		    Me.Play()
+		  Catch
+		    Return False
+		  End Try
 		  Do
 		    Select Case Me.CurrentState
 		    Case libvlc.PlayerState.BUFFERING, libvlc.PlayerState.IDLE, libvlc.PlayerState.OPENING
