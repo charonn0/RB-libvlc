@@ -847,7 +847,7 @@ End
 		      mLock = False
 		    End Try
 		    If Player.MetaData <> Nil Then
-		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'" + _
+		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.MediaURL) + "'" + _
 		      "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		    Else
 		      Self.Title = "libvlc demo"
@@ -1083,7 +1083,7 @@ End
 		Sub ChangedState()
 		  If Player = Nil Then Return
 		  Dim url As String
-		  If Player.Media <> Nil Then url = Player.Media.URL
+		  If Player.Media <> Nil Then url = Player.Media.MediaURL
 		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
 		  
 		  If Player.CurrentState = libvlc.PlayerState.PLAYING Then

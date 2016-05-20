@@ -78,8 +78,19 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function MediaFile() As FolderItem
-		  Dim url As String = Me.URL
+		  Dim url As String = Me.MediaURL
 		  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function MediaURL() As String
+		  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media constructed from FolderItems, this is the URLPath.
+		  
+		  If mMedium <> Nil Then
+		    Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
+		    If mb <> Nil Then Return mb.CString(0)
+		  End If
 		End Function
 	#tag EndMethod
 
@@ -147,13 +158,8 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function URL() As String
-		  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media constructed from FolderItems, this is the URLPath.
-		  
-		  If mMedium <> Nil Then
-		    Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
-		    If mb <> Nil Then Return mb.CString(0)
-		  End If
+		Attributes( deprecated = "libvlc.Medium.MediaURL" )  Function URL() As String
+		  Return Me.MediaURL
 		End Function
 	#tag EndMethod
 
