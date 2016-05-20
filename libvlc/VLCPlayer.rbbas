@@ -302,6 +302,7 @@ Inherits libvlc.VLCInstance
 		      App.YieldToNextThread
 		      Continue
 		    Case libvlc.PlayerState.PLAYING
+		      If StartPaused Then Me.Pause
 		      Return True
 		    Else
 		      Return False
