@@ -42,7 +42,7 @@ Protected Class TranscodeOptions
 		Function ToCommandLine() As String
 		  Dim mb As New MemoryBlock(0)
 		  Dim bs As New BinaryStream(mb)
-		  bs.Write("--sout=")
+		  bs.Write(":sout=")
 		  For j As Integer = 0 To mModules.Count - 1
 		    Dim ModuleName As String = mModules.Key(j)
 		    If j = 0 Then bs.Write("#")

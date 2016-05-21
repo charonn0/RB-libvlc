@@ -3,12 +3,11 @@ Protected Class VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
-		  If Singleton <> Nil And argv = Singleton.ARGV.ToCommandLine Then
+		  If Singleton <> Nil Then
 		    Me.Constructor(Singleton)
 		  Else
 		    mInstance = libvlc_new(argc, argv)
 		    If Singleton = Nil Then Singleton = Me
-		    mARGV = argv
 		  End If
 		  If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
 		  Me.Logging = DebugBuild
@@ -18,17 +17,9 @@ Protected Class VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(Options As libvlc.InstanceOptions)
-		  Dim cmdline As String = Options.ToCommandLine
-		  Me.Constructor(cmdline.Len, cmdline)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
 		Protected Sub Constructor(AddRef As VLCInstance)
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
-		  mARGV = AddRef.ARGV
 		  'Me.Logging = DebugBuild
 		End Sub
 	#tag EndMethod
@@ -120,15 +111,6 @@ Protected Class VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  return mARGV
-			End Get
-		#tag EndGetter
-		ARGV As libvlc.InstanceOptions
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
 			  return mLogging
 			End Get
 		#tag EndGetter
@@ -151,10 +133,6 @@ Protected Class VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mAppName As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mARGV As libvlc.InstanceOptions
 	#tag EndProperty
 
 	#tag Property, Flags = &h1

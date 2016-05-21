@@ -103,13 +103,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(Options As libvlc.InstanceOptions)
-		  Dim cmdline As String = Options.ToCommandLine
-		  Super.Constructor(1, cmdline)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor(Medium As libvlc.Medium)
 		  ' Constructs a new player instance from the passed media reference
 		  

@@ -8,12 +8,10 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function CreateTranscoder(Media As libvlc.Medium, Options As libvlc.TranscodeOptions, InstanceOptions As libvlc.InstanceOptions = Nil) As libvlc.VLCPlayer
-		  If InstanceOptions = Nil Then InstanceOptions = ""
-		  Dim t As New libvlc.VLCPlayer(InstanceOptions)
-		  Dim m As New libvlc.Medium(InstanceOptions, Media.URL)
+		Protected Function CreateTranscoder(Media As libvlc.Medium, Options As libvlc.TranscodeOptions) As libvlc.VLCPlayer
+		  Dim m As libvlc.Medium = Media.MediaURL
 		  m.AddOption(Options.ToCommandLine)
-		  t.Media = m
+		  Dim t As New VLCPlayer(m)
 		  Return t
 		  
 		End Function
