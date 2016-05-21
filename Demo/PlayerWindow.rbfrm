@@ -1155,7 +1155,7 @@ End
 		    End Try
 		  End If
 		  
-		  If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
+		  'If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
 		End Sub
 	#tag EndEvent
 #tag EndEvents
