@@ -781,7 +781,7 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then
+			  If mPlayer <> Nil And Me.CurrentState = libvlc.PlayerState.PLAYING Then
 			    If libvlc_audio_set_volume(mPlayer, value) = -1 Then Raise New VLCException("Volume percent is out of range (0-100)")
 			  End If
 			End Set
