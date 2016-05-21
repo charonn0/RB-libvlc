@@ -3,23 +3,23 @@ Protected Class App
 Inherits Application
 	#tag Event
 		Sub Open()
-		  Dim opts As New libvlc.TranscodeOptions
-		  'opts.AddOption("transcode", "acodec", "mp3")
-		  'opts.AddOption("transcode", "ab", "128")
-		  'opts.AddOption("transcode", "channels", "2")
-		  'opts.AddOption("transcode", "samplerate", "44100")
-		  'opts.AddOption("std", "access", "file")
-		  'opts.AddOption("std", "mux", "raw")
-		  'opts.AddOption("std", "dst", """" + GetSaveFolderItem(MediaFileTypes.AudioMp3, "music.mp3").AbsolutePath + """")
-		  opts.AddOption("duplicate",
-		  
-		  Dim m As libvlc.Medium = GetOpenFolderItem(MediaFileTypes.MediaOgg)
-		  Dim p As VLCPlayer = libvlc.CreateTranscoder(m, opts)
-		  p.Play()
-		  Do
-		    DoEvents
-		  Loop Until p.CurrentState = libvlc.PlayerState.STOPPING Or p.CurrentState = libvlc.PlayerState.ENDED Or p.CurrentState = libvlc.PlayerState.ERROR
-		  Break
+		  'Dim opts As New libvlc.TranscodeOptions
+		  ''opts.AddOption("transcode", "acodec", "mp3")
+		  ''opts.AddOption("transcode", "ab", "128")
+		  ''opts.AddOption("transcode", "channels", "2")
+		  ''opts.AddOption("transcode", "samplerate", "44100")
+		  ''opts.AddOption("std", "access", "file")
+		  ''opts.AddOption("std", "mux", "raw")
+		  ''opts.AddOption("std", "dst", """" + GetSaveFolderItem(MediaFileTypes.AudioMp3, "music.mp3").AbsolutePath + """")
+		  'opts.AddOption("duplicate",
+		  '
+		  'Dim m As libvlc.Medium = GetOpenFolderItem(MediaFileTypes.MediaOgg)
+		  'Dim p As VLCPlayer = libvlc.CreateTranscoder(m, opts)
+		  'p.Play()
+		  'Do
+		  'DoEvents
+		  'Loop Until p.CurrentState = libvlc.PlayerState.STOPPING Or p.CurrentState = libvlc.PlayerState.ENDED Or p.CurrentState = libvlc.PlayerState.ERROR
+		  'Break
 		End Sub
 	#tag EndEvent
 

@@ -8,20 +8,10 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function CreateTranscoder(Media As libvlc.Medium, Options As libvlc.TranscodeOptions) As libvlc.VLCPlayer
-		  Dim m As libvlc.Medium = Media.MediaURL
-		  m.AddOption(Options.ToCommandLine)
-		  Dim t As New VLCPlayer(m)
-		  Return t
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
 		Protected Function FormatTime(Milliseconds As Int64, FractionalSeconds As Boolean = False) As String
 		  ' Formats the period of time denoted by Milliseconds as HH:MM:SS. If FractionalSeconds is true then fractions of a second are included.
 		  '
-		  ' See: 
+		  ' See:
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.FormatTime
 		  
 		  Dim hours As Integer = (Milliseconds / (1000 * 60 * 60))
@@ -659,8 +649,8 @@ Protected Module libvlc
 
 	#tag Method, Flags = &h1
 		Protected Function VLCTimeNow() As Int64
-		  ' Return the current time as defined by LibVLC. The unit is the microsecond. Time increases monotonically 
-		  ' (regardless of time zone changes and RTC adjustements). The origin is arbitrary but consistent across the 
+		  ' Return the current time as defined by LibVLC. The unit is the microsecond. Time increases monotonically
+		  ' (regardless of time zone changes and RTC adjustements). The origin is arbitrary but consistent across the
 		  ' whole system (e.g. the system uptime).
 		  
 		  Return libvlc_clock()

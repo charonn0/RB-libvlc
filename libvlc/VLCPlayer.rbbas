@@ -69,7 +69,7 @@ Inherits libvlc.VLCInstance
 		  ' Returns the index of the Audio Track corresponding to TrackID, or -1
 		  
 		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
-		  If lst <> Nil Then 
+		  If lst <> Nil Then
 		    Dim c As Integer = lst.Count
 		    For i As Integer = 0 To c - 1
 		      If lst.ID(i) = TrackID Then Return i
@@ -468,7 +468,7 @@ Inherits libvlc.VLCInstance
 		  ' Returns the index of the Video Track corresponding to TrackID, or -1
 		  
 		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
-		  If lst <> Nil Then 
+		  If lst <> Nil Then
 		    Dim c As Integer = lst.Count
 		    For i As Integer = 0 To c - 1
 		      If lst.ID(i) = TrackID Then Return i
@@ -833,6 +833,7 @@ Inherits libvlc.VLCInstance
 			Name="Deinterlace"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Fullscreen"

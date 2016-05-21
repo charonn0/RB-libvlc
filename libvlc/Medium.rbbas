@@ -9,7 +9,7 @@ Inherits libvlc.VLCInstance
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.AddOption
 		  ' https://www.videolan.org/developers/vlc/doc/doxygen/html/group__libvlc__media.html#ga39511e64baa7c1fdbf89eddc88bf9e15
 		  ' https://www.videolan.org/developers/vlc/doc/doxygen/html/group__libvlc__media.html#ga96d5e0f418eecf74149057796160fd3a
-		  ' 
+		  '
 		  If mMedium = Nil Then Return
 		  If Flags = 0 Then
 		    libvlc_media_add_option(mMedium, Options)
