@@ -307,6 +307,11 @@ Inherits libvlc.VLCInstance
 		      Continue
 		    Case libvlc.PlayerState.PLAYING
 		      If StartPaused Then Me.Pause
+		      #If TargetHasGUI Then
+		        App.SleepCurrentThread(100)
+		      #Else
+		        App.DoEvents(100)
+		      #EndIf
 		      Return True
 		    Else
 		      Return False
