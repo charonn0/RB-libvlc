@@ -300,6 +300,34 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Play(StartPaused As Boolean = False) As Boolean
+		  If mPlayer = Nil Then Return False
+		  Try
+		    Me.Play()
+		  Catch
+		    Return False
+		  End Try
+		  Do
+		    Select Case Me.CurrentState
+		    Case libvlc.PlayerState.BUFFERING, libvlc.PlayerState.IDLE, libvlc.PlayerState.OPENING
+		      App.YieldToNextThread
+		      Continue
+		    Case libvlc.PlayerState.PLAYING
+		      If StartPaused Then Me.Pause
+		      #If TargetHasGUI Then
+		        App.SleepCurrentThread(100)
+		      #Else
+		        App.DoEvents(100)
+		      #EndIf
+		      Return True
+		    Else
+		      Return False
+		    End Select
+		  Loop
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Resume()
 		  If mPlayer <> Nil Then libvlc_media_player_set_pause(mPlayer, 0)
 		End Sub
@@ -760,7 +788,7 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil Then
+			  If mPlayer <> Nil And Me.CurrentState = libvlc.PlayerState.PLAYING Then
 			    If libvlc_audio_set_volume(mPlayer, value) = -1 Then Raise New VLCException("Volume percent is out of range (0-100)")
 			  End If
 			End Set

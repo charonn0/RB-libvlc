@@ -232,7 +232,7 @@ End
 	#tag Method, Flags = &h0
 		Function Load(Optional InitialValue As libvlc.Medium) As libvlc.Medium
 		  mMedium = InitialValue
-		  If mMedium <> Nil Then MediaURL.Text = mMedium.URL
+		  If mMedium <> Nil Then MediaURL.Text = mMedium.MediaURL
 		  Me.ShowModal
 		  Return mMedium
 		End Function

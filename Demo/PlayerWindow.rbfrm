@@ -758,8 +758,8 @@ End
 		  If Player.MetaData.HasKey(libvlc.Meta.MetaDataType.ArtworkURL) Then
 		    Dim url As String = Player.MetaData.Value(libvlc.Meta.MetaDataType.ArtworkURL)
 		    Dim data As MemoryBlock
-		    Select Case Left(url, 5)
-		    Case "http:"
+		    Select Case NthField(url, "://", 1)
+		    Case "http"
 		      Dim h As New HTTPSocket
 		      data = h.Get(url, 10)
 		      
@@ -767,7 +767,7 @@ End
 		      Dim h As New HTTPSecureSocket
 		      data = h.Get(url, 10)
 		      
-		    Case "file:"
+		    Case "file"
 		      Dim art As FolderItem = GetFolderItem(url, FolderItem.PathTypeURL)
 		      If art <> Nil And art.Exists And Not art.Directory Then
 		        Dim bs As BinaryStream = BinaryStream.Open(art)
@@ -847,7 +847,7 @@ End
 		      mLock = False
 		    End Try
 		    If Player.MetaData <> Nil Then
-		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'" + _
+		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.MediaURL) + "'" + _
 		      "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		    Else
 		      Self.Title = "libvlc demo"
@@ -1083,7 +1083,7 @@ End
 		Sub ChangedState()
 		  If Player = Nil Then Return
 		  Dim url As String
-		  If Player.Media <> Nil Then url = Player.Media.URL
+		  If Player.Media <> Nil Then url = Player.Media.MediaURL
 		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
 		  
 		  If Player.CurrentState = libvlc.PlayerState.PLAYING Then
@@ -1155,7 +1155,7 @@ End
 		    End Try
 		  End If
 		  
-		  If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
+		  'If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
 		End Sub
 	#tag EndEvent
 #tag EndEvents

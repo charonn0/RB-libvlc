@@ -29,14 +29,14 @@ Protected Class VLCInstance
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
 		  mARGV = AddRef.ARGV
-		  Me.Logging = DebugBuild
+		  'Me.Logging = DebugBuild
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mInstance <> Nil Then
-		    Me.Logging = False
+		    'Me.Logging = False
 		    libvlc_release(mInstance)
 		  End If
 		  mInstance = Nil
