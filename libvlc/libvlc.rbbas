@@ -466,6 +466,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_player_set_time Lib "libvlc" (Player As Ptr, TimeMS As UInt64)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_player_set_xwindow Lib "libvlc" (Player As Ptr, XID As Integer)
 	#tag EndExternalMethod
 

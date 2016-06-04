@@ -770,6 +770,11 @@ Inherits libvlc.VLCInstance
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_time(mPlayer)
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then libvlc_media_player_set_time(mPlayer, value)
+			End Set
+		#tag EndSetter
 		TimeMS As Int64
 	#tag EndComputedProperty
 

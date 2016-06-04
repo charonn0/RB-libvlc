@@ -29,14 +29,6 @@ Inherits Canvas
 	#tag EndEvent
 
 	#tag Event
-		Sub DropObject(obj As DragItem, action As Integer)
-		  ' This event is not raised
-		  #pragma Unused obj
-		  #pragma Unused action
-		End Sub
-	#tag EndEvent
-
-	#tag Event
 		Sub EnableMenuItems()
 		  Break
 		End Sub
@@ -309,6 +301,11 @@ Inherits Canvas
 			  If mPlayer <> Nil Then Return mPlayer.TimeMS
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.TimeMS = value
+			End Set
+		#tag EndSetter
 		TimeMS As Int64
 	#tag EndComputedProperty
 
