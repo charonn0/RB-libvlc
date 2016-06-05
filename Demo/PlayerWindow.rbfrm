@@ -1158,4 +1158,14 @@ End
 		  'If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
 		End Sub
 	#tag EndEvent
+	#tag Event
+		Sub Open()
+		  Me.AcceptFileDrop(MediaFileTypes.All)
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub DropObject(obj As DragItem, action As Integer)
+		  LoadMedia(obj.FolderItem)
+		End Sub
+	#tag EndEvent
 #tag EndEvents
