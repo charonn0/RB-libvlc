@@ -66,7 +66,8 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h0
 		 Shared Function GetPreset(Index As UInt32) As libvlc.Equalizer
-		  If Index > -1 And Index <= GetPresetCount() - 1 Then Return New Equalizer(Index)
+		  If Index < 0 Or Index > GetPresetCount() - 1 Then Raise New OutOfBoundsException
+		  Return New Equalizer(Index)
 		End Function
 	#tag EndMethod
 

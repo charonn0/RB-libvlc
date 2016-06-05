@@ -1,28 +1,28 @@
 #tag Class
 Protected Class MediaTrackList
-Inherits libvlc.LinkedList
+Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h0
 		Function AudioTrack(Index As Integer) As Ptr
-		  If Me.Type(Index) = libvlc.TrackType.Audio Then Return Me.Item(Index).libvlc_media_track_t(0).TrackPtr
+		  If Me.Type(Index) = libvlc.TrackType.Audio Then Return Me.Item(Index).libvlc_media_track_t.TrackPtr
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function BitRate(Index As Integer) As UInt32
-		  Return Me.Item(Index).libvlc_media_track_t(0).BitRate
+		  Return Me.Item(Index).libvlc_media_track_t.BitRate
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Codec(Index As Integer) As UInt32
-		  Return Me.Item(Index).libvlc_media_track_t(0).Codec
+		  Return Me.Item(Index).libvlc_media_track_t.Codec
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(Medium As libvlc.VLCMedium)
+		Sub Constructor(Medium As libvlc.Medium)
 		  If Not Medium.IsParsed Then Medium.Parse()
 		  Dim p As Ptr
 		  mCount = libvlc_media_tracks_get(Medium.Handle, p)
@@ -32,7 +32,7 @@ Inherits libvlc.LinkedList
 
 	#tag Method, Flags = &h0
 		Function Description(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t(0).Language
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t.Description
 		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
@@ -47,52 +47,55 @@ Inherits libvlc.LinkedList
 
 	#tag Method, Flags = &h0
 		Function ID(Index As Integer) As Integer
-		  Return Me.Item(Index).libvlc_media_track_t(0).ID
+		  Return Me.Item(Index).libvlc_media_track_t.ID
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Language(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t(0).Language
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t.Language
 		  If mb <> Nil Then Return mb.CString(0)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Level(Index As Integer) As Integer
-		  Return Me.Item(Index).libvlc_media_track_t(0).Level
+		  Return Me.Item(Index).libvlc_media_track_t.Level
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function OriginalFourCC(Index As Integer) As UInt32
-		  Return Me.Item(Index).libvlc_media_track_t(0).OriginalFourCC
+		  Return Me.Item(Index).libvlc_media_track_t.OriginalFourCC
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Profile(Index As Integer) As Integer
-		  Return Me.Item(Index).libvlc_media_track_t(0).Profile
+		  Return Me.Item(Index).libvlc_media_track_t.Profile
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Type(Index As Integer) As libvlc.TrackType
-		  Return libvlc.TrackType(Me.Item(Index).libvlc_media_track_t(0).Type)
+		  Return libvlc.TrackType(Me.Item(Index).libvlc_media_track_t.Type)
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function VideoTrack(Index As Integer) As Ptr
-		  If Me.Type(Index) = libvlc.TrackType.Video Then Return Me.Item(Index).libvlc_media_track_t(0).TrackPtr
+		  If Me.Type(Index) = libvlc.TrackType.Video Then Return Me.Item(Index).libvlc_media_track_t.TrackPtr
 		End Function
 	#tag EndMethod
 
 
 	#tag Note, Name = About this class
-		This class represents an array of VLC elementary stream description structures for a given instance of VLCMedium (i.e. one media file or URL)
+		This class represents an array of VLC elementary stream description structures (libvlc_media_track_t)
+		for a given instance of Medium (i.e. one media file or URL)
+		
+		https://www.videolan.org/developers/vlc/doc/doxygen/html/structlibvlc__media__track__t.html
 	#tag EndNote
 
 

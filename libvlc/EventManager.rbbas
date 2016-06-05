@@ -2,14 +2,14 @@
 Private Class EventManager
 Implements EventReceiver
 	#tag Method, Flags = &h0
-		Sub Constructor(EventReceiver As Ptr, EventSource As VLCHandle)
+		Sub Constructor(EventReceiver As Ptr, EventSource As libvlc.VLCInstance)
 		  If Instances = Nil Then
 		    Instances = New Dictionary
-		  ElseIf Instances.HasKey(EventSource.Handle) Then
+		  ElseIf Instances.HasKey(EventSource.Instance) Then
 		    Raise New VLCException("This event source already has an EventManager.")
 		  End If
 		  mReceiver = EventReceiver
-		  mID = EventSource.Handle
+		  mID = EventSource.Instance
 		  Instances.Value(mID) = New WeakRef(Me)
 		  
 		End Sub
@@ -19,7 +19,7 @@ Implements EventReceiver
 		Private Shared Sub DefaultHandler(EventStruct As libvlc_event_t, UserData As Integer)
 		  #pragma X86CallingConvention CDecl
 		  Dim w As WeakRef = Instances.Lookup(UserData, Nil)
-		  If w = Nil Or w.Value = Nil Or Not w.Value IsA EventManager Then 
+		  If w = Nil Or w.Value = Nil Or Not w.Value IsA EventManager Then
 		    Break '?
 		    Return
 		  End If

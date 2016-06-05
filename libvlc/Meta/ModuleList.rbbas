@@ -1,6 +1,6 @@
 #tag Class
 Protected Class ModuleList
-Inherits libvlc.LinkedList
+Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h0
 		Sub Constructor(ListPtr As Ptr)
 		  Super.Constructor(ListPtr, libvlc_module_description_t.Size)
@@ -16,7 +16,7 @@ Inherits libvlc.LinkedList
 
 	#tag Method, Flags = &h0
 		Function Help(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t(0).psz_help
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t.psz_help
 		  Return mb.CString(0)
 		  
 		End Function
@@ -24,7 +24,7 @@ Inherits libvlc.LinkedList
 
 	#tag Method, Flags = &h0
 		Function LongName(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t(0).psz_longname
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t.psz_longname
 		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
@@ -32,7 +32,7 @@ Inherits libvlc.LinkedList
 
 	#tag Method, Flags = &h0
 		Function Name(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t(0).psz_name
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t.psz_name
 		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
@@ -40,11 +40,19 @@ Inherits libvlc.LinkedList
 
 	#tag Method, Flags = &h0
 		Function ShortName(Index As Integer) As String
-		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t(0).psz_shortname
+		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t.psz_shortname
 		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
 	#tag EndMethod
+
+
+	#tag Note, Name = libvlc_module_description_t
+		This class wraps a pointer to a  structure. The libvlc_module_description_t
+		structure contains information about available audio and video output filters
+		
+		https://www.videolan.org/developers/vlc/doc/doxygen/html/structlibvlc__module__description__t.html
+	#tag EndNote
 
 
 	#tag ViewBehavior

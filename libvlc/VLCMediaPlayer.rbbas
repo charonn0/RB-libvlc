@@ -1,6 +1,7 @@
 #tag Class
-Protected Class VLCMediaPlayer
+Class VLCMediaPlayer
 Inherits Canvas
+	#tag CompatibilityFlags = TargetHasGUI
 	#tag Event
 		Function DragEnter(obj As DragItem, action As Integer) As Boolean
 		  ' This event is not raised
@@ -25,14 +26,6 @@ Inherits Canvas
 		  #pragma Unused x
 		  #pragma Unused y
 		End Function
-	#tag EndEvent
-
-	#tag Event
-		Sub DropObject(obj As DragItem, action As Integer)
-		  ' This event is not raised
-		  #pragma Unused obj
-		  #pragma Unused action
-		End Sub
 	#tag EndEvent
 
 	#tag Event
@@ -70,14 +63,23 @@ Inherits Canvas
 	#tag Event
 		Sub Open()
 		  mPlayer = New VLCPlayer
+		  AddHandler mPlayer.VLCLog, WeakAddressOf VLCLogHandler
+		  AddHandler mPlayer.ChangedState, WeakAddressOf ChangedStateHandler
 		  mPlayer.EmbedWithin(Me)
 		  RaiseEvent Open()
 		End Sub
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h21
+		Private Sub ChangedStateHandler(Sender As libvlc.VLCPlayer)
+		  #pragma Unused Sender
+		  RaiseEvent ChangedState()
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
-		Function MetaData() As libvlc.MetaData
+		Function MetaData() As libvlc.Meta.MetaData
 		  Return mPlayer.MetaData
 		End Function
 	#tag EndMethod
@@ -106,6 +108,18 @@ Inherits Canvas
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub VLCLogHandler(Sender As libvlc.VLCPlayer, Level As Integer, Context As Ptr, Format As String, Args As String)
+		  #pragma Unused Sender
+		  #pragma Unused Context
+		  System.DebugLog("libvlc: severity: " + Str(Level) + " " + Format + " (" + Args + ")")
+		End Sub
+	#tag EndMethod
+
+
+	#tag Hook, Flags = &h0
+		Event ChangedState()
+	#tag EndHook
 
 	#tag Hook, Flags = &h0
 		Event Open()
@@ -115,29 +129,37 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return mPlayer.CaptureKeyboard
+			  If mPlayer <> Nil Then Return mPlayer.CanPause
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer <> Nil Then mPlayer.CaptureKeyboard = value
-			End Set
-		#tag EndSetter
-		CaptureKeyboard As Boolean
+		CanPause As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return mPlayer.CaptureMouse
+			  If mPlayer <> Nil Then Return mPlayer.CanPlay
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer <> Nil Then mPlayer.CaptureMouse = value
-			End Set
-		#tag EndSetter
-		CaptureMouse As Boolean
+		CanPlay As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.CanSeek
+			End Get
+		#tag EndGetter
+		CanSeek As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.CurrentState
+			End Get
+		#tag EndGetter
+		CurrentState As libvlc.PlayerState
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -157,43 +179,28 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayer <> Nil Then Return mPlayer.Fullscreen
+			  If mPlayer <> Nil Then Return mPlayer.HasAudio
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer = Nil Then Return
-			  
-			  If value Then
-			    If TruePlayer.Fullscreen Then Return
-			    Dim w As New FullscreenParent
-			    Dim b As Boolean = IsPlaying
-			    Dim pos As Single = Position
-			    If b Then Stop
-			    TruePlayer.EmbedWithin(w)
-			    TruePlayer.Fullscreen = True
-			    If b Then 
-			      Position = pos
-			      Play
-			    End If
-			    w.ShowModal
-			    b = IsPlaying
-			    pos = Position
-			    If b Then Stop
-			    TruePlayer.EmbedWithin(Me)
-			    If b Then 
-			      Position = pos
-			      Play
-			    End If
-			  Else
-			    TruePlayer.Fullscreen = False
-			    If Not TruePlayer.EmbeddedWithin = Me.Handle Then
-			      TruePlayer.EmbedWithin(Me)
-			    End If
-			  End If
-			End Set
-		#tag EndSetter
-		Fullscreen As Boolean
+		HasAudio As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.HasSubtitles
+			End Get
+		#tag EndGetter
+		HasSubtitles As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.HasVideo
+			End Get
+		#tag EndGetter
+		HasVideo As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -225,7 +232,7 @@ Inherits Canvas
 			  mPlayer.Media = value
 			End Set
 		#tag EndSetter
-		Media As libvlc.VLCMedium
+		Media As libvlc.Medium
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
@@ -263,9 +270,42 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then return mPlayer.Scale
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.Scale = value
+			End Set
+		#tag EndSetter
+		Scale As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then return mPlayer.Speed
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.Speed = value
+			End Set
+		#tag EndSetter
+		Speed As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return mPlayer.TimeMS
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.TimeMS = value
+			End Set
+		#tag EndSetter
 		TimeMS As Int64
 	#tag EndComputedProperty
 
@@ -316,12 +356,17 @@ Inherits Canvas
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="CaptureKeyboard"
+			Name="CanPause"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="CaptureMouse"
+			Name="CanPlay"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CanSeek"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
@@ -350,7 +395,17 @@ Inherits Canvas
 			InheritedFrom="Canvas"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Fullscreen"
+			Name="HasAudio"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasSubtitles"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="HasVideo"
 			Group="Behavior"
 			Type="Boolean"
 		#tag EndViewProperty
@@ -436,6 +491,16 @@ Inherits Canvas
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Position"
+			Group="Behavior"
+			Type="Single"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Scale"
+			Group="Behavior"
+			Type="Single"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Speed"
 			Group="Behavior"
 			Type="Single"
 		#tag EndViewProperty
