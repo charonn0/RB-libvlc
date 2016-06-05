@@ -4,7 +4,7 @@ Protected Class VLCInstance
 		Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  
-		  If Singleton = Nil Then 
+		  If Singleton = Nil Then
 		    mInstance = libvlc_new(argc, argv)
 		    Singleton = Me
 		    'Me.Logging = DebugBuild
@@ -119,6 +119,9 @@ Protected Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' logging is all sorts of broken. 
+			  ' See: https://github.com/charonn0/RB-libvlc/issues/2 and https://github.com/charonn0/RB-libvlc/issues/1
+			  
 			  If mInstances = Nil Then mInstances = New Dictionary
 			  If value Then
 			    libvlc_log_set(mInstance, AddressOf LogCallback, mInstance)
@@ -131,7 +134,7 @@ Protected Class VLCInstance
 			  mLogging = value
 			End Set
 		#tag EndSetter
-		Logging As Boolean
+		Attributes( deprecated ) Logging As Boolean
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21

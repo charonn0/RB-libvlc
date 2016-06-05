@@ -1165,6 +1165,7 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub DropObject(obj As DragItem, action As Integer)
+		  #pragma Unused action
 		  LoadMedia(obj.FolderItem)
 		End Sub
 	#tag EndEvent
