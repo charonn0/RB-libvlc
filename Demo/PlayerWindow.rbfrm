@@ -751,6 +751,13 @@ End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Close()
+		  PlayerTimer.Mode = Timer.ModeOff
+		End Sub
+	#tag EndEvent
+
+
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(Media As libvlc.Medium)
 		  If Media = Nil Then Return
