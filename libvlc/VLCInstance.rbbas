@@ -1,21 +1,36 @@
 #tag Class
 Protected Class VLCInstance
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
+		Attributes( deprecated ) Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
+		  #pragma Unused argc
+		  Me.Constructor(argv)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(CommandLine As String)
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
-		  
-		  If Singleton = Nil Then
-		    mInstance = libvlc_new(argc, argv)
-		    Singleton = Me
-		    'Me.Logging = DebugBuild
-		  Else
+		  If CommandLine = DEFAULT_ARGS And Singleton <> Nil Then
 		    Me.Constructor(Singleton)
+		  Else
+		    Dim cmds() As String = SplitQuoted(CommandLine)
+		    Dim argc As Integer = UBound(cmds) + 1
+		    Dim argv As New MemoryBlock((argc + 1) * 4)
+		    Dim ptrs() As MemoryBlock
+		    For i As Integer = 0 To argc - 1
+		      Dim mb As MemoryBlock = cmds(i).Trim + Chr(0)
+		      ptrs.Append(mb)
+		      argv.Ptr(i * 4) = mb
+		    Next
+		    
+		    mInstance = libvlc_new(argc, argv)
+		    If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
+		    If CommandLine = DEFAULT_ARGS Then Singleton = Me
 		  End If
-		  
-		  If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
-		  
+		  'Me.Logging = DebugBuild
 		  mUserAgent = "RB-VLC/1.0"
 		  Me.AppName = App.ExecutableFile.Name
+		  
 		End Sub
 	#tag EndMethod
 

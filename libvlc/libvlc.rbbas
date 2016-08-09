@@ -510,7 +510,7 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_new Lib "libvlc" (argc As Integer, argv As CString) As Ptr
+		Private Soft Declare Function libvlc_new Lib "libvlc" (argc As Integer, argv As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
@@ -644,6 +644,36 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Function SplitQuoted(Data As String) As String()
+		  Dim output() As String
+		  Dim input As New BinaryStream(Data)
+		  Dim tmp As String
+		  Dim quote As Boolean
+		  Do Until input.EOF
+		    Dim char As String = input.Read(1)
+		    Select Case char
+		    Case " "
+		      If quote Then
+		        tmp = tmp + char
+		      Else
+		        output.Append(tmp)
+		        tmp = ""
+		      End If
+		      
+		    Case """"
+		      quote = Not quote
+		      
+		    Else
+		      tmp = tmp + char
+		    End Select
+		  Loop
+		  If tmp.Trim <> "" Then output.Append(tmp)
+		  input.Close
+		  Return output
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Function VersionString() As String
 		  Dim mb As MemoryBlock = libvlc_get_version()
@@ -669,6 +699,10 @@ Protected Module libvlc
 		  Return libvlc_delay(PointInTime)
 		End Function
 	#tag EndMethod
+
+
+	#tag Constant, Name = DEFAULT_ARGS, Type = String, Dynamic = False, Default = \"", Scope = Protected
+	#tag EndConstant
 
 
 	#tag Structure, Name = libvlc_audio_output_t, Flags = &h21
