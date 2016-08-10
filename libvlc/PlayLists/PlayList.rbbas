@@ -14,6 +14,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
+		  Super.Constructor(DEFAULT_ARGS)
 		  mList = libvlc_media_list_new(Me.Instance)
 		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
 		End Sub
@@ -126,6 +127,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromPtr As Ptr)
+		  Super.Constructor(DEFAULT_ARGS)
 		  mList = FromPtr
 		End Sub
 	#tag EndMethod

@@ -9,6 +9,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
+		  Dim i As New VLCInstance(DEFAULT_ARGS)
 		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance))
 		  
 		End Function
@@ -16,6 +17,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioOutputs() As libvlc.Meta.AudioOutputList
+		  Dim i As New VLCInstance(DEFAULT_ARGS)
 		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
 		  If p <> Nil Then Return New libvlc.Meta.AudioOutputList(p)
 		  Raise New VLCException("Unable to get the list of audio output modules.")
@@ -421,6 +423,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
+		  Dim i As New VLCInstance(DEFAULT_ARGS)
 		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance))
 		  
 		End Function

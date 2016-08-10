@@ -22,6 +22,7 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(FileDescriptor As Integer)
 		  If FileDescriptor = 0 Then Raise New NilObjectException
+		  Super.Constructor(DEFAULT_ARGS)
 		  mMedium = libvlc_media_new_fd(Me.Instance, FileDescriptor)
 		  If mMedium = Nil Then Raise New VLCException("Unable to create a media reference for the file descriptor.")
 		End Sub
@@ -123,6 +124,7 @@ Inherits libvlc.VLCInstance
 		  ' However, the refcount WILL be decremented by Medium.Destructor; refer to the specific VLC function docs to
 		  ' determine whether this is appropriate.
 		  
+		  Super.Constructor(DEFAULT_ARGS)
 		  mMedium = FromPtr
 		End Sub
 	#tag EndMethod
@@ -131,6 +133,7 @@ Inherits libvlc.VLCInstance
 		Sub Operator_Convert(FromURL As String)
 		  ' Constructs a new Medium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
 		  
+		  Super.Constructor(DEFAULT_ARGS)
 		  mMedium = libvlc_media_new_location(Me.Instance, FromURL)
 		  If mMedium = Nil Then Raise New UnsupportedFormatException
 		End Sub
