@@ -78,6 +78,33 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Play(Index As Integer = -1, StartPaused As Boolean = False) As Boolean
+		  If Index = -1 Then
+		    Me.Play()
+		  Else
+		    Me.Play(Index)
+		  End If
+		  Do
+		    Select Case Me.CurrentState
+		    Case libvlc.PlayerState.BUFFERING, libvlc.PlayerState.IDLE, libvlc.PlayerState.OPENING
+		      App.YieldToNextThread
+		      Continue
+		    Case libvlc.PlayerState.PLAYING
+		      If StartPaused Then Me.Pause
+		      #If TargetHasGUI Then
+		        App.SleepCurrentThread(100)
+		      #Else
+		        App.DoEvents(100)
+		      #EndIf
+		      Return True
+		    Else
+		      Return False
+		    End Select
+		  Loop
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
 		  If mPlayer <> Nil Then
 		    If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
@@ -109,11 +136,13 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Function TruePlayer() As libvlc.VLCPlayer
 		  If mPlayer = Nil Then Return Nil
-		  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library?
-		  If System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
+		  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library
+		  ' https://github.com/oaubert/python-vlc/issues/13
+		  If mTruePlayer = Nil And System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
 		    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
-		    If p <> Nil Then Return New libvlc.VLCPlayer(p)
+		    If p <> Nil Then mTruePlayer = New libvlc.VLCPlayer(p)
 		  End If
+		  Return mTruePlayer
 		End Function
 	#tag EndMethod
 
@@ -121,7 +150,7 @@ Inherits libvlc.VLCInstance
 		Sub TruePlayer(Assigns NewVLCPlayer As libvlc.VLCPlayer)
 		  If mPlayer = Nil Then Raise New NilObjectException
 		  libvlc_media_list_player_set_media_player(mPlayer, NewVLCPlayer.Handle)
-		  
+		  mTruePlayer = NewVLCPlayer
 		End Sub
 	#tag EndMethod
 
@@ -147,6 +176,15 @@ Inherits libvlc.VLCInstance
 			End Get
 		#tag EndGetter
 		IsPlaying As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return Me.Playlist.Count
+			End Get
+		#tag EndGetter
+		ListCount As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -180,9 +218,14 @@ Inherits libvlc.VLCInstance
 		Private mPlayMode As libvlc.PlaybackMode = libvlc.PlaybackMode.Default
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private mTruePlayer As libvlc.VLCPlayer
+	#tag EndProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayList = Nil Then mPlayList = New libvlc.PlayLists.PlayList()
 			  Return mPlayList
 			End Get
 		#tag EndGetter
