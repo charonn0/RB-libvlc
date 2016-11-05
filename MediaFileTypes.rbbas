@@ -1,7 +1,7 @@
 #tag FileTypeSet
 	#tag FileType
 		CodeName=AllMedia
-		Extension=.mpe;.mpeg;.mpg;.m1s;.m1v;.m1a;.m75;.m15;.mp2;.mpm;.mpv;.mpa;.moov;.mov;.qt;.mqv;.3gp;.3gpp;.vfw;.avi;.flc;.fli;.cel;.mp4;.sdv;.dv;.dif;.m4v;.wmv;.wma;.wm;.asf;.ass;.wvx;.wmx;.wax;.asx;.aiff;.aif;.aifc;.cdda;.aa;.ul;.au;.snd;.ulw;.m4a;.m4b;.m4p;.mid;.midi;.smf;.kar;.mp3;.swa;.m2a;.wav;.bwf;.aac;.adts;.flv;.rm;.ogg;.ogv;.opus;.oga;.ogx;.spx
+		Extension=.mpe;.mpeg;.mpg;.m1s;.m1v;.m1a;.m75;.m15;.mp2;.mpm;.mpv;.mpa;.moov;.mov;.qt;.mqv;.3gp;.3gpp;.vfw;.avi;.flc;.fli;.cel;.mp4;.sdv;.dv;.dif;.m4v;.wmv;.wma;.wm;.asf;.ass;.wvx;.wmx;.wax;.asx;.aiff;.aif;.aifc;.cdda;.aa;.ul;.au;.snd;.ulw;.m4a;.m4b;.m4p;.mid;.midi;.smf;.kar;.mp3;.swa;.m2a;.wav;.bwf;.aac;.adts;.flv;.rm;.ogg;.ogv;.opus;.oga;.ogx;.spx;.mkv
 		Flags=&h0
 		MacCreator=TVOD
 		MacType=
@@ -246,6 +246,24 @@
 		MacCreator=
 		MacType=
 		Name=audio/flac
+	#tag EndFileType
+
+	#tag FileType
+		CodeName=SubRip
+		Extension=.srt
+		Flags=&h0
+		MacCreator=
+		MacType=
+		Name=application/x-subrip
+	#tag EndFileType
+
+	#tag FileType
+		CodeName=VideoXMatroska
+		Extension=.mkv
+		Flags=&h0
+		MacCreator=
+		MacType=
+		Name=video/x-matroska
 	#tag EndFileType
 
 #tag EndFileTypeSet
