@@ -88,21 +88,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor()
-		  ' Constructs a new player instance
-		  
-		  Super.Constructor(DEFAULT_ARGS)
-		  mPlayer = libvlc_media_player_new(Me.Instance)
-		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
-		  
-		  mStateChangeTimer = New Timer
-		  mStateChangeTimer.Period = 150
-		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
-		  mStateChangeTimer.Mode = Timer.ModeMultiple
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor(Medium As libvlc.Medium)
 		  ' Constructs a new player instance from the passed media reference
 		  
@@ -125,6 +110,21 @@ Inherits libvlc.VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mPlayer = FromPtr
+		  
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 150
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(CommandLine As String = libvlc.DEFAULT_ARGS)
+		  ' Constructs a new player instance
+		  
+		  Super.Constructor(CommandLine)
+		  mPlayer = libvlc_media_player_new(Me.Instance)
+		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		  
 		  mStateChangeTimer = New Timer
 		  mStateChangeTimer.Period = 150
