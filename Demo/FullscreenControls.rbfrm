@@ -296,7 +296,7 @@ End
 	#tag Event
 		Sub Action()
 		  Player.Stop
-		  'Self.Title = "'" + Player.MetaData.Lookup(libvlc.Meta.MetaDataType.Title, Player.Media.URL) + "'"
+		  'Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.URL) + "'"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
