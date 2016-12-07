@@ -556,13 +556,13 @@ Begin Window PlayerWindow
       TabPanelIndex   =   0
       Text            =   "Subtitle:"
       TextAlign       =   2
-      TextColor       =   &h000000
+      TextColor       =   &h000000FF
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
       Top             =   370
       Transparent     =   False
-      Underline       =   ""
+      Underline       =   True
       Visible         =   True
       Width           =   55
    End
@@ -819,6 +819,56 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub UpdateUI()
+		  Try
+		    Dim c As Integer = Player.TruePlayer.SubtitleCount
+		    SubtitleTracks.DeleteAllRows
+		    If c > 0 Then
+		      For i As Integer = 0 To c - 1
+		        Dim ID As Integer = Player.TruePlayer.Subtitles.ID(i)
+		        SubtitleTracks.AddRow(Player.TruePlayer.Subtitles.Name(i))
+		        SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = Player.TruePlayer.Subtitles.ID(i)
+		        If ID = Player.TruePlayer.SubtitleIndex Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
+		      Next
+		      SubtitleTracks.Enabled = True
+		    Else
+		      SubtitleTracks.Enabled = False
+		    End If
+		    
+		    c = Player.TruePlayer.VideoTrackCount
+		    VideoTracks.DeleteAllRows
+		    If c > 0 Then
+		      For i As Integer = 0 To c - 1
+		        Dim ID As Integer = Player.TruePlayer.VideoTrackID(i)
+		        VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
+		        VideoTracks.RowTag(VideoTracks.ListCount - 1) = ID
+		        If ID = Player.TruePlayer.VideoTrack Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
+		      Next
+		      VideoTracks.Enabled = True
+		    Else
+		      VideoTracks.Enabled = False
+		    End If
+		    
+		    c = Player.TruePlayer.AudioTrackCount
+		    AudioTracks.DeleteAllRows
+		    If c > 0 Then
+		      For i As Integer = 0 To c - 1
+		        Dim ID As Integer = Player.TruePlayer.AudioTrackID(i)
+		        AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
+		        AudioTracks.RowTag(AudioTracks.ListCount - 1) = ID
+		        If ID = Player.TruePlayer.AudioTrack Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
+		      Next
+		      AudioTracks.Enabled = True
+		    Else
+		      AudioTracks.Enabled = False
+		    End If
+		  Finally
+		    mLock = False
+		  End Try
+		End Sub
+	#tag EndMethod
+
 
 	#tag Property, Flags = &h21
 		Private mArtwork As Picture
@@ -978,6 +1028,37 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events Label1
+	#tag Event
+		Sub MouseEnter()
+		  Me.MouseCursor = System.Cursors.FingerPointer
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub MouseExit()
+		  Me.MouseCursor = System.Cursors.StandardPointer
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  #pragma Unused X
+		  #pragma Unused Y
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub MouseUp(X As Integer, Y As Integer)
+		  #pragma Unused X
+		  #pragma Unused Y
+		  Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.SubRip)
+		  If f = Nil Then Return
+		  If Not Player.TruePlayer.SetSubtitleFile(f) Then
+		    MsgBox("Unable to set subtitle file!")
+		  End If
+		  UpdateUI()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events PlayButton
 	#tag Event
 		Sub Action()
@@ -1115,51 +1196,7 @@ End
 		    Do Until Not mLock
 		      App.YieldToNextThread
 		    Loop
-		    Try
-		      Dim c As Integer = Player.TruePlayer.SubtitleCount
-		      SubtitleTracks.DeleteAllRows
-		      If c > 0 Then
-		        For i As Integer = 0 To c - 1
-		          Dim ID As Integer = Player.TruePlayer.Subtitles.ID(i)
-		          SubtitleTracks.AddRow(Player.TruePlayer.Subtitles.Name(i))
-		          SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = Player.TruePlayer.Subtitles.ID(i)
-		          If ID = Player.TruePlayer.SubtitleIndex Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
-		        Next
-		        SubtitleTracks.Enabled = True
-		      Else
-		        SubtitleTracks.Enabled = False
-		      End If
-		      
-		      c = Player.TruePlayer.VideoTrackCount
-		      VideoTracks.DeleteAllRows
-		      If c > 0 Then
-		        For i As Integer = 0 To c - 1
-		          Dim ID As Integer = Player.TruePlayer.VideoTrackID(i)
-		          VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
-		          VideoTracks.RowTag(VideoTracks.ListCount - 1) = ID
-		          If ID = Player.TruePlayer.VideoTrack Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
-		        Next
-		        VideoTracks.Enabled = True
-		      Else
-		        VideoTracks.Enabled = False
-		      End If
-		      
-		      c = Player.TruePlayer.AudioTrackCount
-		      AudioTracks.DeleteAllRows
-		      If c > 0 Then
-		        For i As Integer = 0 To c - 1
-		          Dim ID As Integer = Player.TruePlayer.AudioTrackID(i)
-		          AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
-		          AudioTracks.RowTag(AudioTracks.ListCount - 1) = ID
-		          If ID = Player.TruePlayer.AudioTrack Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
-		        Next
-		        AudioTracks.Enabled = True
-		      Else
-		        AudioTracks.Enabled = False
-		      End If
-		    Finally
-		      mLock = False
-		    End Try
+		    UpdateUI()
 		  End If
 		  
 		  'If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
