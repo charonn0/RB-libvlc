@@ -271,6 +271,18 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub NavigateMenu(Mode As libvlc.NavigationMode)
+		  If mPlayer <> Nil Then libvlc_media_player_navigate(mPlayer, Mode)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub NextFrame()
+		  If mPlayer <> Nil Then libvlc_media_player_next_frame(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.VLCPlayer) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))

@@ -418,6 +418,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_player_navigate Lib "libvlc" (Player As Ptr, Mode As libvlc . NavigationMode)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_new Lib "libvlc" (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
@@ -816,6 +820,15 @@ Protected Module libvlc
 		  AlbumArtist
 		  DiscNumber
 		DiscTotal
+	#tag EndEnum
+
+	#tag Enum, Name = NavigationMode, Type = Integer, Flags = &h1
+		Activate
+		  Up
+		  Down
+		  Left
+		  Right
+		Popup
 	#tag EndEnum
 
 	#tag Enum, Name = PlaybackMode, Type = Integer, Flags = &h1
