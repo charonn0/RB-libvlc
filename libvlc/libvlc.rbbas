@@ -430,6 +430,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_player_next_frame Lib "libvlc" (Player As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_player_play Lib "libvlc" (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
