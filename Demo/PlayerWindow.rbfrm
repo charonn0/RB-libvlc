@@ -1066,6 +1066,10 @@ End
 		    If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop()
 		    Player.Play
 		    Me.Caption = "Pause"
+		    If Left(Player.Media.MediaURL, 4) = "dvd:" Then
+		      Dim controls As New DVDNavigator(Player.TruePlayer)
+		      controls.Show
+		    End If
 		  Else
 		    Player.Pause
 		    Me.Caption = "Play"
