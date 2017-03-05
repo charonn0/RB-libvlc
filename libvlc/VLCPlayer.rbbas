@@ -236,11 +236,9 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Media() As libvlc.Medium
-		  If mMedium = Nil Then
-		    If mPlayer <> Nil Then
-		      Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
-		      If p <> Nil Then mMedium = p
-		    End If
+		  If mMedium = Nil And mPlayer <> Nil Then
+		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
+		    If p <> Nil Then mMedium = p
 		  End If
 		  Return mMedium
 		End Function
