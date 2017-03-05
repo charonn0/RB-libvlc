@@ -156,6 +156,20 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return mPlayer.CaptureMouse
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.CaptureMouse = value
+			End Set
+		#tag EndSetter
+		CaptureMouse As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return mPlayer.CurrentState
 			End Get
 		#tag EndGetter
