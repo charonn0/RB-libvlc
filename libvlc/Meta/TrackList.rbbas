@@ -23,7 +23,7 @@ Inherits libvlc.Meta.LinkedList
 
 
 	#tag Note, Name = libvlc_track_description_t
-		This class wraps a pointer to a libvlc_track_description_t structure. The libvlc_track_description_t
+		This class wraps a pointer to a list of libvlc_track_description_t structures. The libvlc_track_description_t
 		structure contains information about available video, audio and subtitle tracks for a media descriptor.
 		
 		https://www.videolan.org/developers/vlc/doc/doxygen/html/structlibvlc__track__description__t.html
