@@ -747,6 +747,18 @@ Begin Window PlayerWindow
          Width           =   617
       End
    End
+   Begin Timer TimeTimer
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   643
+      LockedInPosition=   False
+      Mode            =   2
+      Period          =   25
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   249
+      Width           =   32
+   End
 End
 #tag EndWindow
 
@@ -1215,6 +1227,15 @@ End
 		Sub DropObject(obj As DragItem, action As Integer)
 		  #pragma Unused action
 		  LoadMedia(obj.FolderItem)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events TimeTimer
+	#tag Event
+		Sub Action()
+		  If Player <> Nil And Player.Media <> Nil Then
+		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
