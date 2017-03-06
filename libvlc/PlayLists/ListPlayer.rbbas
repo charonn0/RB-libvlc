@@ -122,7 +122,7 @@ Inherits libvlc.VLCInstance
 		    If index > -1 Then
 		      If libvlc_media_list_player_play_item(mPlayer, Media.Handle) = 0 Then Return
 		    End If
-		    Raise New VLCException("That media is not included in the media list.")
+		    Raise New VLCException("That medium is not included in this media list.")
 		  End If
 		End Sub
 	#tag EndMethod
@@ -284,6 +284,11 @@ Inherits libvlc.VLCInstance
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ListCount"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ListIndex"
