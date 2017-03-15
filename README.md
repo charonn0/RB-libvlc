@@ -4,10 +4,10 @@ Windows 7 using REALstuio 2011R4.3. Other platforms supported by libvlc should w
 
 Be sure to [consult the documentation](https://github.com/charonn0/RB-libvlc/wiki/libvlc) if you're not sure how to do something.
 
-##Synopsis
+## Synopsis
 There are two main modes of operation: using the [VLCPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer) class to play media without a GUI and the [VLCMediaPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer) which provides a GUI. libvlc also supports playlists through a separate [PlayList](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists) interface.
 
-##Example
+## Example
 ```vbnet
  Dim vlc As New VLCPlayer
  vlc.Media = GetFolderItem("C:\example\music.mp3")
