@@ -3,6 +3,12 @@ Class VLCMediaPlayer
 Inherits Canvas
 	#tag CompatibilityFlags = TargetHasGUI
 	#tag Event
+		Sub Close()
+		  Me.Stop
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Function DragEnter(obj As DragItem, action As Integer) As Boolean
 		  ' This event is not raised
 		  #pragma Unused obj
