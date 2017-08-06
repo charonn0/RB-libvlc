@@ -31,7 +31,7 @@ Begin Window PlayerWindow
       Left            =   643
       LockedInPosition=   False
       Mode            =   2
-      Period          =   250
+      Period          =   20
       Scope           =   0
       TabPanelIndex   =   0
       Top             =   282
@@ -711,10 +711,11 @@ Begin Window PlayerWindow
          AcceptFocus     =   False
          AcceptTabs      =   False
          AutoDeactivate  =   True
-         Backdrop        =   ""
+         Backdrop        =   320178175
          CanPause        =   ""
          CanPlay         =   ""
          CanSeek         =   ""
+         CaptureMouse    =   ""
          DoubleBuffer    =   True
          Enabled         =   True
          EraseBackground =   False
@@ -753,7 +754,7 @@ Begin Window PlayerWindow
       Left            =   643
       LockedInPosition=   False
       Mode            =   2
-      Period          =   25
+      Period          =   1
       Scope           =   0
       TabPanelIndex   =   0
       Top             =   249
@@ -921,7 +922,7 @@ End
 		    Else
 		      Self.Title = "libvlc demo"
 		    End If
-		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
+		    'TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
 		    ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
 		    PlayButton.Enabled = True
 		    StopButton.Enabled = True
