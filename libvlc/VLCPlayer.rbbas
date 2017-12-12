@@ -421,13 +421,13 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function VideoAdjustment(Option As libvlc.AdjustOption) As Integer
-		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, UInt32(Option))
+		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, CType(Option, UInt32))
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub VideoAdjustment(Option As libvlc.AdjustOption, Assigns NewValue As Integer)
-		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, UInt32(Option), NewValue)
+		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, CType(Option, UInt32), NewValue)
 		End Sub
 	#tag EndMethod
 
