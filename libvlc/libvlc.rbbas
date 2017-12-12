@@ -38,7 +38,7 @@ Protected Module libvlc
 	#tag Method, Flags = &h1
 		Protected Function IsAvailable() As Boolean
 		  Static available As Boolean
-		  If Not available Then available = System.IsFunctionAvailable("libvlc_new", "libvlc")
+		  If Not available Then available = System.IsFunctionAvailable("libvlc_new", VLCLib)
 		  Return available
 		End Function
 	#tag EndMethod
@@ -54,99 +54,99 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_add_intf Lib "libvlc" (Instance As Ptr, Name As CString) As Integer
+		Private Soft Declare Function libvlc_add_intf Lib VLCLib (Instance As Ptr, Name As CString) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_get_amp_at_index Lib "libvlc" (Equalizer As Ptr, Frequency As UInt32) As Single
+		Private Soft Declare Function libvlc_audio_equalizer_get_amp_at_index Lib VLCLib (Equalizer As Ptr, Frequency As UInt32) As Single
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_get_band_count Lib "libvlc" () As UInt32
+		Private Soft Declare Function libvlc_audio_equalizer_get_band_count Lib VLCLib () As UInt32
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_get_band_frequency Lib "libvlc" (BandNumber As UInt32) As Single
+		Private Soft Declare Function libvlc_audio_equalizer_get_band_frequency Lib VLCLib (BandNumber As UInt32) As Single
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_get_preamp Lib "libvlc" (Equalizer As Ptr) As Single
+		Private Soft Declare Function libvlc_audio_equalizer_get_preamp Lib VLCLib (Equalizer As Ptr) As Single
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_get_preset_count Lib "libvlc" () As UInt32
+		Private Soft Declare Function libvlc_audio_equalizer_get_preset_count Lib VLCLib () As UInt32
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_get_preset_name Lib "libvlc" (Index As UInt32) As Ptr
+		Private Soft Declare Function libvlc_audio_equalizer_get_preset_name Lib VLCLib (Index As UInt32) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_new Lib "libvlc" () As Ptr
+		Private Soft Declare Function libvlc_audio_equalizer_new Lib VLCLib () As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_new_from_preset Lib "libvlc" (Index As UInt32) As Ptr
+		Private Soft Declare Function libvlc_audio_equalizer_new_from_preset Lib VLCLib (Index As UInt32) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_audio_equalizer_release Lib "libvlc" (Equalizer As Ptr)
+		Private Soft Declare Sub libvlc_audio_equalizer_release Lib VLCLib (Equalizer As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_set_amp_at_index Lib "libvlc" (Equalizer As Ptr, Amplification As Single, Frequency As UInt32) As Integer
+		Private Soft Declare Function libvlc_audio_equalizer_set_amp_at_index Lib VLCLib (Equalizer As Ptr, Amplification As Single, Frequency As UInt32) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_equalizer_set_preamp Lib "libvlc" (Equalizer As Ptr, PreAmplification As Single) As Integer
+		Private Soft Declare Function libvlc_audio_equalizer_set_preamp Lib VLCLib (Equalizer As Ptr, PreAmplification As Single) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_filter_list_get Lib "libvlc" (Instance As Ptr) As Ptr
+		Private Soft Declare Function libvlc_audio_filter_list_get Lib VLCLib (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_get_mute Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_audio_get_mute Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_get_track Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_audio_get_track Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_get_track_count Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_audio_get_track_count Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_get_track_description Lib "libvlc" (Player As Ptr) As Ptr
+		Private Soft Declare Function libvlc_audio_get_track_description Lib VLCLib (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_get_volume Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_audio_get_volume Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_output_list_get Lib "libvlc" (Instance As Ptr) As Ptr
+		Private Soft Declare Function libvlc_audio_output_list_get Lib VLCLib (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_audio_output_list_release Lib "libvlc" (ListPtr As Ptr)
+		Private Soft Declare Sub libvlc_audio_output_list_release Lib VLCLib (ListPtr As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_output_set Lib "libvlc" (Player As Ptr, OutputName As CString) As Integer
+		Private Soft Declare Function libvlc_audio_output_set Lib VLCLib (Player As Ptr, OutputName As CString) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_audio_set_mute Lib "libvlc" (Player As Ptr, DoMute As Boolean)
+		Private Soft Declare Sub libvlc_audio_set_mute Lib VLCLib (Player As Ptr, DoMute As Boolean)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_set_track Lib "libvlc" (Player As Ptr, TrackID As Integer) As Integer
+		Private Soft Declare Function libvlc_audio_set_track Lib VLCLib (Player As Ptr, TrackID As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_audio_set_volume Lib "libvlc" (Player As Ptr, Percent As Integer) As Integer
+		Private Soft Declare Function libvlc_audio_set_volume Lib VLCLib (Player As Ptr, Percent As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag DelegateDeclaration, Flags = &h21
@@ -154,35 +154,35 @@ Protected Module libvlc
 	#tag EndDelegateDeclaration
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_clearerr Lib "libvlc" ()
+		Private Soft Declare Sub libvlc_clearerr Lib VLCLib ()
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_clock Lib "libvlc" () As Int64
+		Private Soft Declare Function libvlc_clock Lib VLCLib () As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_delay Lib "libvlc" (TimeUntil As Int64) As Int64
+		Private Soft Declare Function libvlc_delay Lib VLCLib (TimeUntil As Int64) As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_errmsg Lib "libvlc" () As Ptr
+		Private Soft Declare Function libvlc_errmsg Lib VLCLib () As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_free Lib "libvlc" (Reference As Ptr)
+		Private Soft Declare Sub libvlc_free Lib VLCLib (Reference As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_get_compiler Lib "libvlc" () As Ptr
+		Private Soft Declare Function libvlc_get_compiler Lib VLCLib () As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_get_fullscreen Lib "libvlc" (Player As Ptr) As Boolean
+		Private Soft Declare Function libvlc_get_fullscreen Lib VLCLib (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_get_version Lib "libvlc" () As Ptr
+		Private Soft Declare Function libvlc_get_version Lib VLCLib () As Ptr
 	#tag EndExternalMethod
 
 	#tag DelegateDeclaration, Flags = &h21
@@ -190,443 +190,443 @@ Protected Module libvlc
 	#tag EndDelegateDeclaration
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_log_set Lib "libvlc" (Instance As Ptr, Callback As Ptr, UserData As Ptr)
+		Private Soft Declare Sub libvlc_log_set Lib VLCLib (Instance As Ptr, Callback As Ptr, UserData As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_log_unset Lib "libvlc" (Instance As Ptr)
+		Private Soft Declare Sub libvlc_log_unset Lib VLCLib (Instance As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_add_option Lib "libvlc" (Medium As Ptr, Options As CString)
+		Private Soft Declare Sub libvlc_media_add_option Lib VLCLib (Medium As Ptr, Options As CString)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_add_option_flag Lib "libvlc" (Medium As Ptr, Options As CString, Flags As UInt32)
+		Private Soft Declare Sub libvlc_media_add_option_flag Lib VLCLib (Medium As Ptr, Options As CString, Flags As UInt32)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_event_manager Lib "libvlc" (Medium As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_event_manager Lib VLCLib (Medium As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_get_duration Lib "libvlc" (Medium As Ptr) As Int64
+		Private Soft Declare Function libvlc_media_get_duration Lib VLCLib (Medium As Ptr) As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_get_meta Lib "libvlc" (Medium As Ptr, DataType As libvlc . MetaDataType) As Ptr
+		Private Soft Declare Function libvlc_media_get_meta Lib VLCLib (Medium As Ptr, DataType As libvlc . MetaDataType) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_get_mrl Lib "libvlc" (Medium As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_get_mrl Lib VLCLib (Medium As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_get_state Lib "libvlc" (Medium As Ptr) As libvlc.PlayerState
+		Private Soft Declare Function libvlc_media_get_state Lib VLCLib (Medium As Ptr) As libvlc.PlayerState
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_get_stats Lib "libvlc" (Medium As Ptr, ByRef StatsBuffer As libvlc_media_stats_t) As Boolean
+		Private Soft Declare Function libvlc_media_get_stats Lib VLCLib (Medium As Ptr, ByRef StatsBuffer As libvlc_media_stats_t) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_get_type Lib "libvlc" (Medium As Ptr) As libvlc.MediaType
+		Private Soft Declare Function libvlc_media_get_type Lib VLCLib (Medium As Ptr) As libvlc.MediaType
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_is_parsed Lib "libvlc" (Medium As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_is_parsed Lib VLCLib (Medium As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_add_media Lib "libvlc" (MediaList As Ptr, Medium As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_add_media Lib VLCLib (MediaList As Ptr, Medium As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_count Lib "libvlc" (MediaList As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_count Lib VLCLib (MediaList As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_event_manager Lib "libvlc" (MediaList As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_list_event_manager Lib VLCLib (MediaList As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_index_of_item Lib "libvlc" (MediaList As Ptr, Medium As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_index_of_item Lib VLCLib (MediaList As Ptr, Medium As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_insert_media Lib "libvlc" (MediaList As Ptr, Medium As Ptr, Index As Integer) As Integer
+		Private Soft Declare Function libvlc_media_list_insert_media Lib VLCLib (MediaList As Ptr, Medium As Ptr, Index As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_is_readonly Lib "libvlc" (MediaList As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_list_is_readonly Lib VLCLib (MediaList As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_item_at_index Lib "libvlc" (MediaList As Ptr, Index As Integer) As Ptr
+		Private Soft Declare Function libvlc_media_list_item_at_index Lib VLCLib (MediaList As Ptr, Index As Integer) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_lock Lib "libvlc" (MediaList As Ptr)
+		Private Soft Declare Sub libvlc_media_list_lock Lib VLCLib (MediaList As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_media Lib "libvlc" (MediaList As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_list_media Lib VLCLib (MediaList As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_new Lib "libvlc" (Instance As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_list_new Lib VLCLib (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_get_media_player Lib "libvlc" (ListPlayer As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_list_player_get_media_player Lib VLCLib (ListPlayer As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_get_state Lib "libvlc" (ListPlayer As Ptr) As libvlc.PlayerState
+		Private Soft Declare Function libvlc_media_list_player_get_state Lib VLCLib (ListPlayer As Ptr) As libvlc.PlayerState
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_is_playing Lib "libvlc" (ListPlayer As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_list_player_is_playing Lib VLCLib (ListPlayer As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_new Lib "libvlc" (Instance As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_list_player_new Lib VLCLib (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_next Lib "libvlc" (ListPlayer As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_player_next Lib VLCLib (ListPlayer As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_pause Lib "libvlc" (ListPlayer As Ptr)
+		Private Soft Declare Sub libvlc_media_list_player_pause Lib VLCLib (ListPlayer As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_play Lib "libvlc" (ListPlayer As Ptr)
+		Private Soft Declare Sub libvlc_media_list_player_play Lib VLCLib (ListPlayer As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_play_item Lib "libvlc" (ListPlayer As Ptr, Medium As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_player_play_item Lib VLCLib (ListPlayer As Ptr, Medium As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_play_item_at_index Lib "libvlc" (ListPlayer As Ptr, Index As Integer) As Integer
+		Private Soft Declare Function libvlc_media_list_player_play_item_at_index Lib VLCLib (ListPlayer As Ptr, Index As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_player_previous Lib "libvlc" (ListPlayer As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_player_previous Lib VLCLib (ListPlayer As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_release Lib "libvlc" (ListPlayer As Ptr)
+		Private Soft Declare Sub libvlc_media_list_player_release Lib VLCLib (ListPlayer As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_set_media_list Lib "libvlc" (ListPlayer As Ptr, MediaList As Ptr)
+		Private Soft Declare Sub libvlc_media_list_player_set_media_list Lib VLCLib (ListPlayer As Ptr, MediaList As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_set_media_player Lib "libvlc" (ListPlayer As Ptr, NewVLCPlayer As Ptr)
+		Private Soft Declare Sub libvlc_media_list_player_set_media_player Lib VLCLib (ListPlayer As Ptr, NewVLCPlayer As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_set_playback_mode Lib "libvlc" (ListPlayer As Ptr, PlayMode As libvlc . PlaybackMode)
+		Private Soft Declare Sub libvlc_media_list_player_set_playback_mode Lib VLCLib (ListPlayer As Ptr, PlayMode As libvlc . PlaybackMode)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_player_stop Lib "libvlc" (ListPlayer As Ptr)
+		Private Soft Declare Sub libvlc_media_list_player_stop Lib VLCLib (ListPlayer As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_release Lib "libvlc" (MediaList As Ptr)
+		Private Soft Declare Sub libvlc_media_list_release Lib VLCLib (MediaList As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_remove_index Lib "libvlc" (MediaList As Ptr, Index As Integer) As Integer
+		Private Soft Declare Function libvlc_media_list_remove_index Lib VLCLib (MediaList As Ptr, Index As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_set_media Lib "libvlc" (MediaList As Ptr, Medium As Ptr)
+		Private Soft Declare Sub libvlc_media_list_set_media Lib VLCLib (MediaList As Ptr, Medium As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_list_unlock Lib "libvlc" (MediaList As Ptr)
+		Private Soft Declare Sub libvlc_media_list_unlock Lib VLCLib (MediaList As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_new_fd Lib "libvlc" (Instance As Ptr, Descriptor As Integer) As Ptr
+		Private Soft Declare Function libvlc_media_new_fd Lib VLCLib (Instance As Ptr, Descriptor As Integer) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_new_location Lib "libvlc" (Instance As Ptr, MediaURL As CString) As Ptr
+		Private Soft Declare Function libvlc_media_new_location Lib VLCLib (Instance As Ptr, MediaURL As CString) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_parse Lib "libvlc" (Medium As Ptr)
+		Private Soft Declare Sub libvlc_media_parse Lib VLCLib (Medium As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_can_pause Lib "libvlc" (Player As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_player_can_pause Lib VLCLib (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_event_manager Lib "libvlc" (Player As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_player_event_manager Lib VLCLib (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_hwnd Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_player_get_hwnd Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_length Lib "libvlc" (Player As Ptr) As Int64
+		Private Soft Declare Function libvlc_media_player_get_length Lib VLCLib (Player As Ptr) As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_media Lib "libvlc" (Player As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_player_get_media Lib VLCLib (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_nsobject Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_player_get_nsobject Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_position Lib "libvlc" (Player As Ptr) As Single
+		Private Soft Declare Function libvlc_media_player_get_position Lib VLCLib (Player As Ptr) As Single
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_rate Lib "libvlc" (Player As Ptr) As Single
+		Private Soft Declare Function libvlc_media_player_get_rate Lib VLCLib (Player As Ptr) As Single
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_state Lib "libvlc" (Player As Ptr) As libvlc.PlayerState
+		Private Soft Declare Function libvlc_media_player_get_state Lib VLCLib (Player As Ptr) As libvlc.PlayerState
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_time Lib "libvlc" (Player As Ptr) As Int64
+		Private Soft Declare Function libvlc_media_player_get_time Lib VLCLib (Player As Ptr) As Int64
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_get_xwindow Lib "libvlc" (Player As Ptr) As UInt32
+		Private Soft Declare Function libvlc_media_player_get_xwindow Lib VLCLib (Player As Ptr) As UInt32
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_is_playing Lib "libvlc" (Player As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_player_is_playing Lib VLCLib (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_is_seekable Lib "libvlc" (Player As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_player_is_seekable Lib VLCLib (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_navigate Lib "libvlc" (Player As Ptr, Mode As libvlc . NavigationMode)
+		Private Soft Declare Sub libvlc_media_player_navigate Lib VLCLib (Player As Ptr, Mode As libvlc . NavigationMode)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_new Lib "libvlc" (Instance As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_player_new Lib VLCLib (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_new_from_media Lib "libvlc" (Media As Ptr) As Ptr
+		Private Soft Declare Function libvlc_media_player_new_from_media Lib VLCLib (Media As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_next_frame Lib "libvlc" (Player As Ptr)
+		Private Soft Declare Sub libvlc_media_player_next_frame Lib VLCLib (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_play Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_player_play Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_release Lib "libvlc" (Player As Ptr)
+		Private Soft Declare Sub libvlc_media_player_release Lib VLCLib (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_retain Lib "libvlc" (Player As Ptr)
+		Private Soft Declare Sub libvlc_media_player_retain Lib VLCLib (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_set_equalizer Lib "libvlc" (Player As Ptr, Equalizer As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_player_set_equalizer Lib VLCLib (Player As Ptr, Equalizer As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_hwnd Lib "libvlc" (Player As Ptr, HWND As Integer)
+		Private Soft Declare Sub libvlc_media_player_set_hwnd Lib VLCLib (Player As Ptr, HWND As Integer)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_media Lib "libvlc" (Player As Ptr, Medium As Ptr)
+		Private Soft Declare Sub libvlc_media_player_set_media Lib VLCLib (Player As Ptr, Medium As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_nsobject Lib "libvlc" (Player As Ptr, NSObject As Integer)
+		Private Soft Declare Sub libvlc_media_player_set_nsobject Lib VLCLib (Player As Ptr, NSObject As Integer)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_pause Lib "libvlc" (Player As Ptr, DoPause As Integer)
+		Private Soft Declare Sub libvlc_media_player_set_pause Lib VLCLib (Player As Ptr, DoPause As Integer)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_position Lib "libvlc" (Player As Ptr, Percent As Single)
+		Private Soft Declare Sub libvlc_media_player_set_position Lib VLCLib (Player As Ptr, Percent As Single)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_rate Lib "libvlc" (Player As Ptr, RewRate As Single)
+		Private Soft Declare Sub libvlc_media_player_set_rate Lib VLCLib (Player As Ptr, RewRate As Single)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_time Lib "libvlc" (Player As Ptr, TimeMS As UInt64)
+		Private Soft Declare Sub libvlc_media_player_set_time Lib VLCLib (Player As Ptr, TimeMS As UInt64)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_set_xwindow Lib "libvlc" (Player As Ptr, XID As Integer)
+		Private Soft Declare Sub libvlc_media_player_set_xwindow Lib VLCLib (Player As Ptr, XID As Integer)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_player_stop Lib "libvlc" (Player As Ptr)
+		Private Soft Declare Sub libvlc_media_player_stop Lib VLCLib (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_player_will_play Lib "libvlc" (Player As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_player_will_play Lib VLCLib (Player As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_release Lib "libvlc" (Medium As Ptr)
+		Private Soft Declare Sub libvlc_media_release Lib VLCLib (Medium As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_retain Lib "libvlc" (Medium As Ptr)
+		Private Soft Declare Sub libvlc_media_retain Lib VLCLib (Medium As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_save_meta Lib "libvlc" (Medium As Ptr) As Boolean
+		Private Soft Declare Function libvlc_media_save_meta Lib VLCLib (Medium As Ptr) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_set_meta Lib "libvlc" (Medium As Ptr, DataType As libvlc . MetaDataType, NewData As CString)
+		Private Soft Declare Sub libvlc_media_set_meta Lib VLCLib (Medium As Ptr, DataType As libvlc . MetaDataType, NewData As CString)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_tracks_get Lib "libvlc" (Medium As Ptr, ByRef TrackBuffer As Ptr) As UInt32
+		Private Soft Declare Function libvlc_media_tracks_get Lib VLCLib (Medium As Ptr, ByRef TrackBuffer As Ptr) As UInt32
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_media_tracks_release Lib "libvlc" (TrackList As Ptr, Count As UInt32)
+		Private Soft Declare Sub libvlc_media_tracks_release Lib VLCLib (TrackList As Ptr, Count As UInt32)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_module_description_list_release Lib "libvlc" (ListPtr As Ptr)
+		Private Soft Declare Sub libvlc_module_description_list_release Lib VLCLib (ListPtr As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_new Lib "libvlc" (argc As Integer, argv As Ptr) As Ptr
+		Private Soft Declare Function libvlc_new Lib VLCLib (argc As Integer, argv As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_release Lib "libvlc" (Instance As Ptr)
+		Private Soft Declare Sub libvlc_release Lib VLCLib (Instance As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_retain Lib "libvlc" (Instance As Ptr)
+		Private Soft Declare Sub libvlc_retain Lib VLCLib (Instance As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_set_fullscreen Lib "libvlc" (Player As Ptr, IsFullscreen As Boolean)
+		Private Soft Declare Sub libvlc_set_fullscreen Lib VLCLib (Player As Ptr, IsFullscreen As Boolean)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_set_user_agent Lib "libvlc" (Instance As Ptr, Name As CString, UserAgent As CString)
+		Private Soft Declare Sub libvlc_set_user_agent Lib VLCLib (Instance As Ptr, Name As CString, UserAgent As CString)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_toggle_fullscreen Lib "libvlc" (Player As Ptr)
+		Private Soft Declare Sub libvlc_toggle_fullscreen Lib VLCLib (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_toggle_teletext Lib "libvlc" (Player As Ptr)
+		Private Soft Declare Sub libvlc_toggle_teletext Lib VLCLib (Player As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_track_description_list_release Lib "libvlc" (ListPtr As Ptr)
+		Private Soft Declare Sub libvlc_track_description_list_release Lib VLCLib (ListPtr As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_filter_list_get Lib "libvlc" (Instance As Ptr) As Ptr
+		Private Soft Declare Function libvlc_video_filter_list_get Lib VLCLib (Instance As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_adjust_int Lib "libvlc" (Player As Ptr, Option As UInt32) As Integer
+		Private Soft Declare Function libvlc_video_get_adjust_int Lib VLCLib (Player As Ptr, Option As UInt32) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_aspect_ratio Lib "libvlc" (Player As Ptr) As Ptr
+		Private Soft Declare Function libvlc_video_get_aspect_ratio Lib VLCLib (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_cursor Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef X As Integer, ByRef Y As Integer) As Integer
+		Private Soft Declare Function libvlc_video_get_cursor Lib VLCLib (Player As Ptr, VideoIndex As UInt32, ByRef X As Integer, ByRef Y As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_scale Lib "libvlc" (Player As Ptr) As Single
+		Private Soft Declare Function libvlc_video_get_scale Lib VLCLib (Player As Ptr) As Single
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_size Lib "libvlc" (Player As Ptr, VideoIndex As UInt32, ByRef Width As Integer, ByRef Height As Integer) As Integer
+		Private Soft Declare Function libvlc_video_get_size Lib VLCLib (Player As Ptr, VideoIndex As UInt32, ByRef Width As Integer, ByRef Height As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_spu Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_video_get_spu Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_spu_count Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_video_get_spu_count Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_spu_description Lib "libvlc" (Player As Ptr) As Ptr
+		Private Soft Declare Function libvlc_video_get_spu_description Lib VLCLib (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_track Lib "libvlc" (Player As Ptr) As Integer
+		Private Soft Declare Function libvlc_video_get_track Lib VLCLib (Player As Ptr) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_get_track_description Lib "libvlc" (Player As Ptr) As Ptr
+		Private Soft Declare Function libvlc_video_get_track_description Lib VLCLib (Player As Ptr) As Ptr
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_video_set_adjust_int Lib "libvlc" (Player As Ptr, Option As UInt32, Value As Integer)
+		Private Soft Declare Sub libvlc_video_set_adjust_int Lib VLCLib (Player As Ptr, Option As UInt32, Value As Integer)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_video_set_deinterlace Lib "libvlc" (Player As Ptr, Mode As Ptr)
+		Private Soft Declare Sub libvlc_video_set_deinterlace Lib VLCLib (Player As Ptr, Mode As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_video_set_key_input Lib "libvlc" (Player As Ptr, On As Boolean)
+		Private Soft Declare Sub libvlc_video_set_key_input Lib VLCLib (Player As Ptr, On As Boolean)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_video_set_mouse_input Lib "libvlc" (Player As Ptr, On As Boolean)
+		Private Soft Declare Sub libvlc_video_set_mouse_input Lib VLCLib (Player As Ptr, On As Boolean)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Sub libvlc_video_set_scale Lib "libvlc" (Player As Ptr, ScaleFactor As Single)
+		Private Soft Declare Sub libvlc_video_set_scale Lib VLCLib (Player As Ptr, ScaleFactor As Single)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_set_spu Lib "libvlc" (Player As Ptr, Index As Integer) As Integer
+		Private Soft Declare Function libvlc_video_set_spu Lib VLCLib (Player As Ptr, Index As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_set_subtitle_file Lib "libvlc" (Player As Ptr, SubtitleFile As CString) As Boolean
+		Private Soft Declare Function libvlc_video_set_subtitle_file Lib VLCLib (Player As Ptr, SubtitleFile As CString) As Boolean
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_set_track Lib "libvlc" (Player As Ptr, TrackID As Integer) As Integer
+		Private Soft Declare Function libvlc_video_set_track Lib VLCLib (Player As Ptr, TrackID As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_video_take_snapshot Lib "libvlc" (Player As Ptr, VideoIndex As Integer, FilePath As CString, Width As Integer, Height As Integer) As Integer
+		Private Soft Declare Function libvlc_video_take_snapshot Lib VLCLib (Player As Ptr, VideoIndex As Integer, FilePath As CString, Width As Integer, Height As Integer) As Integer
 	#tag EndExternalMethod
 
 	#tag Method, Flags = &h1
@@ -710,6 +710,12 @@ Protected Module libvlc
 
 
 	#tag Constant, Name = DEFAULT_ARGS, Type = String, Dynamic = False, Default = \"", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = VLCLib, Type = String, Dynamic = False, Default = \"libvlc", Scope = Private
+		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"libvlc.dll"
+		#Tag Instance, Platform = Mac OS, Language = Default, Definition  = \"libvlccore.5.dylib"
+		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"libvlc.so.5"
 	#tag EndConstant
 
 
