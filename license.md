@@ -1,4 +1,4 @@
-Copyright (c) 2016-17, Andrew Lambert
+Copyright (c) 2016-18, Andrew Lambert
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
