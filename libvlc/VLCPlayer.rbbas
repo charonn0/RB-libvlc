@@ -368,6 +368,26 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Stop() As Boolean
+		  If mPlayer = Nil Then Return False
+		  Try
+		    Me.Stop()
+		  Catch
+		    Return False
+		  End Try
+		  Do Until Me.CurrentState = libvlc.PlayerState.STOPPING
+		    #If TargetHasGUI Then
+		      App.SleepCurrentThread(100)
+		    #Else
+		      App.DoEvents(100)
+		    #EndIf
+		  Loop Until Me.CurrentState = libvlc.PlayerState.ERROR
+		  
+		  Return Me.CurrentState = libvlc.PlayerState.STOPPING
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function SubtitleCount() As Integer
 		  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
 		End Function

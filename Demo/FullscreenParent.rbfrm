@@ -109,7 +109,7 @@ End
 		  Me.ShowPlayer(Player.TruePlayer)
 		  mStartTime = Player.TimeMS
 		  Dim p As Int64 = Player.LengthMS
-		  mPlayer.Stop
+		  If Not mPlayer.Stop Then Break
 		  mPlayer.EmbedWithin(Player)
 		  mPlayer.Play
 		  Do
@@ -124,7 +124,7 @@ End
 		  mPlayer = Player
 		  Self.Title = mPlayer.MetaData.Lookup(libvlc.MetaDataType.Title, "Fullscreen video")
 		  mStartTime = mPlayer.TimeMS
-		  mPlayer.Stop
+		  If Not mPlayer.Stop Then Break
 		  mPlayer.EmbedWithin(Self)
 		  mPlayer.Play
 		  Do
