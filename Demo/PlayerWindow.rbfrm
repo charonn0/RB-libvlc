@@ -929,6 +929,7 @@ End
 		    FullscreenBtn.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
+		    FullscreenBtn.Enabled = Player.HasVideo
 		    
 		  End If
 		End Sub
