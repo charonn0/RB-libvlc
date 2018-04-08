@@ -525,6 +525,10 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the video aspect ratio, as a string. e.g. "16:9" or "4:3"
+			  ' 
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.AspectRatio
+			  
 			  If mPlayer <> Nil Then
 			    Dim mb As MemoryBlock = libvlc_video_get_aspect_ratio(mPlayer)
 			    If mb <> Nil Then
@@ -535,6 +539,21 @@ Inherits libvlc.VLCInstance
 			  End If
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  ' Sets the video aspect ratio, as a string. e.g. "16:9" or "4:3"
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.AspectRatio
+			  
+			  If mPlayer <> Nil Then
+			    If value <> "" Then
+			      libvlc_video_set_aspect_ratio(mPlayer, value)
+			    Else
+			      libvlc_video_set_aspect_ratio(mPlayer, Nil)
+			    End If
+			  End If
+			End Set
+		#tag EndSetter
 		AspectRatio As String
 	#tag EndComputedProperty
 
@@ -797,11 +816,19 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the position of the currently playing medium, in milliseconds.
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.TimeMS
+			  
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_time(mPlayer)
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the position of the currently playing medium, in milliseconds.
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.TimeMS
+			  
 			  If mPlayer <> Nil Then libvlc_media_player_set_time(mPlayer, value)
 			End Set
 		#tag EndSetter

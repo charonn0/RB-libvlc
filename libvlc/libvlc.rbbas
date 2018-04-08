@@ -598,6 +598,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_aspect_ratio Lib VLCLib (Player As Ptr, AspectRatio As CString)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_video_set_deinterlace Lib VLCLib (Player As Ptr, Mode As Ptr)
 	#tag EndExternalMethod
 
