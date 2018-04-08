@@ -23,30 +23,30 @@ Begin Window PlayerWindow
    Resizeable      =   True
    Title           =   "*"
    Visible         =   True
-   Width           =   6.18e+2
+   Width           =   7.56e+2
    Begin Timer PlayerTimer
       Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   643
+      Left            =   767
       LockedInPosition=   False
       Mode            =   2
       Period          =   20
       Scope           =   0
       TabPanelIndex   =   0
-      Top             =   282
+      Top             =   272
       Width           =   32
    End
    Begin Timer FullscreenRevertTimer
       Height          =   32
       Index           =   -2147483648
-      Left            =   643
+      Left            =   767
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
       Scope           =   0
       TabPanelIndex   =   0
-      Top             =   217
+      Top             =   207
       Width           =   32
    End
    Begin UpDownArrows ScaleChange
@@ -258,7 +258,7 @@ Begin Window PlayerWindow
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
-      Width           =   93
+      Width           =   80
    End
    Begin ComboBox AudioTracks
       AutoComplete    =   False
@@ -273,7 +273,7 @@ Begin Window PlayerWindow
       InitialParent   =   ""
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   283
+      Left            =   268
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -306,7 +306,7 @@ Begin Window PlayerWindow
       InitialParent   =   ""
       InitialValue    =   ""
       Italic          =   ""
-      Left            =   498
+      Left            =   464
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -337,7 +337,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   399
+      Left            =   384
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -358,7 +358,7 @@ Begin Window PlayerWindow
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
-      Width           =   93
+      Width           =   76
    End
    Begin CheckBox IsMuted
       AutoDeactivate  =   True
@@ -372,7 +372,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   534
+      Left            =   672
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   False
@@ -417,7 +417,7 @@ Begin Window PlayerWindow
       Top             =   400
       Underline       =   ""
       Visible         =   True
-      Width           =   587
+      Width           =   725
       Begin Listbox MetaDataList
          AutoDeactivate  =   True
          AutoHideScrollbars=   True
@@ -464,7 +464,7 @@ Begin Window PlayerWindow
          Underline       =   ""
          UseFocusRing    =   True
          Visible         =   True
-         Width           =   568
+         Width           =   706
          _ScrollWidth    =   -1
       End
    End
@@ -623,7 +623,7 @@ Begin Window PlayerWindow
       Top             =   316
       Value           =   0
       Visible         =   True
-      Width           =   385
+      Width           =   523
    End
    Begin PushButton StopButton
       AutoDeactivate  =   True
@@ -663,7 +663,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   498
+      Left            =   636
       LineStep        =   10
       LiveScroll      =   True
       LockBottom      =   True
@@ -706,7 +706,7 @@ Begin Window PlayerWindow
       Top             =   0
       TopLeftColor    =   &h000000
       Visible         =   True
-      Width           =   617
+      Width           =   755
       Begin libvlc.VLCMediaPlayer Player
          AcceptFocus     =   False
          AcceptTabs      =   False
@@ -745,20 +745,86 @@ Begin Window PlayerWindow
          UseFocusRing    =   True
          Visible         =   True
          Volume          =   100
-         Width           =   617
+         Width           =   755
       End
    End
    Begin Timer TimeTimer
       Height          =   32
       Index           =   -2147483648
-      Left            =   643
+      Left            =   767
       LockedInPosition=   False
       Mode            =   2
       Period          =   1
       Scope           =   0
       TabPanelIndex   =   0
-      Top             =   249
+      Top             =   239
       Width           =   32
+   End
+   Begin ComboBox AspectRatio
+      AutoComplete    =   False
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   False
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialValue    =   ""
+      Italic          =   ""
+      Left            =   670
+      ListIndex       =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   35
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   369
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   True
+      Width           =   75
+   End
+   Begin Label Label5
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   580
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   36
+      TabPanelIndex   =   0
+      Text            =   "Aspect ratio:"
+      TextAlign       =   2
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   370
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
    End
 End
 #tag EndWindow
@@ -930,6 +996,7 @@ End
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
 		    FullscreenBtn.Enabled = Player.HasVideo
+		    AspectRatio.Enabled = Player.HasVideo
 		    
 		  End If
 		End Sub
@@ -1237,6 +1304,38 @@ End
 		Sub Action()
 		  If Player <> Nil And Player.Media <> Nil Then
 		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events AspectRatio
+	#tag Event
+		Sub Change()
+		  If Me.Text <> "" And Not mLock Then
+		    Try
+		      Player.TruePlayer.AspectRatio = Me.Text
+		    Catch err As libvlc.VLCException
+		      MsgBox(err.Message)
+		    End Try
+		  End If
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Open()
+		  Me.AddRow("4:3")
+		  Me.AddRow("16:9")
+		  Me.AddRow("1.85")
+		  Me.AddRow("2.35")
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub TextChanged()
+		  If Me.Text <> "" And Not mLock Then
+		    Try
+		      Player.TruePlayer.AspectRatio = Me.Text
+		    Catch err As libvlc.VLCException
+		      MsgBox(err.Message)
+		    End Try
 		  End If
 		End Sub
 	#tag EndEvent
