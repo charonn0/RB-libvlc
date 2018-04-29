@@ -18,7 +18,7 @@ Begin Window PlayerWindow
    MenuBarVisible  =   True
    MinHeight       =   571
    MinimizeButton  =   True
-   MinWidth        =   618
+   MinWidth        =   756
    Placement       =   2
    Resizeable      =   True
    Title           =   "*"
@@ -770,7 +770,7 @@ Begin Window PlayerWindow
       Height          =   20
       HelpTag         =   ""
       Index           =   -2147483648
-      InitialValue    =   ""
+      InitialValue    =   "Default\r\n1:1\r\n4:3\r\n16:9\r\n5:4\r\n1.85\r\n2.35"
       Italic          =   ""
       Left            =   670
       ListIndex       =   0
@@ -954,6 +954,10 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastAspectRatio As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLastPosition As Single
 	#tag EndProperty
 
@@ -979,6 +983,8 @@ End
 		    Try
 		      Slider1.Value = (Player.TimeMS * 100 / Player.LengthMS) * 100
 		      VolControl.Value = Player.Volume
+		      Dim ar As String = Player.TruePlayer.AspectRatio
+		      If ar <> "" And ar <> AspectRatio.Text Then AspectRatio.Text = ar
 		    Finally
 		      mLock = False
 		    End Try
@@ -1311,28 +1317,12 @@ End
 #tag Events AspectRatio
 	#tag Event
 		Sub Change()
-		  If Me.Text <> "" And Not mLock Then
+		  Dim s As String = Me.Text
+		  If s <> "" And s <> mLastAspectRatio And Not mLock Then
+		    If s = "Default" Then s = ""
 		    Try
-		      Player.TruePlayer.AspectRatio = Me.Text
-		    Catch err As libvlc.VLCException
-		      MsgBox(err.Message)
-		    End Try
-		  End If
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub Open()
-		  Me.AddRow("4:3")
-		  Me.AddRow("16:9")
-		  Me.AddRow("1.85")
-		  Me.AddRow("2.35")
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub TextChanged()
-		  If Me.Text <> "" And Not mLock Then
-		    Try
-		      Player.TruePlayer.AspectRatio = Me.Text
+		      Player.TruePlayer.AspectRatio = s
+		      mLastAspectRatio = s
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try
