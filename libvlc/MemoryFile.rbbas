@@ -7,10 +7,16 @@ Private Class MemoryFile
 		  End If
 		  
 		  If Streams = Nil Then Streams = New Dictionary
-		  mOpaque = NewOpaque()
-		  Streams.Value(mOpaque) = Stream
-		  mHandle = libvlc_media_new_callbacks(Owner.Instance, Nil, AddressOf MediaRead, AddressOf MediaSeek, AddressOf MediaClose, mOpaque)
+		  Dim opaque As Ptr = NewOpaque()
+		  Streams.Value(opaque) = Stream
+		  mHandle = libvlc_media_new_callbacks(Owner.Instance, Nil, AddressOf MediaRead, AddressOf MediaSeek, AddressOf MediaClose, opaque)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Handle() As Ptr
+		  Return mHandle
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -25,14 +31,6 @@ Private Class MemoryFile
 		  If Streams.Count = 0 Then Streams = Nil
 		End Sub
 	#tag EndMethod
-
-	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Sub MediaCloseCallback(Opaque As Ptr)
-	#tag EndDelegateDeclaration
-
-	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Function MediaOpenCallback(Opaque As Ptr, UserData As Ptr, ByRef StreamLen As UInt64) As Int32
-	#tag EndDelegateDeclaration
 
 	#tag Method, Flags = &h21
 		Private Shared Function MediaRead(Opaque As Ptr, Buffer As Ptr, BufferSize As Integer) As UInt32
@@ -50,10 +48,6 @@ Private Class MemoryFile
 		  Return data.Size
 		End Function
 	#tag EndMethod
-
-	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Function MediaReadCallback(Opaque As Ptr, Buffer As Ptr, BufferSize As UInt64) As UInt64
-	#tag EndDelegateDeclaration
 
 	#tag Method, Flags = &h21
 		Private Shared Function MediaSeek(Opaque As Ptr, Offset As UInt64) As Int32
@@ -73,16 +67,6 @@ Private Class MemoryFile
 		End Function
 	#tag EndMethod
 
-	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Function MediaSeekCallback(Opaque As Ptr, Offset As UInt64) As Int32
-	#tag EndDelegateDeclaration
-
-	#tag Method, Flags = &h0
-		Function MediumHandle() As Ptr
-		  Return mHandle
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h21
 		Private Shared Function NewOpaque() As Ptr
 		  Static Opaque As Integer
@@ -96,10 +80,6 @@ Private Class MemoryFile
 
 	#tag Property, Flags = &h21
 		Private mHandle As Ptr
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mOpaque As Ptr
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

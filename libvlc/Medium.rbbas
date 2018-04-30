@@ -42,7 +42,7 @@ Inherits libvlc.VLCInstance
 		Sub Constructor(FromStream As Readable)
 		  Super.Constructor(DEFAULT_ARGS)
 		  mMemoryFile = New MemoryFile(Me, FromStream)
-		  mMedium = mMemoryFile.MediumHandle
+		  mMedium = mMemoryFile.Handle
 		End Sub
 	#tag EndMethod
 
