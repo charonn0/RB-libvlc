@@ -354,6 +354,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_new_callbacks Lib VLCLib (Instance As Ptr, OpenCB As Ptr, ReadCB As Ptr, SeekCB As Ptr, CloseCB As Ptr, Opaque As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_new_fd Lib VLCLib (Instance As Ptr, Descriptor As Integer) As Ptr
 	#tag EndExternalMethod
 

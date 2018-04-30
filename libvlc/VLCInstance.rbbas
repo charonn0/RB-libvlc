@@ -59,8 +59,8 @@ Protected Class VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function Instance() As Ptr
+	#tag Method, Flags = &h0
+		Function Instance() As Ptr
 		  Return mInstance
 		End Function
 	#tag EndMethod
