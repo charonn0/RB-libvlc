@@ -39,9 +39,9 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor(FromStream As Readable, Length As UInt64)
+		Sub Constructor(FromStream As Readable)
 		  Super.Constructor(DEFAULT_ARGS)
-		  mMemoryFile = New MemoryFile(Me, FromStream, Length)
+		  mMemoryFile = New MemoryFile(Me, FromStream)
 		  mMedium = mMemoryFile.MediumHandle
 		End Sub
 	#tag EndMethod

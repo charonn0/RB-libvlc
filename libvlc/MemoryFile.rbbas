@@ -1,17 +1,26 @@
 #tag Class
 Private Class MemoryFile
 	#tag Method, Flags = &h0
-		Sub Constructor(Owner As libvlc.Medium, Stream As Readable, Length As UInt64)
+		Sub Constructor(Owner As libvlc.Medium, Stream As Readable)
+		  If Not System.IsFunctionAvailable("libvlc_media_new_callbacks", VLCLib) Then
+		    Raise New VLCException("Loading media from memory is not available in the installed version of libvlc.")
+		  End If
+		  
 		  If Streams = Nil Then Streams = New Dictionary
 		  mOpaque = NewOpaque()
-		  Streams.Value(mOpaque) = Stream:Length
-		  mHandle = libvlc_media_new_callbacks(Owner.Instance, AddressOf MediaOpen, AddressOf MediaRead, AddressOf MediaSeek, AddressOf MediaClose, mOpaque)
+		  Streams.Value(mOpaque) = Stream
+		  mHandle = libvlc_media_new_callbacks(Owner.Instance, Nil, AddressOf MediaRead, AddressOf MediaSeek, AddressOf MediaClose, mOpaque)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Shared Sub MediaClose(Opaque As Ptr)
-		  System.DebugLog(CurrentMethodName + "(" + Str(Integer(Opaque)) + ")")
+		  #pragma X86CallingConvention CDecl
+		  #pragma BoundsChecking Off
+		  #pragma BackgroundTasks Off
+		  #pragma StackOverflowChecking Off
+		  #pragma NilObjectChecking Off
+		  
 		  If Streams.HasKey(Opaque) Then Streams.Remove(Opaque)
 		  If Streams.Count = 0 Then Streams = Nil
 		End Sub
@@ -21,31 +30,23 @@ Private Class MemoryFile
 		Private Delegate Sub MediaCloseCallback(Opaque As Ptr)
 	#tag EndDelegateDeclaration
 
-	#tag Method, Flags = &h21
-		Private Shared Function MediaOpen(Opaque As Ptr, UserData As Ptr, ByRef StreamLen As UInt64) As Int32
-		  System.DebugLog(CurrentMethodName + "(" + Str(Integer(Opaque)) + ", " + Hex(Integer(UserData)) + ", " + Str(StreamLen) + ")")
-		  Dim p As Pair = Streams.Lookup(Opaque, Nil)
-		  If p = Nil Then Return 1 ' invalid Opaque
-		  StreamLen = p.Right
-		  Return 0
-		  
-		End Function
-	#tag EndMethod
-
 	#tag DelegateDeclaration, Flags = &h21
 		Private Delegate Function MediaOpenCallback(Opaque As Ptr, UserData As Ptr, ByRef StreamLen As UInt64) As Int32
 	#tag EndDelegateDeclaration
 
 	#tag Method, Flags = &h21
-		Private Shared Function MediaRead(Opaque As Ptr, Buffer As Ptr, BufferSize As Int64) As UInt64
-		  System.DebugLog(CurrentMethodName + "(" + Str(Integer(Opaque)) + ", " + Hex(Integer(Buffer)) + ", " + Str(BufferSize) + ")")
-		  Dim p As Pair = Streams.Lookup(Opaque, Nil)
-		  If p = Nil Then Return 0 ' invalid Opaque
-		  Dim r As Readable = p.Left
+		Private Shared Function MediaRead(Opaque As Ptr, Buffer As Ptr, BufferSize As Integer) As UInt32
+		  #pragma X86CallingConvention CDecl
+		  #pragma BoundsChecking Off
+		  #pragma BackgroundTasks Off
+		  #pragma StackOverflowChecking Off
+		  #pragma NilObjectChecking Off
+		  
+		  Dim r As Readable = Streams.Lookup(Opaque, Nil)
+		  If r = Nil Then Return 0 ' invalid Opaque
 		  Dim mb As MemoryBlock = Buffer
 		  Dim data As MemoryBlock = r.Read(BufferSize)
 		  mb.StringValue(0, data.Size) = data
-		  System.DebugLog(CurrentMethodName + ": Returned " + Str(data.size) + " bytes")
 		  Return data.Size
 		End Function
 	#tag EndMethod
@@ -56,10 +57,14 @@ Private Class MemoryFile
 
 	#tag Method, Flags = &h21
 		Private Shared Function MediaSeek(Opaque As Ptr, Offset As UInt64) As Int32
-		  System.DebugLog(CurrentMethodName)
-		  Dim p As Pair = Streams.Lookup(Opaque, Nil)
-		  If p = Nil Then Return 1 ' invalid Opaque
-		  Dim r As Readable = p.Left
+		  #pragma X86CallingConvention CDecl
+		  #pragma BoundsChecking Off
+		  #pragma BackgroundTasks Off
+		  #pragma StackOverflowChecking Off
+		  #pragma NilObjectChecking Off
+		  
+		  Dim r As Readable = Streams.Lookup(Opaque, Nil)
+		  If r = Nil Then Return 0 ' invalid Opaque
 		  If Not (r IsA BinaryStream) Then Return 2 ' not seekable
 		  If Offset > BinaryStream(r).Length Then Return 3 ' invalid offset
 		  BinaryStream(r).Position = Offset
@@ -80,7 +85,7 @@ Private Class MemoryFile
 
 	#tag Method, Flags = &h21
 		Private Shared Function NewOpaque() As Ptr
-		  Static Opaque As Integer = 777
+		  Static Opaque As Integer
 		  Do
 		    opaque = opaque + 1
 		  Loop Until Not Streams.HasKey(Ptr(opaque))
