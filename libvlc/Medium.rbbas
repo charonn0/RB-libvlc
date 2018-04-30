@@ -38,6 +38,14 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1000
+		Sub Constructor(FromStream As Readable, Length As UInt64)
+		  Super.Constructor(DEFAULT_ARGS)
+		  mMemoryFile = New MemoryFile(Me, FromStream, Length)
+		  mMedium = mMemoryFile.MediumHandle
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mMedium <> Nil Then libvlc_media_release(mMedium)
@@ -182,6 +190,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h1
 		Protected mMedium As Ptr
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mMemoryFile As MemoryFile
 	#tag EndProperty
 
 
