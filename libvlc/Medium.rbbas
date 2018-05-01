@@ -60,6 +60,15 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		 Shared Function FromMemoryBlock(ByRef Data As MemoryBlock) As libvlc.Medium
+		  Dim m As New Medium(DEFAULT_ARGS)
+		  m.mMemoryFile = New MemoryFile(m, Data)
+		  m.mMedium = m.mMemoryFile.Handle
+		  Return m
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Function GetStats() As libvlc_media_stats_t
 		  If mMedium <> Nil Then
