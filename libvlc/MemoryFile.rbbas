@@ -7,7 +7,10 @@ Private Class MemoryFile
 		  End If
 		  
 		  If Streams = Nil Then Streams = New Dictionary
-		  Dim opaque As Ptr = NewOpaque()
+		  Static Opaque As Integer
+		  Do
+		    Opaque = Opaque + 1
+		  Loop Until Not Streams.HasKey(Opaque)
 		  Streams.Value(opaque) = Stream
 		  mHandle = libvlc_media_new_callbacks(Owner.Instance, Nil, AddressOf MediaRead, AddressOf MediaSeek, AddressOf MediaClose, opaque)
 		End Sub
@@ -20,7 +23,7 @@ Private Class MemoryFile
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Shared Sub MediaClose(Opaque As Ptr)
+		Private Shared Sub MediaClose(Opaque As Integer)
 		  #pragma X86CallingConvention CDecl
 		  #pragma BoundsChecking Off
 		  #pragma BackgroundTasks Off
@@ -33,7 +36,7 @@ Private Class MemoryFile
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Shared Function MediaRead(Opaque As Ptr, Buffer As Ptr, BufferSize As Integer) As UInt32
+		Private Shared Function MediaRead(Opaque As Integer, Buffer As Ptr, BufferSize As Integer) As UInt32
 		  #pragma X86CallingConvention CDecl
 		  #pragma BoundsChecking Off
 		  #pragma BackgroundTasks Off
@@ -50,7 +53,7 @@ Private Class MemoryFile
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Shared Function MediaSeek(Opaque As Ptr, Offset As UInt64) As Int32
+		Private Shared Function MediaSeek(Opaque As Integer, Offset As UInt64) As Int32
 		  #pragma X86CallingConvention CDecl
 		  #pragma BoundsChecking Off
 		  #pragma BackgroundTasks Off
@@ -64,16 +67,6 @@ Private Class MemoryFile
 		  BinaryStream(r).Position = Offset
 		  Return 0
 		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Shared Function NewOpaque() As Ptr
-		  Static Opaque As Integer
-		  Do
-		    opaque = opaque + 1
-		  Loop Until Not Streams.HasKey(Ptr(opaque))
-		  Return Ptr(opaque)
 		End Function
 	#tag EndMethod
 
