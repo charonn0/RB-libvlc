@@ -1,20 +1,6 @@
 #tag Class
 Protected Class App
 Inherits Application
-	#tag Event
-		Sub Open()
-		  Dim bs As BinaryStream = BinaryStream.Open(GetFolderItem("D:\Music\Soundtracks\Elder Scrolls\Skyrim\Disk 1\The Elder Scrolls V- Skyrim - Night without Stars.flac"))
-		  Dim m As New libvlc.Medium(bs)
-		  Dim p As New VLCPlayer(m)
-		  If Not p.Play() Then Break
-		  Do Until Not p.IsPlaying
-		    DoEvents
-		  Loop
-		  Quit
-		End Sub
-	#tag EndEvent
-
-
 	#tag Constant, Name = kEditClear, Type = String, Dynamic = False, Default = \"&Delete", Scope = Public
 		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"&Delete"
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"&Delete"
