@@ -264,7 +264,7 @@ Begin Window OpenMedia
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   False
-      Width           =   336
+      Width           =   249
    End
    Begin Label Label2
       AutoDeactivate  =   True
@@ -323,6 +323,38 @@ Begin Window OpenMedia
       Value           =   False
       Visible         =   True
       Width           =   18
+   End
+   Begin CheckBox UseMemory
+      AutoDeactivate  =   True
+      Bold            =   ""
+      Caption         =   "imem://"
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   "When enabled, the demo will load media using callbacks instead of giving the URL/Path of the file. "
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   336
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Scope           =   0
+      State           =   0
+      TabIndex        =   9
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   60
+      Underline       =   ""
+      Value           =   False
+      Visible         =   True
+      Width           =   80
    End
 End
 #tag EndWindow
@@ -391,7 +423,12 @@ End
 #tag Events OKBtn
 	#tag Event
 		Sub Action()
-		  mMedium = MediaURL.Text
+		  If UseMemory.Value Then
+		    Dim bs As BinaryStream = BinaryStream.Open(GetFolderItem(MediaURL.Text, FolderItem.PathTypeURL))
+		    mMedium = New libvlc.Medium(bs)
+		  Else
+		    mMedium = MediaURL.Text
+		  End If
 		  Dim args() As String = libvlc.SplitQuoted(MediaOpts.Text.Trim)
 		  For i As Integer = 0 To UBound(args)
 		    mMedium.AddOption(args(i))
