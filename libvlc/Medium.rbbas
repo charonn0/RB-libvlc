@@ -62,9 +62,8 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function FromMemoryBlock(ByRef Data As MemoryBlock) As libvlc.Medium
-		  Dim m As New Medium(DEFAULT_ARGS)
-		  m.mMemoryFile = New MemoryFile(m, Data)
-		  m.mMedium = m.mMemoryFile.Handle
+		  Dim m As New Medium(New BinaryStream(Data))
+		  m.mMemoryData = Data
 		  Return m
 		End Function
 	#tag EndMethod
@@ -199,6 +198,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h1
 		Protected mMedium As Ptr
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mMemoryData As MemoryBlock
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
