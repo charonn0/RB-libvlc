@@ -659,8 +659,8 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Function SplitQuoted(Data As String) As String()
+	#tag Method, Flags = &h1
+		Protected Function SplitQuoted(Data As String) As String()
 		  Dim output() As String
 		  Dim input As New BinaryStream(Data)
 		  Dim tmp As String
