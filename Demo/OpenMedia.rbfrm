@@ -429,7 +429,7 @@ End
 		  Else
 		    mMedium = MediaURL.Text
 		  End If
-		  Dim args() As String = libvlc.SplitQuoted(MediaOpts.Text.Trim)
+		  Dim args() As String = SplitQuoted(MediaOpts.Text.Trim)
 		  For i As Integer = 0 To UBound(args)
 		    mMedium.AddOption(args(i))
 		  Next
