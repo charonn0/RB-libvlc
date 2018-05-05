@@ -126,10 +126,9 @@ End
 		  mStartTime = mPlayer.TimeMS
 		  If Not mPlayer.Stop Then Break
 		  mPlayer.EmbedWithin(Self)
-		  mPlayer.Play
-		  Do
+		  Do Until mPlayer.Play
 		    App.YieldToNextThread
-		  Loop Until mPlayer.CurrentState <> libvlc.PlayerState.OPENING
+		  Loop Until mPlayer.CurrentState = libvlc.PlayerState.ERROR
 		  SetPositionTimer.Mode = Timer.ModeSingle
 		  Me.ShowModal
 		End Sub
