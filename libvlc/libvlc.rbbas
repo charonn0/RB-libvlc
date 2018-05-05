@@ -20,8 +20,7 @@ Protected Module libvlc
 		  Dim frac As Integer  = Milliseconds Mod 1000
 		  Dim out As String
 		  If hours > 0 Then
-		    out = Str(hours) + ":"
-		    out = out + Format(minutes, "00") + ":"
+		    out = Str(hours) + ":" + Format(minutes, "00") + ":"
 		  Else
 		    out = out + Format(minutes, "#0") + ":"
 		  End If
