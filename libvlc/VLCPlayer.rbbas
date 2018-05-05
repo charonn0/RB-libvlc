@@ -295,6 +295,26 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Pause() As Boolean
+		  If mPlayer = Nil Then Return False
+		  Try
+		    Me.Pause()
+		  Catch
+		    Return False
+		  End Try
+		  Do Until Me.CurrentState = libvlc.PlayerState.PAUSED
+		    #If TargetHasGUI Then
+		      App.SleepCurrentThread(100)
+		    #Else
+		      App.DoEvents(100)
+		    #EndIf
+		  Loop Until Me.CurrentState = libvlc.PlayerState.ERROR
+		  
+		  Return Me.CurrentState = libvlc.PlayerState.PAUSED
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Play()
 		  If mPlayer <> Nil Then
 		    If libvlc_media_player_play(mPlayer) <> 0 Then Raise New VLCException("The player cannot play the current media.")
