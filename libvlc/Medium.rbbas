@@ -39,7 +39,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor(FromStream As Readable)
+		Sub Constructor(FromStream As Readable, Optional Length As UInt64)
 		  Super.Constructor(DEFAULT_ARGS)
 		  If Not System.IsFunctionAvailable("libvlc_media_new_callbacks", VLCLib) Then
 		    Raise New VLCException("Loading media from memory is not available in the installed version of libvlc.")
@@ -50,7 +50,8 @@ Inherits libvlc.VLCInstance
 		  Do
 		    Opaque = Opaque + 1
 		  Loop Until Not Streams.HasKey(Opaque)
-		  Streams.Value(opaque) = FromStream
+		  If Length = 0 And FromStream IsA BinaryStream Then Length = BinaryStream(FromStream).Length
+		  Streams.Value(opaque) = FromStream:Length
 		  mMedium = libvlc_media_new_callbacks(Me.Instance, AddressOf MediaOpen, AddressOf MediaRead, AddressOf MediaSeek, AddressOf MediaClose, opaque)
 		  If mMedium = Nil Then Raise New libvlc.VLCException("Unable to construct a Medium instance using callbacks.")
 		  
@@ -152,10 +153,13 @@ Inherits libvlc.VLCInstance
 		  #pragma StackOverflowChecking Off
 		  #pragma NilObjectChecking Off
 		  
-		  Dim r As Readable = Streams.Lookup(Opaque, Nil)
-		  If r = Nil Then Return 1 ' invalid Opaque
+		  Dim p As Pair = Streams.Lookup(Opaque, Nil)
+		  If p = Nil Then Return 1 ' invalid Opaque
+		  Dim r As Readable = p.Left
+		  Dim sz As UInt64 = p.Right
+		  BufferSize = sz
+		  Streams.Value(Opaque) = r
 		  OpaqueOut = Opaque ' copy one argument to another...
-		  If r IsA BinaryStream Then BufferSize = BinaryStream(r).Length
 		  Return 0
 		  
 		End Function
