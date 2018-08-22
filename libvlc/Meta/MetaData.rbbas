@@ -21,7 +21,7 @@ Protected Class MetaData
 	#tag Method, Flags = &h0
 		Function Lookup(Type As libvlc.MetaDataType, DefaultValue As String) As String
 		  Dim mb As MemoryBlock = libvlc_media_get_meta(Owner.Handle, Type)
-		  If mb <> Nil Then Return mb.CString(0)
+		  If mb <> Nil Then Return DefineEncoding(mb.CString(0), Encodings.UTF8)
 		  Return DefaultValue
 		End Function
 	#tag EndMethod
