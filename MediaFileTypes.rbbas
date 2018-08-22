@@ -38,7 +38,7 @@
 
 	#tag FileType
 		CodeName=VideoAvi
-		Extension=.avi;.vfw;.avi
+		Extension=.avi;.vfw
 		Flags=&h0
 		MacCreator=TVOD
 		MacType=VfW
