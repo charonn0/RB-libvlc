@@ -3,6 +3,12 @@ Class VLCMediaPlayer
 Inherits Canvas
 	#tag CompatibilityFlags = TargetHasGUI
 	#tag Event
+		Sub Close()
+		  Me.Stop
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Function DragEnter(obj As DragItem, action As Integer) As Boolean
 		  ' This event is not raised
 		  #pragma Unused obj
@@ -26,14 +32,6 @@ Inherits Canvas
 		  #pragma Unused x
 		  #pragma Unused y
 		End Function
-	#tag EndEvent
-
-	#tag Event
-		Sub DropObject(obj As DragItem, action As Integer)
-		  ' This event is not raised
-		  #pragma Unused obj
-		  #pragma Unused action
-		End Sub
 	#tag EndEvent
 
 	#tag Event
@@ -159,6 +157,20 @@ Inherits Canvas
 			End Get
 		#tag EndGetter
 		CanSeek As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.CaptureMouse
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.CaptureMouse = value
+			End Set
+		#tag EndSetter
+		CaptureMouse As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -309,6 +321,11 @@ Inherits Canvas
 			  If mPlayer <> Nil Then Return mPlayer.TimeMS
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.TimeMS = value
+			End Set
+		#tag EndSetter
 		TimeMS As Int64
 	#tag EndComputedProperty
 

@@ -7,7 +7,7 @@ Begin Window OpenMedia
    Frame           =   1
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   9.1e+1
+   Height          =   8.3e+1
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -150,7 +150,6 @@ Begin Window OpenMedia
       Selectable      =   False
       TabIndex        =   5
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "Media URL:"
       TextAlign       =   0
       TextColor       =   &h000000
@@ -177,11 +176,11 @@ Begin Window OpenMedia
       InitialParent   =   ""
       Italic          =   ""
       Left            =   221
-      LockBottom      =   ""
+      LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   ""
-      LockTop         =   True
+      LockTop         =   False
       Scope           =   0
       TabIndex        =   4
       TabPanelIndex   =   0
@@ -189,7 +188,7 @@ Begin Window OpenMedia
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   63
+      Top             =   54
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -208,11 +207,11 @@ Begin Window OpenMedia
       InitialParent   =   ""
       Italic          =   ""
       Left            =   135
-      LockBottom      =   ""
+      LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   ""
-      LockTop         =   True
+      LockTop         =   False
       Scope           =   0
       TabIndex        =   3
       TabPanelIndex   =   0
@@ -220,8 +219,140 @@ Begin Window OpenMedia
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   63
+      Top             =   54
       Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin TextField MediaOpts
+      AcceptTabs      =   ""
+      Alignment       =   0
+      AutoDeactivate  =   True
+      AutomaticallyCheckSpelling=   False
+      BackColor       =   &hFFFFFF
+      Bold            =   ""
+      Border          =   True
+      CueText         =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Format          =   ""
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      Italic          =   ""
+      Left            =   80
+      LimitText       =   0
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Mask            =   ""
+      Password        =   ""
+      ReadOnly        =   ""
+      Scope           =   0
+      TabIndex        =   6
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   ""
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   59
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   False
+      Width           =   249
+   End
+   Begin Label Label2
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   20
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   7
+      TabPanelIndex   =   0
+      Text            =   "Options:"
+      TextAlign       =   0
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   60
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   False
+      Width           =   57
+   End
+   Begin DisclosureTriangle DisclosureTriangle1
+      AcceptFocus     =   False
+      AutoDeactivate  =   True
+      Enabled         =   True
+      Facing          =   0
+      Height          =   18
+      HelpTag         =   "Show options"
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   14
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   8
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Top             =   58
+      Value           =   False
+      Visible         =   True
+      Width           =   18
+   End
+   Begin CheckBox UseMemory
+      AutoDeactivate  =   True
+      Bold            =   ""
+      Caption         =   "imem://"
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   "When enabled, the demo will load media using callbacks instead of giving the URL/Path of the file. "
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   336
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Scope           =   0
+      State           =   0
+      TabIndex        =   9
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   60
+      Underline       =   ""
+      Value           =   False
       Visible         =   True
       Width           =   80
    End
@@ -292,7 +423,16 @@ End
 #tag Events OKBtn
 	#tag Event
 		Sub Action()
-		  mMedium = MediaURL.Text
+		  If UseMemory.Value Then
+		    Dim bs As BinaryStream = BinaryStream.Open(GetFolderItem(MediaURL.Text, FolderItem.PathTypeURL))
+		    mMedium = New libvlc.Medium(bs)
+		  Else
+		    mMedium = MediaURL.Text
+		  End If
+		  Dim args() As String = libvlc.SplitQuoted(MediaOpts.Text.Trim)
+		  For i As Integer = 0 To UBound(args)
+		    mMedium.AddOption(args(i))
+		  Next
 		  Self.Close
 		End Sub
 	#tag EndEvent
@@ -302,6 +442,23 @@ End
 		Sub Action()
 		  mMedium = Nil
 		  Self.Close
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DisclosureTriangle1
+	#tag Event
+		Sub Action()
+		  If Me.Value Then
+		    Self.Height = 121
+		    Label2.Visible = True
+		    MediaOpts.Visible = True
+		    Me.HelpTag = "Hide options"
+		  Else
+		    Self.Height = 91
+		    Label2.Visible = False
+		    MediaOpts.Visible = False
+		    Me.HelpTag = "Show options"
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents

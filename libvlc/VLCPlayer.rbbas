@@ -9,7 +9,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
-		  Dim i As New VLCInstance
+		  Dim i As New VLCInstance(DEFAULT_ARGS)
 		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance))
 		  
 		End Function
@@ -17,7 +17,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioOutputs() As libvlc.Meta.AudioOutputList
-		  Dim i As New VLCInstance
+		  Dim i As New VLCInstance(DEFAULT_ARGS)
 		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
 		  If p <> Nil Then Return New libvlc.Meta.AudioOutputList(p)
 		  Raise New VLCException("Unable to get the list of audio output modules.")
@@ -88,21 +88,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor()
-		  ' Constructs a new player instance
-		  
-		  Super.Constructor()
-		  mPlayer = libvlc_media_player_new(Me.Instance)
-		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
-		  
-		  mStateChangeTimer = New Timer
-		  mStateChangeTimer.Period = 150
-		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
-		  mStateChangeTimer.Mode = Timer.ModeMultiple
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor(Medium As libvlc.Medium)
 		  ' Constructs a new player instance from the passed media reference
 		  
@@ -122,9 +107,24 @@ Inherits libvlc.VLCInstance
 		  ' Takes ownership of the passed player ref
 		  
 		  If FromPtr = Nil Then Raise New NilObjectException
-		  Super.Constructor()
+		  Super.Constructor(DEFAULT_ARGS)
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mPlayer = FromPtr
+		  
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 150
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(CommandLine As String = libvlc.DEFAULT_ARGS)
+		  ' Constructs a new player instance
+		  
+		  Super.Constructor(CommandLine)
+		  mPlayer = libvlc_media_player_new(Me.Instance)
+		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		  
 		  mStateChangeTimer = New Timer
 		  mStateChangeTimer.Period = 150
@@ -236,11 +236,9 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Media() As libvlc.Medium
-		  If mMedium = Nil Then
-		    If mPlayer <> Nil Then
-		      Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
-		      If p <> Nil Then mMedium = p
-		    End If
+		  If mMedium = Nil And mPlayer <> Nil Then
+		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
+		    If p <> Nil Then mMedium = p
 		  End If
 		  Return mMedium
 		End Function
@@ -271,6 +269,18 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub NavigateMenu(Mode As libvlc.NavigationMode)
+		  If mPlayer <> Nil Then libvlc_media_player_navigate(mPlayer, Mode)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub NextFrame()
+		  If mPlayer <> Nil Then libvlc_media_player_next_frame(mPlayer)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.VLCPlayer) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))
@@ -282,6 +292,26 @@ Inherits libvlc.VLCInstance
 		Sub Pause()
 		  If mPlayer <> Nil Then libvlc_media_player_set_pause(mPlayer, 1)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Pause() As Boolean
+		  If mPlayer = Nil Then Return False
+		  Try
+		    Me.Pause()
+		  Catch
+		    Return False
+		  End Try
+		  Do Until Me.CurrentState = libvlc.PlayerState.PAUSED
+		    #If TargetHasGUI Then
+		      App.SleepCurrentThread(100)
+		    #Else
+		      App.DoEvents(100)
+		    #EndIf
+		  Loop Until Me.CurrentState = libvlc.PlayerState.ERROR
+		  
+		  Return Me.CurrentState = libvlc.PlayerState.PAUSED
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -358,6 +388,26 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Stop() As Boolean
+		  If mPlayer = Nil Then Return False
+		  Try
+		    Me.Stop()
+		  Catch
+		    Return False
+		  End Try
+		  Do Until Me.CurrentState = libvlc.PlayerState.STOPPING
+		    #If TargetHasGUI Then
+		      App.SleepCurrentThread(100)
+		    #Else
+		      App.DoEvents(100)
+		    #EndIf
+		  Loop Until Me.CurrentState = libvlc.PlayerState.ERROR
+		  
+		  Return Me.CurrentState = libvlc.PlayerState.STOPPING
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function SubtitleCount() As Integer
 		  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
 		End Function
@@ -411,19 +461,19 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function VideoAdjustment(Option As libvlc.AdjustOption) As Integer
-		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, UInt32(Option))
+		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, CType(Option, UInt32))
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub VideoAdjustment(Option As libvlc.AdjustOption, Assigns NewValue As Integer)
-		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, UInt32(Option), NewValue)
+		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, CType(Option, UInt32), NewValue)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
-		  Dim i As New VLCInstance
+		  Dim i As New VLCInstance(DEFAULT_ARGS)
 		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance))
 		  
 		End Function
@@ -495,6 +545,10 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the video aspect ratio, as a string. e.g. "16:9" or "4:3"
+			  ' 
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.AspectRatio
+			  
 			  If mPlayer <> Nil Then
 			    Dim mb As MemoryBlock = libvlc_video_get_aspect_ratio(mPlayer)
 			    If mb <> Nil Then
@@ -505,6 +559,21 @@ Inherits libvlc.VLCInstance
 			  End If
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  ' Sets the video aspect ratio, as a string. e.g. "16:9" or "4:3"
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.AspectRatio
+			  
+			  If mPlayer <> Nil Then
+			    If value <> "" Then
+			      libvlc_video_set_aspect_ratio(mPlayer, value)
+			    Else
+			      libvlc_video_set_aspect_ratio(mPlayer, Nil)
+			    End If
+			  End If
+			End Set
+		#tag EndSetter
 		AspectRatio As String
 	#tag EndComputedProperty
 
@@ -767,9 +836,22 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the position of the currently playing medium, in milliseconds.
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.TimeMS
+			  
 			  If mPlayer <> Nil Then Return libvlc_media_player_get_time(mPlayer)
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  ' Sets the position of the currently playing medium, in milliseconds.
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.TimeMS
+			  
+			  If mPlayer <> Nil Then libvlc_media_player_set_time(mPlayer, value)
+			End Set
+		#tag EndSetter
 		TimeMS As Int64
 	#tag EndComputedProperty
 

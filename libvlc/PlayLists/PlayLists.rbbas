@@ -31,18 +31,19 @@ Protected Module PlayLists
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function Play(MediaFiles() As FolderItem) As libvlc.PlayLists.ListPlayer
+		Protected Function Play(MediaFiles() As FolderItem, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.PlayLists.ListPlayer
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaFiles)
 		    m.Append(MediaFiles(i))
 		  Next
-		  Return Play(m)
+		  Return Play(m, TruePlayer)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function Play(Media() As libvlc.Medium) As libvlc.PlayLists.ListPlayer
+		Protected Function Play(Media() As libvlc.Medium, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.PlayLists.ListPlayer
 		  Dim play As New ListPlayer
+		  If TruePlayer <> Nil Then play.TruePlayer = TruePlayer
 		  Dim list As New PlayList
 		  For i As Integer = 0 To UBound(Media)
 		    list.Append(Media(i))
@@ -53,12 +54,12 @@ Protected Module PlayLists
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function Play(MediaURLs() As String) As libvlc.PlayLists.ListPlayer
+		Protected Function Play(MediaURLs() As String, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.PlayLists.ListPlayer
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaURLs)
 		    m.Append(MediaURLs(i))
 		  Next
-		  Return Play(m)
+		  Return Play(m, TruePlayer)
 		End Function
 	#tag EndMethod
 

@@ -18,6 +18,7 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
+		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  mEqualizer = libvlc_audio_equalizer_new()
 		  If mEqualizer = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC equalizer.")
 		  mIndex = -1
@@ -38,6 +39,7 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Preset As UInt32)
+		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  mEqualizer = libvlc_audio_equalizer_new_from_preset(Preset)
 		  If mEqualizer = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC equalizer from the preset.")
 		  mIndex = Preset
@@ -54,13 +56,13 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h0
 		 Shared Function GetBandCount() As UInt32
-		  Return libvlc_audio_equalizer_get_band_count()
+		  If libvlc.IsAvailable Then Return libvlc_audio_equalizer_get_band_count() Else Raise New PlatformNotSupportedException
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		 Shared Function GetBandFrequency(BandNumber As UInt32) As Single
-		  Return libvlc_audio_equalizer_get_band_frequency(BandNumber)
+		  If libvlc.IsAvailable Then Return libvlc_audio_equalizer_get_band_frequency(BandNumber) Else Raise New PlatformNotSupportedException
 		End Function
 	#tag EndMethod
 
@@ -73,7 +75,7 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h0
 		 Shared Function GetPresetCount() As UInt32
-		  Return libvlc_audio_equalizer_get_preset_count()
+		  If libvlc.IsAvailable Then Return libvlc_audio_equalizer_get_preset_count() Else Raise New PlatformNotSupportedException
 		End Function
 	#tag EndMethod
 

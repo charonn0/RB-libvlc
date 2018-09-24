@@ -1,18 +1,37 @@
 #tag Class
 Protected Class VLCInstance
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
+		Attributes( deprecated ) Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
+		  #pragma Unused argc
+		  Me.Constructor(argv)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(CommandLine As String)
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
-		  If Singleton <> Nil Then
+
+		  If CommandLine = DEFAULT_ARGS And Singleton <> Nil Then
 		    Me.Constructor(Singleton)
 		  Else
+		    Dim cmds() As String = SplitQuoted(CommandLine)
+		    Dim argc As Integer = UBound(cmds) + 1
+		    Dim argv As New MemoryBlock((argc + 1) * 4)
+		    Dim ptrs() As MemoryBlock
+		    For i As Integer = 0 To argc - 1
+		      Dim mb As MemoryBlock = cmds(i).Trim + Chr(0)
+		      ptrs.Append(mb)
+		      argv.Ptr(i * 4) = mb
+		    Next
+		    
 		    mInstance = libvlc_new(argc, argv)
-		    If Singleton = Nil Then Singleton = Me
+		    If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
+		    If CommandLine = DEFAULT_ARGS Then Singleton = Me
 		  End If
-		  If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
-		  Me.Logging = DebugBuild
+		  'Me.Logging = DebugBuild
 		  mUserAgent = "RB-VLC/1.0"
 		  Me.AppName = App.ExecutableFile.Name
+		  
 		End Sub
 	#tag EndMethod
 
@@ -41,8 +60,8 @@ Protected Class VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function Instance() As Ptr
+	#tag Method, Flags = &h0
+		Function Instance() As Ptr
 		  Return mInstance
 		End Function
 	#tag EndMethod
@@ -116,6 +135,9 @@ Protected Class VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' logging is all sorts of broken. 
+			  ' See: https://github.com/charonn0/RB-libvlc/issues/2 and https://github.com/charonn0/RB-libvlc/issues/1
+			  
 			  If mInstances = Nil Then mInstances = New Dictionary
 			  If value Then
 			    libvlc_log_set(mInstance, AddressOf LogCallback, mInstance)
@@ -128,7 +150,7 @@ Protected Class VLCInstance
 			  mLogging = value
 			End Set
 		#tag EndSetter
-		Logging As Boolean
+		Attributes( deprecated ) Logging As Boolean
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
