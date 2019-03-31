@@ -221,7 +221,7 @@ Begin Window PlayerWindow
       TextSize        =   0
       TextUnit        =   0
       Top             =   316
-      Transparent     =   False
+      Transparent     =   True
       Underline       =   ""
       Visible         =   True
       Width           =   92
@@ -954,6 +954,10 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mFractionalSeconds As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLastAspectRatio As String
 	#tag EndProperty
 
@@ -1058,6 +1062,25 @@ End
 		Sub Action()
 		  mLastPosition = FullscreenParent.ShowPlayer(Player)
 		  FullscreenRevertTimer.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events TimeLabel
+	#tag Event
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  #pragma Unused X
+		  #pragma Unused Y
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub MouseUp(X As Integer, Y As Integer)
+		  Dim r As New REALbasic.Rect(0, 0, Me.Width, Me.Height)
+		  Dim p As New REALbasic.Point(X, Y)
+		  If r.Contains(p) Then
+		    mFractionalSeconds = Not mFractionalSeconds
+		    Self.Refresh(False)
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1309,7 +1332,7 @@ End
 	#tag Event
 		Sub Action()
 		  If Player <> Nil And Player.Media <> Nil Then
-		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
+		    TimeLabel.Text = libvlc.FormatTime(Player.TimeMS, mFractionalSeconds) + "/" + libvlc.FormatTime(Player.LengthMS, mFractionalSeconds)
 		  End If
 		End Sub
 	#tag EndEvent
