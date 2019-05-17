@@ -100,7 +100,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function IsParsed() As Boolean
-		  ' Returns True if the media's meta data has been parsed. Parsing is done when media are played;
+		  ' Returns True if the medium's meta data has been parsed. Parsing is done when media are played;
 		  ' call the Parse() method to read metadata without playing.
 		  
 		  If mMedium <> Nil Then Return libvlc_media_is_parsed(mMedium)
