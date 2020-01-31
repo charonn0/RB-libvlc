@@ -1,6 +1,5 @@
 # RB-libvlc
-This project wraps libvlc, the open-source multimedia library behind VLC Media Player. It is designed and tested on 
-Windows 7 using REALstuio 2011R4.3. Other platforms supported by libvlc should work, but have not been tested.
+This project wraps libvlc, the open-source multimedia library behind VLC Media Player. 
 
 ![RB-libvlc under Windows 7](http://i.imgur.com/7aYqCPW.png)
 
