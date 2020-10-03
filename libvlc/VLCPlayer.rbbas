@@ -367,7 +367,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function SetSubtitleFile(SubtitleFile As FolderItem) As Boolean
-		  If mPlayer <> Nil Then Return libvlc_video_set_subtitle_file(mPlayer, SubtitleFile.AbsolutePath)
+		  If mPlayer <> Nil Then Return libvlc_video_set_subtitle_file(mPlayer, SubtitleFile.AbsolutePath_)
 		End Function
 	#tag EndMethod
 
@@ -440,7 +440,7 @@ Inherits libvlc.VLCInstance
 		  
 		  Dim tmp As FolderItem = GetTemporaryFolderItem()
 		  Dim r As REALbasic.Rect = GetVideoDimensions()
-		  If r <> Nil And libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath, r.Width, r.Height) = 0 Then
+		  If r <> Nil And libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath_, r.Width, r.Height) = 0 Then
 		    Return Picture.Open(tmp)
 		  End If
 		  
