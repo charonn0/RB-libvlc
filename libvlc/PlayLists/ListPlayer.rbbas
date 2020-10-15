@@ -140,7 +140,7 @@ Inherits libvlc.VLCInstance
 		  ' https://github.com/oaubert/python-vlc/issues/13
 		  If mTruePlayer = Nil And System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
 		    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
-		    If p <> Nil Then mTruePlayer = New libvlc.VLCPlayer(p)
+		    If p <> Nil Then mTruePlayer = New libvlc.VLCPlayer(New MediumPtr(p))
 		  End If
 		  Return mTruePlayer
 		End Function

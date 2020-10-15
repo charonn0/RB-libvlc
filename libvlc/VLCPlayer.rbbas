@@ -238,7 +238,7 @@ Inherits libvlc.VLCInstance
 		Function Media() As libvlc.Medium
 		  If mMedium = Nil And mPlayer <> Nil Then
 		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
-		    If p <> Nil Then mMedium = p
+		    If p <> Nil Then mMedium = New MediumPtr(p)
 		  End If
 		  Return mMedium
 		End Function

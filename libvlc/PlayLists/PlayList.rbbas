@@ -39,7 +39,7 @@ Inherits libvlc.VLCInstance
 		Function CurrentItem() As libvlc.Medium
 		  If mList <> Nil Then
 		    Dim p As Ptr = libvlc_media_list_media(mList)
-		    If p <> Nil Then Return p
+		    If p <> Nil Then Return New MediumPtr(p)
 		  End If
 		End Function
 	#tag EndMethod
@@ -102,7 +102,7 @@ Inherits libvlc.VLCInstance
 		  Me.Lock
 		  Try
 		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
-		    If p <> Nil Then ret = p
+		    If p <> Nil Then ret = New MediumPtr(p)
 		  Finally
 		    Me.Unlock
 		  End Try
@@ -123,13 +123,6 @@ Inherits libvlc.VLCInstance
 		  If i = 0 Then i = Sign(Integer(mList) - Integer(OtherInstance.mList))
 		  Return i
 		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Operator_Convert(FromPtr As Ptr)
-		  Super.Constructor(DEFAULT_ARGS)
-		  mList = FromPtr
-		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0

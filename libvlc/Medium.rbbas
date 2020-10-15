@@ -28,13 +28,13 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub Constructor(AddRef As libvlc.Medium)
+	#tag Method, Flags = &h0
+		Sub Constructor(AddRef As libvlc.Medium)
 		  ' Duplicates the Medium. The duplicate is independent of the original.
 		  
 		  Super.Constructor(AddRef)
 		  libvlc_media_retain(AddRef.mMedium)
-		  Me.Constructor(AddRef.mMedium)
+		  mMedium = AddRef.mMedium
 		End Sub
 	#tag EndMethod
 
@@ -225,18 +225,6 @@ Inherits libvlc.VLCInstance
 		  ' Constructs a new Medium from the specified FolderItem. The FolderItem may be a file or a directory/disk drive.
 		  
 		  Me.Operator_Convert(FromFolderItem.URLPath)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Operator_Convert(FromPtr As Ptr)
-		  ' Constructs an Instance of Medium using FromPtr without incrementing VLC's internal refcount for the Ptr.
-		  ' This method assumes that the refcount was incremented when the Ptr was created so we don't need to do it again.
-		  ' However, the refcount WILL be decremented by Medium.Destructor; refer to the specific VLC function docs to
-		  ' determine whether this is appropriate.
-		  
-		  Super.Constructor(DEFAULT_ARGS)
-		  mMedium = FromPtr
 		End Sub
 	#tag EndMethod
 
