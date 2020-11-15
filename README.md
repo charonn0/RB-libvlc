@@ -32,6 +32,6 @@ Playback occurs asynchronously on a separate preemptive thread. You can determin
 3. Copy the libvlc module into your project and save.
 
 ### Ensure the VLC shared libraries are installed
-Most systems do not have VLC (or libvlc) installed by default. You will need to ship the all the necessary files with your application. On Windows, these are `libvlc.dll`, `libvlccore.dll`, and the desired plugins in the `plugins` directory.
+Most systems do not have VLC (or libvlc) installed by default. You will need to ship the all the necessary files with your application. On Windows, these are `libvlc.dll`, `libvlccore.dll`, and the desired plugins in the `plugins` directory. For macOS refer to [this forum thread](https://forum.xojo.com/t/libvlc-macos-64bit/58798/9) for how to properly bundle the dylibs with your app.
 
 RB-libvlc will raise a PlatformNotSupportedException when used if all required DLLs/SOs/DyLibs are not available at runtime. 
