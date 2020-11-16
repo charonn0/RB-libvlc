@@ -901,6 +901,12 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub NotifyListClosed(Sender As PlayListWindow)
+		  mPlaylistWindow = Nil
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub ReadMetaData(Optional Meta As libvlc.Meta.MetaData)
 		  If Meta = Nil Then Return

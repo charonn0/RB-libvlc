@@ -247,6 +247,7 @@ End
 	#tag Event
 		Sub Close()
 		  UITimer.Mode = Timer.ModeOff
+		  If mParentWindow <> Nil Then mParentWindow.NotifyListClosed(Me)
 		End Sub
 	#tag EndEvent
 
@@ -288,6 +289,7 @@ End
 		  Next
 		  mPlayer.Playlist = truelist
 		  UpdateUI()
+		  mParentWindow = PlayerWindow
 		End Sub
 	#tag EndMethod
 
@@ -356,6 +358,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mLastActive As Integer = -2
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mParentWindow As PlayerWindow
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
