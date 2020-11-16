@@ -31,6 +31,7 @@ Window=FullscreenParent;Demo/FullscreenParent.rbfrm;&h4C038FFF;&h64FA37FF;false
 Window=OpenMedia;Demo/OpenMedia.rbfrm;&h61FECFFF;&h64FA37FF;false
 Class=MediumPtr;libvlc/MediumPtr.rbbas;&h577A97FF;&h114C37FF;false
 Class=PlayListPtr;libvlc/PlayLists/PlayListPtr.rbbas;&h18ABB7FF;&h6CCA6FFF;false
+Window=PlayListWindow;Demo/PlayListWindow.rbfrm;&h358AD7FF;&h64FA37FF;false
 DefaultWindow=PlayerWindow
 MajorVersion=1
 MinorVersion=0

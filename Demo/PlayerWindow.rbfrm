@@ -57,7 +57,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   492
+      Left            =   649
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -82,7 +82,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   435
+      Left            =   592
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -116,7 +116,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   348
+      Left            =   505
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -147,7 +147,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   416
+      Left            =   573
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -174,7 +174,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   262
+      Left            =   346
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -579,7 +579,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   92
+      Left            =   176
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -638,7 +638,7 @@ Begin Window PlayerWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   176
+      Left            =   260
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -826,6 +826,37 @@ Begin Window PlayerWindow
       Visible         =   True
       Width           =   80
    End
+   Begin PushButton LoadBtn1
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Load playlist"
+      Default         =   ""
+      Enabled         =   True
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   93
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   37
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   344
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
 End
 #tag EndWindow
 
@@ -833,6 +864,8 @@ End
 	#tag Event
 		Sub Close()
 		  PlayerTimer.Mode = Timer.ModeOff
+		  If mPlaylistWindow <> Nil Then mPlaylistWindow.Close
+		  mPlaylistWindow = Nil
 		End Sub
 	#tag EndEvent
 
@@ -841,8 +874,38 @@ End
 		Private Sub LoadMedia(Media As libvlc.Medium)
 		  If Media = Nil Then Return
 		  Player.Media = Media
-		  If Player.MetaData.HasKey(libvlc.MetaDataType.ArtworkURL) Then
-		    Dim url As String = Player.MetaData.Value(libvlc.MetaDataType.ArtworkURL)
+		  ReadMetaData()
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LoadPlaylist(Items() As FolderItem)
+		  Dim m() As libvlc.Medium
+		  For i As Integer = 0 To UBound(Items)
+		    Dim mediafile As FolderItem = Items(i)
+		    If mediafile.Directory Then ' load chilren
+		      For j As Integer = 1 To mediafile.Count - 1
+		        Dim f As FolderItem = mediafile.Item(i)
+		        If Not f.Directory Then m.Append(f)
+		      Next
+		    Else
+		      m.Append(mediafile)
+		    End If
+		  Next
+		  
+		  If mPlaylistWindow = Nil Then
+		    mPlaylistWindow = New PlayListWindow
+		  End If
+		  mPlaylistWindow.ShowList(Self, Player.TruePlayer, m)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ReadMetaData(Optional Meta As libvlc.Meta.MetaData)
+		  If Meta = Nil Then Return
+		  If Meta.HasKey(libvlc.MetaDataType.ArtworkURL) Then
+		    Dim url As String = Meta.Value(libvlc.MetaDataType.ArtworkURL)
 		    Dim data As MemoryBlock
 		    Select Case NthField(url, "://", 1)
 		    Case "http"
@@ -867,32 +930,32 @@ End
 		  End If
 		  
 		  MetaDataList.DeleteAllRows
-		  MetaDataList.AddRow("Actors", Player.MetaData.Lookup(libvlc.MetaDataType.Actors, "Not set"))
-		  MetaDataList.AddRow("Album", Player.MetaData.Lookup(libvlc.MetaDataType.Album, "Not set"))
-		  MetaDataList.AddRow("AlbumArtist", Player.MetaData.Lookup(libvlc.MetaDataType.AlbumArtist, "Not set"))
-		  MetaDataList.AddRow("Artist", Player.MetaData.Lookup(libvlc.MetaDataType.Artist, "Not set"))
-		  MetaDataList.AddRow("ArtworkURL", Player.MetaData.Lookup(libvlc.MetaDataType.ArtworkURL, "Not set"))
-		  MetaDataList.AddRow("Copyright", Player.MetaData.Lookup(libvlc.MetaDataType.Copyright, "Not set"))
-		  MetaDataList.AddRow("Date", Player.MetaData.Lookup(libvlc.MetaDataType.Date, "Not set"))
-		  MetaDataList.AddRow("Description", Player.MetaData.Lookup(libvlc.MetaDataType.Description, "Not set"))
-		  MetaDataList.AddRow("Director", Player.MetaData.Lookup(libvlc.MetaDataType.Director, "Not set"))
-		  MetaDataList.AddRow("DiscNumber", Player.MetaData.Lookup(libvlc.MetaDataType.DiscNumber, "Not set"))
-		  MetaDataList.AddRow("DiscTotal", Player.MetaData.Lookup(libvlc.MetaDataType.DiscTotal, "Not set"))
-		  MetaDataList.AddRow("EncodedBy", Player.MetaData.Lookup(libvlc.MetaDataType.EncodedBy, "Not set"))
-		  MetaDataList.AddRow("Episode", Player.MetaData.Lookup(libvlc.MetaDataType.Episode, "Not set"))
-		  MetaDataList.AddRow("Genre", Player.MetaData.Lookup(libvlc.MetaDataType.Genre, "Not set"))
-		  MetaDataList.AddRow("Language", Player.MetaData.Lookup(libvlc.MetaDataType.Language, "Not set"))
-		  MetaDataList.AddRow("NowPlaying", Player.MetaData.Lookup(libvlc.MetaDataType.NowPlaying, "Not set"))
-		  MetaDataList.AddRow("Publisher", Player.MetaData.Lookup(libvlc.MetaDataType.Publisher, "Not set"))
-		  MetaDataList.AddRow("Rating", Player.MetaData.Lookup(libvlc.MetaDataType.Rating, "Not set"))
-		  MetaDataList.AddRow("Season", Player.MetaData.Lookup(libvlc.MetaDataType.Season, "Not set"))
-		  MetaDataList.AddRow("Setting", Player.MetaData.Lookup(libvlc.MetaDataType.Setting, "Not set"))
-		  MetaDataList.AddRow("ShowName", Player.MetaData.Lookup(libvlc.MetaDataType.ShowName, "Not set"))
-		  MetaDataList.AddRow("Title", Player.MetaData.Lookup(libvlc.MetaDataType.Title, "Not set"))
-		  MetaDataList.AddRow("TrackID", Player.MetaData.Lookup(libvlc.MetaDataType.TrackID, "Not set"))
-		  MetaDataList.AddRow("TrackNumber", Player.MetaData.Lookup(libvlc.MetaDataType.TrackNumber, "Not set"))
-		  MetaDataList.AddRow("TrackTotal", Player.MetaData.Lookup(libvlc.MetaDataType.TrackTotal, "Not set"))
-		  MetaDataList.AddRow("URL", Player.MetaData.Lookup(libvlc.MetaDataType.URL, "Not set"))
+		  MetaDataList.AddRow("Actors", Meta.Lookup(libvlc.MetaDataType.Actors, "Not set"))
+		  MetaDataList.AddRow("Album", Meta.Lookup(libvlc.MetaDataType.Album, "Not set"))
+		  MetaDataList.AddRow("AlbumArtist", Meta.Lookup(libvlc.MetaDataType.AlbumArtist, "Not set"))
+		  MetaDataList.AddRow("Artist", Meta.Lookup(libvlc.MetaDataType.Artist, "Not set"))
+		  MetaDataList.AddRow("ArtworkURL", Meta.Lookup(libvlc.MetaDataType.ArtworkURL, "Not set"))
+		  MetaDataList.AddRow("Copyright", Meta.Lookup(libvlc.MetaDataType.Copyright, "Not set"))
+		  MetaDataList.AddRow("Date", Meta.Lookup(libvlc.MetaDataType.Date, "Not set"))
+		  MetaDataList.AddRow("Description", Meta.Lookup(libvlc.MetaDataType.Description, "Not set"))
+		  MetaDataList.AddRow("Director", Meta.Lookup(libvlc.MetaDataType.Director, "Not set"))
+		  MetaDataList.AddRow("DiscNumber", Meta.Lookup(libvlc.MetaDataType.DiscNumber, "Not set"))
+		  MetaDataList.AddRow("DiscTotal", Meta.Lookup(libvlc.MetaDataType.DiscTotal, "Not set"))
+		  MetaDataList.AddRow("EncodedBy", Meta.Lookup(libvlc.MetaDataType.EncodedBy, "Not set"))
+		  MetaDataList.AddRow("Episode", Meta.Lookup(libvlc.MetaDataType.Episode, "Not set"))
+		  MetaDataList.AddRow("Genre", Meta.Lookup(libvlc.MetaDataType.Genre, "Not set"))
+		  MetaDataList.AddRow("Language", Meta.Lookup(libvlc.MetaDataType.Language, "Not set"))
+		  MetaDataList.AddRow("NowPlaying", Meta.Lookup(libvlc.MetaDataType.NowPlaying, "Not set"))
+		  MetaDataList.AddRow("Publisher", Meta.Lookup(libvlc.MetaDataType.Publisher, "Not set"))
+		  MetaDataList.AddRow("Rating", Meta.Lookup(libvlc.MetaDataType.Rating, "Not set"))
+		  MetaDataList.AddRow("Season", Meta.Lookup(libvlc.MetaDataType.Season, "Not set"))
+		  MetaDataList.AddRow("Setting", Meta.Lookup(libvlc.MetaDataType.Setting, "Not set"))
+		  MetaDataList.AddRow("ShowName", Meta.Lookup(libvlc.MetaDataType.ShowName, "Not set"))
+		  MetaDataList.AddRow("Title", Meta.Lookup(libvlc.MetaDataType.Title, "Not set"))
+		  MetaDataList.AddRow("TrackID", Meta.Lookup(libvlc.MetaDataType.TrackID, "Not set"))
+		  MetaDataList.AddRow("TrackNumber", Meta.Lookup(libvlc.MetaDataType.TrackNumber, "Not set"))
+		  MetaDataList.AddRow("TrackTotal", Meta.Lookup(libvlc.MetaDataType.TrackTotal, "Not set"))
+		  MetaDataList.AddRow("URL", Meta.Lookup(libvlc.MetaDataType.URL, "Not set"))
 		  Player.Invalidate(False)
 		  
 		End Sub
@@ -962,11 +1025,19 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastItem As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLastPosition As Single
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mLock As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mPlaylistWindow As PlayListWindow
 	#tag EndProperty
 
 
@@ -992,12 +1063,22 @@ End
 		    Finally
 		      mLock = False
 		    End Try
-		    If Player.MetaData <> Nil Then
-		      Self.Title = "'" + Player.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.MediaURL) + "'" + _
+		    Dim t As String
+		    If mPlaylistWindow <> Nil Then
+		      t = mPlaylistWindow.NotifyStateChanged()
+		      If t = "!INVALID" Then t = "libvlc Demo"
+		      If t <> mLastItem Then
+		        ReadMetaData(mPlaylistWindow.CurrentMeta)
+		        mLastItem = t
+		      End If
+		      
+		    ElseIf Player.MetaData <> Nil Then
+		      t = "'" + Player.TruePlayer.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.MediaURL) + "'" + _
 		      "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		    Else
-		      Self.Title = "libvlc demo"
+		      t = "libvlc demo"
 		    End If
+		    Self.Title = t
 		    'TimeLabel.Text = libvlc.FormatTime(Player.TimeMS) + "/" + libvlc.FormatTime(Player.LengthMS)
 		    ScaleLabel.Text = "Scale: " + Format(Player.TruePlayer.Scale, "##0.0##")
 		    PlayButton.Enabled = True
@@ -1312,6 +1393,10 @@ End
 		    Loop
 		    UpdateUI()
 		  End If
+		  If mPlaylistWindow <> Nil Then
+		    Call mPlaylistWindow.NotifyStateChanged()
+		    ReadMetaData(mPlaylistWindow.CurrentMeta)
+		  End If
 		  
 		  'If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
 		End Sub
@@ -1350,6 +1435,22 @@ End
 		      MsgBox(err.Message)
 		    End Try
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events LoadBtn1
+	#tag Event
+		Sub Action()
+		  Dim dlg As New OpenDialog
+		  dlg.Filter = MediaFileTypes.All
+		  dlg.MultiSelect = True
+		  If dlg.ShowModal() = Nil Then Return
+		  Dim f() As FolderItem
+		  For i As Integer = 0 To dlg.Count - 1
+		    f.Append(dlg.Item(i))
+		  Next
+		  
+		  LoadPlaylist(f)
 		End Sub
 	#tag EndEvent
 #tag EndEvents
