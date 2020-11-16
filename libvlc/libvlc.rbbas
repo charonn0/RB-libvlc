@@ -259,7 +259,7 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
-		Private Soft Declare Function libvlc_media_list_index_of_item Lib VLCLib (MediaList As Ptr, Medium As Ptr) As Integer
+		Private Soft Declare Function libvlc_media_list_index_of_item Lib VLCLib (MediaList As Ptr, Medium As Ptr) As Int32
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
