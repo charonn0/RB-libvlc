@@ -3,6 +3,7 @@ Protected Class MetaData
 	#tag Method, Flags = &h0
 		Sub Constructor(Owner As libvlc.Medium)
 		  mOwner = Owner
+		  If Not mOwner.IsParsed Then mOwner.Parse()
 		End Sub
 	#tag EndMethod
 
@@ -36,7 +37,7 @@ Protected Class MetaData
 		Function Value(Type As libvlc.MetaDataType) As String
 		  Dim mb As MemoryBlock = libvlc_media_get_meta(Owner.Handle, Type)
 		  If mb = Nil Then Raise New VLCException("The media does not contain meta data of the specified type.")
-		  Return mb.CString(0)
+		  Return DefineEncoding(mb.CString(0), Encodings.UTF8)
 		End Function
 	#tag EndMethod
 
