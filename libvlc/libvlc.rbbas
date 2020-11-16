@@ -729,7 +729,7 @@ Protected Module libvlc
 	#tag Constant, Name = DEFAULT_ARGS, Type = String, Dynamic = False, Default = \"", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = VLCLib, Type = String, Dynamic = False, Default = \"libvlc", Scope = Private
+	#tag Constant, Name = VLCLib, Type = String, Dynamic = False, Default = \"libvlc.so.5", Scope = Private
 		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"libvlc.dll"
 		#Tag Instance, Platform = Mac OS, Language = Default, Definition  = \"@executable_path/\xE2\x80\xA6/\xE2\x80\xA6/\xE2\x80\xA6/lib/libvlc.5.dylib"
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"libvlc.so.5"
