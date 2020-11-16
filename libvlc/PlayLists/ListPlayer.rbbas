@@ -3,13 +3,13 @@ Protected Class ListPlayer
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Function CanMoveNext() As Boolean
-		  Return mPlayList <> Nil And mListIndex < mPlayList.Count - 1
+		  Return mPlayList <> Nil And ListIndex < mPlayList.Count - 1
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function CanMovePrev() As Boolean
-		  Return mPlayList <> Nil And mListIndex > 0
+		  Return mPlayList <> Nil And ListIndex > 0
 		End Function
 	#tag EndMethod
 
@@ -18,6 +18,17 @@ Inherits libvlc.VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  mPlayer = libvlc_media_list_player_new(Me.Instance)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list player.")
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 500
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1000
+		Sub Constructor(UsePlayer As libvlc.VLCPlayer)
+		  Me.Constructor()
+		  Me.TruePlayer = UsePlayer
 		End Sub
 	#tag EndMethod
 
@@ -71,7 +82,6 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Play()
 		  If mPlayer <> Nil Then
-		    mListIndex = 0
 		    libvlc_media_list_player_play(mPlayer)
 		  End If
 		End Sub
@@ -110,7 +120,6 @@ Inherits libvlc.VLCInstance
 		    If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
 		      Raise New VLCException("The media list does not contain an entry at that index.")
 		    End If
-		    mListIndex = Index
 		  End If
 		End Sub
 	#tag EndMethod
@@ -123,6 +132,16 @@ Inherits libvlc.VLCInstance
 		      If libvlc_media_list_player_play_item(mPlayer, Media.Handle) = 0 Then Return
 		    End If
 		    Raise New VLCException("That medium is not included in this media list.")
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub StateChangeTimerHandler(Sender As Timer)
+		  #pragma Unused Sender
+		  If mPlayer <> Nil And Me.CurrentState <> mLastState Then
+		    mLastState = Me.CurrentState
+		    RaiseEvent ChangedState()
 		  End If
 		End Sub
 	#tag EndMethod
@@ -153,6 +172,11 @@ Inherits libvlc.VLCInstance
 		  mTruePlayer = NewVLCPlayer
 		End Sub
 	#tag EndMethod
+
+
+	#tag Hook, Flags = &h0
+		Event ChangedState()
+	#tag EndHook
 
 
 	#tag Note, Name = About this class
@@ -190,7 +214,8 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  return mListIndex
+			  If mPlayList = Nil Then Return -1
+			  return mPlayList.CurrentIndex()
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -203,7 +228,7 @@ Inherits libvlc.VLCInstance
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
-		Private mListIndex As Integer
+		Private mLastState As libvlc.PlayerState
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
@@ -216,6 +241,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mPlayMode As libvlc.PlaybackMode = libvlc.PlaybackMode.Default
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mStateChangeTimer As Timer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
