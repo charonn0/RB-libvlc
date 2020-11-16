@@ -6,6 +6,7 @@ Inherits libvlc.VLCInstance
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
+		    mMediaList.Append(Medium)
 		  Finally
 		    Me.Unlock
 		  End Try
@@ -36,10 +37,20 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function CurrentIndex() As Integer
+		  Dim item As libvlc.Medium = CurrentItem()
+		  If item <> Nil Then Return IndexOf(item) Else Return -1
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function CurrentItem() As libvlc.Medium
 		  If mList <> Nil Then
-		    Dim p As Ptr = libvlc_media_list_media(mList)
-		    If p <> Nil Then Return New MediumPtr(p)
+		    ' Dim p As Ptr = libvlc_media_list_media(mList)
+		    ' If p <> Nil Then Return New MediumPtr(p)
+		    For i As Integer = 0 To UBound(mMediaList)
+		      If mMediaList(i).CurrentState = libvlc.PlayerState.PLAYING Then Return mMediaList(i)
+		    Next
 		  End If
 		End Function
 	#tag EndMethod
@@ -151,6 +162,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h1
 		Protected mList As Ptr
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mMediaList() As libvlc.Medium
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
