@@ -18,16 +18,16 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function FormatTime(Milliseconds As UInt64, FractionalSeconds As Boolean = False) As String
+		Protected Function FormatTime(Milliseconds As Int64, FractionalSeconds As Boolean = False) As String
 		  ' Formats the period of time denoted by Milliseconds as HH:MM:SS. If FractionalSeconds is true then fractions of a second are included.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.FormatTime
 		  
-		  Dim hours As UInt32 = (Milliseconds / (1000 * 60 * 60))
-		  Dim minutes As UInt32 = (Milliseconds / (1000 * 60)) Mod 60
-		  Dim seconds As UInt32 = (Milliseconds / 1000) Mod 60
-		  Dim frac As UInt32  = Milliseconds Mod 1000
+		  Dim hours As Int32 = (Milliseconds / (1000 * 60 * 60))
+		  Dim minutes As Int32 = (Milliseconds / (1000 * 60)) Mod 60
+		  Dim seconds As Int32 = (Milliseconds / 1000) Mod 60
+		  Dim frac As Int32  = Milliseconds Mod 1000
 		  Dim out As String
 		  If hours > 0 Then
 		    out = Str(hours) + ":" + Format(minutes, "00") + ":"
