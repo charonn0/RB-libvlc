@@ -244,6 +244,7 @@ Inherits libvlc.VLCInstance
 		  ' determine whether the metadata has already been parsed. Refer to the MetaData class, and the VLCPlayer.MetaData method.
 		  
 		  If mMedium <> Nil Then libvlc_media_parse(mMedium)
+		  mMeta = New libvlc.Meta.MetaData(Me)
 		End Sub
 	#tag EndMethod
 
@@ -263,12 +264,92 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.Medium.MediaURL" )  Function URL() As String
-		  Return Me.MediaURL
-		End Function
-	#tag EndMethod
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Actors, "")
+			End Get
+		#tag EndGetter
+		Actors As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Album, "")
+			End Get
+		#tag EndGetter
+		Album As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.AlbumArtist, "")
+			End Get
+		#tag EndGetter
+		AlbumArtist As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  If mMeta.HasKey(libvlc.MetaDataType.Artist) Then Return mMeta.Value(libvlc.MetaDataType.Artist)
+			  Return AlbumArtist
+			End Get
+		#tag EndGetter
+		Artist As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mArtwork <> Nil Then Return mArtwork
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Dim url As String = mMeta.Lookup(libvlc.MetaDataType.ArtworkURL, "")
+			  If url <> "" Then
+			    Dim data As MemoryBlock
+			    Select Case NthField(url, "://", 1)
+			    Case "http"
+			      Dim h As New HTTPSocket
+			      data = h.Get(url, 10)
+			      
+			    Case "https"
+			      Dim h As New HTTPSecureSocket
+			      data = h.Get(url, 10)
+			      
+			    Case "file"
+			      Dim art As FolderItem = GetFolderItem(url, FolderItem.PathTypeURL)
+			      If art <> Nil And art.Exists And Not art.Directory Then
+			        Dim bs As BinaryStream = BinaryStream.Open(art)
+			        data = bs.Read(bs.Length)
+			        bs.Close
+			      End If
+			    End Select
+			    If data <> Nil And data.Size > 0 Then mArtwork = Picture.FromData(data)
+			  Else
+			    mArtwork = Nil
+			  End If
+			  Return mArtwork
+			End Get
+		#tag EndGetter
+		Artwork As Picture
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Copyright, "")
+			End Get
+		#tag EndGetter
+		Copyright As String
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -279,6 +360,100 @@ Inherits libvlc.VLCInstance
 		CurrentState As libvlc.PlayerState
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Date, "")
+			End Get
+		#tag EndGetter
+		Date As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Description, "")
+			End Get
+		#tag EndGetter
+		Description As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Director, "")
+			End Get
+		#tag EndGetter
+		Director As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.DiscNumber, "")
+			End Get
+		#tag EndGetter
+		DiscNumber As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.DiscTotal, "")
+			End Get
+		#tag EndGetter
+		DiscTotal As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.EncodedBy, "")
+			End Get
+		#tag EndGetter
+		EncodedBy As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Episode, "")
+			End Get
+		#tag EndGetter
+		Episode As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Genre, "")
+			End Get
+		#tag EndGetter
+		Genre As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Language, "")
+			End Get
+		#tag EndGetter
+		Language As String
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mArtwork As Picture
+	#tag EndProperty
+
 	#tag Property, Flags = &h1
 		Protected mMedium As Ptr
 	#tag EndProperty
@@ -288,8 +463,113 @@ Inherits libvlc.VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mMeta As libvlc.Meta.MetaData
+	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Publisher, "")
+			End Get
+		#tag EndGetter
+		Publisher As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Rating, "")
+			End Get
+		#tag EndGetter
+		Rating As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Season, "")
+			End Get
+		#tag EndGetter
+		Season As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.Setting, "")
+			End Get
+		#tag EndGetter
+		Setting As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.ShowName, "")
+			End Get
+		#tag EndGetter
+		ShowName As String
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
 		Private Shared Streams As Dictionary
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  If mMeta.HasKey(libvlc.MetaDataType.Title) Then Return mMeta.Value(libvlc.MetaDataType.Title)
+			  Return MediaURL()
+			End Get
+		#tag EndGetter
+		Title As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.TrackID, "")
+			End Get
+		#tag EndGetter
+		TrackID As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.TrackNumber, "")
+			End Get
+		#tag EndGetter
+		TrackNumber As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.TrackTotal, "")
+			End Get
+		#tag EndGetter
+		TrackTotal As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.URL, "")
+			End Get
+		#tag EndGetter
+		URL As String
+	#tag EndComputedProperty
 
 
 	#tag ViewBehavior
