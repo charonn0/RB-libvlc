@@ -15,12 +15,20 @@ Protected Class VLCInstance
 		  Else
 		    Dim cmds() As String = SplitQuoted(CommandLine)
 		    Dim argc As Integer = UBound(cmds) + 1
-		    Dim argv As New MemoryBlock((argc + 1) * 4)
+		    #If Target32Bit Then
+		      Dim argv As New MemoryBlock((argc + 1) * 4)
+		    #Else
+		      Dim argv As New MemoryBlock((argc + 1) * 8)
+		    #EndIf
 		    Dim ptrs() As MemoryBlock
 		    For i As Integer = 0 To argc - 1
 		      Dim mb As MemoryBlock = cmds(i).Trim + Chr(0)
 		      ptrs.Append(mb)
-		      argv.Ptr(i * 4) = mb
+		      #If Target32Bit Then
+		        argv.Ptr(i * 4) = mb
+		      #Else
+		        argv.Ptr(i * 8) = mb
+		      #EndIf
 		    Next
 		    
 		    mInstance = libvlc_new(argc, argv)
