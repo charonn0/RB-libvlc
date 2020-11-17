@@ -903,7 +903,7 @@ End
 
 	#tag Method, Flags = &h0
 		Sub NotifyListClosed(Sender As PlayListWindow)
-		  mPlaylistWindow = Nil
+		  If Sender Is mPlaylistWindow Then mPlaylistWindow = Nil
 		End Sub
 	#tag EndMethod
 
