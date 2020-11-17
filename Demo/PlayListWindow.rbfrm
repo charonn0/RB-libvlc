@@ -36,8 +36,8 @@ Begin Window PlayListWindow
       DataSource      =   ""
       DefaultRowHeight=   -1
       Enabled         =   True
-      EnableDrag      =   ""
-      EnableDragReorder=   ""
+      EnableDrag      =   True
+      EnableDragReorder=   True
       GridLinesHorizontal=   0
       GridLinesVertical=   0
       HasHeading      =   True
@@ -253,6 +253,25 @@ End
 
 
 	#tag Method, Flags = &h21
+		Private Sub AddDirectory(Target As FolderItem)
+		  Dim c As Integer = Target.Count
+		  For i As Integer = 1 To c
+		    Dim item As FolderItem = Target.Item(i)
+		    If item.Directory Then
+		      AddDirectory(item)
+		    Else
+		      Dim m As libvlc.Medium = item
+		      If mPlayer.Playlist.IndexOf(m) > -1 Then Continue ' already added
+		      mPlayer.Playlist.Append(m)
+		      MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
+		      MediaList.RowTag(MediaList.LastIndex) = m
+		    End If
+		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ListPlayerStateChangedHandler(Sender As libvlc.PlayLists.ListPlayer)
 		  #pragma Unused Sender
 		  Call NotifyStateChanged()
@@ -389,6 +408,7 @@ End
 	#tag Event
 		Sub Open()
 		  Me.AcceptFileDrop(MediaFileTypes.All)
+		  Me.AcceptFileDrop(DemoFileTypes.All)
 		End Sub
 	#tag EndEvent
 	#tag Event
@@ -396,10 +416,17 @@ End
 		  #pragma Unused action
 		  Do
 		    If obj.FolderItem <> Nil Then
-		      Dim m As libvlc.Medium = obj.FolderItem
-		      mPlayer.Playlist.Append(m)
-		      MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
-		      MediaList.RowTag(MediaList.LastIndex) = m
+		      Dim f As FolderItem = obj.FolderItem
+		      If f.Directory Then
+		        If MsgBox("Recursively scan '" + f.Name + "'?", 4 + 48, "Confirm action") = 6 Then
+		          AddDirectory(f)
+		        End If
+		      Else
+		        Dim m As libvlc.Medium = obj.FolderItem
+		        mPlayer.Playlist.Append(m)
+		        MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
+		        MediaList.RowTag(MediaList.LastIndex) = m
+		      End If
 		    End If
 		  Loop Until Not obj.NextItem()
 		  mLastActive = -2
@@ -420,8 +447,18 @@ End
 		  #pragma Unused column
 		  If mPlayer = Nil Then Return False
 		  If row = mPlayer.ListIndex Then
-		    g.ForeColor = &c0080FF66
-		    g.FillRect(0, 0, g.Width, g.Height)
+		    Dim startcolor As Color = &c0080FF00
+		    Dim endcolor As Color = &c7DBEFF00
+		    
+		    Dim ratio, endratio as Double
+		    For i As Integer = 0 To g.Height + 1
+		      ratio = ((g.Height - i) / g.Height)
+		      endratio = (i / g.Height)
+		      g.ForeColor = RGB(EndColor.Red * endratio + StartColor.Red * ratio, EndColor.Green * endratio + StartColor.Green * ratio, _
+		      EndColor.Blue * endratio + StartColor.Blue * ratio)
+		      g.DrawLine(0, i, g.Width, i)
+		    next
+		    
 		    Return True
 		  End If
 		End Function
@@ -435,6 +472,53 @@ End
 		  If row = mPlayer.ListIndex Then
 		    g.Bold = True
 		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function DragRow(drag As DragItem, row As Integer) As Boolean
+		  drag.Text = Str(row)
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function DragReorderRows(newPosition as Integer, parentRow as Integer) As Boolean
+		  #pragma Unused parentRow
+		  Dim m As libvlc.Medium = mPlayer.Playlist.Item(Me.ListIndex)
+		  mPlayer.Playlist.Remove(Me.ListIndex)
+		  mPlayer.Playlist.Insert(newPosition, m)
+		  Return False
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub DoubleClick()
+		  Dim x As Integer = Me.MouseX
+		  Dim y As Integer = Me.MouseY
+		  Dim row As Integer = Me.RowFromXY(x, y)
+		  If row < 0 Then Return
+		  mPlayer.ListIndex = row
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  Dim row As Integer = Me.RowFromXY(x, y)
+		  If row < 0 Then Return False
+		  Dim remove As New MenuItem("Remove")
+		  remove.Tag = row
+		  base.Append(remove)
+		  
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case hitItem.Text
+		  Case "Remove"
+		    Dim row As Integer = hitItem.Tag
+		    mPlayer.Playlist.Remove(row)
+		    Me.RemoveRow(row)
+		    Return True
+		    
+		  End Select
 		End Function
 	#tag EndEvent
 #tag EndEvents

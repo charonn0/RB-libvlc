@@ -22,6 +22,7 @@ Class=VLCException;libvlc/VLCException.rbbas;&h781507FF;&h114C37FF;false
 Class=VLCMediaPlayer;libvlc/VLCMediaPlayer.rbbas;&h480F9FFF;&h114C37FF;false
 FileTypeSet=MediaFileTypes;MediaFileTypes.rbbas;&h41057FF;&h0;false
 Folder=Demo;Demo;&h64FA37FF;&h0;false
+FileTypeSet=DemoFileTypes;Demo/DemoFileTypes.rbbas;&h12C02FFF;&h64FA37FF;false
 Window=DVDNavigator;Demo/DVDNavigator.rbfrm;&h1714A7FF;&h64FA37FF;false
 Window=FullscreenControls;Demo/FullscreenControls.rbfrm;&h354A0FFF;&h64FA37FF;false
 Picture=movielogo;movielogo.png;&h131587FF;&h64FA37FF;false;0;&h0
