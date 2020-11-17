@@ -874,7 +874,7 @@ End
 		Private Sub LoadMedia(Media As libvlc.Medium)
 		  If Media = Nil Then Return
 		  Player.Media = Media
-		  ReadMetaData()
+		  ReadMetaData(New libvlc.Meta.MetaData(Media))
 		End Sub
 	#tag EndMethod
 
@@ -908,7 +908,7 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub ReadMetaData(Optional Meta As libvlc.Meta.MetaData)
+		Private Sub ReadMetaData(Meta As libvlc.Meta.MetaData)
 		  If Meta = Nil Then Return
 		  If Meta.HasKey(libvlc.MetaDataType.ArtworkURL) Then
 		    Dim url As String = Meta.Value(libvlc.MetaDataType.ArtworkURL)
