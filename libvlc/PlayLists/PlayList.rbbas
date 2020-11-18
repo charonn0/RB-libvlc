@@ -3,66 +3,25 @@ Protected Class PlayList
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Append(Medium As libvlc.Medium)
-		  Me.Lock
+		  ' Append a medium to the playlist.
+		  
+		  Me.Lock()
 		  Try
 		    If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
 		    mMediaList.Append(Medium)
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
+		  ' Creates a new, empty playlist.
+		  
 		  Super.Constructor(DEFAULT_ARGS)
 		  mList = libvlc_media_list_new(Me.Instance)
 		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Count() As Integer
-		  If mList = Nil Then Return -1
-		  Dim ret As Integer
-		  Me.Lock
-		  Try
-		    ret = libvlc_media_list_count(mList)
-		  Finally
-		    Me.Unlock
-		  End Try
-		  
-		  Return ret
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function CurrentIndex() As Integer
-		  Dim item As libvlc.Medium = CurrentItem()
-		  If item <> Nil Then Return IndexOf(item) Else Return -1
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function CurrentItem() As libvlc.Medium
-		  If mList <> Nil Then
-		    ' Dim p As Ptr = libvlc_media_list_media(mList)
-		    ' If p <> Nil Then Return New MediumPtr(p)
-		    For i As Integer = 0 To UBound(mMediaList)
-		      If mMediaList(i).CurrentState = libvlc.PlayerState.PLAYING Then Return mMediaList(i)
-		    Next
-		  End If
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub CurrentItem(Assigns NewMedium As libvlc.Medium)
-		  Dim i As Integer = Me.IndexOf(NewMedium)
-		  If i > -1 Then
-		    libvlc_media_list_set_media(mList, Me.Item(i).Handle)
-		  Else
-		    Raise New VLCException("That medium is not in the list.")
-		  End If
 		End Sub
 	#tag EndMethod
 
@@ -159,6 +118,60 @@ Inherits libvlc.VLCInstance
 		This class represents an array of Medium objects (i.e., a list of media to be played in a particular order.)
 	#tag EndNote
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mList = Nil Then Return -1
+			  Dim ret As Integer
+			  Me.Lock()
+			  Try
+			    ret = libvlc_media_list_count(mList)
+			  Finally
+			    Me.Unlock()
+			  End Try
+			  
+			  Return ret
+			End Get
+		#tag EndGetter
+		Count As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mList = Nil Then Return -1
+			  Dim item As libvlc.Medium = CurrentItem()
+			  If item <> Nil Then Return IndexOf(item) Else Return -1
+			End Get
+		#tag EndGetter
+		CurrentIndex As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mList <> Nil Then
+			    ' Dim p As Ptr = libvlc_media_list_media(mList)
+			    ' If p <> Nil Then Return New MediumPtr(p)
+			    For i As Integer = 0 To UBound(mMediaList)
+			      If mMediaList(i).CurrentState = libvlc.PlayerState.PLAYING Then Return mMediaList(i)
+			    Next
+			  End If
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  Dim i As Integer = Me.IndexOf(value)
+			  If i > -1 Then
+			    libvlc_media_list_set_media(mList, Me.Item(i).Handle)
+			  Else
+			    Raise New VLCException("That medium is not in the list.")
+			  End If
+			End Set
+		#tag EndSetter
+		CurrentItem As libvlc.Medium
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
 		Protected mList As Ptr
