@@ -1360,6 +1360,7 @@ End
 		    Else
 		      title = Player.TruePlayer.Media.Title
 		    End If
+		    title = "'" + title + "'"
 		    AlbumArtViewWindow.ShowAlbumArt(mArtwork, title)
 		  End Select
 		  Return True
