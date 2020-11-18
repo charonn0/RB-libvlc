@@ -93,12 +93,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Handle() As Ptr
-		  Return mMedium
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function IsParsed() As Boolean
 		  ' Returns True if the medium's meta data has been parsed. Parsing is done when media are played;
 		  ' call the Parse() method to read metadata without playing.
@@ -438,6 +432,15 @@ Inherits libvlc.VLCInstance
 			End Get
 		#tag EndGetter
 		Genre As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mMedium
+			End Get
+		#tag EndGetter
+		Handle As Ptr
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

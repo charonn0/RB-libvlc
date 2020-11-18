@@ -80,17 +80,20 @@ Protected Class Equalizer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Handle() As Ptr
-		  Return mEqualizer
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function PresetIndex() As Integer
 		  Return mIndex
 		End Function
 	#tag EndMethod
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mEqualizer
+			End Get
+		#tag EndGetter
+		Handle As Ptr
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
 		Private mEqualizer As Ptr

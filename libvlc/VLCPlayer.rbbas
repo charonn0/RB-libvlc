@@ -216,12 +216,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Handle() As Ptr
-		  Return mPlayer
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		 Shared Function Load(MediaFile As FolderItem) As libvlc.VLCPlayer
 		  Return Load(MediaFile.URLPath)
 		End Function
@@ -698,6 +692,15 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		Fullscreen As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mPlayer
+			End Get
+		#tag EndGetter
+		Handle As Ptr
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

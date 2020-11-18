@@ -33,12 +33,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Handle() As Ptr
-		  Return mList
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function IndexOf(Medium As libvlc.Medium) As Integer
 		  If mList = Nil Then Return -1
 		  Dim ret As Integer
@@ -171,6 +165,15 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		CurrentItem As libvlc.Medium
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mList
+			End Get
+		#tag EndGetter
+		Handle As Ptr
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
