@@ -22,6 +22,7 @@ Inherits libvlc.VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  mList = libvlc_media_list_new(Me.Instance)
 		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
+		  mLock = New Semaphore
 		End Sub
 	#tag EndMethod
 
@@ -77,7 +78,8 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1
 		Protected Sub Lock()
-		  If mList <> Nil Then libvlc_media_list_lock(mList) Else Raise New IllegalLockingException
+		  mLock.Signal()
+		  If mList <> Nil Then libvlc_media_list_lock(mList)
 		End Sub
 	#tag EndMethod
 
@@ -103,7 +105,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1
 		Protected Sub Unlock()
-		  If mList <> Nil Then libvlc_media_list_unlock(mList) Else Raise New IllegalLockingException
+		  Try
+		    If mList <> Nil Then libvlc_media_list_unlock(mList)
+		  Finally
+		    mLock.Release()
+		  End Try
 		End Sub
 	#tag EndMethod
 
@@ -178,6 +184,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h1
 		Protected mList As Ptr
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLock As Semaphore
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
