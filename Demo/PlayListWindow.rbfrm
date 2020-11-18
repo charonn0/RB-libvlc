@@ -59,7 +59,7 @@ Begin Window PlayListWindow
       Scope           =   0
       ScrollbarHorizontal=   ""
       ScrollBarVertical=   True
-      SelectionType   =   0
+      SelectionType   =   1
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
@@ -544,12 +544,20 @@ End
 	#tag Event
 		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
 		  Dim row As Integer = Me.RowFromXY(x, y)
-		  If row < 0 Then Return False
-		  Dim remove As New MenuItem("Remove")
-		  remove.Tag = row
-		  base.Append(remove)
+		  Dim ok As Boolean
+		  If row >= 0 Then
+		    Dim remove As New MenuItem("Remove")
+		    remove.Tag = row
+		    base.Append(remove)
+		    ok = True
+		  End If
+		  If Me.SelCount > 1 Then
+		    Dim removeselected As New MenuItem("Remove all selected")
+		    base.Append(removeselected)
+		    ok = True
+		  End If
 		  
-		  Return True
+		  Return ok
 		End Function
 	#tag EndEvent
 	#tag Event
@@ -561,7 +569,23 @@ End
 		    Me.RemoveRow(row)
 		    Return True
 		    
+		  Case "Remove all selected"
+		    For i As Integer = Me.ListCount - 1 DownTo 0
+		      If Me.Selected(i) Then
+		        mPlayer.Playlist.Remove(i)
+		        Me.RemoveRow(i)
+		      End If
+		    Next
+		    Return True
+		    
 		  End Select
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function MouseDown(x As Integer, y As Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
+		  Return IsContextualClick And Me.SelCount <> 0
 		End Function
 	#tag EndEvent
 #tag EndEvents
