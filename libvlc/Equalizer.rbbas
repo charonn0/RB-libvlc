@@ -1,15 +1,15 @@
 #tag Class
 Protected Class Equalizer
 	#tag Method, Flags = &h0
-		Function Amplification(Frequency As UInt32) As Single
-		  If mEqualizer <> Nil Then Return libvlc_audio_equalizer_get_amp_at_index(mEqualizer, Frequency)
+		Function Amplification(Band As UInt32) As Single
+		  If mEqualizer <> Nil Then Return libvlc_audio_equalizer_get_amp_at_index(mEqualizer, Band)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Amplification(Frequency As UInt32, Assigns NewAmplification As Single)
+		Sub Amplification(Band As UInt32, Assigns NewAmplification As Single)
 		  If mEqualizer <> Nil Then
-		    If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Frequency) <> 0 Then
+		    If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Band) <> 0 Then
 		      Raise New VLCException("Unable to set the amplification value for the specified frequency band.")
 		    End If
 		  End If
