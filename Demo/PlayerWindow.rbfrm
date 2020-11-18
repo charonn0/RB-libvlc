@@ -1073,10 +1073,12 @@ End
 		    If mPlaylistWindow <> Nil Then
 		      t = mPlaylistWindow.NotifyStateChanged()
 		      If t = "!INVALID" Then t = "libvlc Demo"
+		      If t = "" Then t = mLastItem
 		      If t <> mLastItem Then
 		        ReadMetaData(mPlaylistWindow.CurrentMeta)
 		        mLastItem = t
 		      End If
+		      t = "'" + t + "'" + "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		      
 		    ElseIf Player.MetaData <> Nil Then
 		      t = "'" + Player.TruePlayer.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.MediaURL) + "'" + _
@@ -1305,7 +1307,7 @@ End
 		  #pragma Unused x
 		  #pragma Unused y
 		  
-		  Dim play, pause, stop, resume, equ, opend, openf As MenuItem
+		  Dim play, pause, stop, resume, equ, opend, openf, showart As MenuItem
 		  play = New MenuItem("Play")
 		  stop = New MenuItem("Stop")
 		  resume = New MenuItem("Resume")
@@ -1313,6 +1315,7 @@ End
 		  equ = New MenuItem("Equalizer")
 		  openf = New MenuItem("Load file")
 		  opend = New MenuItem("Load directory/disc")
+		  showart = New MenuItem("View full sized artwork...")
 		  play.Enabled = (Me.IsPlaying Or Me.Media <> Nil)
 		  
 		  base.Append(play)
@@ -1325,6 +1328,9 @@ End
 		  base.Append(equ)
 		  base.Append(openf)
 		  base.Append(opend)
+		  If mArtwork <> Nil Then
+		    base.Append(showart)
+		  End If
 		  
 		  Return True
 		End Function
