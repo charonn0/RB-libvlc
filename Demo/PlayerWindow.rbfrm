@@ -1353,6 +1353,14 @@ End
 		  Case "Load directory/disc"
 		    Dim f As FolderItem = SelectFolder()
 		    If f <> Nil Then LoadMedia(f)
+		  Case "View full sized artwork..."
+		    Dim title As String
+		    If mPlaylistWindow <> Nil Then
+		      title = mLastItem
+		    Else
+		      title = Player.TruePlayer.Media.Title
+		    End If
+		    AlbumArtViewWindow.ShowAlbumArt(mArtwork, title)
 		  End Select
 		  Return True
 		End Function
