@@ -240,6 +240,37 @@ Begin Window PlayListWindow
       Top             =   21
       Width           =   32
    End
+   Begin PushButton AddFilesBtn
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Add files(s)"
+      Default         =   ""
+      Enabled         =   True
+      Height          =   22
+      HelpTag         =   "Next track"
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   337
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   8
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   192
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
 End
 #tag EndWindow
 
@@ -272,6 +303,20 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub AddMedia(List() As libvlc.Medium)
+		  Dim truelist As libvlc.PlayLists.PlayList = mPlayer.Playlist
+		  For i As Integer = 0 To UBound(List)
+		    Dim m As libvlc.Medium = List(i)
+		    If truelist.IndexOf(m) > -1 Then Continue ' already added
+		    truelist.Append(m)
+		    MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
+		    MediaList.RowTag(MediaList.LastIndex) = m
+		  Next
+		  mPlayer.Playlist = truelist
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ListPlayerStateChangedHandler(Sender As libvlc.PlayLists.ListPlayer)
 		  #pragma Unused Sender
 		  Call NotifyStateChanged()
@@ -284,7 +329,9 @@ End
 		    Return "!INVALID"
 		  End If
 		  UpdateUI()
-		  If CurrentIndex > -1 Then Return MediaList.Cell(CurrentIndex, 0)
+		  If CurrentIndex > -1 Then
+		    Return MediaList.Cell(CurrentIndex, 0)
+		  End If
 		  
 		End Function
 	#tag EndMethod
@@ -296,17 +343,13 @@ End
 		    AddHandler mPlayer.ChangedState, WeakAddressOf ListPlayerStateChangedHandler
 		  End If
 		  Self.Show()
-		  Self.Left = PlayerWindow.Left + PlayerWindow.Width
 		  
-		  Dim truelist As libvlc.PlayLists.PlayList = mPlayer.Playlist
-		  For i As Integer = 0 To UBound(List)
-		    Dim m As libvlc.Medium = List(i)
-		    If truelist.IndexOf(m) > -1 Then Continue ' already added
-		    truelist.Append(m)
-		    MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
-		    MediaList.RowTag(MediaList.LastIndex) = m
-		  Next
-		  mPlayer.Playlist = truelist
+		  PlayerWindow.Left = PlayerWindow.Left - (Self.Width / 2)
+		  Self.Left = PlayerWindow.Left + PlayerWindow.Width
+		  Self.Top = PlayerWindow.Top
+		  Self.Height = PlayerWindow.Height
+		  
+		  AddMedia(List)
 		  UpdateUI()
 		  mParentWindow = PlayerWindow
 		End Sub
@@ -526,7 +569,6 @@ End
 	#tag Event
 		Sub Action()
 		  If mPlayer.CanMovePrev() Then Call mPlayer.MovePrev()
-		  ' NotifyStateChanged(libvlc.PlayerState.PLAYING)
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -547,6 +589,7 @@ End
 		    mPlayer.Pause
 		    Me.Caption = "Play"
 		  End If
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -554,7 +597,6 @@ End
 	#tag Event
 		Sub Action()
 		  If mPlayer.CanMoveNext() Then Call mPlayer.MoveNext()
-		  ' NotifyStateChanged(libvlc.PlayerState.PLAYING)
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -580,6 +622,22 @@ End
 #tag Events UITimer
 	#tag Event
 		Sub Action()
+		  UpdateUI()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events AddFilesBtn
+	#tag Event
+		Sub Action()
+		  Dim dlg As New OpenDialog
+		  dlg.Filter = MediaFileTypes.All
+		  dlg.MultiSelect = True
+		  If dlg.ShowModal() = Nil Then Return
+		  Dim f() As libvlc.Medium
+		  For i As Integer = 0 To dlg.Count - 1
+		    f.Append(dlg.Item(i))
+		  Next
+		  AddMedia(f)
 		  UpdateUI()
 		End Sub
 	#tag EndEvent
