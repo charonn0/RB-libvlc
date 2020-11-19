@@ -284,4 +284,22 @@
 		Name=video/x-ms-asf
 	#tag EndFileType
 
+	#tag FileType
+		CodeName=AllAudioTypes
+		Extension=.aiff;.aif;.aifc;.cdda;.aa;.ul;.au;.snd;.ulw;.flac;.m4a;.m4b;.m4p;.mid;.midi;.smf;.kar;.mp3;.swa;.mpeg;.mpg;.m1s;.m1a;.mp2;.mpm;.mpa;.m2a;.mp3;.swa;.wav;.bwf;.webm;.aac;.adts;.ogg;.opus;.oga;.ogx;.spx
+		Flags=&h0
+		MacCreator=
+		MacType=
+		Name=All audio types
+	#tag EndFileType
+
+	#tag FileType
+		CodeName=AllVideoTypes
+		Extension=.ogv;.moov;.mov;.qt;.mqv;.3gp;.3gpp;.3g2;.3gp2;.avi;.vfw;.flc;.fli;.cel;.flv;.mp4;.sdv;.webm;.dv;.dif;.m4v;.mkv;.mpeg;.mpg;.m1s;.m1v;.m1a;.m75;.m15;.mp2;.mpm;.mpv;.mpa;.wmv;.wma;.wm;.asf;.ass;.wvx;.wmx;.wax;.asx;
+		Flags=&h0
+		MacCreator=
+		MacType=
+		Name=All video types
+	#tag EndFileType
+
 #tag EndFileTypeSet
