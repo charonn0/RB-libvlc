@@ -2,7 +2,7 @@
 Protected Class TranscodeOptions
 	#tag Method, Flags = &h0
 		Sub SetDestination(Output As FolderItem)
-		  OutputDestination = Output.AbsolutePath
+		  OutputDestination = Output.AbsolutePath_
 		  If InStr(OutputDestination, " ") > 0 And Left(OutputDestination, 1) <> """" Then
 		    OutputDestination = """" + OutputDestination + """"
 		  End If
