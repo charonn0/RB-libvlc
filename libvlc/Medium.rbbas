@@ -69,35 +69,10 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function DurationMS() As Int64
-		  If Not Me.IsParsed Then Me.Parse()
-		  If mMedium <> Nil Then Return libvlc_media_get_duration(mMedium)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		 Shared Function FromMemoryBlock(ByRef Data As MemoryBlock) As libvlc.Medium
 		  Dim m As New Medium(New BinaryStream(Data))
 		  m.mMemoryData = Data
 		  Return m
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function GetStats() As libvlc_media_stats_t
-		  If mMedium <> Nil Then
-		    Dim p As libvlc_media_stats_t
-		    If libvlc_media_get_stats(mMedium, p) Then Return p
-		  End If
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function IsParsed() As Boolean
-		  ' Returns True if the medium's meta data has been parsed. Parsing is done when media are played;
-		  ' call the Parse() method to read metadata without playing.
-		  
-		  If mMedium <> Nil Then Return libvlc_media_is_parsed(mMedium)
 		End Function
 	#tag EndMethod
 
@@ -123,20 +98,6 @@ Inherits libvlc.VLCInstance
 		  End If
 		  If Streams.Count = 0 Then Streams = Nil
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function MediaFile() As FolderItem
-		  Dim url As String = Me.MediaURL
-		  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
-		  Select Case NthField(url, "://", 1)
-		  Case "dvd", "dvdsimple", "vcd", "cdda"
-		    Dim i As Integer = InStr(url, "://")
-		    If i > 1 Then
-		      Return GetFolderItem("file:/" + url.Right(url.Len - i), FolderItem.PathTypeURL)
-		    End If
-		  End Select
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -196,17 +157,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function MediaURL() As String
-		  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media constructed from FolderItems, this is the URLPath.
-		  
-		  If mMedium <> Nil Then
-		    Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
-		    If mb <> Nil Then Return mb.CString(0)
-		  End If
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.Medium) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mMedium) - Integer(OtherInstance.mMedium))
@@ -240,22 +190,6 @@ Inherits libvlc.VLCInstance
 		  If mMedium <> Nil Then libvlc_media_parse(mMedium)
 		  mMeta = New libvlc.Meta.MetaData(Me)
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function TrackList() As libvlc.Meta.MediaTrackList
-		  ' Returns a TrackList object representing the tracks of the media (audio, video, subtitles, etc.)
-		  
-		  If mMedium <> Nil Then Return New libvlc.Meta.MediaTrackList(Me)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Type() As libvlc.MediaType
-		  ' Returns a member of the libvlc.MediaType enum, representing the type of media being handled (file, disc, stream, etc.)
-		  
-		  If mMedium <> Nil Then Return libvlc_media_get_type(mMedium)
-		End Function
 	#tag EndMethod
 
 
@@ -407,6 +341,16 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not Me.IsParsed Then Me.Parse()
+			  If mMedium <> Nil Then Return libvlc_media_get_duration(mMedium)
+			End Get
+		#tag EndGetter
+		DurationMS As Int64
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
 			  Return mMeta.Lookup(libvlc.MetaDataType.EncodedBy, "")
 			End Get
@@ -446,6 +390,18 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns True if the medium's meta data has been parsed. Parsing is done when media are played;
+			  ' call the Parse() method to read metadata without playing.
+			  
+			  If mMedium <> Nil Then Return libvlc_media_is_parsed(mMedium)
+			End Get
+		#tag EndGetter
+		IsParsed As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
 			  Return mMeta.Lookup(libvlc.MetaDataType.Language, "")
 			End Get
@@ -456,6 +412,37 @@ Inherits libvlc.VLCInstance
 	#tag Property, Flags = &h21
 		Private mArtwork As Picture
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Dim url As String = Me.MediaURL
+			  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
+			  Select Case NthField(url, "://", 1)
+			  Case "dvd", "dvdsimple", "vcd", "cdda"
+			    Dim i As Integer = InStr(url, "://")
+			    If i > 1 Then
+			      Return GetFolderItem("file:/" + url.Right(url.Len - i), FolderItem.PathTypeURL)
+			    End If
+			  End Select
+			End Get
+		#tag EndGetter
+		MediaFile As FolderItem
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media constructed from FolderItems, this is the URLPath.
+			  
+			  If mMedium <> Nil Then
+			    Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
+			    If mb <> Nil Then Return mb.CString(0)
+			  End If
+			End Get
+		#tag EndGetter
+		MediaURL As String
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
 		Protected mMedium As Ptr
@@ -519,6 +506,18 @@ Inherits libvlc.VLCInstance
 		ShowName As String
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  If mMedium <> Nil Then
+			    Dim p As libvlc_media_stats_t
+			    If libvlc_media_get_stats(mMedium, p) Then Return p
+			  End If
+			End Get
+		#tag EndGetter
+		Protected Statistics As libvlc_media_stats_t
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h21
 		Private Shared Streams As Dictionary
 	#tag EndProperty
@@ -547,6 +546,17 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns a TrackList object representing the tracks of the media (audio, video, subtitles, etc.)
+			  
+			  If mMedium <> Nil Then Return New libvlc.Meta.MediaTrackList(Me)
+			End Get
+		#tag EndGetter
+		TrackList As libvlc.Meta.MediaTrackList
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
 			  Return mMeta.Lookup(libvlc.MetaDataType.TrackNumber, "")
 			End Get
@@ -562,6 +572,17 @@ Inherits libvlc.VLCInstance
 			End Get
 		#tag EndGetter
 		TrackTotal As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  ' Returns a member of the libvlc.MediaType enum, representing the type of media being handled (file, disc, stream, etc.)
+			  
+			  If mMedium <> Nil Then Return libvlc_media_get_type(mMedium)
+			End Get
+		#tag EndGetter
+		Type As libvlc.MediaType
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
