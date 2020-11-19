@@ -432,6 +432,18 @@ Protected Class TranscodeOptions
 	#tag Constant, Name = AUDIO_BITRATE_STANDARD, Type = Double, Dynamic = False, Default = \"128", Scope = Public
 	#tag EndConstant
 
+	#tag Constant, Name = VIDEO_BITRATE_HIGH, Type = Double, Dynamic = False, Default = \"4500", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = VIDEO_BITRATE_HIGHEST, Type = Double, Dynamic = False, Default = \"15000", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = VIDEO_BITRATE_MEDIUM, Type = Double, Dynamic = False, Default = \"2500", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = VIDEO_BITRATE_STANDARD, Type = Double, Dynamic = False, Default = \"1000", Scope = Public
+	#tag EndConstant
+
 
 	#tag ViewBehavior
 		#tag ViewProperty
