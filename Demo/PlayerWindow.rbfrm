@@ -869,6 +869,24 @@ End
 		End Sub
 	#tag EndEvent
 
+	#tag Event
+		Sub Moved()
+		  If mPlaylistWindow <> Nil Then
+		    mPlaylistWindow.Left = Self.Left + Self.Width
+		    mPlaylistWindow.Top = Self.Top
+		  End If
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub Resizing()
+		  If mPlaylistWindow <> Nil Then
+		    mPlaylistWindow.Left = Self.Left + Self.Width
+		    mPlaylistWindow.Top = Self.Top
+		  End If
+		End Sub
+	#tag EndEvent
+
 
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(Media As libvlc.Medium)
