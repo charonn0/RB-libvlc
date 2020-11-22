@@ -208,7 +208,6 @@ Protected Class TranscodeOptions
 			Note destination options have to be used in the same duplicate block to actually duplicate the stream.
 			
 			Possible values and item options are the same as those for the OutputDestination option.
-			
 		#tag EndNote
 		DuplicateDestination As String
 	#tag EndProperty
@@ -223,43 +222,39 @@ Protected Class TranscodeOptions
 			
 			Available parameters are :
 			
-			   program=: duplicate only elementary streams belonging to the selected program (or SID). This option 
-			             only works with MPEG-TS streams.
+			program=: duplicate only elementary streams belonging to the selected program (or SID). This option
+			only works with MPEG-TS streams.
 			
-			   noprogram=: do not duplicate elementary streams belonging to the selected program (or PID). This option
-			               only works with MPEG-TS streams.
+			noprogram=: do not duplicate elementary streams belonging to the selected program (or PID). This option
+			only works with MPEG-TS streams.
 			
-			   es=: duplicate only the elementary stream with the selected id.
+			es=: duplicate only the elementary stream with the selected id.
 			
-			   noes=: do not duplicate the elementary stream with the selected id.
+			noes=: do not duplicate the elementary stream with the selected id.
 			
-			   video: duplicate only video elementary streams.
+			video: duplicate only video elementary streams.
 			
-			   novideo: do not duplicate video elementary streams.
+			novideo: do not duplicate video elementary streams.
 			
-			   audio: duplicate only audio elementary streams.
+			audio: duplicate only audio elementary streams.
 			
-			   noaudio: do not duplicate audio elementary streams.
+			noaudio: do not duplicate audio elementary streams.
 			
-			   spu: duplicate only subtitle elementary streams.
+			spu: duplicate only subtitle elementary streams.
 			
-			   nospu: do not duplicate subtitle elementary streams.
+			nospu: do not duplicate subtitle elementary streams.
 			
 			Example :  "program=100-200,novideo"
-			This duplicate chain will only output the non-video elementary streams belonging to the programs which PID 
+			This duplicate chain will only output the non-video elementary streams belonging to the programs which PID
 			are between 100 and 200.
-			
-			
-			
 		#tag EndNote
 		DuplicateSelect As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option can be used instead of both ElementaryStreamAccessVideo and ElementaryStreamAccessAudio options, 
-			when they share the same setting. 
-			
+			This option can be used instead of both ElementaryStreamAccessVideo and ElementaryStreamAccessAudio options,
+			when they share the same setting.
 		#tag EndNote
 		ElementaryStreamAccess As String
 	#tag EndProperty
@@ -268,71 +263,64 @@ Protected Class TranscodeOptions
 		#tag Note
 			Use this option to set the medium used to save or send the audio elementary streams. Possible values
 			and item options are the same as those for the OutputAccess option.
-			
 		#tag EndNote
 		ElementaryStreamAccessAudio As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			Use this option to set the medium used to save or send the video elementary streams. Possible values 
+			Use this option to set the medium used to save or send the video elementary streams. Possible values
 			and item options are the same as those for the OutputAccess option.
-			
 		#tag EndNote
 		ElementaryStreamAccessVideo As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			Use this option to set the location where the audio elementary streams should be saved, sent, or made available. 
+			Use this option to set the location where the audio elementary streams should be saved, sent, or made available.
 			The exact meaning of this option depends on the value of the ElementaryStreamAccessAudio option and is the same
 			as for the OutputDestination option.
 			
-			Note: If you use the %n string in this field, VLC will replace it by the number of the audio or video track 
-			considered. The %c string will be replaced by the name (FourCC) of the codec of the track. %a prints the access 
+			Note: If you use the %n string in this field, VLC will replace it by the number of the audio or video track
+			considered. The %c string will be replaced by the name (FourCC) of the codec of the track. %a prints the access
 			output used and %m the muxer used.
-			
 		#tag EndNote
 		ElementaryStreamAudioDestination As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			Use this option to set the encapsulation method used for the audio elementary streams. Possible values 
+			Use this option to set the encapsulation method used for the audio elementary streams. Possible values
 			and item options are the same as those for the OutputMuxer option.
-			
 		#tag EndNote
 		ElementaryStreamAudioMuxer As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option can be used instead of both ElementaryStreamVideoDestination and ElementaryStreamAudioDestination options, 
-			when they share the same setting. 
-			
+			This option can be used instead of both ElementaryStreamVideoDestination and ElementaryStreamAudioDestination options,
+			when they share the same setting.
 		#tag EndNote
 		ElementaryStreamDestination As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option can be used instead of both ElementaryStreamVideoMuxer and ElementaryStreamAudioMuxer-audio options, 
-			when they share the same setting. 
-			
+			This option can be used instead of both ElementaryStreamVideoMuxer and ElementaryStreamAudioMuxer-audio options,
+			when they share the same setting.
 		#tag EndNote
 		ElementaryStreamMuxer As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			Use this option to set the location where the video elementary streams should be saved, sent, or made available. 
+			Use this option to set the location where the video elementary streams should be saved, sent, or made available.
 			The exact meaning of this option depends on the value of the ElementaryStreamAccessVideo option and is the same
 			as for the OutputDestination option.
 			
-			Note: If you use the %n string in this field, VLC will replace it by the number of the audio or video track 
-			considered. The %c string will be replaced by the name (FourCC) of the codec of the track. %a prints the access 
+			Note: If you use the %n string in this field, VLC will replace it by the number of the audio or video track
+			considered. The %c string will be replaced by the name (FourCC) of the codec of the track. %a prints the access
 			output used and %m the muxer used.
-			
 		#tag EndNote
 		ElementaryStreamVideoDestination As String
 	#tag EndProperty
@@ -341,7 +329,6 @@ Protected Class TranscodeOptions
 		#tag Note
 			Use this option to set the encapsulation method used for the video elementary streams. Possible values
 			and item options are the same as those for the OutputMuxer option.
-			
 		#tag EndNote
 		ElementaryStreamVideoMuxer As String
 	#tag EndProperty
@@ -380,8 +367,7 @@ Protected Class TranscodeOptions
 
 	#tag Property, Flags = &h0
 		#tag Note
-			You can use this option to introduce a delay in the display of the stream. Delay has to be given in ms (milliseconds). 
-			
+			You can use this option to introduce a delay in the display of the stream. Delay has to be given in ms (milliseconds).
 		#tag EndNote
 		OutputDelay As Integer
 	#tag EndProperty
@@ -447,7 +433,6 @@ Protected Class TranscodeOptions
 			(default enabled)
 			You can completely disable the audio output. The audio decoding stage
 			will not take place, thus saving some processing power.
-			
 		#tag EndNote
 		OutputNoAudio As Boolean
 	#tag EndProperty
@@ -458,9 +443,6 @@ Protected Class TranscodeOptions
 			(default enabled)
 			You can completely disable the video output. The video decoding stage
 			will not take place, thus saving some processing power.
-			
-			
-			
 		#tag EndNote
 		OutputNoVideo As Boolean
 	#tag EndProperty
@@ -471,26 +453,24 @@ Protected Class TranscodeOptions
 			SAP announcing
 			(default disabled)
 			
-			Use this option if you want VLC to send SAP (Session Announcement Protocol) announces. 
-			SAP is a service discovery protocol, that uses a special multicast address to send a 
+			Use this option if you want VLC to send SAP (Session Announcement Protocol) announces.
+			SAP is a service discovery protocol, that uses a special multicast address to send a
 			list of available streams on a server.
 			
 			This option can only be enabled with the udp OutputAccess method.
-			
 		#tag EndNote
 		OutputSAP As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option allows to specify the name of an optional group of streams. A VLC used as 
+			This option allows to specify the name of an optional group of streams. A VLC used as
 			a client will use this field to classify the stream.
 			
-			This option uses a private extension of the SAP protocol. VLC will be the only client 
+			This option uses a private extension of the SAP protocol. VLC will be the only client
 			able to read this field.
 			
 			This option can only be used if the OutputSAP option has been enabled.
-			
 		#tag EndNote
 		OutputSAPGroup As String
 	#tag EndProperty
@@ -500,7 +480,6 @@ Protected Class TranscodeOptions
 			Use this option if you want the SAP announces to be sent using the IPv6 protocol instead of IPv4.
 			
 			This option can only be used if the OutputSAP option has been enabled.
-			
 		#tag EndNote
 		OutputSAPIPv6 As Boolean
 	#tag EndProperty
@@ -522,9 +501,8 @@ Protected Class TranscodeOptions
 
 	#tag Property, Flags = &h0
 		#tag Note
-			SLP stands for Service Location Protocol. It is an alternative to SAP for session announcement. 
-			Use this option if you want to send such announcements. 
-			
+			SLP stands for Service Location Protocol. It is an alternative to SAP for session announcement.
+			Use this option if you want to send such announcements.
 		#tag EndNote
 		OutputSLP As Boolean
 	#tag EndProperty
@@ -604,25 +582,22 @@ Protected Class TranscodeOptions
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option allows to crop the lower part of the source video. The argument is the Y coordinate of the first line to be cropped. 
-			
+			This option allows to crop the lower part of the source video. The argument is the Y coordinate of the first line to be cropped.
 		#tag EndNote
 		VideoCropBottom As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option allows to crop the left part of the source video while transcoding. The argument is the number 
-			of columns that should be cropped. 
-			
+			This option allows to crop the left part of the source video while transcoding. The argument is the number
+			of columns that should be cropped.
 		#tag EndNote
 		VideoCropLeft As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		#tag Note
-			This option allows to crop the right part of the source video. The argument is the X coordinate of the first column to be cropped. 
-			
+			This option allows to crop the right part of the source video. The argument is the X coordinate of the first column to be cropped.
 		#tag EndNote
 		VideoCropRight As Integer
 	#tag EndProperty
@@ -630,8 +605,7 @@ Protected Class TranscodeOptions
 	#tag Property, Flags = &h0
 		#tag Note
 			This option allows to crop the upper part of the source video while transcoding. The value is the
-			number of lines the video should be cropped. 
-			
+			number of lines the video should be cropped.
 		#tag EndNote
 		VideoCropTop As Integer
 	#tag EndProperty
@@ -824,6 +798,61 @@ Protected Class TranscodeOptions
 			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="DuplicateDestination"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="DuplicateSelect"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamAccess"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamAccessAudio"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamAccessVideo"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamAudioDestination"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamAudioMuxer"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamDestination"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamMuxer"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamVideoDestination"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ElementaryStreamVideoMuxer"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -847,16 +876,59 @@ Protected Class TranscodeOptions
 			Name="OutputAccess"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputDelay"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="OutputDestination"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="OutputMuxer"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputNoAudio"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputNoVideo"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputSAP"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputSAPGroup"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputSAPIPv6"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputSAPName"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OutputSLP"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="SubtitleCodec"
@@ -903,6 +975,26 @@ Protected Class TranscodeOptions
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="VideoCropBottom"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="VideoCropLeft"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="VideoCropRight"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="VideoCropTop"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="VideoDeinterlace"
