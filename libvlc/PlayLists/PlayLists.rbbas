@@ -63,6 +63,73 @@ Protected Module PlayLists
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Function ReadLine(ReadFrom As Readable) As String
+		  Const cr = 13 
+		  Const lf = 10
+		  Dim mb As New MemoryBlock(0)
+		  Dim output As New BinaryStream(mb)
+		  Dim lastchar As Integer
+		  Do Until ReadFrom.EOF
+		    Dim thischar As String = ReadFrom.Read(1)
+		    If thischar = "" Then Exit Do
+		    If Asc(thischar) = lf And lastchar = cr Then ' eol
+		      output.Write(thischar)
+		      Exit Do
+		    Else
+		      output.Write(thischar)
+		      lastchar = Asc(thischar)
+		    End If
+		  Loop
+		  output.Close
+		  Return DefineEncoding(mb, Encodings.UTF8)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function ReadM3U(ReadFrom As Readable) As libvlc.Medium()
+		  Dim m() As libvlc.Medium
+		  If ReadLine(ReadFrom).Trim <> "#EXTM3U" Then Return m
+		  
+		  Do Until ReadFrom.EOF
+		    Dim line As String = ReadLine(ReadFrom).Trim
+		    Select Case True
+		    Case line = "", Left(line, 1) = "#"
+		      Continue
+		    Else
+		      If InStr(line, "://") > 0 Then ' MRL
+		        m.Append(line)
+		      Else ' path
+		        Dim f As FolderItem = GetFolderItem(line, FolderItem.PathTypeAbsolute)
+		        If f = Nil Or Not f.Exists Then Continue
+		        m.Append(f)
+		      End If
+		    End Select
+		  Loop
+		  
+		  Return m
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub WriteM3U(Media() As libvlc.Medium, WriteTo As Writeable, ListName As String = "")
+		  WriteTo.Write("#EXTM3U" + EndOfLine.Windows + EndOfLine.Windows)
+		  
+		  If ListName <> "" Then WriteTo.Write("#PLAYLIST:" + ListName + EndOfLine.Windows + EndOfLine.Windows)
+		  
+		  For i As Integer = 0 To UBound(Media)
+		    Dim m As libvlc.Medium = Media(i)
+		    If m.MediaFile <> Nil Then
+		      WriteTo.Write(m.MediaFile.AbsolutePath_ + EndOfLine.Windows + EndOfLine.Windows)
+		    Else
+		      WriteTo.Write(m.MediaURL + EndOfLine.Windows + EndOfLine.Windows)
+		    End If
+		  Next
+		  
+		  
+		End Sub
+	#tag EndMethod
+
 
 	#tag ViewBehavior
 		#tag ViewProperty
