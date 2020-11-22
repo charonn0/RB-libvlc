@@ -30,6 +30,7 @@ Inherits libvlc.VLCInstance
 		Private Sub Destructor()
 		  If mList <> Nil Then libvlc_media_list_release(mList)
 		  mList = Nil
+		  ReDim mMediaList(-1)
 		End Sub
 	#tag EndMethod
 
@@ -54,6 +55,7 @@ Inherits libvlc.VLCInstance
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_insert_media(mList, Medium.Handle, Index) <> 0 Then Raise New VLCException("Unable to insert media into the media list.")
+		    mMediaList.Insert(Index, Medium)
 		  Finally
 		    Me.Unlock
 		  End Try
@@ -61,18 +63,8 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Item(Index As Integer) As libvlc.Medium
-		  If mList = Nil Then Raise New OutOfBoundsException
-		  Dim ret As Medium
-		  Me.Lock
-		  Try
-		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
-		    If p <> Nil Then ret = New MediumPtr(p)
-		  Finally
-		    Me.Unlock
-		  End Try
-		  
-		  Return ret
+		Attributes( deprecated = "libvlc.PlayLists.PlayList.Operator_Subscript" )  Function Item(Index As Integer) As libvlc.Medium
+		  Return Operator_Subscript(Index)
 		End Function
 	#tag EndMethod
 
@@ -92,14 +84,141 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Operator_Convert() As libvlc.Medium()
+		  Return mMediaList
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Operator_Convert(FromList() As libvlc.Medium)
+		  Operator_Redim(-1)
+		  Me.Lock()
+		  Try
+		    For i As Integer = 0 To FromList.Ubound()
+		      Dim Medium As libvlc.Medium = FromList(i)
+		      If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
+		      mMediaList.Append(Medium)
+		    Next
+		  Finally
+		    Me.Unlock()
+		  End Try
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Operator_Redim(NewBounds As Integer)
+		  If mList = Nil Then Raise New OutOfBoundsException
+		  Dim c As Integer = Me.Count - 1
+		  Me.Lock
+		  Try
+		    For i As Integer = c DownTo NewBounds + 1
+		      If libvlc_media_list_remove_index(mList, i) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
+		      mMediaList.Remove(i)
+		    Next
+		  Finally
+		    Me.Unlock
+		  End Try
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Operator_Subscript(Index As Integer) As libvlc.Medium
+		  If mList = Nil Then Raise New OutOfBoundsException
+		  Dim ret As Medium
+		  Me.Lock
+		  Try
+		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
+		    If p <> Nil Then ret = New MediumPtr(p)
+		  Finally
+		    Me.Unlock
+		  End Try
+		  
+		  Return ret
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Operator_Subscript(Index As Integer, Assigns NewMedia As libvlc.Medium)
+		  If mList = Nil Then Raise New OutOfBoundsException
+		  Me.Remove(Index)
+		  Me.Insert(Index, NewMedia)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_remove_index(mList, Index) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
+		    mMediaList.Remove(Index)
 		  Finally
 		    Me.Unlock
 		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Shuffle()
+		  Dim indices() As Integer
+		  Dim count As Integer = Me.Count
+		  For i As Integer = 0 To count - 1
+		    indices.Append(i)
+		  Next
+		  indices.Shuffle()
+		  SortWith(indices)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Sort()
+		  Sort(MetaDataType.Title)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Sort(SortBy As libvlc.MetaDataType)
+		  Dim names() As String
+		  Dim c As Integer = Me.Count - 1
+		  For i As Integer = 0 To c
+		    Dim m As libvlc.Medium = Operator_Subscript(i)
+		    Dim meta As New libvlc.Meta.MetaData(m)
+		    names.Append(meta.Lookup(SortBy, ""))
+		  Next
+		  SortWith(names)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SortWith(Sortable() As Integer)
+		  Dim count As Integer = UBound(Sortable)
+		  Me.Lock()
+		  Try
+		    ReDim mMediaList(-1)
+		    For i As Integer = 0 To count
+		      Dim p As Ptr = libvlc_media_list_item_at_index(mList, i)
+		      If p = Nil Then Raise New NilObjectException
+		      mMediaList.Append(New MediumPtr(p))
+		      Call libvlc_media_list_insert_media(mList, p, Sortable(i))
+		      Call libvlc_media_list_remove_index(mList, i)
+		    Next
+		  Finally
+		    Me.Unlock()
+		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SortWith(Sortable() As String)
+		  Dim indices() As Integer
+		  Dim count As Integer = Me.Count
+		  For i As Integer = 0 To count - 1
+		    indices.Append(i)
+		  Next
+		  Sortable.SortWith(indices)
+		  SortWith(indices)
 		End Sub
 	#tag EndMethod
 
@@ -164,7 +283,11 @@ Inherits libvlc.VLCInstance
 			Set
 			  Dim i As Integer = Me.IndexOf(value)
 			  If i > -1 Then
-			    libvlc_media_list_set_media(mList, Me.Item(i).Handle)
+			    ' Operator_Subscript calls Lock() which is contraindicated for
+			    ' libvlc_media_list_set_media(). Hence we call it separately and 
+			    ' store the returned Medium in a local variable before the API call.
+			    Dim m As libvlc.Medium = Operator_Subscript(i) 
+			    libvlc_media_list_set_media(mList, m.Handle)
 			  Else
 			    Raise New VLCException("That medium is not in the list.")
 			  End If
