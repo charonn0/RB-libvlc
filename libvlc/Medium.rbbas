@@ -192,6 +192,12 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub SaveMetaData()
+		  If mMeta <> Nil Then mMeta.Flush()
+		End Sub
+	#tag EndMethod
+
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -200,6 +206,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Actors, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Actors) = value
+			End Set
+		#tag EndSetter
 		Actors As String
 	#tag EndComputedProperty
 
@@ -210,6 +222,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Album, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Album) = value
+			End Set
+		#tag EndSetter
 		Album As String
 	#tag EndComputedProperty
 
@@ -220,6 +238,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.AlbumArtist, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.AlbumArtist) = value
+			End Set
+		#tag EndSetter
 		AlbumArtist As String
 	#tag EndComputedProperty
 
@@ -231,6 +255,12 @@ Inherits libvlc.VLCInstance
 			  Return AlbumArtist
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Artist) = value
+			End Set
+		#tag EndSetter
 		Artist As String
 	#tag EndComputedProperty
 
@@ -266,7 +296,30 @@ Inherits libvlc.VLCInstance
 			  Return mArtwork
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  Me.ArtworkURL = ConvertEncoding("data:image/png;charset=US-ASCII;base64," + EncodeBase64(value.GetData(Picture.FormatPNG)), Encodings.ASCII)
+			  
+			End Set
+		#tag EndSetter
 		Artwork As Picture
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  Return mMeta.Lookup(libvlc.MetaDataType.ArtworkURL, "")
+			  
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.ArtworkURL) = value
+			End Set
+		#tag EndSetter
+		ArtworkURL As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -276,6 +329,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Copyright, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Copyright) = value
+			End Set
+		#tag EndSetter
 		Copyright As String
 	#tag EndComputedProperty
 
@@ -295,6 +354,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Date, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Date) = value
+			End Set
+		#tag EndSetter
 		Date As String
 	#tag EndComputedProperty
 
@@ -305,6 +370,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Description, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Description) = value
+			End Set
+		#tag EndSetter
 		Description As String
 	#tag EndComputedProperty
 
@@ -315,6 +386,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Director, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Director) = value
+			End Set
+		#tag EndSetter
 		Director As String
 	#tag EndComputedProperty
 
@@ -325,6 +402,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.DiscNumber, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.DiscNumber) = value
+			End Set
+		#tag EndSetter
 		DiscNumber As String
 	#tag EndComputedProperty
 
@@ -335,6 +418,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.DiscTotal, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.DiscTotal) = value
+			End Set
+		#tag EndSetter
 		DiscTotal As String
 	#tag EndComputedProperty
 
@@ -355,6 +444,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.EncodedBy, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.EncodedBy) = value
+			End Set
+		#tag EndSetter
 		EncodedBy As String
 	#tag EndComputedProperty
 
@@ -365,6 +460,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Episode, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Episode) = value
+			End Set
+		#tag EndSetter
 		Episode As String
 	#tag EndComputedProperty
 
@@ -375,6 +476,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Genre, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Genre) = value
+			End Set
+		#tag EndSetter
 		Genre As String
 	#tag EndComputedProperty
 
@@ -406,6 +513,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Language, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Language) = value
+			End Set
+		#tag EndSetter
 		Language As String
 	#tag EndComputedProperty
 
@@ -463,6 +576,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Publisher, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Publisher) = value
+			End Set
+		#tag EndSetter
 		Publisher As String
 	#tag EndComputedProperty
 
@@ -473,6 +592,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Rating, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Rating) = value
+			End Set
+		#tag EndSetter
 		Rating As String
 	#tag EndComputedProperty
 
@@ -483,6 +608,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Season, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Season) = value
+			End Set
+		#tag EndSetter
 		Season As String
 	#tag EndComputedProperty
 
@@ -493,6 +624,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.Setting, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Setting) = value
+			End Set
+		#tag EndSetter
 		Setting As String
 	#tag EndComputedProperty
 
@@ -503,6 +640,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.ShowName, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.ShowName) = value
+			End Set
+		#tag EndSetter
 		ShowName As String
 	#tag EndComputedProperty
 
@@ -530,6 +673,12 @@ Inherits libvlc.VLCInstance
 			  Return MediaURL()
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.Title) = value
+			End Set
+		#tag EndSetter
 		Title As String
 	#tag EndComputedProperty
 
@@ -540,6 +689,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.TrackID, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.TrackID) = value
+			End Set
+		#tag EndSetter
 		TrackID As String
 	#tag EndComputedProperty
 
@@ -561,6 +716,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.TrackNumber, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.TrackNumber) = value
+			End Set
+		#tag EndSetter
 		TrackNumber As String
 	#tag EndComputedProperty
 
@@ -592,6 +753,12 @@ Inherits libvlc.VLCInstance
 			  Return mMeta.Lookup(libvlc.MetaDataType.URL, "")
 			End Get
 		#tag EndGetter
+		#tag Setter
+			Set
+			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
+			  mMeta.Value(libvlc.MetaDataType.URL) = value
+			End Set
+		#tag EndSetter
 		URL As String
 	#tag EndComputedProperty
 
