@@ -232,7 +232,7 @@ Begin Window OpenMedia
       BackColor       =   &hFFFFFF
       Bold            =   ""
       Border          =   True
-      CueText         =   ""
+      CueText         =   ":sout=#transcode{acodec=mp3,ab=128,channels=2,samplerate=44100}:std{access=file,mux=raw,dst=music.mp3}"
       DataField       =   ""
       DataSource      =   ""
       Enabled         =   True
@@ -264,7 +264,7 @@ Begin Window OpenMedia
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   False
-      Width           =   249
+      Width           =   336
    End
    Begin Label Label2
       AutoDeactivate  =   True
@@ -336,7 +336,7 @@ Begin Window OpenMedia
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   336
+      Left            =   469
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -350,11 +350,80 @@ Begin Window OpenMedia
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   60
+      Top             =   -3
       Underline       =   ""
       Value           =   False
       Visible         =   True
       Width           =   80
+   End
+   Begin DisclosureTriangle MoreSpaceDTriangle
+      AcceptFocus     =   False
+      AutoDeactivate  =   True
+      Enabled         =   True
+      Facing          =   0
+      Height          =   18
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Left            =   418
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   10
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Top             =   58
+      Value           =   False
+      Visible         =   False
+      Width           =   18
+   End
+   Begin TextArea OptionsText
+      AcceptTabs      =   ""
+      Alignment       =   0
+      AutoDeactivate  =   True
+      AutomaticallyCheckSpelling=   True
+      BackColor       =   &hFFFFFF
+      Bold            =   ""
+      Border          =   True
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Format          =   ""
+      Height          =   100
+      HelpTag         =   ""
+      HideSelection   =   True
+      Index           =   -2147483648
+      Italic          =   ""
+      Left            =   80
+      LimitText       =   0
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Mask            =   ""
+      Multiline       =   True
+      ReadOnly        =   ""
+      Scope           =   0
+      ScrollbarHorizontal=   ""
+      ScrollbarVertical=   True
+      Styled          =   True
+      TabIndex        =   11
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   ""
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   59
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   False
+      Width           =   336
    End
 End
 #tag EndWindow
@@ -429,7 +498,7 @@ End
 		  Else
 		    mMedium = MediaURL.Text
 		  End If
-		  Dim args() As String = libvlc.SplitQuoted(MediaOpts.Text.Trim)
+		  Dim args() As String = libvlc.SplitQuoted(OptionsText.Text.Trim)
 		  For i As Integer = 0 To UBound(args)
 		    mMedium.AddOption(args(i))
 		  Next
@@ -445,6 +514,13 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events MediaOpts
+	#tag Event
+		Sub TextChange()
+		  OptionsText.Text = Me.Text
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events DisclosureTriangle1
 	#tag Event
 		Sub Action()
@@ -452,12 +528,32 @@ End
 		    Self.Height = 121
 		    Label2.Visible = True
 		    MediaOpts.Visible = True
+		    MoreSpaceDTriangle.Visible = True
 		    Me.HelpTag = "Hide options"
 		  Else
+		    If MoreSpaceDTriangle.Value Then MoreSpaceDTriangle.Value = False
 		    Self.Height = 91
 		    Label2.Visible = False
 		    MediaOpts.Visible = False
+		    MoreSpaceDTriangle.Visible = False
 		    Me.HelpTag = "Show options"
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events MoreSpaceDTriangle
+	#tag Event
+		Sub Action()
+		  If Me.Value Then
+		    Self.Height = 197
+		    MediaOpts.Visible = False
+		    OptionsText.Visible = True
+		    Me.HelpTag = "Less space"
+		  Else
+		    Self.Height = 121
+		    MediaOpts.Visible = True
+		    OptionsText.Visible = False
+		    Me.HelpTag = "More space"
 		  End If
 		End Sub
 	#tag EndEvent
