@@ -772,6 +772,7 @@ End
 	#tag Event
 		Sub Open()
 		  Me.Value = mLockToParentWindow
+		  Me.HelpTag = "Unlock from parent window"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
