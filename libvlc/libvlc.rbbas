@@ -144,6 +144,15 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function IsAMediaFile(Extends f As FolderItem) As Boolean
+		  ' Returns True if the file is likely a media file that libvlc understands
+		  Static extensions() As String = Array("3gp", "3gpp", "aa", "aac", "adts", "aif", "aifc", "aiff", "asf", "ass", "asx", "au", "avi", "bwf", "cdda", "cel", "dif", "dv", "flac", "flc", "fli", "flv", "kar", "m15", "m1a", "m1s", "m1v", "m2a", "m4a", "m4b", "m4p", "m4v", "m75", "mid", "midi", "mkv", "moov", "mov", "mp2", "mp3", "mp4", "mpa", "mpe", "mpeg", "mpg", "mpm", "mpv", "mqv", "oga", "ogg", "ogv", "ogx", "opus", "qt", "rm", "sdv", "smf", "snd", "spx", "swa", "ul", "ulw", "vfw", "wav", "wax", "webm", "wm", "wma", "wmv", "wmx", "wvx")
+		  Dim ext As String = NthField(f.Name, ".", CountFields(f.Name, "."))
+		  Return extensions.IndexOf(ext) > -1
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Function IsAvailable() As Boolean
 		  Static available As Boolean
