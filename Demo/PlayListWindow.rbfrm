@@ -42,7 +42,7 @@ Begin Window PlayListWindow
       GridLinesVertical=   0
       HasHeading      =   True
       HeadingIndex    =   -1
-      Height          =   187
+      Height          =   188
       HelpTag         =   ""
       Hierarchical    =   ""
       Index           =   -2147483648
@@ -73,6 +73,86 @@ Begin Window PlayListWindow
       Width           =   616
       _ScrollWidth    =   -1
    End
+   Begin Timer UITimer
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   634
+      LockedInPosition=   False
+      Mode            =   2
+      Period          =   100
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   21
+      Width           =   32
+   End
+   Begin BevelButton LockWindowBtn
+      AcceptFocus     =   False
+      AutoDeactivate  =   True
+      BackColor       =   "&c00000000"
+      Bevel           =   0
+      Bold            =   False
+      ButtonType      =   1
+      Caption         =   "🔓"
+      CaptionAlign    =   3
+      CaptionDelta    =   0
+      CaptionPlacement=   1
+      Enabled         =   True
+      HasBackColor    =   False
+      HasMenu         =   0
+      Height          =   22
+      HelpTag         =   ""
+      Icon            =   ""
+      IconAlign       =   0
+      IconDX          =   0
+      IconDY          =   0
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      MenuValue       =   0
+      Scope           =   0
+      TabIndex        =   9
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextColor       =   "&c00000000"
+      TextFont        =   "System"
+      TextSize        =   ""
+      TextUnit        =   0
+      Top             =   192
+      Underline       =   False
+      Value           =   True
+      Visible         =   True
+      Width           =   24
+   End
+   Begin Thread DirectoryLoader
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   634
+      LockedInPosition=   False
+      Priority        =   3
+      Scope           =   0
+      StackSize       =   0
+      TabPanelIndex   =   0
+      Top             =   52
+      Width           =   32
+   End
+   Begin Timer DirectoryLoadComplete
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   665
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   1
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   52
+      Width           =   32
+   End
    Begin PushButton PrevTrackBtn
       AutoDeactivate  =   True
       Bold            =   ""
@@ -86,76 +166,14 @@ Begin Window PlayListWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   3
+      Left            =   101
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   3
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   192
-      Underline       =   ""
-      Visible         =   True
-      Width           =   80
-   End
-   Begin PushButton StopBtn
-      AutoDeactivate  =   True
-      Bold            =   ""
-      ButtonStyle     =   0
-      Cancel          =   ""
-      Caption         =   "Stop"
-      Default         =   ""
-      Enabled         =   False
-      Height          =   22
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   87
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      Scope           =   0
-      TabIndex        =   4
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   192
-      Underline       =   ""
-      Visible         =   True
-      Width           =   80
-   End
-   Begin PushButton PlayBtn
-      AutoDeactivate  =   True
-      Bold            =   ""
-      ButtonStyle     =   0
-      Cancel          =   ""
-      Caption         =   "Play"
-      Default         =   ""
-      Enabled         =   True
-      Height          =   22
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   170
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   False
-      Scope           =   0
-      TabIndex        =   5
+      TabIndex        =   24
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -179,14 +197,45 @@ Begin Window PlayListWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   254
+      Left            =   352
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   6
+      TabIndex        =   27
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   192
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
+   Begin PushButton AddFilesBtn
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Add files(s)"
+      Default         =   ""
+      Enabled         =   True
+      Height          =   22
+      HelpTag         =   "Next track"
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   435
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   28
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -209,7 +258,7 @@ Begin Window PlayListWindow
       InitialParent   =   ""
       InitialValue    =   "Loop none\r\nLoop track\r\nLoop list"
       Italic          =   ""
-      Left            =   528
+      Left            =   525
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -217,7 +266,38 @@ Begin Window PlayListWindow
       LockRight       =   True
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   7
+      TabIndex        =   29
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   190
+      Underline       =   ""
+      Visible         =   True
+      Width           =   88
+   End
+   Begin PushButton StopBtn
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Stop"
+      Default         =   ""
+      Enabled         =   False
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   185
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   25
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -226,41 +306,29 @@ Begin Window PlayListWindow
       Top             =   192
       Underline       =   ""
       Visible         =   True
-      Width           =   88
+      Width           =   80
    End
-   Begin Timer UITimer
-      Height          =   32
-      Index           =   -2147483648
-      Left            =   634
-      LockedInPosition=   False
-      Mode            =   2
-      Period          =   100
-      Scope           =   0
-      TabPanelIndex   =   0
-      Top             =   21
-      Width           =   32
-   End
-   Begin PushButton AddFilesBtn
+   Begin PushButton PlayBtn
       AutoDeactivate  =   True
       Bold            =   ""
       ButtonStyle     =   0
       Cancel          =   ""
-      Caption         =   "Add files(s)"
+      Caption         =   "Play"
       Default         =   ""
       Enabled         =   True
       Height          =   22
-      HelpTag         =   "Next track"
+      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   337
+      Left            =   268
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   8
+      TabIndex        =   26
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -279,6 +347,13 @@ End
 		Sub Close()
 		  UITimer.Mode = Timer.ModeOff
 		  If mParentWindow <> Nil Then mParentWindow.NotifyListClosed(Me)
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub Open()
+		  mPendingDirectoriesLock = New Semaphore
+		  mPendingMediaLock = New Semaphore
 		End Sub
 	#tag EndEvent
 
@@ -303,12 +378,12 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub AddMedia(List() As libvlc.Medium)
+		Private Sub AddMedia(List() As libvlc.Medium, UIOnly As Boolean = False)
 		  Dim truelist As libvlc.PlayLists.PlayList = mPlayer.Playlist
 		  For i As Integer = 0 To UBound(List)
 		    Dim m As libvlc.Medium = List(i)
 		    If truelist.IndexOf(m) > -1 Then Continue ' already added
-		    truelist.Append(m)
+		    If Not UIOnly Then truelist.Append(m)
 		    MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
 		    MediaList.RowTag(MediaList.LastIndex) = m
 		  Next
@@ -328,6 +403,8 @@ End
 		  If PrevTrackBtn = Nil Then ' window has closed
 		    Return "!INVALID"
 		  End If
+		  mDirty = mLastState <> mPlayer.CurrentState
+		  mLastState = mPlayer.CurrentState
 		  UpdateUI()
 		  If CurrentIndex > -1 Then
 		    Return MediaList.Cell(CurrentIndex, 0)
@@ -357,14 +434,17 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub UpdateUI()
-		  PrevTrackBtn.Enabled = mPlayer.CanMovePrev()
-		  NextTrackBtn.Enabled = mPlayer.CanMoveNext()
-		  If mPlayer.CurrentState = libvlc.PlayerState.PLAYING Then
-		    PlayBtn.Caption = "Pause"
-		    StopBtn.Enabled = True
-		  Else
-		    PlayBtn.Caption = "Play"
-		    StopBtn.Enabled = False
+		  If mDirty Then
+		    PrevTrackBtn.Enabled = mPlayer.CanMovePrev()
+		    NextTrackBtn.Enabled = mPlayer.CanMoveNext()
+		    If mPlayer.CurrentState = libvlc.PlayerState.PLAYING Then
+		      PlayBtn.Caption = "Pause"
+		      StopBtn.Enabled = True
+		    Else
+		      PlayBtn.Caption = "Play"
+		      StopBtn.Enabled = False
+		    End If
+		    mDirty = False
 		  End If
 		  If mLastActive <> mPlayer.ListIndex Then
 		    mLastActive = mPlayer.ListIndex
@@ -407,7 +487,7 @@ End
 		#tag Getter
 			Get
 			  If mPlayer <> Nil Then
-			    Dim m As libvlc.Medium = mPlayer.Playlist.Item(mPlayer.ListIndex)
+			    Dim m As libvlc.Medium = mPlayer.Playlist(mPlayer.ListIndex)
 			    If m = Nil Then Return Nil
 			    If Not m.IsParsed Then m.Parse
 			    Return m
@@ -418,12 +498,58 @@ End
 		CurrentMedium As libvlc.Medium
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mLockToParentWindow
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mLockToParentWindow = value
+			End Set
+		#tag EndSetter
+		LockToParentWindow As Boolean
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mCompleted As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mDirty As Boolean
+	#tag EndProperty
+
 	#tag Property, Flags = &h21
 		Private mLastActive As Integer = -2
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastState As libvlc.PlayerState
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLockToParentWindow As Boolean = True
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mParentWindow As PlayerWindow
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mPendingDirectories() As FolderItem
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mPendingDirectoriesLock As Semaphore
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mPendingMedia() As libvlc.Medium
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mPendingMediaLock As Semaphore
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -527,7 +653,7 @@ End
 	#tag Event
 		Function DragReorderRows(newPosition as Integer, parentRow as Integer) As Boolean
 		  #pragma Unused parentRow
-		  Dim m As libvlc.Medium = mPlayer.Playlist.Item(Me.ListIndex)
+		  Dim m As libvlc.Medium = mPlayer.Playlist(Me.ListIndex)
 		  mPlayer.Playlist.Remove(Me.ListIndex)
 		  mPlayer.Playlist.Insert(newPosition, m)
 		  Return False
@@ -590,10 +716,168 @@ End
 		End Function
 	#tag EndEvent
 #tag EndEvents
+#tag Events UITimer
+	#tag Event
+		Sub Action()
+		  UpdateUI()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events LockWindowBtn
+	#tag Event
+		Sub Action()
+		  If Me.Value Then
+		    Me.Caption = "🔒"
+		    Self.Left = PlayerWindow.Left + PlayerWindow.Width
+		    Self.Top = PlayerWindow.Top
+		    Self.Height = PlayerWindow.Height
+		    Me.HelpTag = "Unlock from parent window"
+		  Else
+		    Me.Caption = "🔓"
+		    Me.HelpTag = "Lock to parent window"
+		  End If
+		  mLockToParentWindow = Me.Value
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Open()
+		  Me.Value = mLockToParentWindow
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DirectoryLoader
+	#tag Event
+		Sub Run()
+		  Do Until UBound(mPendingDirectories) = -1
+		    Do Until mPendingDirectoriesLock.TrySignal()
+		      App.YieldToNextThread
+		    Loop
+		    Dim thisdir As FolderItem
+		    Try
+		      thisdir = mPendingDirectories.Pop
+		    Finally
+		      mPendingDirectoriesLock.Release()
+		    End Try
+		    Dim c As Integer = thisdir.Count
+		    Dim media() As libvlc.Medium
+		    Dim dirs() As FolderItem
+		    For i As Integer = 1 To c
+		      Dim item As FolderItem = thisdir.Item(i)
+		      If item.Directory Then
+		        dirs.Append(item)
+		      ElseIf item.IsAMediaFile Then
+		        media.Append(item)
+		      End If
+		    Next
+		    
+		    Do Until mPendingMediaLock.TrySignal()
+		      App.YieldToNextThread
+		    Loop
+		    Try
+		      For i As Integer = 0 To UBound(media)
+		        mPendingMedia.Insert(0, media(i))
+		      Next
+		    Finally
+		      mPendingMediaLock.Release()
+		    End Try
+		    
+		    Do Until mPendingDirectoriesLock.TrySignal()
+		      App.YieldToNextThread
+		    Loop
+		    Try
+		      For i As Integer = 0 To UBound(dirs)
+		        mPendingDirectories.Insert(0, dirs(i))
+		      Next
+		    Finally
+		      mPendingDirectoriesLock.Release()
+		    End Try
+		    DirectoryLoadComplete.Mode = Timer.ModeSingle
+		    App.YieldToNextThread
+		  Loop
+		  
+		  mCompleted = True
+		  DirectoryLoadComplete.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DirectoryLoadComplete
+	#tag Event
+		Sub Action()
+		  Do Until mPendingMediaLock.TrySignal()
+		    App.YieldToNextThread()
+		  Loop
+		  Try
+		    AddMedia(mPendingMedia)
+		    ReDim mPendingMedia(-1)
+		  Finally
+		    mPendingMediaLock.Release()
+		  End Try
+		  If mCompleted = True Then
+		    MsgBox("Load complete")
+		    mCompleted = False
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events PrevTrackBtn
 	#tag Event
 		Sub Action()
 		  If mPlayer.CanMovePrev() Then Call mPlayer.MovePrev()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events NextTrackBtn
+	#tag Event
+		Sub Action()
+		  If mPlayer.CanMoveNext() Then Call mPlayer.MoveNext()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events AddFilesBtn
+	#tag Event
+		Sub Action()
+		  Dim dir As FolderItem = SelectFolder()
+		  If dir <> Nil Then
+		    Do Until mPendingDirectoriesLock.TrySignal
+		      App.YieldToNextThread
+		    Loop
+		    Try
+		      mPendingDirectories.Insert(0, dir)
+		    Finally
+		      mPendingDirectoriesLock.Release()
+		    End Try
+		    
+		    Select Case DirectoryLoader.State
+		    Case Thread.Running, Thread.Waiting, Thread.Sleeping
+		      Return
+		    Case Thread.Suspended
+		      DirectoryLoader.Resume
+		    Case Thread.NotRunning
+		      DirectoryLoader.Run
+		    End Select
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PlayModeMnu
+	#tag Event
+		Sub Change()
+		  Dim newmode As libvlc.PlaybackMode
+		  Select Case Me.Text
+		  Case "Loop none"
+		    Self.Title = "Playlist"
+		    newmode = libvlc.PlaybackMode.Default
+		  Case "Loop track"
+		    Self.Title = "Playlist (Repeat track)"
+		    newmode = libvlc.PlaybackMode.Repeat
+		  Case "Loop list"
+		    Self.Title = "Playlist (Repeat list)"
+		    newmode = libvlc.PlaybackMode.Looping
+		  Else
+		    Return
+		  End Select
+		  
+		  If mPlayer.PlayMode <> newmode Then mPlayer.PlayMode = newmode
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -611,59 +895,10 @@ End
 		    mPlayer.Play()
 		    Me.Caption = "Pause"
 		  Else
-		    mPlayer.Pause
+		    mPlayer.Pause()
 		    Me.Caption = "Play"
 		  End If
 		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events NextTrackBtn
-	#tag Event
-		Sub Action()
-		  If mPlayer.CanMoveNext() Then Call mPlayer.MoveNext()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events PlayModeMnu
-	#tag Event
-		Sub Change()
-		  Dim newmode As libvlc.PlaybackMode
-		  Select Case Me.Text
-		  Case "Loop none"
-		    newmode = libvlc.PlaybackMode.Default
-		  Case "Loop track"
-		    newmode = libvlc.PlaybackMode.Repeat
-		  Case "Loop list"
-		    newmode = libvlc.PlaybackMode.Looping
-		  Else
-		    Return
-		  End Select
-		  
-		  If mPlayer.PlayMode <> newmode Then mPlayer.PlayMode = newmode
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events UITimer
-	#tag Event
-		Sub Action()
-		  UpdateUI()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events AddFilesBtn
-	#tag Event
-		Sub Action()
-		  Dim dlg As New OpenDialog
-		  dlg.Filter = MediaFileTypes.All
-		  dlg.MultiSelect = True
-		  If dlg.ShowModal() = Nil Then Return
-		  Dim f() As libvlc.Medium
-		  For i As Integer = 0 To dlg.Count - 1
-		    f.Append(dlg.Item(i))
-		  Next
-		  AddMedia(f)
-		  UpdateUI()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
