@@ -2,8 +2,8 @@
 Protected Class MetaData
 	#tag Method, Flags = &h0
 		Sub Constructor(Owner As libvlc.Medium)
-		  mOwner = Owner
-		  If Not mOwner.IsParsed Then mOwner.Parse()
+		  mOwner = New WeakRef(Owner)
+		  If Not Owner.IsParsed Then Owner.Parse()
 		End Sub
 	#tag EndMethod
 
@@ -29,7 +29,7 @@ Protected Class MetaData
 
 	#tag Method, Flags = &h1
 		Protected Function Owner() As libvlc.Medium
-		  Return mOwner
+		  If mOwner <> Nil And mOwner.Value IsA Medium Then Return Medium(mOwner.Value)
 		End Function
 	#tag EndMethod
 
@@ -58,7 +58,7 @@ Protected Class MetaData
 
 
 	#tag Property, Flags = &h21
-		Private mOwner As libvlc.Medium
+		Private mOwner As WeakRef
 	#tag EndProperty
 
 
