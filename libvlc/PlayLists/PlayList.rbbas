@@ -68,6 +68,45 @@ Inherits libvlc.VLCInstance
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Load(Added() As libvlc.Medium)
+		  Me.Lock()
+		  Try
+		    For i As Integer = 0 To UBound(Added)
+		      Dim medium As libvlc.Medium = Added(i)
+		      If libvlc_media_list_add_media(mList, medium.Handle) = 0 Then mMediaList.Append(medium)
+		    Next
+		  Finally
+		    Me.Unlock()
+		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Load(ReadFrom As Readable) As Integer
+		  If ReadLine(ReadFrom).Trim <> "#EXTM3U" Then Return 0
+		  Dim m() As libvlc.Medium
+		  Do Until ReadFrom.EOF
+		    Dim line As String = ReadLine(ReadFrom).Trim
+		    Select Case True
+		    Case line = "", Left(line, 1) = "#"
+		      Continue
+		    Else
+		      If InStr(line, "://") > 0 Then ' MRL
+		        m.Append(line)
+		      Else ' path
+		        Dim f As FolderItem = GetFolderItem(line, FolderItem.PathTypeAbsolute)
+		        If f = Nil Or Not f.Exists Then Continue
+		        m.Append(f)
+		      End If
+		    End Select
+		  Loop
+		  
+		  If UBound(m) > -1 Then Load(m)
+		  Return UBound(m) + 1
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Lock()
 		  mLock.Signal()
@@ -157,6 +196,12 @@ Inherits libvlc.VLCInstance
 		  Finally
 		    Me.Unlock
 		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Save(WriteTo As Writeable, ListName As String = "")
+		  WriteM3U(Me, WriteTo, ListName)
 		End Sub
 	#tag EndMethod
 
