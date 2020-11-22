@@ -870,8 +870,14 @@ End
 	#tag EndEvent
 
 	#tag Event
+		Sub Maximize()
+		  mIsMaximized = True
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Sub Moved()
-		  If mPlaylistWindow <> Nil Then
+		  If Not mIsMaximized And mPlaylistWindow <> Nil And mPlaylistWindow.LockToParentWindow Then
 		    mPlaylistWindow.Left = Self.Left + Self.Width
 		    mPlaylistWindow.Top = Self.Top
 		  End If
@@ -880,10 +886,16 @@ End
 
 	#tag Event
 		Sub Resizing()
-		  If mPlaylistWindow <> Nil Then
+		  If mPlaylistWindow <> Nil And mPlaylistWindow.LockToParentWindow Then
 		    mPlaylistWindow.Left = Self.Left + Self.Width
 		    mPlaylistWindow.Top = Self.Top
 		  End If
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub Restore()
+		  mIsMaximized = False
 		End Sub
 	#tag EndEvent
 
@@ -1042,6 +1054,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mFractionalSeconds As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mIsMaximized As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
