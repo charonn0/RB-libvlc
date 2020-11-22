@@ -446,6 +446,24 @@ End
 		    End If
 		    mDirty = False
 		  End If
+		  Static blank, playarrow As Picture
+		  If blank = Nil Then
+		    blank = New Picture(10, 10, 32)
+		    blank.Transparent = 1
+		  End If
+		  If playarrow = Nil Then
+		    playarrow = New Picture(100, 100, 32)
+		    playarrow.Transparent = 1
+		    playarrow.Graphics.AntiAlias = True
+		    playarrow.Graphics.ForeColor = &c00FF0000
+		    playarrow.Graphics.DrawLine(0, 0, 100, 50)
+		    playarrow.Graphics.DrawLine(0, 100, 100, 50)
+		    playarrow.Graphics.DrawLine(1, 1, 1, 100)
+		    playarrow.RGBSurface.FloodFill(50, 50, &c00FF0000)
+		    Dim tmp As New Picture(10, 10, 32)
+		    tmp.Graphics.DrawPicture(playarrow, 0, 0, 10, 10, 0, 0, playarrow.Width, playarrow.Height)
+		    playarrow = tmp
+		  End If
 		  If mLastActive <> mPlayer.ListIndex Then
 		    mLastActive = mPlayer.ListIndex
 		    For i As Integer = 0 To MediaList.ListCount - 1
@@ -453,6 +471,11 @@ End
 		      For j As Integer = 0 To MediaList.ColumnCount - 1
 		        MediaList.Cell(i, j) = MediaList.Cell(i, j)
 		      Next
+		      If i = CurrentIndex Then
+		        MediaList.RowPicture(i) = playarrow
+		      Else
+		        MediaList.RowPicture(i) = blank
+		      End If
 		    Next
 		    MediaList.Refresh()
 		  End If
@@ -615,7 +638,7 @@ End
 		Function CellBackgroundPaint(g As Graphics, row As Integer, column As Integer) As Boolean
 		  #pragma Unused column
 		  If mPlayer = Nil Then Return False
-		  If row = mPlayer.ListIndex Then
+		  If Me.Selected(row) Then
 		    Dim startcolor As Color = &c0080FF00
 		    Dim endcolor As Color = &c7DBEFF00
 		    
@@ -630,6 +653,13 @@ End
 		    
 		    Return True
 		  End If
+		  If row Mod 2 = 0 Then
+		    g.ForeColor = &cE2E2E200
+		    g.FillRect(0, 0, g.Width, g.Height)
+		    Return True
+		  Else
+		    
+		  End If
 		End Function
 	#tag EndEvent
 	#tag Event
@@ -640,7 +670,7 @@ End
 		  If mPlayer = Nil Then Return False
 		  If row = mPlayer.ListIndex Then
 		    g.Bold = True
-		    g.ForeColor = &cFFFFFF00
+		    ' g.ForeColor = &cFFFFFF00
 		  End If
 		End Function
 	#tag EndEvent
