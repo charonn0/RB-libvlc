@@ -410,12 +410,12 @@ End
 			    Dim m As libvlc.Medium = mPlayer.Playlist.Item(mPlayer.ListIndex)
 			    If m = Nil Then Return Nil
 			    If Not m.IsParsed Then m.Parse
-			    Return New libvlc.Meta.MetaData(m)
+			    Return m
 			  End If
 			  
 			End Get
 		#tag EndGetter
-		CurrentMeta As libvlc.Meta.MetaData
+		CurrentMedium As libvlc.Medium
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
@@ -514,6 +514,7 @@ End
 		  If mPlayer = Nil Then Return False
 		  If row = mPlayer.ListIndex Then
 		    g.Bold = True
+		    g.ForeColor = &cFFFFFF00
 		  End If
 		End Function
 	#tag EndEvent
