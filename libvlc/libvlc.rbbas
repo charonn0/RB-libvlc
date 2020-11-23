@@ -153,6 +153,28 @@ Protected Module libvlc
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function IsAPlayListFile(Extends f As FolderItem) As Boolean
+		  ' Returns True if the file is likely a m3u file
+		  Static extensions() As String = Array("m3u", "m3u8")
+		  Dim ext As String = NthField(f.Name, ".", CountFields(f.Name, "."))
+		  Dim islist As Boolean = True
+		  If extensions.IndexOf(ext) > -1 Then
+		    islist = True
+		    Dim tmp As BinaryStream
+		    Try
+		      tmp = BinaryStream.Open(f)
+		      If tmp.Read(7) <> "#EXTM3U" Then islist = False
+		    Catch
+		      islist = False
+		    Finally
+		      If tmp <> Nil Then tmp.Close
+		    End Try
+		  End If
+		  Return islist
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Function IsAvailable() As Boolean
 		  Static available As Boolean
