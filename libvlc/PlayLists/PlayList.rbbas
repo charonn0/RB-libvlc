@@ -69,6 +69,20 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Load(ReadFrom As FolderItem) As Integer
+		  Dim c As Integer
+		  Dim bs As BinaryStream
+		  Try
+		    bs = BinaryStream.Open(ReadFrom)
+		    c = Load(bs)
+		  Finally
+		    If bs <> Nil Then bs.Close()
+		  End Try
+		  Return c
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Load(Added() As libvlc.Medium)
 		  Me.Lock()
 		  Try
@@ -84,24 +98,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Load(ReadFrom As Readable) As Integer
-		  If ReadLine(ReadFrom).Trim <> "#EXTM3U" Then Return 0
-		  Dim m() As libvlc.Medium
-		  Do Until ReadFrom.EOF
-		    Dim line As String = ReadLine(ReadFrom).Trim
-		    Select Case True
-		    Case line = "", Left(line, 1) = "#"
-		      Continue
-		    Else
-		      If InStr(line, "://") > 0 Then ' MRL
-		        m.Append(line)
-		      Else ' path
-		        Dim f As FolderItem = GetFolderItem(line, FolderItem.PathTypeAbsolute)
-		        If f = Nil Or Not f.Exists Then Continue
-		        m.Append(f)
-		      End If
-		    End Select
-		  Loop
-		  
+		  Dim m() As libvlc.Medium = ReadM3U(ReadFrom)
 		  If UBound(m) > -1 Then Load(m)
 		  Return UBound(m) + 1
 		End Function
@@ -196,6 +193,19 @@ Inherits libvlc.VLCInstance
 		  Finally
 		    Me.Unlock
 		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Save(WriteTo As FolderItem, ListName As String = "")
+		  Dim bs As BinaryStream
+		  Try
+		    bs = BinaryStream.Create(WriteTo)
+		    Save(bs, ListName)
+		  Finally
+		    If bs <> Nil Then bs.Close()
+		  End Try
+		  
 		End Sub
 	#tag EndMethod
 
