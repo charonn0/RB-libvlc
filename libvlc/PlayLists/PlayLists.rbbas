@@ -12,11 +12,7 @@ Protected Module PlayLists
 
 	#tag Method, Flags = &h1
 		Protected Function Create(Media() As libvlc.Medium) As libvlc.PlayLists.PlayList
-		  Dim play As New PlayList
-		  For i As Integer = 0 To UBound(Media)
-		    play.Append(Media(i))
-		  Next
-		  Return play
+		  Return Media
 		End Function
 	#tag EndMethod
 
@@ -44,11 +40,7 @@ Protected Module PlayLists
 		Protected Function Play(Media() As libvlc.Medium, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.PlayLists.ListPlayer
 		  Dim play As New ListPlayer
 		  If TruePlayer <> Nil Then play.TruePlayer = TruePlayer
-		  Dim list As New PlayList
-		  For i As Integer = 0 To UBound(Media)
-		    list.Append(Media(i))
-		  Next
-		  play.PlayList = list
+		  play.PlayList = Media
 		  Return play
 		End Function
 	#tag EndMethod
@@ -83,6 +75,15 @@ Protected Module PlayLists
 		  Loop
 		  output.Close
 		  Return DefineEncoding(mb, Encodings.UTF8)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function ReadM3U(ReadFrom As FolderItem) As libvlc.Medium()
+		  Dim bs As BinaryStream = BinaryStream.Open(ReadFrom)
+		  Dim m() As libvlc.Medium = ReadM3U(bs)
+		  bs.Close
+		  Return m
 		End Function
 	#tag EndMethod
 
