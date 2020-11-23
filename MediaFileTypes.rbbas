@@ -302,4 +302,13 @@
 		Name=All video types
 	#tag EndFileType
 
+	#tag FileType
+		CodeName=M3UPlaylist
+		Extension=.m3u;.m3u8
+		Flags=&h0
+		MacCreator=
+		MacType=
+		Name=M3U playlist
+	#tag EndFileType
+
 #tag EndFileTypeSet
