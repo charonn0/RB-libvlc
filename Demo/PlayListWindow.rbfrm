@@ -166,7 +166,7 @@ Begin Window PlayListWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   101
+      Left            =   132
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -182,7 +182,7 @@ Begin Window PlayListWindow
       Top             =   192
       Underline       =   ""
       Visible         =   True
-      Width           =   80
+      Width           =   65
    End
    Begin PushButton NextTrackBtn
       AutoDeactivate  =   True
@@ -197,7 +197,7 @@ Begin Window PlayListWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   352
+      Left            =   327
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -213,22 +213,22 @@ Begin Window PlayListWindow
       Top             =   192
       Underline       =   ""
       Visible         =   True
-      Width           =   80
+      Width           =   65
    End
    Begin PushButton AddFilesBtn
       AutoDeactivate  =   True
-      Bold            =   ""
+      Bold            =   True
       ButtonStyle     =   0
       Cancel          =   ""
-      Caption         =   "Add files(s)"
-      Default         =   ""
+      Caption         =   "+"
+      Default         =   False
       Enabled         =   True
       Height          =   22
-      HelpTag         =   "Next track"
+      HelpTag         =   "Add tracks"
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   435
+      Left            =   574
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -241,10 +241,10 @@ Begin Window PlayListWindow
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   192
+      Top             =   186
       Underline       =   ""
       Visible         =   True
-      Width           =   80
+      Width           =   22
    End
    Begin PopupMenu PlayModeMnu
       AutoDeactivate  =   True
@@ -258,7 +258,7 @@ Begin Window PlayListWindow
       InitialParent   =   ""
       InitialValue    =   "Loop none\r\nLoop track\r\nLoop list"
       Italic          =   ""
-      Left            =   525
+      Left            =   396
       ListIndex       =   0
       LockBottom      =   True
       LockedInPosition=   False
@@ -290,7 +290,7 @@ Begin Window PlayListWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   185
+      Left            =   197
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -306,7 +306,7 @@ Begin Window PlayListWindow
       Top             =   192
       Underline       =   ""
       Visible         =   True
-      Width           =   80
+      Width           =   65
    End
    Begin PushButton PlayBtn
       AutoDeactivate  =   True
@@ -321,7 +321,7 @@ Begin Window PlayListWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   268
+      Left            =   262
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -337,7 +337,69 @@ Begin Window PlayListWindow
       Top             =   192
       Underline       =   ""
       Visible         =   True
-      Width           =   80
+      Width           =   65
+   End
+   Begin PushButton RemoveFilesBtn
+      AutoDeactivate  =   True
+      Bold            =   True
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "-"
+      Default         =   False
+      Enabled         =   True
+      Height          =   22
+      HelpTag         =   "Remove selected"
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   594
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   30
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   186
+      Underline       =   ""
+      Visible         =   True
+      Width           =   22
+   End
+   Begin PushButton SaveListBtn
+      AutoDeactivate  =   True
+      Bold            =   True
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "💾"
+      Default         =   False
+      Enabled         =   True
+      Height          =   22
+      HelpTag         =   "Save playlist"
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   554
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   31
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   186
+      Underline       =   ""
+      Visible         =   True
+      Width           =   22
    End
 End
 #tag EndWindow
@@ -699,25 +761,6 @@ End
 		End Sub
 	#tag EndEvent
 	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
-		  Dim row As Integer = Me.RowFromXY(x, y)
-		  Dim ok As Boolean
-		  If row >= 0 Then
-		    Dim remove As New MenuItem("Remove")
-		    remove.Tag = row
-		    base.Append(remove)
-		    ok = True
-		  End If
-		  If Me.SelCount > 1 Then
-		    Dim removeselected As New MenuItem("Remove all selected")
-		    base.Append(removeselected)
-		    ok = True
-		  End If
-		  
-		  Return ok
-		End Function
-	#tag EndEvent
-	#tag Event
 		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
 		  Select Case hitItem.Text
 		  Case "Remove"
@@ -743,6 +786,25 @@ End
 		  #pragma Unused x
 		  #pragma Unused y
 		  Return IsContextualClick And Me.SelCount <> 0
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  ' Dim row As Integer = Me.RowFromXY(x, y)
+		  ' Dim ok As Boolean
+		  ' If row >= 0 Then
+		  ' Dim remove As New MenuItem("Remove")
+		  ' remove.Tag = row
+		  ' base.Append(remove)
+		  ' ok = True
+		  ' End If
+		  ' If Me.SelCount > 1 Then
+		  ' Dim removeselected As New MenuItem("Remove all selected")
+		  ' base.Append(removeselected)
+		  ' ok = True
+		  ' End If
+		  ' 
+		  ' Return ok
 		End Function
 	#tag EndEvent
 #tag EndEvents
@@ -789,17 +851,30 @@ End
 		    Finally
 		      mPendingDirectoriesLock.Release()
 		    End Try
-		    Dim c As Integer = thisdir.Count
-		    Dim media() As libvlc.Medium
+		    
 		    Dim dirs() As FolderItem
-		    For i As Integer = 1 To c
-		      Dim item As FolderItem = thisdir.Item(i)
-		      If item.Directory Then
-		        dirs.Append(item)
-		      ElseIf item.IsAMediaFile Then
-		        media.Append(item)
-		      End If
-		    Next
+		    Dim media() As libvlc.Medium
+		    If thisdir.IsAPlayListFile Then
+		      Dim m() As libvlc.Medium = libvlc.PlayLists.ReadM3U(thisdir)
+		      For j As Integer = 0 To UBound(m)
+		        media.Append(m(j))
+		      Next
+		    ElseIf thisdir.Directory Then
+		      Dim c As Integer = thisdir.Count
+		      For i As Integer = 1 To c
+		        Dim item As FolderItem = thisdir.Item(i)
+		        If item.Directory Then
+		          dirs.Append(item)
+		        ElseIf item.IsAMediaFile Then
+		          media.Append(item)
+		        ElseIf item.IsAPlayListFile Then
+		          Dim m() As libvlc.Medium = libvlc.PlayLists.ReadM3U(item)
+		          For j As Integer = 0 To UBound(m)
+		            media.Append(m(j))
+		          Next
+		        End If
+		      Next
+		    End If
 		    
 		    Do Until mPendingMediaLock.TrySignal()
 		      App.YieldToNextThread
@@ -867,26 +942,30 @@ End
 #tag Events AddFilesBtn
 	#tag Event
 		Sub Action()
-		  Dim dir As FolderItem = SelectFolder()
-		  If dir <> Nil Then
-		    Do Until mPendingDirectoriesLock.TrySignal
-		      App.YieldToNextThread
-		    Loop
-		    Try
-		      mPendingDirectories.Insert(0, dir)
-		    Finally
-		      mPendingDirectoriesLock.Release()
-		    End Try
-		    
-		    Select Case DirectoryLoader.State
-		    Case Thread.Running, Thread.Waiting, Thread.Sleeping
-		      Return
-		    Case Thread.Suspended
-		      DirectoryLoader.Resume
-		    Case Thread.NotRunning
-		      DirectoryLoader.Run
-		    End Select
-		  End If
+		  Dim dlg As New OpenDialog()
+		  dlg.Filter = MediaFileTypes.All + ";" + DemoFileTypes.All
+		  dlg.MultiSelect = True
+		  If dlg.ShowModal() = Nil Then Return
+		  Do Until mPendingDirectoriesLock.TrySignal
+		    App.YieldToNextThread
+		  Loop
+		  Try
+		    For i As Integer = 0 To dlg.Count - 1
+		      mPendingDirectories.Insert(0, dlg.Item(i))
+		    Next
+		  Finally
+		    mPendingDirectoriesLock.Release()
+		  End Try
+		  
+		  Select Case DirectoryLoader.State
+		  Case Thread.Running, Thread.Waiting, Thread.Sleeping
+		    Return
+		  Case Thread.Suspended
+		    DirectoryLoader.Resume
+		  Case Thread.NotRunning
+		    DirectoryLoader.Run
+		  End Select
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -930,6 +1009,30 @@ End
 		    Me.Caption = "Play"
 		  End If
 		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events RemoveFilesBtn
+	#tag Event
+		Sub Action()
+		  For i As Integer = MediaList.ListCount - 1 DownTo 0
+		    If MediaList.Selected(i) Then
+		      mPlayer.Playlist.Remove(i)
+		      MediaList.RemoveRow(i)
+		    End If
+		  Next
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events SaveListBtn
+	#tag Event
+		Sub Action()
+		  Dim dst As FolderItem = GetSaveFolderItem(MediaFileTypes.M3UPlaylist, "Untited playlist")
+		  If dst <> Nil Then
+		    Dim bs As BinaryStream = BinaryStream.Create(dst, True)
+		    libvlc.PlayLists.WriteM3U(mPlayer.Playlist, bs)
+		    bs.Close
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
