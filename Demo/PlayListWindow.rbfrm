@@ -215,16 +215,26 @@ Begin Window PlayListWindow
       Visible         =   True
       Width           =   65
    End
-   Begin PushButton AddFilesBtn
+   Begin BevelButton AddFilesBtn
+      AcceptFocus     =   ""
       AutoDeactivate  =   True
+      BackColor       =   ""
+      Bevel           =   ""
       Bold            =   True
-      ButtonStyle     =   0
-      Cancel          =   ""
+      ButtonType      =   ""
       Caption         =   "+"
-      Default         =   False
+      CaptionAlign    =   3
+      CaptionDelta    =   ""
+      CaptionPlacement=   ""
       Enabled         =   True
+      HasBackColor    =   ""
+      HasMenu         =   2
       Height          =   22
       HelpTag         =   "Add tracks"
+      Icon            =   ""
+      IconAlign       =   ""
+      IconDX          =   ""
+      IconDY          =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
@@ -234,15 +244,18 @@ Begin Window PlayListWindow
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   False
+      MenuValue       =   ""
       Scope           =   0
       TabIndex        =   28
       TabPanelIndex   =   0
       TabStop         =   True
+      TextColor       =   ""
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
       Top             =   186
       Underline       =   ""
+      Value           =   ""
       Visible         =   True
       Width           =   22
    End
@@ -761,50 +774,10 @@ End
 		End Sub
 	#tag EndEvent
 	#tag Event
-		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
-		  Select Case hitItem.Text
-		  Case "Remove"
-		    Dim row As Integer = hitItem.Tag
-		    mPlayer.Playlist.Remove(row)
-		    Me.RemoveRow(row)
-		    Return True
-		    
-		  Case "Remove all selected"
-		    For i As Integer = Me.ListCount - 1 DownTo 0
-		      If Me.Selected(i) Then
-		        mPlayer.Playlist.Remove(i)
-		        Me.RemoveRow(i)
-		      End If
-		    Next
-		    Return True
-		    
-		  End Select
-		End Function
-	#tag EndEvent
-	#tag Event
 		Function MouseDown(x As Integer, y As Integer) As Boolean
 		  #pragma Unused x
 		  #pragma Unused y
 		  Return IsContextualClick And Me.SelCount <> 0
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
-		  ' Dim row As Integer = Me.RowFromXY(x, y)
-		  ' Dim ok As Boolean
-		  ' If row >= 0 Then
-		  ' Dim remove As New MenuItem("Remove")
-		  ' remove.Tag = row
-		  ' base.Append(remove)
-		  ' ok = True
-		  ' End If
-		  ' If Me.SelCount > 1 Then
-		  ' Dim removeselected As New MenuItem("Remove all selected")
-		  ' base.Append(removeselected)
-		  ' ok = True
-		  ' End If
-		  ' 
-		  ' Return ok
 		End Function
 	#tag EndEvent
 #tag EndEvents
@@ -874,6 +847,9 @@ End
 		          Next
 		        End If
 		      Next
+		      
+		    ElseIf thisdir.IsAMediaFile Then
+		      media.Append(thisdir)
 		    End If
 		    
 		    Do Until mPendingMediaLock.TrySignal()
@@ -942,20 +918,34 @@ End
 #tag Events AddFilesBtn
 	#tag Event
 		Sub Action()
-		  Dim dlg As New OpenDialog()
-		  dlg.Filter = MediaFileTypes.All + ";" + DemoFileTypes.All
-		  dlg.MultiSelect = True
-		  If dlg.ShowModal() = Nil Then Return
-		  Do Until mPendingDirectoriesLock.TrySignal
-		    App.YieldToNextThread
-		  Loop
-		  Try
-		    For i As Integer = 0 To dlg.Count - 1
-		      mPendingDirectories.Insert(0, dlg.Item(i))
-		    Next
-		  Finally
-		    mPendingDirectoriesLock.Release()
-		  End Try
+		  If Me.MenuValue = 0 Then
+		    
+		    Dim dlg As New OpenDialog()
+		    dlg.Filter = MediaFileTypes.All + DemoFileTypes.All
+		    dlg.MultiSelect = True
+		    If dlg.ShowModal() = Nil Then Return
+		    Do Until mPendingDirectoriesLock.TrySignal
+		      App.YieldToNextThread
+		    Loop
+		    Try
+		      For i As Integer = 0 To dlg.Count - 1
+		        mPendingDirectories.Insert(0, dlg.Item(i))
+		      Next
+		    Finally
+		      mPendingDirectoriesLock.Release()
+		    End Try
+		  Else
+		    Dim f As FolderItem = SelectFolder()
+		    If f = Nil Then Return
+		    Do Until mPendingDirectoriesLock.TrySignal
+		      App.YieldToNextThread
+		    Loop
+		    Try
+		      mPendingDirectories.Insert(0, f)
+		    Finally
+		      mPendingDirectoriesLock.Release()
+		    End Try
+		  End If
 		  
 		  Select Case DirectoryLoader.State
 		  Case Thread.Running, Thread.Waiting, Thread.Sleeping
@@ -966,6 +956,12 @@ End
 		    DirectoryLoader.Run
 		  End Select
 		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Open()
+		  Me.AddRow("Load files...")
+		  Me.AddRow("Load folder...")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
