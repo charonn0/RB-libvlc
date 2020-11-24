@@ -11,8 +11,6 @@ Protected Class TranscodeOptions
 		    audio.Append("samplerate=" + Format(AudioSampleRate, "#####0"))
 		  End Select
 		  If AudioEncoder <> "" Then audio.Append("aenc=" + AudioEncoder)
-		  If AudioSampleRate > 0 Then audio.Append("samplerate=" + Format(AudioSampleRate, "#####0"))
-		  
 		  If audio.Ubound > -1 Then Return Join(audio, ",")
 		End Function
 	#tag EndMethod
@@ -48,7 +46,7 @@ Protected Class TranscodeOptions
 		Private Function Output_ToString() As String
 		  Dim output() As String
 		  If OutputAccess <> "" Then output.Append("access=" + OutputAccess)
-		  If OutputDestination <> "" Then output.Append("dst=" + OutputDestination)
+		  If OutputDestination <> "" Then output.Append("dst=""" + OutputDestination + """")
 		  If OutputMuxer <> "" Then output.Append("mux=" + OutputMuxer)
 		  If SubtitleOverlay Then output.Append("soverlay")
 		  If SubtitleEncoder <> "" Then output.Append("senc=" + SubtitleEncoder)
@@ -71,22 +69,22 @@ Protected Class TranscodeOptions
 		Function ToString() As String
 		  Dim audio As String = Audio_ToString()
 		  Dim video As String = Video_ToString()
-		  If video <> "" Then video = video + ","
 		  Dim output As String = Output_ToString()
 		  Dim dupe As String = Duplicate_ToString()
 		  Dim es As String = ElementaryStream_ToString()
 		  
-		  Dim cmd As String = ":sout="
+		  Dim cmd As String
 		  If audio <> "" And video <> "" Then
-		    cmd = ":sout=#transcode{" + video + "," + audio + "}"
+		    cmd = "#transcode{" + video + "," + audio + "}"
 		  ElseIf video <> "" Then
-		    cmd = ":sout=#transcode{" + video + "}"
+		    cmd = "#transcode{" + video + "}"
 		  ElseIf audio <> "" then
-		    cmd = ":sout=#transcode{" + audio + "}"
+		    cmd = "#transcode{" + audio + "}"
 		  End If
 		  If dupe <> "" Then cmd = cmd + dupe
 		  If es <> "" Then cmd = cmd + es
 		  If output <> "" Then cmd = cmd + output
+		  If cmd <> "" Then cmd = ":sout=" + cmd
 		  Return cmd
 		End Function
 	#tag EndMethod
@@ -104,7 +102,7 @@ Protected Class TranscodeOptions
 		  If VideoHeight > 0 Then video.Append("height=" + Format(VideoHeight, "#####0"))
 		  If ThreadCount > 0 Then video.Append("threads=" + Format(ThreadCount, "#####0"))
 		  
-		  If video.Ubound > -1 Then Return Join(video, ",")
+		  Return Join(video, ",")
 		End Function
 	#tag EndMethod
 
@@ -147,7 +145,14 @@ Protected Class TranscodeOptions
 			
 			This option allows you to specify the codec the audio tracks of the input stream should be transcoded to.
 			
-			List of available codecs can be found on the streaming features page.(https://www.videolan.org/streaming/features.html)
+			mpga     MPEG audio (recommended for portability)
+			mp3      MPEG Layer 3 audio
+			mp4a     MP4 audio
+			a52      Dolby Digital (A52 or AC3)
+			vorb     Vorbis
+			opus     Opus
+			spx      Speex
+			flac     FLAC
 		#tag EndNote
 		AudioCodec As String
 	#tag EndProperty
@@ -575,7 +580,34 @@ Protected Class TranscodeOptions
 			
 			This option allows to specify the codec the video tracks of the input stream should be transcoded to.
 			
-			List of available codecs can be found on the streaming features page (https://www.videolan.org/streaming/features.html)
+			mp1v     MPEG-1 Video - recommended for portability
+			mp2v     MPEG-2 Video - used in DVDs
+			mp4v     MPEG-4 Video
+			SVQ1     Sorenson Video v1
+			SVQ3     Sorenson Video v3
+			DVDv     VOB Video - used in DVDs
+			WMV1     Windows Media Video v1
+			WMV2     Windows Media Video v2
+			WMV3     Windows Media Video v3, also called Windows Media 9 (unsupported)
+			DVSD     Digital Video
+			MJPG     MJPEG
+			H263     H263
+			h264     H264
+			theo     Theora
+			IV20     Indeo Video
+			IV40     Indeo Video version 4 or later
+			RV10     Real Media Video
+			cvid     Cinepak
+			VP31     On2 VP3
+			FLV1     Flash Video
+			CYUV     Creative YUV
+			HFYU     Huffman YUV
+			MSVC     Microsoft Video v1
+			MRLE     Microsoft RLE Video
+			AASC     Autodesk Animator Studio Codec RLE Video
+			FLIC     FLIC video
+			QPEG     QPEG Video
+			VP8     VP8 Video
 		#tag EndNote
 		VideoCodec As String
 	#tag EndProperty
@@ -801,56 +833,67 @@ Protected Class TranscodeOptions
 			Name="DuplicateDestination"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DuplicateSelect"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamAccess"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamAccessAudio"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamAccessVideo"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamAudioDestination"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamAudioMuxer"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamDestination"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamMuxer"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamVideoDestination"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ElementaryStreamVideoMuxer"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -914,6 +957,7 @@ Protected Class TranscodeOptions
 			Name="OutputSAPGroup"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="OutputSAPIPv6"
@@ -924,6 +968,7 @@ Protected Class TranscodeOptions
 			Name="OutputSAPName"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="OutputSLP"
