@@ -7,7 +7,7 @@ Begin Window OpenMedia
    Frame           =   1
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   8.3e+1
+   Height          =   91
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -23,7 +23,7 @@ Begin Window OpenMedia
    Resizeable      =   False
    Title           =   "Open media"
    Visible         =   True
-   Width           =   4.36e+2
+   Width           =   6.0e+2
    Begin TextField MediaURL
       AcceptTabs      =   ""
       Alignment       =   0
@@ -52,7 +52,7 @@ Begin Window OpenMedia
       Password        =   ""
       ReadOnly        =   ""
       Scope           =   0
-      TabIndex        =   0
+      TabIndex        =   1
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
@@ -64,7 +64,7 @@ Begin Window OpenMedia
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   True
-      Width           =   264
+      Width           =   428
    End
    Begin PushButton GetFile
       AutoDeactivate  =   True
@@ -79,14 +79,14 @@ Begin Window OpenMedia
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   296
+      Left            =   460
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   False
       LockRight       =   True
       LockTop         =   True
       Scope           =   0
-      TabIndex        =   1
+      TabIndex        =   2
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -110,14 +110,14 @@ Begin Window OpenMedia
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   356
+      Left            =   520
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   False
       LockRight       =   True
       LockTop         =   True
       Scope           =   0
-      TabIndex        =   2
+      TabIndex        =   3
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -148,7 +148,7 @@ Begin Window OpenMedia
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   5
+      TabIndex        =   0
       TabPanelIndex   =   0
       Text            =   "Media URL:"
       TextAlign       =   0
@@ -175,20 +175,20 @@ Begin Window OpenMedia
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   221
+      Left            =   314
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   ""
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   4
+      TabIndex        =   10
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   54
+      Top             =   62
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -206,20 +206,20 @@ Begin Window OpenMedia
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   135
+      Left            =   228
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   ""
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   3
+      TabIndex        =   9
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   54
+      Top             =   62
       Underline       =   ""
       Visible         =   True
       Width           =   80
@@ -252,7 +252,7 @@ Begin Window OpenMedia
       Password        =   ""
       ReadOnly        =   ""
       Scope           =   0
-      TabIndex        =   6
+      TabIndex        =   5
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
@@ -264,7 +264,7 @@ Begin Window OpenMedia
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   False
-      Width           =   336
+      Width           =   494
    End
    Begin Label Label2
       AutoDeactivate  =   True
@@ -286,7 +286,7 @@ Begin Window OpenMedia
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   7
+      TabIndex        =   4
       TabPanelIndex   =   0
       Text            =   "Options:"
       TextAlign       =   0
@@ -316,10 +316,10 @@ Begin Window OpenMedia
       LockRight       =   ""
       LockTop         =   False
       Scope           =   0
-      TabIndex        =   8
+      TabIndex        =   6
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   58
+      Top             =   66
       Value           =   False
       Visible         =   True
       Width           =   18
@@ -336,7 +336,7 @@ Begin Window OpenMedia
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   469
+      Left            =   468
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -350,7 +350,7 @@ Begin Window OpenMedia
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   -3
+      Top             =   -60
       Underline       =   ""
       Value           =   False
       Visible         =   True
@@ -365,17 +365,17 @@ Begin Window OpenMedia
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   418
+      Left            =   581
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   ""
       LockTop         =   True
       Scope           =   0
-      TabIndex        =   10
+      TabIndex        =   7
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   58
+      Top             =   64
       Value           =   False
       Visible         =   False
       Width           =   18
@@ -392,17 +392,17 @@ Begin Window OpenMedia
       DataSource      =   ""
       Enabled         =   True
       Format          =   ""
-      Height          =   100
+      Height          =   69
       HelpTag         =   ""
       HideSelection   =   True
       Index           =   -2147483648
       Italic          =   ""
       Left            =   80
       LimitText       =   0
-      LockBottom      =   ""
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   ""
+      LockRight       =   True
       LockTop         =   True
       Mask            =   ""
       Multiline       =   True
@@ -411,7 +411,7 @@ Begin Window OpenMedia
       ScrollbarHorizontal=   ""
       ScrollbarVertical=   True
       Styled          =   True
-      TabIndex        =   11
+      TabIndex        =   8
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
@@ -423,12 +423,50 @@ Begin Window OpenMedia
       Underline       =   ""
       UseFocusRing    =   True
       Visible         =   False
-      Width           =   336
+      Width           =   500
+   End
+   Begin AdvancedOptionsEditor OptionsEditor
+      BackColor       =   &hFFFFFF
+      Backdrop        =   ""
+      CloseButton     =   True
+      Composite       =   False
+      Frame           =   0
+      FullScreen      =   False
+      HasBackColor    =   False
+      Height          =   185
+      ImplicitInstance=   True
+      InitialParent   =   ""
+      LiveResize      =   True
+      LockedInPosition=   False
+      MacProcID       =   0
+      MaxHeight       =   32000
+      MaximizeButton  =   False
+      MaxWidth        =   32000
+      MenuBar         =   ""
+      MenuBarVisible  =   True
+      MinHeight       =   64
+      MinimizeButton  =   True
+      MinWidth        =   64
+      Placement       =   0
+      Resizeable      =   True
+      Scope           =   0
+      TabPanelIndex   =   0
+      Title           =   "Untitled"
+      Visible         =   False
+      Width           =   500
    End
 End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Open()
+		  OptionsEditor.Left = -1500
+		  OptionsEditor.Visible = False
+		End Sub
+	#tag EndEvent
+
+
 	#tag Method, Flags = &h0
 		Function Load(Optional InitialValue As libvlc.Medium) As libvlc.Medium
 		  mMedium = InitialValue
@@ -537,6 +575,8 @@ End
 		    MediaOpts.Visible = False
 		    MoreSpaceDTriangle.Visible = False
 		    Me.HelpTag = "Show options"
+		    OptionsEditor.Top = -100000
+		    OptionsEditor.Visible = False
 		  End If
 		End Sub
 	#tag EndEvent
@@ -545,16 +585,28 @@ End
 	#tag Event
 		Sub Action()
 		  If Me.Value Then
-		    Self.Height = 197
+		    Self.Height = 347
 		    MediaOpts.Visible = False
 		    OptionsText.Visible = True
 		    Me.HelpTag = "Less space"
+		    OptionsEditor.Left = 80
+		    OptionsEditor.Top = 131
+		    OptionsEditor.Visible = True
 		  Else
 		    Self.Height = 121
 		    MediaOpts.Visible = True
 		    OptionsText.Visible = False
 		    Me.HelpTag = "More space"
+		    OptionsEditor.Top = -100000
+		    OptionsEditor.Visible = False
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events OptionsEditor
+	#tag Event
+		Sub OptionsChanged(NewOptions As libvlc.TranscodeOptions)
+		  MediaOpts.Text = NewOptions.ToString()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
