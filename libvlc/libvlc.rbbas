@@ -158,7 +158,7 @@ Protected Module libvlc
 		  ' Returns True if the file is likely a m3u file
 		  Static extensions() As String = Array("m3u", "m3u8")
 		  Dim ext As String = NthField(f.Name, ".", CountFields(f.Name, "."))
-		  Dim islist As Boolean = True
+		  Dim islist As Boolean
 		  If extensions.IndexOf(ext) > -1 Then
 		    islist = True
 		    Dim tmp As BinaryStream
