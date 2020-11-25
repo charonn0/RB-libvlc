@@ -750,7 +750,7 @@ Protected Class TranscodeOptions
 		#tag Setter
 			Set
 			  mVideoScale = value
-			  mVideoScaleModified = True
+			  mVideoScaleModified = (value > 0.001)
 			End Set
 		#tag EndSetter
 		VideoScale As Double
