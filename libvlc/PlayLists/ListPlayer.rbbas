@@ -127,8 +127,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h21
 		Private Sub StateChangeTimerHandler(Sender As Timer)
 		  #pragma Unused Sender
-		  If mPlayer <> Nil And Me.CurrentState <> mLastState Then
+		  If mPlayer <> Nil And (Me.CurrentState <> mLastState) Or Me.ListIndex <> mLastIndex Then 
 		    mLastState = Me.CurrentState
+		    mLastIndex = Me.ListIndex
 		    RaiseEvent ChangedState()
 		  End If
 		End Sub
@@ -221,7 +222,7 @@ Inherits libvlc.VLCInstance
 		#tag Getter
 			Get
 			  If mPlayList = Nil Then Return -1
-			  return mPlayList.CurrentIndex()
+			  return mPlayList.CurrentIndex
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -232,6 +233,10 @@ Inherits libvlc.VLCInstance
 		#tag EndSetter
 		ListIndex As Integer
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mLastIndex As Integer = -1
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mLastState As libvlc.PlayerState
