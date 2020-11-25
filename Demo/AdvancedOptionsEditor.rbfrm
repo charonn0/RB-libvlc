@@ -34,7 +34,7 @@ Begin ContainerControl AdvancedOptionsEditor
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      InitialValue    =   "\r\nfile\r\nAppend\r\nudp\r\nhttp\r\nhttps\r\nmmsh\r\nshout"
+      InitialValue    =   "\r\nfile\r\nappend\r\nudp\r\nhttp\r\nhttps\r\nmmsh\r\nshout"
       Italic          =   ""
       Left            =   105
       ListIndex       =   0

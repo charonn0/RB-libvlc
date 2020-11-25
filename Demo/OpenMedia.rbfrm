@@ -362,7 +362,7 @@ Begin Window OpenMedia
       Enabled         =   True
       Facing          =   0
       Height          =   18
-      HelpTag         =   ""
+      HelpTag         =   "More space"
       Index           =   -2147483648
       InitialParent   =   ""
       Left            =   581
