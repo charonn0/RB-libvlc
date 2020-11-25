@@ -528,7 +528,7 @@ End
 		  End If
 		  If playarrow = Nil Then
 		    playarrow = New Picture(100, 100, 32)
-		    playarrow.Transparent = 1
+		    ' playarrow.Transparent = 1
 		    playarrow.Graphics.AntiAlias = True
 		    playarrow.Graphics.ForeColor = &c00FF0000
 		    playarrow.Graphics.DrawLine(0, 0, 100, 50)
@@ -536,6 +536,7 @@ End
 		    playarrow.Graphics.DrawLine(1, 1, 1, 100)
 		    playarrow.RGBSurface.FloodFill(50, 50, &c00FF0000)
 		    Dim tmp As New Picture(10, 10, 32)
+		    tmp.Transparent = 1
 		    tmp.Graphics.DrawPicture(playarrow, 0, 0, 10, 10, 0, 0, playarrow.Width, playarrow.Height)
 		    playarrow = tmp
 		  End If
