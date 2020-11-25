@@ -1543,7 +1543,17 @@ End
 	#tag Event
 		Sub DropObject(obj As DragItem, action As Integer)
 		  #pragma Unused action
-		  LoadMedia(obj.FolderItem)
+		  If obj.FolderItem <> Nil Then
+		    LoadMedia(obj.FolderItem)
+		  ElseIf mPlaylistWindow <> Nil Then
+		    Dim txt As String = obj.Text.Trim
+		    If txt <> "" Then
+		      Dim i As Integer = Val(txt)
+		      If i > mPlaylistWindow.Count - 1 Then Return
+		      mPlaylistWindow.CurrentIndex = i
+		    End If
+		    
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
