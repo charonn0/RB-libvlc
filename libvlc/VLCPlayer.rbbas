@@ -33,7 +33,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub AudioTrack(Assigns NewTrack As Integer)
+		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.CurrentIndex" )  Sub AudioTrack(Assigns NewTrack As Integer)
 		  ' Sets the audio track to the I_ID specified by NewTrack. Call AudioTrackID to get the I_ID.
 		  
 		  If mPlayer = Nil Then Raise New NilObjectException
@@ -42,21 +42,21 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function AudioTrackCount() As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.Count" )  Function AudioTrackCount() As Integer
 		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
 		  If lst <> Nil Then Return lst.Count
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function AudioTrackDescription(TrackNumber As Integer) As String
+		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.Name" )  Function AudioTrackDescription(TrackNumber As Integer) As String
 		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
 		  If lst <> Nil Then Return lst.Name(TrackNumber)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function AudioTrackID(TrackNumber As Integer) As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.ID" )  Function AudioTrackID(TrackNumber As Integer) As Integer
 		  ' Returns the I_ID member of the Audio Track at TrackNumber
 		  
 		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
@@ -65,25 +65,17 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function AudioTrackIndex(TrackID As Integer) As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.IndexOf" )  Function AudioTrackIndex(TrackID As Integer) As Integer
 		  ' Returns the index of the Audio Track corresponding to TrackID, or -1
 		  
 		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
-		  If lst <> Nil Then 
+		  If lst <> Nil Then
 		    Dim c As Integer = lst.Count
 		    For i As Integer = 0 To c - 1
 		      If lst.ID(i) = TrackID Then Return i
 		    Next
 		  End If
 		  Return -1
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function AudioTracks() As libvlc.Meta.TrackList
-		  If mPlayer = Nil Then Return Nil
-		  Dim p As Ptr = libvlc_audio_get_track_description(mPlayer)
-		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
 		End Function
 	#tag EndMethod
 
@@ -421,7 +413,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ToggleTeletext()
+		Attributes( deprecated )  Sub ToggleTeletext()
 		  If mPlayer <> Nil Then libvlc_toggle_teletext(mPlayer)
 		End Sub
 	#tag EndMethod
@@ -447,59 +439,51 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function VideoTrack() As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentIndex" )  Function VideoTrack() As Integer
 		  If mPlayer <> Nil Then Return libvlc_video_get_track(mPlayer)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub VideoTrack(Assigns NewTrack As Integer)
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentIndex" )  Sub VideoTrack(Assigns NewTrack As Integer)
 		  If mPlayer = Nil Then Raise New NilObjectException
 		  If libvlc_video_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the video track to that index.")
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function VideoTrackCount() As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.Count" )  Function VideoTrackCount() As Integer
 		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
 		  If lst <> Nil Then Return lst.Count
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function VideoTrackDescription(TrackNumber As Integer) As String
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.Name" )  Function VideoTrackDescription(TrackNumber As Integer) As String
 		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
 		  If lst <> Nil Then Return lst.Name(TrackNumber)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function VideoTrackID(TrackNumber As Integer) As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.ID" )  Function VideoTrackID(TrackNumber As Integer) As Integer
 		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
 		  If lst <> Nil Then Return lst.ID(TrackNumber)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function VideoTrackIndex(TrackID As Integer) As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.IndexOf" )  Function VideoTrackIndex(TrackID As Integer) As Integer
 		  ' Returns the index of the Video Track corresponding to TrackID, or -1
 		  
 		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
-		  If lst <> Nil Then 
+		  If lst <> Nil Then
 		    Dim c As Integer = lst.Count
 		    For i As Integer = 0 To c - 1
 		      If lst.ID(i) = TrackID Then Return i
 		    Next
 		  End If
 		  Return -1
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function VideoTracks() As libvlc.Meta.TrackList
-		  If mPlayer = Nil Then Return Nil
-		  Dim p As Ptr = libvlc_video_get_track_description(mPlayer)
-		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
 		End Function
 	#tag EndMethod
 
@@ -542,6 +526,17 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		AspectRatio As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer = Nil Then Return Nil
+			  Dim p As Ptr = libvlc_audio_get_track_description(mPlayer)
+			  If p <> Nil Then Return New libvlc.Meta.AudioTrackList(p, Me)
+			End Get
+		#tag EndGetter
+		AudioTracks As libvlc.Meta.AudioTrackList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -679,7 +674,8 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return Me.AudioTrackCount > 0
+			  If Me.AudioTracks = Nil Then Return False
+			  Return Me.AudioTracks.Count > 0
 			End Get
 		#tag EndGetter
 		HasAudio As Boolean
@@ -688,7 +684,8 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return Me.SubtitleCount > 0
+			  If Me.Subtitles = Nil Then Return False
+			  Return Me.Subtitles.Count > 0
 			End Get
 		#tag EndGetter
 		HasSubtitles As Boolean
@@ -697,7 +694,8 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return Me.VideoTrackCount > 0
+			  If Me.VideoTracks = Nil Then Return False
+			  Return Me.VideoTracks.Count > 0
 			End Get
 		#tag EndGetter
 		HasVideo As Boolean
@@ -815,7 +813,7 @@ Inherits libvlc.VLCInstance
 			  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
 			End Get
 		#tag EndGetter
-		SubtitleCount As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.Subtitles.Count" ) SubtitleCount As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -830,7 +828,7 @@ Inherits libvlc.VLCInstance
 			  If libvlc_video_set_spu(mPlayer, value) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
 			End Set
 		#tag EndSetter
-		SubtitleIndex As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.Subtitles.CurrentIndex" ) SubtitleIndex As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -838,10 +836,12 @@ Inherits libvlc.VLCInstance
 			Get
 			  If mPlayer = Nil Then Return Nil
 			  Dim p As Ptr = libvlc_video_get_spu_description(mPlayer)
-			  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
+			  If p <> Nil Then
+			    Return New libvlc.Meta.SubtitlesTrackList(p, Me)
+			  End If
 			End Get
 		#tag EndGetter
-		SubTitles As libvlc.Meta.TrackList
+		Subtitles As libvlc.Meta.SubtitlesTrackList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -864,6 +864,17 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		TimeMS As Int64
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer = Nil Then Return Nil
+			  Dim p As Ptr = libvlc_video_get_track_description(mPlayer)
+			  If p <> Nil Then Return New libvlc.Meta.VideoTrackList(p, Me)
+			End Get
+		#tag EndGetter
+		VideoTracks As libvlc.Meta.VideoTrackList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
