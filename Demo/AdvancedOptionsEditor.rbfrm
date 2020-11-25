@@ -1226,7 +1226,13 @@ End
 		Sub Action()
 		  Dim f As FolderItem = GetSaveFolderItem(MediaFileTypes.All, "")
 		  If f = Nil Then Return
-		  StdDstField.Text = f.AbsolutePath
+		  
+		  #If RBVersion > 2019 Then
+		    StdDstField.Text = f.NativePath
+		  #Else
+		    StdDstField.Text = f.AbsolutePath
+		  #endif
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
