@@ -2,18 +2,6 @@
 Protected Class ListPlayer
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
-		Function CanMoveNext() As Boolean
-		  Return mPlayList <> Nil And ListIndex < mPlayList.Count - 1
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function CanMovePrev() As Boolean
-		  Return mPlayList <> Nil And ListIndex > 0
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor()
 		  Super.Constructor(DEFAULT_ARGS)
 		  mPlayer = libvlc_media_list_player_new(Me.Instance)
@@ -183,6 +171,24 @@ Inherits libvlc.VLCInstance
 		This class plays a PlayList object containing one or more Medium objects
 	#tag EndNote
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mPlayList <> Nil And ListIndex < mPlayList.Count - 1
+			End Get
+		#tag EndGetter
+		CanMoveNext As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mPlayList <> Nil And Me.ListIndex > 0
+			End Get
+		#tag EndGetter
+		CanMovePrev As Boolean
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
