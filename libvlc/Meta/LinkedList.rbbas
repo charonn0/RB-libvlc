@@ -8,18 +8,6 @@ Protected Class LinkedList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Count() As Integer
-		  Dim p As Ptr = mList
-		  Dim count As Integer
-		  Do Until p = Nil
-		    p = p.Ptr(mStructSize)
-		    count = count + 1
-		  Loop
-		  Return count
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function Item(Index As Integer) As Ptr
 		  Dim p As Ptr = mList
 		  Dim count As Integer
@@ -33,6 +21,21 @@ Protected Class LinkedList
 		End Function
 	#tag EndMethod
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Dim p As Ptr = mList
+			  Dim count As Integer
+			  Do Until p = Nil
+			    p = p.Ptr(mStructSize)
+			    count = count + 1
+			  Loop
+			  Return count
+			End Get
+		#tag EndGetter
+		Count As Integer
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
 		Protected mList As Ptr

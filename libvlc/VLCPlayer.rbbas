@@ -402,33 +402,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function SubtitleCount() As Integer
-		  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function SubtitleIndex() As Integer
-		  If mPlayer <> Nil Then Return libvlc_video_get_spu(mPlayer)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub SubtitleIndex(Assigns NewIndex As Integer)
-		  If mPlayer = Nil Then Return
-		  If libvlc_video_set_spu(mPlayer, NewIndex) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Subtitles() As libvlc.Meta.TrackList
-		  If mPlayer = Nil Then Return Nil
-		  Dim p As Ptr = libvlc_video_get_spu_description(mPlayer)
-		  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function TakeSnapshot(Optional VideoIndex As Integer) As Picture
 		  If mPlayer = Nil Then Return Nil
 		  
@@ -834,6 +807,41 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		Speed As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
+			End Get
+		#tag EndGetter
+		SubtitleCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return libvlc_video_get_spu(mPlayer)
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer = Nil Then Return
+			  If libvlc_video_set_spu(mPlayer, value) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
+			End Set
+		#tag EndSetter
+		SubtitleIndex As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer = Nil Then Return Nil
+			  Dim p As Ptr = libvlc_video_get_spu_description(mPlayer)
+			  If p <> Nil Then Return New libvlc.Meta.TrackList(p)
+			End Get
+		#tag EndGetter
+		SubTitles As libvlc.Meta.TrackList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
