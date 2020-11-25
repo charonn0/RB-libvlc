@@ -510,7 +510,7 @@ Begin Window PlayerWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      InitialValue    =   ""
+      InitialValue    =   "\r\nAdd subtitles file..."
       Italic          =   ""
       Left            =   68
       ListIndex       =   0
@@ -556,13 +556,13 @@ Begin Window PlayerWindow
       TabPanelIndex   =   0
       Text            =   "Subtitle:"
       TextAlign       =   2
-      TextColor       =   &h000000FF
+      TextColor       =   &h00000000
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
       Top             =   370
       Transparent     =   False
-      Underline       =   True
+      Underline       =   False
       Visible         =   True
       Width           =   55
    End
@@ -1000,50 +1000,71 @@ End
 	#tag Method, Flags = &h21
 		Private Sub UpdateUI()
 		  Try
-		    Dim c As Integer = Player.TruePlayer.SubtitleCount
-		    SubtitleTracks.DeleteAllRows
-		    If c > 0 Then
-		      For i As Integer = 0 To c - 1
-		        Dim ID As Integer = Player.TruePlayer.Subtitles.ID(i)
-		        SubtitleTracks.AddRow(Player.TruePlayer.Subtitles.Name(i))
-		        SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = Player.TruePlayer.Subtitles.ID(i)
-		        If ID = Player.TruePlayer.SubtitleIndex Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
-		      Next
-		      SubtitleTracks.Enabled = True
-		    Else
-		      SubtitleTracks.Enabled = False
-		    End If
-		    
-		    c = Player.TruePlayer.VideoTrackCount
-		    VideoTracks.DeleteAllRows
-		    If c > 0 Then
-		      For i As Integer = 0 To c - 1
-		        Dim ID As Integer = Player.TruePlayer.VideoTrackID(i)
-		        VideoTracks.AddRow(Player.TruePlayer.VideoTrackDescription(i))
-		        VideoTracks.RowTag(VideoTracks.ListCount - 1) = ID
-		        If ID = Player.TruePlayer.VideoTrack Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
-		      Next
-		      VideoTracks.Enabled = True
-		    Else
-		      VideoTracks.Enabled = False
-		    End If
-		    
-		    c = Player.TruePlayer.AudioTrackCount
-		    AudioTracks.DeleteAllRows
-		    If c > 0 Then
-		      For i As Integer = 0 To c - 1
-		        Dim ID As Integer = Player.TruePlayer.AudioTrackID(i)
-		        AudioTracks.AddRow(Player.TruePlayer.AudioTrackDescription(i))
-		        AudioTracks.RowTag(AudioTracks.ListCount - 1) = ID
-		        If ID = Player.TruePlayer.AudioTrack Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
-		      Next
-		      AudioTracks.Enabled = True
-		    Else
-		      AudioTracks.Enabled = False
-		    End If
+		    UpdateUISubtitles()
+		    UpdateUIVideo()
+		    UpdateUIAudio()
 		  Finally
 		    mLock = False
 		  End Try
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub UpdateUIAudio()
+		  Dim auds As libvlc.Meta.TrackList = Player.TruePlayer.AudioTracks
+		  AudioTracks.DeleteAllRows
+		  If auds = Nil Then
+		    AudioTracks.Enabled = False
+		  Else
+		    Dim c As Integer = auds.Count
+		    For i As Integer = 0 To c - 1
+		      Dim ID As Integer = auds.ID(i)
+		      AudioTracks.AddRow(auds.Name(i))
+		      AudioTracks.RowTag(AudioTracks.ListCount - 1) = ID
+		      If ID = Player.TruePlayer.AudioTrack Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
+		    Next
+		    AudioTracks.Enabled = True
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub UpdateUISubtitles()
+		  Dim subs As libvlc.Meta.TrackList = Player.TruePlayer.Subtitles
+		  SubtitleTracks.DeleteAllRows
+		  If subs = Nil Then
+		    SubtitleTracks.AddRow("")
+		    SubtitleTracks.AddRow("Add subtitles file...")
+		    SubtitleTracks.Enabled = Player.HasVideo
+		  Else
+		    Dim c As Integer = subs.Count
+		    For i As Integer = 0 To c - 1
+		      Dim ID As Integer = subs.ID(i)
+		      SubtitleTracks.AddRow(subs.Name(i))
+		      SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = subs.ID(i)
+		      If ID = Player.TruePlayer.Subtitles.CurrentIndex Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
+		    Next
+		    SubtitleTracks.Enabled = True
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub UpdateUIVideo()
+		  Dim vids As libvlc.Meta.TrackList = Player.TruePlayer.VideoTracks
+		  VideoTracks.DeleteAllRows
+		  If vids = Nil Then
+		    VideoTracks.Enabled = False
+		  Else
+		    For i As Integer = 0 To vids.Count - 1
+		      Dim ID As Integer = vids.ID(i)
+		      VideoTracks.AddRow(vids.Name(i))
+		      VideoTracks.RowTag(VideoTracks.ListCount - 1) = ID
+		      If ID = Player.TruePlayer.VideoTracks.CurrentIndex Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
+		    Next
+		    VideoTracks.Enabled = True
+		  End If
+		  
 		End Sub
 	#tag EndMethod
 
@@ -1212,7 +1233,7 @@ End
 		Sub Change()
 		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
-		      Player.TruePlayer.AudioTrack = Me.RowTag(Me.ListIndex).Int32Value
+		      Player.TruePlayer.AudioTracks.CurrentIndex = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try
@@ -1225,7 +1246,7 @@ End
 		Sub Change()
 		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
-		      Player.TruePlayer.VideoTrack = Me.RowTag(Me.ListIndex).Int32Value
+		      Player.TruePlayer.VideoTracks.CurrentIndex = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try
@@ -1331,44 +1352,22 @@ End
 #tag Events SubtitleTracks
 	#tag Event
 		Sub Change()
-		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
+		  If mLock Then Return
+		  If Me.Text = "Add subtitles file..." Then
+		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.SubRip)
+		    If f = Nil Then Return
+		    If Not Player.TruePlayer.SetSubtitleFile(f) Then
+		      MsgBox("Unable to set subtitle file!")
+		    End If
+		    App.SleepCurrentThread(200) ' give libvlc time to parse the file before updating our UI
+		    UpdateUI()
+		  ElseIf Me.RowTag(Me.ListIndex) <> Nil Then
 		    Try
-		      Player.TruePlayer.SubtitleIndex = Me.RowTag(Me.ListIndex).Int32Value
+		      Player.TruePlayer.Subtitles.CurrentIndex = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try
 		  End If
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events Label1
-	#tag Event
-		Sub MouseEnter()
-		  Me.MouseCursor = System.Cursors.FingerPointer
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub MouseExit()
-		  Me.MouseCursor = System.Cursors.StandardPointer
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Function MouseDown(X As Integer, Y As Integer) As Boolean
-		  #pragma Unused X
-		  #pragma Unused Y
-		  Return True
-		End Function
-	#tag EndEvent
-	#tag Event
-		Sub MouseUp(X As Integer, Y As Integer)
-		  #pragma Unused X
-		  #pragma Unused Y
-		  Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.SubRip)
-		  If f = Nil Then Return
-		  If Not Player.TruePlayer.SetSubtitleFile(f) Then
-		    MsgBox("Unable to set subtitle file!")
-		  End If
-		  UpdateUI()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
