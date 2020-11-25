@@ -11,7 +11,7 @@ Begin ContainerControl AdvancedOptionsEditor
    Height          =   185
    HelpTag         =   ""
    InitialParent   =   ""
-   Left            =   3.2e+1
+   Left            =   32
    LockBottom      =   ""
    LockLeft        =   ""
    LockRight       =   ""
@@ -19,7 +19,7 @@ Begin ContainerControl AdvancedOptionsEditor
    TabIndex        =   0
    TabPanelIndex   =   0
    TabStop         =   True
-   Top             =   3.2e+1
+   Top             =   32
    UseFocusRing    =   ""
    Visible         =   True
    Width           =   500
@@ -467,7 +467,7 @@ Begin ContainerControl AdvancedOptionsEditor
       Selectable      =   False
       TabIndex        =   14
       TabPanelIndex   =   0
-      Text            =   2
+      Text            =   0
       TextAlign       =   0
       TextColor       =   &h000000
       TextFont        =   "System"
@@ -745,7 +745,7 @@ Begin ContainerControl AdvancedOptionsEditor
       Selectable      =   False
       TabIndex        =   23
       TabPanelIndex   =   0
-      Text            =   "0 fps"
+      Text            =   "0.0x"
       TextAlign       =   0
       TextColor       =   &h000000
       TextFont        =   "System"
@@ -835,7 +835,7 @@ Begin ContainerControl AdvancedOptionsEditor
       Selectable      =   False
       TabIndex        =   26
       TabPanelIndex   =   0
-      Text            =   1
+      Text            =   0
       TextAlign       =   0
       TextColor       =   &h000000
       TextFont        =   "System"
@@ -1050,8 +1050,8 @@ End
 		Private Sub UpdateUI(Changed As Boolean)
 		  mLockUI = True
 		  If mOptions = Nil Then mOptions = New libvlc.TranscodeOptions
-		  If mOptions.AudioBitrate > 0 Then ABitrateLbl.Text = Format(mOptions.AudioBitrate, "#####0") + " kbit/s"
-		  If mOptions.AudioChannels > 0 Then AChannels.Text = Format(mOptions.AudioChannels, "#####0")
+		  If mOptions.AudioBitrate >= 0 Then ABitrateLbl.Text = Format(mOptions.AudioBitrate, "#####0") + " kbit/s"
+		  If mOptions.AudioChannels >= 0 Then AChannels.Text = Format(mOptions.AudioChannels, "#####0")
 		  Select Case mOptions.AudioCodec
 		  Case "mpga"
 		    ACodecMnu.ListIndex = 1
@@ -1177,7 +1177,7 @@ End
 		  If mOptions.VideoFrameRate > 0 Then
 		    VFramerateLbl.Text = Format(mOptions.VideoFrameRate, "#####0") + " FPS"
 		  End If
-		  If mOptions.VideoScale > 0.001 Then VScaleLbl.Text = Format(mOptions.VideoScale, "#####0.0###") + "x"
+		  If mOptions.VideoScale > 0.01 Then VScaleLbl.Text = Format(mOptions.VideoScale, "#####0.0###") + "x"
 		  If mOptions.ThreadCount > 0 Then StdThreadCountLbl.Text = Format(mOptions.ThreadCount, "#####0")
 		  If mOptions.OutputDestination <> StdDstField.Text Then StdDstField.Text = mOptions.OutputDestination
 		  If Changed Then RaiseEvent OptionsChanged(mOptions)
@@ -1281,13 +1281,14 @@ End
 	#tag Event
 		Sub Up()
 		  If mLockUI Then Return
+		  If mOptions.AudioChannels < 0 Then mOptions.AudioChannels = 0
 		  mOptions.AudioChannels = mOptions.AudioChannels + 1
 		  UpdateUI(True)
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Sub Down()
-		  If mLockUI Or mOptions.AudioChannels = 0 Then Return
+		  If mLockUI Or mOptions.AudioChannels < 0 Then Return
 		  mOptions.AudioChannels = mOptions.AudioChannels - 1
 		  UpdateUI(True)
 		End Sub
@@ -1331,14 +1332,18 @@ End
 	#tag Event
 		Sub Up()
 		  If mLockUI Then Return
-		  mOptions.VideoScale = mOptions.VideoScale + 1.0
+		  mOptions.VideoScale = mOptions.VideoScale + 0.1
 		  UpdateUI(True)
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Sub Down()
-		  If mLockUI Or mOptions.VideoScale < 0.0001 Then Return
-		  mOptions.VideoScale = mOptions.VideoScale - 1.0
+		  If mLockUI Then Return
+		  If mOptions.VideoScale < 0.01 Then 
+		    mOptions.VideoScale = 0.0
+		  Else
+		    mOptions.VideoScale = mOptions.VideoScale - 0.1
+		  End If
 		  UpdateUI(True)
 		End Sub
 	#tag EndEvent
