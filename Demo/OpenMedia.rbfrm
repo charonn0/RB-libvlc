@@ -309,7 +309,7 @@ Begin Window OpenMedia
       HelpTag         =   "Show options"
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   14
+      Left            =   0
       LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
@@ -319,7 +319,7 @@ Begin Window OpenMedia
       TabIndex        =   6
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   66
+      Top             =   73
       Value           =   False
       Visible         =   True
       Width           =   18
@@ -365,7 +365,7 @@ Begin Window OpenMedia
       HelpTag         =   "More space"
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   581
+      Left            =   579
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -375,7 +375,7 @@ Begin Window OpenMedia
       TabIndex        =   7
       TabPanelIndex   =   0
       TabStop         =   True
-      Top             =   64
+      Top             =   60
       Value           =   False
       Visible         =   False
       Width           =   18
@@ -426,32 +426,29 @@ Begin Window OpenMedia
       Width           =   500
    End
    Begin AdvancedOptionsEditor OptionsEditor
+      AcceptFocus     =   ""
+      AcceptTabs      =   True
+      AutoDeactivate  =   True
       BackColor       =   &hFFFFFF
       Backdrop        =   ""
-      CloseButton     =   True
-      Composite       =   False
-      Frame           =   0
-      FullScreen      =   False
+      Enabled         =   True
+      EraseBackground =   True
       HasBackColor    =   False
       Height          =   185
-      ImplicitInstance=   True
+      HelpTag         =   ""
       InitialParent   =   ""
-      LiveResize      =   True
+      Left            =   666
+      LockBottom      =   ""
       LockedInPosition=   False
-      MacProcID       =   0
-      MaxHeight       =   32000
-      MaximizeButton  =   False
-      MaxWidth        =   32000
-      MenuBar         =   ""
-      MenuBarVisible  =   True
-      MinHeight       =   64
-      MinimizeButton  =   True
-      MinWidth        =   64
-      Placement       =   0
-      Resizeable      =   True
+      LockLeft        =   ""
+      LockRight       =   ""
+      LockTop         =   ""
       Scope           =   0
+      TabIndex        =   12
       TabPanelIndex   =   0
-      Title           =   "Untitled"
+      TabStop         =   True
+      Top             =   -57
+      UseFocusRing    =   ""
       Visible         =   False
       Width           =   500
    End
@@ -563,11 +560,14 @@ End
 	#tag Event
 		Sub Action()
 		  If Me.Value Then
-		    Self.Height = 121
+		    Self.Height = 300
 		    Label2.Visible = True
 		    MediaOpts.Visible = True
 		    MoreSpaceDTriangle.Visible = True
 		    Me.HelpTag = "Hide options"
+		    OptionsEditor.Left = 80
+		    OptionsEditor.Top = 82
+		    OptionsEditor.Visible = True
 		  Else
 		    If MoreSpaceDTriangle.Value Then MoreSpaceDTriangle.Value = False
 		    Self.Height = 91
@@ -578,6 +578,9 @@ End
 		    OptionsEditor.Top = -100000
 		    OptionsEditor.Visible = False
 		  End If
+		  
+		  
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -589,16 +592,13 @@ End
 		    MediaOpts.Visible = False
 		    OptionsText.Visible = True
 		    Me.HelpTag = "Less space"
-		    OptionsEditor.Left = 80
 		    OptionsEditor.Top = 131
-		    OptionsEditor.Visible = True
 		  Else
-		    Self.Height = 121
+		    Self.Height = 300
 		    MediaOpts.Visible = True
 		    OptionsText.Visible = False
 		    Me.HelpTag = "More space"
-		    OptionsEditor.Top = -100000
-		    OptionsEditor.Visible = False
+		    OptionsEditor.Top = 82
 		  End If
 		End Sub
 	#tag EndEvent
