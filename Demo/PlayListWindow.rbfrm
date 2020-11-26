@@ -469,6 +469,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub ListPlayerStateChangedHandler(Sender As libvlc.PlayLists.ListPlayer)
 		  #pragma Unused Sender
+		  mDirty = True
 		  Call NotifyStateChanged()
 		End Sub
 	#tag EndMethod
@@ -478,7 +479,7 @@ End
 		  If PrevTrackBtn = Nil Then ' window has closed
 		    Return "!INVALID"
 		  End If
-		  mDirty = mLastState <> mPlayer.CurrentState
+		  If Not mDirty Then mDirty = mLastState <> mPlayer.CurrentState
 		  mLastState = mPlayer.CurrentState
 		  UpdateUI()
 		  If CurrentIndex > -1 Then
@@ -510,8 +511,8 @@ End
 	#tag Method, Flags = &h21
 		Private Sub UpdateUI()
 		  If mDirty Then
-		    PrevTrackBtn.Enabled = mPlayer.CanMovePrev()
-		    NextTrackBtn.Enabled = mPlayer.CanMoveNext()
+		    PrevTrackBtn.Enabled = mPlayer.CanMovePrev
+		    NextTrackBtn.Enabled = mPlayer.CanMoveNext
 		    If mPlayer.CurrentState = libvlc.PlayerState.PLAYING Then
 		      PlayBtn.Caption = "Pause"
 		      StopBtn.Enabled = True
@@ -781,6 +782,31 @@ End
 		  Return IsContextualClick And Me.SelCount <> 0
 		End Function
 	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  Dim row As Integer = Me.RowFromXY(x, y)
+		  If row < 0 Then Return False
+		  Dim revealfile As New MenuItem("Locate file...")
+		  revealfile.Tag = Me.RowTag(row)
+		  base.Append(revealfile)
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case hitItem.Text
+		  Case "Locate file..."
+		    If Not (hitItem.Tag IsA libvlc.Medium) Then Return True
+		    Dim m As libvlc.Medium = libvlc.Medium(hitItem.Tag)
+		    Dim f As FolderItem = m.MediaFile
+		    If f = Nil Then
+		      Call MsgBox("That medium is not from a file.", 16, "Not a file")
+		      Return True
+		    End If
+		    f.Parent.Launch()
+		    Return True
+		  End Select
+		End Function
+	#tag EndEvent
 #tag EndEvents
 #tag Events UITimer
 	#tag Event
@@ -905,14 +931,14 @@ End
 #tag Events PrevTrackBtn
 	#tag Event
 		Sub Action()
-		  If mPlayer.CanMovePrev() Then Call mPlayer.MovePrev()
+		  If mPlayer.CanMovePrev Then Call mPlayer.MovePrev()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events NextTrackBtn
 	#tag Event
 		Sub Action()
-		  If mPlayer.CanMoveNext() Then Call mPlayer.MoveNext()
+		  If mPlayer.CanMoveNext Then Call mPlayer.MoveNext()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
