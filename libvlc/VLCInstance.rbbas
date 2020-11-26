@@ -61,18 +61,6 @@ Protected Class VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function ErrorMsg() As String
-		  Return mErrorMsg
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function Instance() As Ptr
-		  Return mInstance
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h21
 		Private Shared Sub LogCallback(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
 		  #pragma X86CallingConvention CDecl
@@ -134,6 +122,15 @@ Protected Class VLCInstance
 		AppName As String
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return mInstance
+			End Get
+		#tag EndGetter
+		Protected Instance As Ptr
+	#tag EndComputedProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
@@ -162,10 +159,6 @@ Protected Class VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mAppName As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h1
-		Protected mErrorMsg As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
