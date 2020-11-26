@@ -249,7 +249,7 @@ Inherits Canvas
 			  If mPlayer <> Nil Then Return mPlayer.MetaData
 			End Get
 		#tag EndGetter
-		MetaData As ibvlc.Meta.MetaData
+		MetaData As libvlc.Meta.MetaData
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
