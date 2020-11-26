@@ -25,7 +25,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function AudioTrack() As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.CurrentIndex" )  Function AudioTrack() As Integer
 		  ' Returns the I_ID of the current track.
 		  
 		  If mPlayer <> Nil Then Return libvlc_audio_get_track(mPlayer)
