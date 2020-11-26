@@ -79,12 +79,6 @@ Protected Class Equalizer
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function PresetIndex() As Integer
-		  Return mIndex
-		End Function
-	#tag EndMethod
-
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -129,6 +123,15 @@ Protected Class Equalizer
 			End Set
 		#tag EndSetter
 		PreAmplification As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mIndex
+			End Get
+		#tag EndGetter
+		PresetIndex As Integer
 	#tag EndComputedProperty
 
 

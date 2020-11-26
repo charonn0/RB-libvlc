@@ -245,16 +245,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function MetaData() As libvlc.Meta.MetaData
-		  Dim m As libvlc.Medium = Media
-		  If m <> Nil Then
-		    If Not m.IsParsed Then m.Parse
-		    Return New libvlc.Meta.MetaData(m)
-		  End If
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub NavigateMenu(Mode As libvlc.NavigationMode)
 		  If mPlayer <> Nil Then libvlc_media_player_navigate(mPlayer, Mode)
 		End Sub
@@ -734,6 +724,19 @@ Inherits libvlc.VLCInstance
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Dim m As libvlc.Medium = Media
+			  If m <> Nil Then
+			    If Not m.IsParsed Then m.Parse
+			    Return New libvlc.Meta.MetaData(m)
+			  End If
+			End Get
+		#tag EndGetter
+		MetaData As ibvlc.Meta.MetaData
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
 		Private mLastState As libvlc.PlayerState

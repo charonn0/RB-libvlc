@@ -141,27 +141,6 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function TruePlayer() As libvlc.VLCPlayer
-		  If mPlayer = Nil Then Return Nil
-		  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library
-		  ' https://github.com/oaubert/python-vlc/issues/13
-		  If mTruePlayer = Nil And System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
-		    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
-		    If p <> Nil Then mTruePlayer = New libvlc.VLCPlayer(New MediumPtr(p))
-		  End If
-		  Return mTruePlayer
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub TruePlayer(Assigns NewVLCPlayer As libvlc.VLCPlayer)
-		  If mPlayer = Nil Then Raise New NilObjectException
-		  libvlc_media_list_player_set_media_player(mPlayer, NewVLCPlayer.Handle)
-		  mTruePlayer = NewVLCPlayer
-		End Sub
-	#tag EndMethod
-
 
 	#tag Hook, Flags = &h0
 		Event ChangedState()
@@ -295,6 +274,29 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		PlayMode As libvlc.PlaybackMode
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer = Nil Then Return Nil
+			  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library
+			  ' https://github.com/oaubert/python-vlc/issues/13
+			  If mTruePlayer = Nil And System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
+			    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
+			    If p <> Nil Then mTruePlayer = New libvlc.VLCPlayer(New MediumPtr(p))
+			  End If
+			  Return mTruePlayer
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer = Nil Then Raise New NilObjectException
+			  libvlc_media_list_player_set_media_player(mPlayer, value.Handle)
+			  mTruePlayer = value
+			End Set
+		#tag EndSetter
+		TruePlayer As libvlc.VLCPlayer
 	#tag EndComputedProperty
 
 

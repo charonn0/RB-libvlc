@@ -85,12 +85,6 @@ Inherits Canvas
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function MetaData() As libvlc.Meta.MetaData
-		  Return mPlayer.MetaData
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Pause()
 		  mPlayer.Pause
 		End Sub
@@ -106,12 +100,6 @@ Inherits Canvas
 		Sub Stop()
 		  mPlayer.Stop
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function TruePlayer() As libvlc.VLCPlayer
-		  Return mPlayer
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -255,6 +243,15 @@ Inherits Canvas
 		Media As libvlc.Medium
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.MetaData
+			End Get
+		#tag EndGetter
+		MetaData As ibvlc.Meta.MetaData
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h1
 		Protected mPlayer As libvlc.VLCPlayer
 	#tag EndProperty
@@ -327,6 +324,15 @@ Inherits Canvas
 			End Set
 		#tag EndSetter
 		TimeMS As Int64
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mPlayer
+			End Get
+		#tag EndGetter
+		TruePlayer As libvlc.VLCPlayer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
