@@ -83,6 +83,8 @@ Inherits libvlc.VLCInstance
 		Sub Constructor(Medium As libvlc.Medium)
 		  ' Constructs a new player instance from the passed media reference
 		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(AddRef As VLCInstance) -- From VLCInstance
 		  Super.Constructor(Medium)
 		  mPlayer = libvlc_media_player_new_from_media(Medium.Handle)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
@@ -94,11 +96,13 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+	#tag Method, Flags = &h1
+		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
 		  ' Takes ownership of the passed player ref
 		  
 		  If FromPtr = Nil Then Raise New NilObjectException
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mPlayer = FromPtr
@@ -114,6 +118,8 @@ Inherits libvlc.VLCInstance
 		Sub Constructor(CommandLine As String = libvlc.DEFAULT_ARGS)
 		  ' Constructs a new player instance
 		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
 		  Super.Constructor(CommandLine)
 		  mPlayer = libvlc_media_player_new(Me.Instance)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
@@ -224,7 +230,7 @@ Inherits libvlc.VLCInstance
 		Function Media() As libvlc.Medium
 		  If mMedium = Nil And mPlayer <> Nil Then
 		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
-		    If p <> Nil Then mMedium = New MediumPtr(p)
+		    If p <> Nil Then mMedium = New MediumPtr(p, True)
 		  End If
 		  Return mMedium
 		End Function

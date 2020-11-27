@@ -2,11 +2,10 @@
 Private Class PlayListPtr
 Inherits libvlc.PlayLists.PlayList
 	#tag Method, Flags = &h1000
-		Sub Constructor(FromPtr As Ptr)
+		Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
-		  mList = FromPtr
+		  // Constructor(FromPtr As Ptr, AddRef As Boolean) -- From PlayList
+		  Super.Constructor(FromPtr, AddRef)
 		End Sub
 	#tag EndMethod
 

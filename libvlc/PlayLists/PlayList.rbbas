@@ -26,6 +26,16 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
+		  Super.Constructor(DEFAULT_ARGS)
+		  If AddRef Then libvlc_media_list_retain(FromPtr)
+		  mLock = New Semaphore
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mList <> Nil Then libvlc_media_list_release(mList)
@@ -144,7 +154,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Redim(NewBounds As Integer)
-		  If mList = Nil Then Raise New OutOfBoundsException
+		  If mList = Nil Then Me.Constructor()
 		  Dim c As Integer = Me.Count - 1
 		  Me.Lock
 		  Try
@@ -166,7 +176,7 @@ Inherits libvlc.VLCInstance
 		  Me.Lock
 		  Try
 		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
-		    If p <> Nil Then ret = New MediumPtr(p)
+		    If p <> Nil Then ret = New MediumPtr(p, False)
 		  Finally
 		    Me.Unlock
 		  End Try
@@ -255,7 +265,7 @@ Inherits libvlc.VLCInstance
 		    For i As Integer = 0 To count
 		      Dim p As Ptr = libvlc_media_list_item_at_index(mList, i)
 		      If p = Nil Then Raise New NilObjectException
-		      mMediaList.Append(New MediumPtr(p))
+		      mMediaList.Append(New MediumPtr(p, False))
 		      Call libvlc_media_list_insert_media(mList, p, Sortable(i))
 		      Call libvlc_media_list_remove_index(mList, i)
 		    Next

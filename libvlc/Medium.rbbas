@@ -38,6 +38,21 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  ' Constructs an instance of Medium using FromPtr. If AddRef is True then libvlc's internal reference count for the
+		  ' FromPtr is incremented. The reference count will be decremented by Medium.Destructor; refer to the VLC documentation
+		  ' for the function that gave you FromPtr to determine whether the reference count should be incremented.
+		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
+		  Super.Constructor(DEFAULT_ARGS)
+		  mMedium = FromPtr
+		  If AddRef Then libvlc_media_retain(mMedium)
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1000
 		Sub Constructor(FromStream As Readable, Optional Length As UInt64)
 		  Super.Constructor(DEFAULT_ARGS)
