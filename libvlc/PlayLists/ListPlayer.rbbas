@@ -316,11 +316,11 @@ Inherits libvlc.VLCInstance
 		#tag Getter
 			Get
 			  If mPlayer = Nil Then Return Nil
-			  ' libvlc_media_list_player_get_media_player is documented, but not exported by the library
+			  ' libvlc_media_list_player_get_media_player is documented, but is not always exported by the library
 			  ' https://github.com/oaubert/python-vlc/issues/13
-			  If mTruePlayer = Nil And System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
+			  If System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
 			    Dim p As Ptr = libvlc_media_list_player_get_media_player(mPlayer)
-			    If p <> Nil Then mTruePlayer = New libvlc.VLCPlayer(New MediumPtr(p))
+			    If p <> Nil Then Return New VLCPlayerPtr(p, True)
 			  End If
 			  Return mTruePlayer
 			End Get
@@ -329,7 +329,9 @@ Inherits libvlc.VLCInstance
 			Set
 			  If mPlayer = Nil Then Raise New NilObjectException
 			  libvlc_media_list_player_set_media_player(mPlayer, value.Handle)
-			  mTruePlayer = value
+			  If Not System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
+			    mTruePlayer = value
+			  End If
 			End Set
 		#tag EndSetter
 		TruePlayer As libvlc.VLCPlayer
