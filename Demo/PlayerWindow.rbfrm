@@ -885,6 +885,14 @@ End
 	#tag EndEvent
 
 	#tag Event
+		Sub Resized()
+		  If mPlaylistWindow <> Nil And mPlaylistWindow.LockToParentWindow Then
+		    mPlaylistWindow.Height = Self.Height
+		  End If
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Sub Resizing()
 		  If mPlaylistWindow <> Nil And mPlaylistWindow.LockToParentWindow Then
 		    mPlaylistWindow.Left = Self.Left + Self.Width
@@ -925,6 +933,10 @@ End
 		  
 		  If mPlaylistWindow = Nil Then
 		    mPlaylistWindow = New PlayListWindow
+		    Self.Left = Self.Left - (mPlaylistWindow.Width / 2)
+		    mPlaylistWindow.Left = Self.Left + Self.Width
+		    mPlaylistWindow.Top = Self.Top
+		    mPlaylistWindow.Height = Self.Height
 		  End If
 		  mPlaylistWindow.ShowList(Self, Player.TruePlayer, m)
 		  
