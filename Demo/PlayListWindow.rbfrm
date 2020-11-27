@@ -493,7 +493,7 @@ End
 		Private Sub ScrollTo(Index As Integer, AndSelect As Boolean = False, AndActivate As Boolean = False)
 		  If Index < 0 Or Index > MediaList.ListCount - 1 Then Return
 		  
-		  If Not (Index < MediaList.ScrollPosition Or Index > (MediaList.ScrollPosition + (MediaList.Height \ MediaList.RowHeight) - 2)) Then
+		  If Index < MediaList.ScrollPosition Or Index > (MediaList.ScrollPosition + (MediaList.Height \ MediaList.RowHeight) - 2) Then
 		    MediaList.ScrollPosition = Index
 		  End If
 		  
@@ -510,12 +510,6 @@ End
 		    AddHandler mPlayer.ChangedState, WeakAddressOf ListPlayerStateChangedHandler
 		  End If
 		  Self.Show()
-		  
-		  PlayerWindow.Left = PlayerWindow.Left - (Self.Width / 2)
-		  Self.Left = PlayerWindow.Left + PlayerWindow.Width
-		  Self.Top = PlayerWindow.Top
-		  Self.Height = PlayerWindow.Height
-		  
 		  AddMedia(List)
 		  UpdateUI()
 		  mParentWindow = PlayerWindow
