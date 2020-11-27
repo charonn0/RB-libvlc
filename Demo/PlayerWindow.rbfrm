@@ -1555,16 +1555,26 @@ End
 	#tag Event
 		Sub DropObject(obj As DragItem, action As Integer)
 		  #pragma Unused action
-		  If obj.FolderItem <> Nil Then
-		    LoadMedia(obj.FolderItem)
-		  ElseIf mPlaylistWindow <> Nil Then
-		    Dim txt As String = obj.Text.Trim
-		    If txt <> "" Then
-		      Dim i As Integer = Val(txt)
-		      If i > mPlaylistWindow.Count - 1 Then Return
-		      mPlaylistWindow.CurrentIndex = i
+		  Dim m() As FolderItem
+		  
+		  Do
+		    If obj.FolderItem <> Nil Then
+		      m.Append(obj.FolderItem)
+		    ElseIf mPlaylistWindow <> Nil Then
+		      Dim txt As String = obj.Text.Trim
+		      If txt <> "" Then
+		        Dim i As Integer = Val(txt)
+		        If i > mPlaylistWindow.Count - 1 Then Return
+		        mPlaylistWindow.CurrentIndex = i
+		      End If
+		      
 		    End If
-		    
+		  Loop Until Not obj.NextItem
+		  
+		  If UBound(m) = 0 And mPlaylistWindow = Nil Then
+		    LoadMedia(m(0))
+		  ElseIf UBound(m) > -1 Then
+		    LoadPlaylist(m)
 		  End If
 		End Sub
 	#tag EndEvent
