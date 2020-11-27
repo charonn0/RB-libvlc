@@ -241,8 +241,8 @@ Begin Window PlayListWindow
       Left            =   574
       LockBottom      =   True
       LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
+      LockLeft        =   False
+      LockRight       =   True
       LockTop         =   False
       MenuValue       =   ""
       Scope           =   0
@@ -368,8 +368,8 @@ Begin Window PlayListWindow
       Left            =   594
       LockBottom      =   True
       LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
+      LockLeft        =   False
+      LockRight       =   True
       LockTop         =   False
       Scope           =   0
       TabIndex        =   30
@@ -399,8 +399,8 @@ Begin Window PlayListWindow
       Left            =   554
       LockBottom      =   True
       LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
+      LockLeft        =   False
+      LockRight       =   True
       LockTop         =   False
       Scope           =   0
       TabIndex        =   31
@@ -489,6 +489,20 @@ End
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub ScrollTo(Index As Integer, AndSelect As Boolean = False, AndActivate As Boolean = False)
+		  If Index < 0 Or Index > MediaList.ListCount - 1 Then Return
+		  
+		  If Not (Index < MediaList.ScrollPosition Or Index > (MediaList.ScrollPosition + (MediaList.Height \ MediaList.RowHeight) - 2)) Then
+		    MediaList.ScrollPosition = Index
+		  End If
+		  
+		  If AndSelect Then MediaList.Selected(Index) = True
+		  
+		  If AndActivate Then mPlayer.ListIndex = Index
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Sub ShowList(PlayerWindow As PlayerWindow, ListPlayer As libvlc.VLCPlayer, List() As libvlc.Medium)
 		  If mPlayer = Nil Then
@@ -554,6 +568,7 @@ End
 		        MediaList.RowPicture(i) = blank
 		      End If
 		    Next
+		    ScrollTo(CurrentIndex)
 		    MediaList.Refresh()
 		  End If
 		End Sub
