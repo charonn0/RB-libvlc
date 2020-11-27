@@ -175,7 +175,7 @@ Begin ContainerControl AdvancedOptionsEditor
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      InitialValue    =   "\r\nts\r\nps\r\nmpeg1\r\nogg\r\nasf\r\nasfh\r\navi\r\nmpjpeg"
+      InitialValue    =   "\r\nts\r\nps\r\nmpeg1\r\nogg\r\nasf\r\nasfh\r\navi\r\nmpjpeg\r\nraw"
       Italic          =   ""
       Left            =   272
       ListIndex       =   0
