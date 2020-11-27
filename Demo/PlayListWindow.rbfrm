@@ -414,6 +414,52 @@ Begin Window PlayListWindow
       Visible         =   True
       Width           =   22
    End
+   Begin Label TimeLabel
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   28
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   32
+      TabPanelIndex   =   0
+      Text            =   "00:00:00/00:00:00"
+      TextAlign       =   0
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   192
+      Transparent     =   True
+      Underline       =   ""
+      Visible         =   True
+      Width           =   92
+   End
+   Begin Timer TimeTimer
+      Height          =   32
+      Index           =   -2147483648
+      Left            =   634
+      LockedInPosition=   False
+      Mode            =   2
+      Period          =   1
+      Scope           =   0
+      TabPanelIndex   =   0
+      Top             =   84
+      Width           =   32
+   End
 End
 #tag EndWindow
 
@@ -627,6 +673,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mDirty As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mFractionalSeconds As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1064,6 +1114,39 @@ End
 		    Dim bs As BinaryStream = BinaryStream.Create(dst, True)
 		    libvlc.PlayLists.WriteM3U(mPlayer.Playlist, bs)
 		    bs.Close
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events TimeLabel
+	#tag Event
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  #pragma Unused X
+		  #pragma Unused Y
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub MouseUp(X As Integer, Y As Integer)
+		  Dim r As New REALbasic.Rect(0, 0, Me.Width, Me.Height)
+		  Dim p As New REALbasic.Point(X, Y)
+		  If r.Contains(p) Then
+		    mFractionalSeconds = Not mFractionalSeconds
+		    Self.Refresh(False)
+		  End If
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub Open()
+		  Me.Text = ""
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events TimeTimer
+	#tag Event
+		Sub Action()
+		  If mPlayer <> Nil Then
+		    TimeLabel.Text = libvlc.FormatTime(mPlayer.TimeMS, mFractionalSeconds) + "/" + libvlc.FormatTime(mPlayer.LengthMS, mFractionalSeconds)
 		  End If
 		End Sub
 	#tag EndEvent
