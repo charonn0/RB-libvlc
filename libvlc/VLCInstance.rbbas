@@ -7,8 +7,8 @@ Protected Class VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Constructor(CommandLine As String)
+	#tag Method, Flags = &h1
+		Protected Sub Constructor(CommandLine As String)
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  If CommandLine = DEFAULT_ARGS And Singleton <> Nil Then
 		    Me.Constructor(Singleton)
