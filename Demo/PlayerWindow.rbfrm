@@ -1021,7 +1021,7 @@ End
 		      Dim ID As Integer = auds.ID(i)
 		      AudioTracks.AddRow(auds.Name(i))
 		      AudioTracks.RowTag(AudioTracks.ListCount - 1) = ID
-		      If ID = Player.TruePlayer.AudioTrack Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
+		      If ID = Player.TruePlayer.AudioTracks.CurrentTrackID Then AudioTracks.ListIndex = AudioTracks.ListCount - 1
 		    Next
 		    AudioTracks.Enabled = True
 		  End If
@@ -1042,7 +1042,7 @@ End
 		      Dim ID As Integer = subs.ID(i)
 		      SubtitleTracks.AddRow(subs.Name(i))
 		      SubtitleTracks.RowTag(SubtitleTracks.ListCount - 1) = subs.ID(i)
-		      If ID = Player.TruePlayer.Subtitles.CurrentIndex Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
+		      If ID = Player.TruePlayer.Subtitles.CurrentTrackID Then SubtitleTracks.ListIndex = SubtitleTracks.ListCount - 1
 		    Next
 		    SubtitleTracks.Enabled = True
 		  End If
@@ -1060,7 +1060,7 @@ End
 		      Dim ID As Integer = vids.ID(i)
 		      VideoTracks.AddRow(vids.Name(i))
 		      VideoTracks.RowTag(VideoTracks.ListCount - 1) = ID
-		      If ID = Player.TruePlayer.VideoTracks.CurrentIndex Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
+		      If ID = Player.TruePlayer.VideoTracks.CurrentTrackID Then VideoTracks.ListIndex = VideoTracks.ListCount - 1
 		    Next
 		    VideoTracks.Enabled = True
 		  End If
@@ -1233,7 +1233,7 @@ End
 		Sub Change()
 		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
-		      Player.TruePlayer.AudioTracks.CurrentIndex = Me.RowTag(Me.ListIndex).Int32Value
+		      Player.TruePlayer.AudioTracks.CurrentTrackID = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try
@@ -1246,7 +1246,7 @@ End
 		Sub Change()
 		  If Me.RowTag(Me.ListIndex) <> Nil And Not mLock Then
 		    Try
-		      Player.TruePlayer.VideoTracks.CurrentIndex = Me.RowTag(Me.ListIndex).Int32Value
+		      Player.TruePlayer.VideoTracks.CurrentTrackID = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try
@@ -1363,7 +1363,7 @@ End
 		    UpdateUI()
 		  ElseIf Me.RowTag(Me.ListIndex) <> Nil Then
 		    Try
-		      Player.TruePlayer.Subtitles.CurrentIndex = Me.RowTag(Me.ListIndex).Int32Value
+		      Player.TruePlayer.Subtitles.CurrentTrackID = Me.RowTag(Me.ListIndex).Int32Value
 		    Catch err As libvlc.VLCException
 		      MsgBox(err.Message)
 		    End Try

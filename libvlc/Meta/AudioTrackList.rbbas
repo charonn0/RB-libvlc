@@ -27,7 +27,7 @@ Inherits libvlc.Meta.TrackList
 			  If libvlc_audio_set_track(Owner.Handle, value) <> 0 Then Raise New VLCException("Unable to set the audio track to that index.")
 			End Set
 		#tag EndSetter
-		CurrentIndex As Integer
+		CurrentTrackID As Integer
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21

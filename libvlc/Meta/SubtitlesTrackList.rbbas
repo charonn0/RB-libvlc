@@ -27,7 +27,7 @@ Inherits libvlc.Meta.TrackList
 			  If libvlc_video_set_spu(Owner.Handle, value) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
 			End Set
 		#tag EndSetter
-		CurrentIndex As Integer
+		CurrentTrackID As Integer
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21

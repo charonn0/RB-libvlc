@@ -25,7 +25,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.CurrentIndex" )  Function AudioTrack() As Integer
+		Attributes( deprecated = """libvlc.VLCPlayer.AudioTracks.CurrentTrackID" )  Function AudioTrack() As Integer
 		  ' Returns the I_ID of the current track.
 		  
 		  If mPlayer <> Nil Then Return libvlc_audio_get_track(mPlayer)
@@ -33,7 +33,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.CurrentIndex" )  Sub AudioTrack(Assigns NewTrack As Integer)
+		Attributes( deprecated = """libvlc.VLCPlayer.AudioTracks.CurrentTrackID" )  Sub AudioTrack(Assigns NewTrack As Integer)
 		  ' Sets the audio track to the I_ID specified by NewTrack. Call AudioTrackID to get the I_ID.
 		  
 		  If mPlayer = Nil Then Raise New NilObjectException
@@ -429,13 +429,13 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentIndex" )  Function VideoTrack() As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentTrackID" )  Function VideoTrack() As Integer
 		  If mPlayer <> Nil Then Return libvlc_video_get_track(mPlayer)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentIndex" )  Sub VideoTrack(Assigns NewTrack As Integer)
+		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentTrackID" )  Sub VideoTrack(Assigns NewTrack As Integer)
 		  If mPlayer = Nil Then Raise New NilObjectException
 		  If libvlc_video_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the video track to that index.")
 		End Sub
@@ -831,7 +831,7 @@ Inherits libvlc.VLCInstance
 			  If libvlc_video_set_spu(mPlayer, value) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
 			End Set
 		#tag EndSetter
-		Attributes( deprecated = "libvlc.VLCPlayer.Subtitles.CurrentIndex" ) SubtitleIndex As Integer
+		Attributes( deprecated = "libvlc.VLCPlayer.Subtitles.CurrentTrackID" ) SubtitleIndex As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
