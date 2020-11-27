@@ -52,7 +52,7 @@ Inherits libvlc.Meta.TrackList
 			InheritedFrom="libvlc.Meta.LinkedList"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="CurrentIndex"
+			Name="CurrentTrackID"
 			Group="Behavior"
 			Type="Integer"
 		#tag EndViewProperty
