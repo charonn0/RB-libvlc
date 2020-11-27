@@ -191,6 +191,16 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayList = Nil Then Return -1
+			  Return mPlayList.LengthMS
+			End Get
+		#tag EndGetter
+		LengthMS As Int64
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  return Me.Playlist.Count
 			End Get
 		#tag EndGetter
@@ -274,6 +284,16 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		PlayMode As libvlc.PlaybackMode
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayList = Nil Or ListIndex = -1 Then Return -1
+			  Return mPlayList.TimeMS + TruePlayer.TimeMS
+			End Get
+		#tag EndGetter
+		TimeMS As Int64
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

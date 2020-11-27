@@ -360,6 +360,23 @@ Inherits libvlc.VLCInstance
 		Handle As Ptr
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  ' Gets the overall length of the playlist, in milliseconds.
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.PlayList.LengthMS
+			  
+			  Dim ms As Int64
+			  For i As Integer = 0 To UBound(mMediaList)
+			    ms = ms + mMediaList(i).DurationMS
+			  Next
+			  Return ms
+			End Get
+		#tag EndGetter
+		LengthMS As Int64
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h1
 		Protected mList As Ptr
 	#tag EndProperty
@@ -379,6 +396,30 @@ Inherits libvlc.VLCInstance
 			End Get
 		#tag EndGetter
 		ReadOnly As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  ' Gets the overall position within the playlist, in milliseconds. The return value is
+			  ' the time up until the beginning of the currently playing item; add the TimeMS property
+			  ' of the VLCPlayer that's playing the list to determine the exact TimeMS of the list.
+			  '
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.ListPlayer.TimeMS
+			  
+			  If Me.CurrentIndex = -1 Then Return 0
+			  Dim ms As Int64
+			  For i As Integer = 0 To UBound(mMediaList)
+			    If i < CurrentIndex Then
+			      ms = ms + mMediaList(i).DurationMS
+			    Else
+			      Exit For
+			    End If
+			  Next
+			  Return ms
+			End Get
+		#tag EndGetter
+		TimeMS As Int64
 	#tag EndComputedProperty
 
 
