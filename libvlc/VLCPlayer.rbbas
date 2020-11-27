@@ -285,7 +285,7 @@ Inherits libvlc.VLCInstance
 		    Return False
 		  End Try
 		  Do Until Me.CurrentState = libvlc.PlayerState.PAUSED
-		    #If TargetHasGUI Then
+		    #If TargetDesktop Then
 		      App.SleepCurrentThread(100)
 		    #Else
 		      App.DoEvents(100)
@@ -319,7 +319,7 @@ Inherits libvlc.VLCInstance
 		      Continue
 		    Case libvlc.PlayerState.PLAYING
 		      If StartPaused Then Me.Pause
-		      #If TargetHasGUI Then
+		      #If TargetDesktop Then
 		        App.SleepCurrentThread(100)
 		      #Else
 		        App.DoEvents(100)
@@ -378,7 +378,7 @@ Inherits libvlc.VLCInstance
 		    Return False
 		  End Try
 		  Do Until Me.CurrentState = libvlc.PlayerState.STOPPING
-		    #If TargetHasGUI Then
+		    #If TargetDesktop Then
 		      App.SleepCurrentThread(100)
 		    #Else
 		      App.DoEvents(100)

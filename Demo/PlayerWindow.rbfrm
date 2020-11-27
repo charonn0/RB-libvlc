@@ -1493,6 +1493,10 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub Paint(g As Graphics)
+		  #If RBVersion >= 2012.02 Then
+		    #pragma Unused areas
+		  #endif
+		  
 		  Dim original As Picture
 		  If mArtwork <> Nil Then original = mArtwork Else original = movielogo
 		  
