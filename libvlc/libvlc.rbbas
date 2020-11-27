@@ -462,6 +462,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_list_player_retain Lib VLCLib (ListPlayer As Ptr)
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_media_list_player_set_media_list Lib VLCLib (ListPlayer As Ptr, MediaList As Ptr)
 	#tag EndExternalMethod
 
@@ -483,6 +487,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_list_remove_index Lib VLCLib (MediaList As Ptr, Index As Integer) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_media_list_retain Lib VLCLib (MediaList As Ptr)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
