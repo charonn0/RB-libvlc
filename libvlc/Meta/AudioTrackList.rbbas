@@ -22,7 +22,7 @@ Inherits libvlc.Meta.TrackList
 		#tag EndGetter
 		#tag Setter
 			Set
-			  ' Sets the audio track to the I_ID specified by NewTrack. Call AudioTrackID to get the I_ID.
+			  ' Sets the audio track to the I_ID specified by value. Call AudioTrackID to get the I_ID.
 			  
 			  If libvlc_audio_set_track(Owner.Handle, value) <> 0 Then Raise New VLCException("Unable to set the audio track to that index.")
 			End Set
