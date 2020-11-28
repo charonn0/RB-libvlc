@@ -2,8 +2,11 @@
 Protected Class ModuleList
 Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h0
-		Sub Constructor(ListPtr As Ptr)
+		Sub Constructor(ListPtr As Ptr, Instance As libvlc.VLCInstance)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ListPtr As Ptr, StructSize As Integer) -- From LinkedList
 		  Super.Constructor(ListPtr, libvlc_module_description_t.Size)
+		  mInstance = Instance
 		End Sub
 	#tag EndMethod
 
@@ -53,6 +56,11 @@ Inherits libvlc.Meta.LinkedList
 		
 		https://www.videolan.org/developers/vlc/doc/doxygen/html/structlibvlc__module__description__t.html
 	#tag EndNote
+
+
+	#tag Property, Flags = &h21
+		Private mInstance As libvlc.VLCInstance
+	#tag EndProperty
 
 
 	#tag ViewBehavior

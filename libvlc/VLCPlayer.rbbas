@@ -10,7 +10,7 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
 		  Dim i As New VLCInstance(DEFAULT_ARGS)
-		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance))
+		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance), i)
 		  
 		End Function
 	#tag EndMethod
@@ -429,7 +429,7 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
 		  Dim i As New VLCInstance(DEFAULT_ARGS)
-		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance))
+		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance), i)
 		  
 		End Function
 	#tag EndMethod
