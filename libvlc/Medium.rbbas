@@ -21,6 +21,18 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Artwork(Assigns ArtFile As FolderItem)
+		  If ArtFile <> Nil And ArtFile.Exists And Not ArtFile.Directory Then
+		    Dim tmp As Picture = Picture.Open(ArtFile)
+		    If tmp <> Nil Then
+		      ArtworkURL = ArtFile.URLPath
+		      SaveMetaData()
+		    End If
+		  End If
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(FileDescriptor As Integer)
 		  If FileDescriptor = 0 Then Raise New NilObjectException
@@ -272,6 +284,15 @@ Inherits libvlc.VLCInstance
 		AlbumArtist As String
 	#tag EndComputedProperty
 
+	#tag Property, Flags = &h0
+		#tag Note
+			Set this property to False to disallow fetching the album artwork from network locations.
+			By default fetching is allowed unless specifically disallowed. 
+			Change the FETCH_ARTWORK_FROM_NETWORK_DEFAULT constant to change the default behavior.
+		#tag EndNote
+		AllowFetchArtwork As Boolean = FETCH_ARTWORK_FROM_NETWORK_DEFAULT
+	#tag EndProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
@@ -299,10 +320,12 @@ Inherits libvlc.VLCInstance
 			    Dim data As MemoryBlock
 			    Select Case NthField(url, "://", 1)
 			    Case "http"
+			      If Not AllowFetchArtwork Then Return Nil
 			      Dim h As New HTTPSocket
 			      data = h.Get(url, 10)
 			      
 			    Case "https"
+			      If Not AllowFetchArtwork Then Return Nil
 			      Dim h As New HTTPSecureSocket
 			      data = h.Get(url, 10)
 			      
@@ -321,12 +344,6 @@ Inherits libvlc.VLCInstance
 			  Return mArtwork
 			End Get
 		#tag EndGetter
-		#tag Setter
-			Set
-			  Me.ArtworkURL = ConvertEncoding("data:image/png;charset=US-ASCII;base64," + EncodeBase64(value.GetData(Picture.FormatPNG)), Encodings.ASCII)
-			  
-			End Set
-		#tag EndSetter
 		Artwork As Picture
 	#tag EndComputedProperty
 
@@ -786,6 +803,10 @@ Inherits libvlc.VLCInstance
 		#tag EndSetter
 		URL As String
 	#tag EndComputedProperty
+
+
+	#tag Constant, Name = FETCH_ARTWORK_FROM_NETWORK_DEFAULT, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
+	#tag EndConstant
 
 
 	#tag ViewBehavior
