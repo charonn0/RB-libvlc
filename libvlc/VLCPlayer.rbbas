@@ -9,7 +9,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
-		  Dim i As New VLCInstance(DEFAULT_ARGS)
+		  Dim i As New VLCInstance()
 		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance), i)
 		  
 		End Function
@@ -17,7 +17,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function AudioOutputs() As libvlc.Meta.AudioOutputList
-		  Dim i As New VLCInstance(DEFAULT_ARGS)
+		  Dim i As New VLCInstance()
 		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
 		  If p <> Nil Then Return New libvlc.Meta.AudioOutputList(p)
 		  Raise New VLCException("Unable to get the list of audio output modules.")
@@ -80,6 +80,23 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Constructor()
+		  ' Constructs a new player instance
+		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
+		  mPlayer = libvlc_media_player_new(Me.Instance)
+		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
+		  
+		  mStateChangeTimer = New Timer
+		  mStateChangeTimer.Period = 150
+		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
+		  mStateChangeTimer.Mode = Timer.ModeMultiple
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor(Medium As libvlc.Medium)
 		  ' Constructs a new player instance from the passed media reference
 		  
@@ -102,27 +119,10 @@ Inherits libvlc.VLCInstance
 		  
 		  If FromPtr = Nil Then Raise New NilObjectException
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  If AddRef Then libvlc_media_player_retain(FromPtr)
 		  mPlayer = FromPtr
-		  
-		  mStateChangeTimer = New Timer
-		  mStateChangeTimer.Period = 150
-		  AddHandler mStateChangeTimer.Action, WeakAddressOf StateChangeTimerHandler
-		  mStateChangeTimer.Mode = Timer.ModeMultiple
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Constructor(CommandLine As String = libvlc.DEFAULT_ARGS)
-		  ' Constructs a new player instance
-		  
-		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(CommandLine)
-		  mPlayer = libvlc_media_player_new(Me.Instance)
-		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a player instance.")
 		  
 		  mStateChangeTimer = New Timer
 		  mStateChangeTimer.Period = 150
@@ -428,7 +428,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
-		  Dim i As New VLCInstance(DEFAULT_ARGS)
+		  Dim i As New VLCInstance()
 		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance), i)
 		  
 		End Function

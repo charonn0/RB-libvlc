@@ -20,8 +20,8 @@ Inherits libvlc.VLCInstance
 		  ' Creates a new, empty playlist.
 		  
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  mList = libvlc_media_list_new(Me.Instance)
 		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
 		  mLock = New Semaphore
@@ -31,8 +31,8 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  If AddRef Then libvlc_media_list_retain(FromPtr)
 		  mLock = New Semaphore
 		End Sub

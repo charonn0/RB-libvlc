@@ -4,8 +4,8 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  mPlayer = libvlc_media_list_player_new(Me.Instance)
 		  If mPlayer = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list player.")
 		  mStateChangeTimer = New Timer
@@ -25,8 +25,8 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  mPlayer = FromPtr
 		  If AddRef Then libvlc_media_list_player_retain(FromPtr)
 		  mStateChangeTimer = New Timer
@@ -45,14 +45,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As RectControl)
-		  
 		  TruePlayer.EmbedWithin(Parent)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As Window)
-		  
 		  TruePlayer.EmbedWithin(Parent)
 		End Sub
 	#tag EndMethod

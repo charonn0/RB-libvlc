@@ -25,8 +25,8 @@ Inherits libvlc.VLCInstance
 		Protected Sub Constructor(FileDescriptor As Integer)
 		  If FileDescriptor = 0 Then Raise New NilObjectException
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  mMedium = libvlc_media_new_fd(Me.Instance, FileDescriptor)
 		  If mMedium = Nil Then Raise New VLCException("Unable to create a media reference for the file descriptor.")
 		End Sub
@@ -51,8 +51,8 @@ Inherits libvlc.VLCInstance
 		  ' for the function that gave you FromPtr to determine whether the reference count should be incremented.
 		  
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  mMedium = FromPtr
 		  If AddRef Then libvlc_media_retain(mMedium)
 		  
@@ -62,8 +62,8 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h1000
 		Sub Constructor(FromStream As Readable, Optional Length As UInt64)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  If Not System.IsFunctionAvailable("libvlc_media_new_callbacks", VLCLib) Then
 		    Raise New VLCException("Loading media from memory is not available in the installed version of libvlc.")
 		  End If
@@ -200,8 +200,8 @@ Inherits libvlc.VLCInstance
 		  ' Constructs a new Medium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
 		  
 		  // Calling the superclass constructor.
-		  // Constructor(CommandLine As String) -- From VLCInstance
-		  Super.Constructor(DEFAULT_ARGS)
+		  // Constructor() -- From VLCInstance
+		  Super.Constructor()
 		  mMedium = libvlc_media_new_location(Me.Instance, FromURL)
 		  If mMedium = Nil Then Raise New UnsupportedFormatException
 		End Sub

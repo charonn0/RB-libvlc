@@ -1,14 +1,25 @@
 #tag Class
 Protected Class VLCInstance
 	#tag Method, Flags = &h1
-		Attributes( deprecated ) Protected Sub Constructor(argc As Integer = DEFAULT_ARGC, argv As String = DEFAULT_ARGV)
-		  #pragma Unused argc
-		  Me.Constructor(argv)
+		Protected Sub Constructor()
+		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
+		  If Singleton <> Nil Then
+		    Me.Constructor(Singleton)
+		  Else
+		    mInstance = libvlc_new(0, Nil)
+		    If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
+		    Singleton = Me
+		  End If
+		  mUserAgent = "RB-VLC/1.0"
+		  Me.AppName = App.ExecutableFile.Name
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(CommandLine As String)
+		  ' This Constructor is deprecated; do not use.
+		  
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  If CommandLine = DEFAULT_ARGS And Singleton <> Nil Then
 		    Me.Constructor(Singleton)
@@ -211,13 +222,6 @@ Protected Class VLCInstance
 		#tag EndSetter
 		UserAgent As String
 	#tag EndComputedProperty
-
-
-	#tag Constant, Name = DEFAULT_ARGC, Type = Double, Dynamic = False, Default = \"0", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = DEFAULT_ARGV, Type = String, Dynamic = False, Default = \"", Scope = Protected
-	#tag EndConstant
 
 
 	#tag ViewBehavior
