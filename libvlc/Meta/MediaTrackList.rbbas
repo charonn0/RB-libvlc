@@ -54,6 +54,18 @@ Inherits libvlc.Meta.LinkedList
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function IndexOf(TrackID As Integer) As Integer
+		  ' Returns the index of the Track corresponding to TrackID, or -1
+		  
+		  Dim c As Integer = Me.Count
+		  For i As Integer = 0 To c - 1
+		    If Me.ID(i) = TrackID Then Return i
+		  Next
+		  Return -1
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Language(Index As Integer) As String
 		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_media_track_t.Language
 		  If mb <> Nil Then Return mb.CString(0)
