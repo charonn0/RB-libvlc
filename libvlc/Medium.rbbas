@@ -3,7 +3,9 @@ Protected Class Medium
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub AddOption(Options As String, Flags As UInt32 = 0)
-		  ' Applies advanced reading/streaming options to a single Medium object
+		  ' Applies advanced reading/streaming options to a single Medium object.
+		  ' The libvlc.TranscodeOptions class can be helpful in generating options; refer
+		  ' to the comments in the TranscodeOptions class for additional help.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.AddOption
@@ -22,6 +24,8 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(FileDescriptor As Integer)
 		  If FileDescriptor = 0 Then Raise New NilObjectException
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  mMedium = libvlc_media_new_fd(Me.Instance, FileDescriptor)
 		  If mMedium = Nil Then Raise New VLCException("Unable to create a media reference for the file descriptor.")
@@ -32,6 +36,8 @@ Inherits libvlc.VLCInstance
 		Sub Constructor(AddRef As libvlc.Medium)
 		  ' Duplicates the Medium. The duplicate is independent of the original.
 		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(AddRef As VLCInstance) -- From VLCInstance
 		  Super.Constructor(AddRef)
 		  libvlc_media_retain(AddRef.mMedium)
 		  mMedium = AddRef.mMedium
@@ -55,6 +61,8 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1000
 		Sub Constructor(FromStream As Readable, Optional Length As UInt64)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  If Not System.IsFunctionAvailable("libvlc_media_new_callbacks", VLCLib) Then
 		    Raise New VLCException("Loading media from memory is not available in the installed version of libvlc.")
@@ -191,6 +199,8 @@ Inherits libvlc.VLCInstance
 		Sub Operator_Convert(FromURL As String)
 		  ' Constructs a new Medium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
 		  
+		  // Calling the superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  mMedium = libvlc_media_new_location(Me.Instance, FromURL)
 		  If mMedium = Nil Then Raise New UnsupportedFormatException

@@ -3,6 +3,8 @@ Protected Class AudioOutputList
 Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h0
 		Sub Constructor(ListPtr As Ptr)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ListPtr As Ptr, StructSize As Integer) -- From LinkedList
 		  Super.Constructor(ListPtr, libvlc_audio_output_t.Size)
 		End Sub
 	#tag EndMethod

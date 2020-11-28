@@ -19,6 +19,8 @@ Inherits libvlc.VLCInstance
 		Sub Constructor()
 		  ' Creates a new, empty playlist.
 		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(CommandLine As String) -- From VLCInstance
 		  Super.Constructor(DEFAULT_ARGS)
 		  mList = libvlc_media_list_new(Me.Instance)
 		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
@@ -79,11 +81,11 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Load(ReadFrom As FolderItem) As Integer
+		Function Load(M3U As FolderItem) As Integer
 		  Dim c As Integer
 		  Dim bs As BinaryStream
 		  Try
-		    bs = BinaryStream.Open(ReadFrom)
+		    bs = BinaryStream.Open(M3U)
 		    c = Load(bs)
 		  Finally
 		    If bs <> Nil Then bs.Close()
@@ -107,8 +109,8 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Load(ReadFrom As Readable) As Integer
-		  Dim m() As libvlc.Medium = ReadM3U(ReadFrom)
+		Function Load(M3U As Readable) As Integer
+		  Dim m() As libvlc.Medium = ReadM3U(M3U)
 		  If UBound(m) > -1 Then Load(m)
 		  Return UBound(m) + 1
 		End Function

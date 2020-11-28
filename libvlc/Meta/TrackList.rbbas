@@ -4,6 +4,7 @@ Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h1000
 		Sub Constructor(ListPtr As Ptr)
 		  // Calling the overridden superclass constructor.
+		  // Constructor(ListPtr As Ptr, StructSize As Integer) -- From LinkedList
 		  Super.Constructor(ListPtr, libvlc_track_description_t.Size)
 		End Sub
 	#tag EndMethod

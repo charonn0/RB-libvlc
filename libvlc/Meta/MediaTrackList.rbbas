@@ -26,6 +26,8 @@ Inherits libvlc.Meta.LinkedList
 		  If Not Medium.IsParsed Then Medium.Parse()
 		  Dim p As Ptr
 		  mCount = libvlc_media_tracks_get(Medium.Handle, p)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ListPtr As Ptr, StructSize As Integer) -- From LinkedList
 		  Super.Constructor(p, libvlc_media_track_t.Size)
 		End Sub
 	#tag EndMethod
