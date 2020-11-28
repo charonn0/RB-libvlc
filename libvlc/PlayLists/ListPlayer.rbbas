@@ -83,9 +83,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Play()
-		  If mPlayer <> Nil Then
-		    libvlc_media_list_player_play(mPlayer)
-		  End If
+		  If mPlayer <> Nil Then libvlc_media_list_player_play(mPlayer)
 		End Sub
 	#tag EndMethod
 
@@ -169,7 +167,7 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayList <> Nil And ListIndex < mPlayList.Count - 1
+			  Return ListIndex < ListCount - 1
 			End Get
 		#tag EndGetter
 		CanMoveNext As Boolean
@@ -215,7 +213,7 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  return Me.Playlist.Count
+			  If mPlayList <> Nil Then Return mPlaylist.Count
 			End Get
 		#tag EndGetter
 		ListCount As Integer
@@ -231,7 +229,6 @@ Inherits libvlc.VLCInstance
 		#tag Setter
 			Set
 			  Me.Play(value)
-			  Me.Pause
 			End Set
 		#tag EndSetter
 		ListIndex As Integer
