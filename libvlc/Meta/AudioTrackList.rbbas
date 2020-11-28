@@ -15,6 +15,20 @@ Inherits libvlc.Meta.TrackList
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not System.IsFunctionAvailable("libvlc_media_get_codec_description", VLCLib) Then Return ""
+			  Dim index As Integer = Owner.Media.TrackList.IndexOf(CurrentTrackID)
+			  If index > -1 Then
+			    Dim mb As MemoryBlock = libvlc_media_get_codec_description(TrackType.Audio, Owner.Media.TrackList.Codec(index))
+			    If mb <> Nil Then Return mb.CString(0)
+			  End If
+			End Get
+		#tag EndGetter
+		Codec As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  ' Returns the I_ID of the current track.
 			  
 			  Return libvlc_audio_get_track(Owner.Handle)

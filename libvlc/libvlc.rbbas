@@ -250,6 +250,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_get_codec_description Lib VLCLib (Type As TrackType, CodecID As UInt32) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_get_duration Lib VLCLib (Medium As Ptr) As Int64
 	#tag EndExternalMethod
 
