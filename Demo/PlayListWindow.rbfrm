@@ -819,9 +819,9 @@ End
 	#tag Event
 		Function DragReorderRows(newPosition as Integer, parentRow as Integer) As Boolean
 		  #pragma Unused parentRow
-		  Dim m As libvlc.Medium = mPlayer.Playlist(Me.ListIndex)
-		  mPlayer.Playlist.Remove(Me.ListIndex)
-		  mPlayer.Playlist.Insert(newPosition, m)
+		  Dim m As libvlc.Medium = mPlayer.Item(Me.ListIndex)
+		  mPlayer.Remove(Me.ListIndex)
+		  mPlayer.Insert(newPosition, m)
 		  Return False
 		End Function
 	#tag EndEvent
