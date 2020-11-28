@@ -18,78 +18,6 @@ Protected Module libvlc
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function CreateTranscoder(Source As FolderItem, Destination As FolderItem, Quality As Integer, NoVideo As Boolean = False, NoAudio As Boolean = False) As libvlc.VLCPlayer
-		  Dim opts As New libvlc.TranscodeOptions
-		  Dim videotype, audiotype As FileType
-		  If Not NoVideo Then videotype = GuessVideoFormat(Destination.Name)
-		  If Not NoAudio Then audiotype = GuessAudioFormat(Destination.Name)
-		  If videotype = Nil Then videotype = GuessVideoFormat(Source.Name)
-		  If audiotype = Nil Then audiotype = GuessAudioFormat(Source.Name)
-		  ' If videotype = Nil Then videotype = GuessAudioFormat(Source.Name)
-		  ' If audiotype = Nil Then audiotype = GuessVideoFormat(Source.Name)
-		  
-		  If videotype = Nil And audiotype = Nil Then Return Nil ' unable to guess the format
-		  
-		  Dim outputtype As FileType
-		  Dim vb, ab As Integer
-		  Select Case Quality
-		  Case 0 ' standard
-		    ab = opts.AUDIO_BITRATE_STANDARD
-		    vb = opts.VIDEO_BITRATE_STANDARD
-		  Case 1 ' medium
-		    ab = opts.AUDIO_BITRATE_MEDIUM
-		    vb = opts.VIDEO_BITRATE_MEDIUM
-		  Case 2 ' high
-		    ab = opts.AUDIO_BITRATE_HIGH
-		    vb = opts.VIDEO_BITRATE_HIGH
-		  Case 3 ' highest
-		    ab = opts.AUDIO_BITRATE_HIGHEST
-		    vb = opts.VIDEO_BITRATE_HIGHEST
-		  End Select
-		  
-		  If videotype <> Nil Then
-		    outputtype = videotype
-		    opts.VideoCodec = videotype.FirstExtension
-		  End If
-		  opts.VideoBitrate = vb
-		  
-		  If audiotype <> Nil Then
-		    If outputtype = Nil Then outputtype = audiotype
-		    opts.AudioChannels = 2
-		    opts.AudioCodec = audiotype.FirstExtension
-		  Else
-		    opts.AudioCodec = videotype.FirstExtension
-		  End If
-		  opts.AudioBitrate = ab
-		  
-		  Select Case outputtype.Name
-		  Case MediaFileTypes.VideoXMpeg.Name
-		    opts.OutputMuxer = "mpeg1"
-		  Case MediaFileTypes.MediaOgg.Name
-		    opts.OutputMuxer = "ogg"
-		  Case MediaFileTypes.VideoXMsAsf.Name
-		    opts.OutputMuxer = "asf"
-		  Case MediaFileTypes.VideoAvi.Name
-		    opts.OutputMuxer = "avi"
-		  End Select
-		  
-		  opts.OutputAccess = "file"
-		  opts.SetDestination(Destination)
-		  
-		  Dim media As libvlc.Medium = Source
-		  media.AddOption(opts.ToString)
-		  Return New VLCPlayer(media)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function FirstExtension(Extends type As FileType) As String
-		  Dim s() As String = Split(type.Extensions, ";")
-		  Return Replace(s(0), ".", "")
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
 		Protected Function FormatTime(Milliseconds As Int64, FractionalSeconds As Boolean = False) As String
 		  ' Formats the period of time denoted by Milliseconds as HH:MM:SS. If FractionalSeconds is true then fractions of a second are included.
 		  '
@@ -113,34 +41,6 @@ Protected Module libvlc
 		  End If
 		  Return out
 		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function GuessAudioFormat(FileExtension As String) As FileType
-		  FileExtension = NthField(FileExtension, ".", CountFields(FileExtension, "."))
-		  Static extensions() As FileType = Array(MediaFileTypes.AudioAiff, MediaFileTypes.AudioAudible, MediaFileTypes.AudioBasic, MediaFileTypes.AudioFlac, _
-		  MediaFileTypes.AudioM4a, MediaFileTypes.AudioM4b, MediaFileTypes.AudioM4p, MediaFileTypes.AudioMid, MediaFileTypes.AudioMp3, MediaFileTypes.AudioMpeg, _
-		  MediaFileTypes.AudioWav, MediaFileTypes.AudioWebm, MediaFileTypes.AudioXAac)
-		  
-		  For Each type As FileType In extensions
-		    Dim ext() As String = Split(type.Extensions, ";")
-		    If ext.IndexOf("." + FileExtension) > -1 Then Return type
-		  Next
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function GuessVideoFormat(FileExtension As String) As FileType
-		  FileExtension = NthField(FileExtension, ".", CountFields(FileExtension, "."))
-		  Static extensions() As FileType = Array(MediaFileTypes.Video3gpp, MediaFileTypes.Video3gpp2, MediaFileTypes.VideoAvi, MediaFileTypes.VideoFlc, _
-		  MediaFileTypes.VideoFlv, MediaFileTypes.VideoMp4, MediaFileTypes.VideoSdVideo, MediaFileTypes.VideoWebm, MediaFileTypes.VideoXDv, _
-		  MediaFileTypes.VideoXM4v, MediaFileTypes.VideoXMatroska, MediaFileTypes.VideoXMpeg, MediaFileTypes.VideoXMsAsf)
-		  
-		  For Each type As FileType In extensions
-		    Dim ext() As String = Split(type.Extensions, ";")
-		    If ext.IndexOf("." + FileExtension) > -1 Then Return type
-		  Next
 		End Function
 	#tag EndMethod
 
