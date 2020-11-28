@@ -379,6 +379,9 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Replaces the current VLCPlayer. If there are no other references to the old VLCPlayer then
+			  ' it is destroyed.
+			  
 			  If mPlayer = Nil Then Raise New NilObjectException
 			  libvlc_media_list_player_set_media_player(mPlayer, value.Handle)
 			  If Not System.IsFunctionAvailable("libvlc_media_list_player_get_media_player", "libvlc") Then
