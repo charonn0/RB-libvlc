@@ -81,17 +81,13 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Load(M3U As FolderItem) As Integer
-		  Dim c As Integer
-		  Dim bs As BinaryStream
-		  Try
-		    bs = BinaryStream.Open(M3U)
-		    c = Load(bs)
-		  Finally
-		    If bs <> Nil Then bs.Close()
-		  End Try
-		  Return c
-		End Function
+		Sub Load(Added() As FolderItem)
+		  Dim m() As Medium
+		  For i As Integer = 0 To UBound(Added)
+		    m.Append(Added(i))
+		  Next
+		  If UBound(m) > -1 Then Load(m)
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -109,7 +105,21 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Load(M3U As Readable) As Integer
+		Function LoadM3U(M3U As FolderItem) As Integer
+		  Dim c As Integer
+		  Dim bs As BinaryStream
+		  Try
+		    bs = BinaryStream.Open(M3U)
+		    c = LoadM3U(bs)
+		  Finally
+		    If bs <> Nil Then bs.Close()
+		  End Try
+		  Return c
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function LoadM3U(M3U As Readable) As Integer
 		  Dim m() As libvlc.Medium = ReadM3U(M3U)
 		  If UBound(m) > -1 Then Load(m)
 		  Return UBound(m) + 1
