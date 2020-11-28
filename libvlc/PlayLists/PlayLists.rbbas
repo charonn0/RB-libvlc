@@ -113,6 +113,14 @@ Protected Module PlayLists
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub WriteM3U(Media() As libvlc.Medium, WriteTo As FolderItem, ListName As String = "", Overwrite As Boolean = False)
+		  Dim bs As BinaryStream = BinaryStream.Create(WriteTo, Overwrite)
+		  WriteM3U(Media, bs, ListName)
+		  bs.Close
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub WriteM3U(Media() As libvlc.Medium, WriteTo As Writeable, ListName As String = "")
 		  WriteTo.Write("#EXTM3U" + EndOfLine.Windows + EndOfLine.Windows)
 		  
