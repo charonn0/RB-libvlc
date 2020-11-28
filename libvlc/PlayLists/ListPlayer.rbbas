@@ -2,6 +2,15 @@
 Protected Class ListPlayer
 Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
+		Sub Append(Medium As libvlc.Medium)
+		  ' Append a medium to the playlist.
+		  
+		  PlayList.Append(Medium)
+		  Playlist = Playlist
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor()
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
@@ -53,6 +62,47 @@ Inherits libvlc.VLCInstance
 		Sub EmbedWithin(Parent As Window)
 		  TruePlayer.EmbedWithin(Parent)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Insert(Index As Integer, Medium As libvlc.Medium)
+		  PlayList.Insert(Index, Medium)
+		  Playlist = Playlist
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Item(Index As Integer) As libvlc.Medium
+		  Return Playlist(Index)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Load(Added() As FolderItem)
+		  Playlist.Load(Added)
+		  Playlist = Playlist
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Load(Added() As libvlc.Medium)
+		  Playlist.Load(Added)
+		  Playlist = Playlist
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function LoadM3U(M3U As FolderItem) As Integer
+		  Call Playlist.LoadM3U(M3U)
+		  Playlist = Playlist
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function LoadM3U(M3U As Readable) As Integer
+		  Call Playlist.LoadM3U(M3U)
+		  Playlist = Playlist
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -133,6 +183,13 @@ Inherits libvlc.VLCInstance
 		    End If
 		    Raise New VLCException("That medium is not included in this media list.")
 		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Remove(Index As Integer)
+		  PlayList.Remove(Index)
+		  Playlist = Playlist
 		End Sub
 	#tag EndMethod
 
