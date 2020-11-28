@@ -20,7 +20,7 @@ Inherits libvlc.Meta.LinkedList
 	#tag Method, Flags = &h0
 		Function Help(Index As Integer) As String
 		  Dim mb As MemoryBlock = Me.Item(Index).libvlc_module_description_t.psz_help
-		  Return mb.CString(0)
+		  If mb <> Nil Then Return mb.CString(0)
 		  
 		End Function
 	#tag EndMethod
