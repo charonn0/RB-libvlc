@@ -4,7 +4,8 @@ Inherits Canvas
 	#tag CompatibilityFlags = TargetHasGUI
 	#tag Event
 		Sub Close()
-		  Me.Stop
+		  Me.Stop()
+		  RaiseEvent Close()
 		End Sub
 	#tag EndEvent
 
@@ -36,13 +37,13 @@ Inherits Canvas
 
 	#tag Event
 		Sub EnableMenuItems()
-		  Break
+		  ' This event is not raised
 		End Sub
 	#tag EndEvent
 
 	#tag Event
 		Sub GotFocus()
-		  Break
+		  ' This event is not raised
 		End Sub
 	#tag EndEvent
 
@@ -62,14 +63,13 @@ Inherits Canvas
 
 	#tag Event
 		Sub LostFocus()
-		  Break
+		  ' This event is not raised
 		End Sub
 	#tag EndEvent
 
 	#tag Event
 		Sub Open()
 		  mPlayer = New VLCPlayer
-		  AddHandler mPlayer.VLCLog, WeakAddressOf VLCLogHandler
 		  AddHandler mPlayer.ChangedState, WeakAddressOf ChangedStateHandler
 		  mPlayer.EmbedWithin(Me)
 		  RaiseEvent Open()
@@ -86,33 +86,29 @@ Inherits Canvas
 
 	#tag Method, Flags = &h0
 		Sub Pause()
-		  mPlayer.Pause
+		  mPlayer.Pause()
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play()
-		  mPlayer.Play
+		  mPlayer.Play()
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Stop()
-		  mPlayer.Stop
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub VLCLogHandler(Sender As libvlc.VLCPlayer, Level As Integer, Context As Ptr, Format As String, Args As String)
-		  #pragma Unused Sender
-		  #pragma Unused Context
-		  System.DebugLog("libvlc: severity: " + Str(Level) + " " + Format + " (" + Args + ")")
+		  mPlayer.Stop()
 		End Sub
 	#tag EndMethod
 
 
 	#tag Hook, Flags = &h0
 		Event ChangedState()
+	#tag EndHook
+
+	#tag Hook, Flags = &h0
+		Event Close()
 	#tag EndHook
 
 	#tag Hook, Flags = &h0
