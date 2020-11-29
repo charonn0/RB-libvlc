@@ -5,14 +5,15 @@ Protected Class VLCInstance
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  If Singleton <> Nil Then
 		    Me.Constructor(Singleton)
+		    mUserAgent = Singleton.UserAgent
+		    mAppName = Singleton.AppName
 		  Else
 		    mInstance = libvlc_new(0, Nil)
 		    If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
+		    mUserAgent = "RB-libvlc/1.0"
+		    Me.AppName = App.ExecutableFile.Name
 		    Singleton = Me
 		  End If
-		  mUserAgent = "RB-VLC/1.0"
-		  Me.AppName = App.ExecutableFile.Name
-		  
 		End Sub
 	#tag EndMethod
 
@@ -57,38 +58,15 @@ Protected Class VLCInstance
 		Protected Sub Constructor(AddRef As VLCInstance)
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
-		  'Me.Logging = DebugBuild
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
-		  If mInstance <> Nil Then
-		    'Me.Logging = False
-		    libvlc_release(mInstance)
-		  End If
+		  If mInstance <> Nil Then libvlc_release(mInstance)
 		  mInstance = Nil
 		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Shared Sub LogCallback(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
-		  #pragma X86CallingConvention CDecl
-		  
-		  Dim vlc As WeakRef = mInstances.Lookup(UserData, Nil)
-		  If vlc <> Nil And vlc.Value <> Nil And vlc.Value IsA VLCInstance Then
-		    Dim mb As MemoryBlock = Args
-		    VLCInstance(vlc.Value).VLCLog(Level, Context, Format, mb.CString(0))
-		    Return
-		  End If
-		  
-		  #If TargetWin32 Then
-		    Declare Function sprintf Lib "msvcrt" (Char As Ptr, Frmt As CString, Arg As Ptr) As Integer
-		    Dim buffer As New MemoryBlock(1024)
-		    Call sprintf(buffer, Format, Args)
-		    System.DebugLog(buffer.CString(0))
-		  #endif
 		End Sub
 	#tag EndMethod
 
@@ -98,22 +76,6 @@ Protected Class VLCInstance
 		  Return Sign(Integer(mInstance) - Integer(OtherInstance.mInstance))
 		End Function
 	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Sub VLCLog(Level As Integer, Context As Ptr, Format As String, Args As String)
-		  #pragma BreakOnExceptions Off
-		  Try
-		    RaiseEvent VLCLog(Level, Context, Format, Args)
-		  Catch
-		    System.DebugLog("Post-mortem debug message: " + Format)
-		  End Try
-		End Sub
-	#tag EndMethod
-
-
-	#tag Hook, Flags = &h0
-		Event VLCLog(Level As Integer, Context As Ptr, Format As String, Args As String)
-	#tag EndHook
 
 
 	#tag ComputedProperty, Flags = &h0
@@ -142,46 +104,12 @@ Protected Class VLCInstance
 		Protected Instance As Ptr
 	#tag EndComputedProperty
 
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  return mLogging
-			End Get
-		#tag EndGetter
-		#tag Setter
-			Set
-			  ' logging is all sorts of broken. 
-			  ' See: https://github.com/charonn0/RB-libvlc/issues/2 and https://github.com/charonn0/RB-libvlc/issues/1
-			  
-			  If mInstances = Nil Then mInstances = New Dictionary
-			  If value Then
-			    libvlc_log_set(mInstance, AddressOf LogCallback, mInstance)
-			    mInstances.Value(mInstance) = New WeakRef(Me)
-			  Else
-			    libvlc_log_unset(mInstance)
-			    If mInstances.HasKey(mInstance) Then mInstances.Remove(mInstance)
-			  End If
-			  
-			  mLogging = value
-			End Set
-		#tag EndSetter
-		Attributes( deprecated ) Logging As Boolean
-	#tag EndComputedProperty
-
 	#tag Property, Flags = &h21
 		Private mAppName As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mInstance As Ptr
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private Shared mInstances As Dictionary
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mLogging As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
