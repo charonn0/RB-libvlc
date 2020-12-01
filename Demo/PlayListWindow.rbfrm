@@ -855,6 +855,7 @@ End
 		  Dim revealfile As New MenuItem("Locate file...")
 		  revealfile.Tag = Me.RowTag(row)
 		  base.Append(revealfile)
+		  Return True
 		End Function
 	#tag EndEvent
 	#tag Event
