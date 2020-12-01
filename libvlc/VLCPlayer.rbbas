@@ -744,7 +744,7 @@ Inherits libvlc.VLCInstance
 			  End If
 			End Get
 		#tag EndGetter
-		MetaData As libvlc.Meta.MetaData
+		Attributes( deprecated ) MetaData As libvlc.Meta.MetaData
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
