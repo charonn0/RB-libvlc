@@ -2,6 +2,8 @@
 Protected Class VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor()
+		  ' Construct a new instance and store it in Singleton, or increment the refcount on the existing Singleton.
+		  
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  If Singleton <> Nil Then
 		    Me.Constructor(Singleton)
@@ -47,7 +49,6 @@ Protected Class VLCInstance
 		    If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
 		    If CommandLine = DEFAULT_ARGS Then Singleton = Me
 		  End If
-		  'Me.Logging = DebugBuild
 		  mUserAgent = "RB-VLC/1.0"
 		  Me.AppName = App.ExecutableFile.Name
 		  
@@ -56,6 +57,10 @@ Protected Class VLCInstance
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(AddRef As VLCInstance)
+		  ' Increments the refcount of the instance represented by AddRef. Subclasses that
+		  ' provide a Constructor(VLCInstance) method must also call this Constructor with
+		  ' the same parameter.
+		  
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
 		  
