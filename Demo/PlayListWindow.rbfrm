@@ -743,19 +743,26 @@ End
 		Sub DropObject(obj As DragItem, action As Integer)
 		  #pragma Unused action
 		  Do
-		    If obj.FolderItem <> Nil Then
-		      Dim f As FolderItem = obj.FolderItem
-		      If f.Directory Then
-		        If MsgBox("Recursively scan '" + f.Name + "'?", 4 + 48, "Confirm action") = 6 Then
-		          AddDirectory(f)
-		        End If
-		      Else
-		        Dim m As libvlc.Medium = obj.FolderItem
+		    Select Case True
+		    Case obj.FolderItem = Nil
+		      If InStr(obj.Text, "://") > 0 Then
+		        Dim m As libvlc.Medium = obj.Text.Trim
 		        mPlayer.Playlist.Append(m)
 		        MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
 		        MediaList.RowTag(MediaList.LastIndex) = m
 		      End If
-		    End If
+		      
+		    Case obj.FolderItem.Directory
+		      If MsgBox("Recursively scan '" + obj.FolderItem.Name + "'?", 4 + 48, "Confirm action") = 6 Then
+		        AddDirectory(obj.FolderItem)
+		      End If
+		    Else
+		      Dim m As libvlc.Medium = obj.FolderItem
+		      mPlayer.Playlist.Append(m)
+		      MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
+		      MediaList.RowTag(MediaList.LastIndex) = m
+		      
+		    End Select
 		  Loop Until Not obj.NextItem()
 		  mLastActive = -2
 		  
