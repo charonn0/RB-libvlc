@@ -227,30 +227,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Media() As libvlc.Medium
-		  If mMedium = Nil And mPlayer <> Nil Then
-		    Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
-		    If p <> Nil Then mMedium = New MediumPtr(p, True)
-		  End If
-		  Return mMedium
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Media(Assigns NewMedium As libvlc.Medium)
-		  If mPlayer <> Nil Then
-		    Me.Stop()
-		    If NewMedium <> Nil Then
-		      libvlc_media_player_set_media(mPlayer, NewMedium.Handle)
-		    Else
-		      libvlc_media_player_set_media(mPlayer, Nil)
-		    End If
-		    mMedium = NewMedium
-		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub NavigateMenu(Mode As libvlc.NavigationMode)
 		  If mPlayer <> Nil Then libvlc_media_player_navigate(mPlayer, Mode)
 		End Sub
@@ -727,6 +703,30 @@ Inherits libvlc.VLCInstance
 		Private mDeinterlace As String
 	#tag EndProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer = Nil Then Return Nil
+			  Dim p As Ptr = libvlc_media_player_get_media(mPlayer)
+			  If p <> Nil Then Return New MediumPtr(p, True)
+			  
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer = Nil Then Return
+			  Me.Stop()
+			  If value <> Nil Then
+			    libvlc_media_player_set_media(mPlayer, value.Handle)
+			  Else
+			    libvlc_media_player_set_media(mPlayer, Nil)
+			  End If
+			  
+			End Set
+		#tag EndSetter
+		Media As libvlc.Medium
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h21
 		Private mEqualizer As libvlc.Equalizer
 	#tag EndProperty
@@ -746,10 +746,6 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mLastState As libvlc.PlayerState
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mMedium As libvlc.Medium
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
