@@ -8,7 +8,6 @@ Inherits libvlc.VLCInstance
 		  Me.Lock()
 		  Try
 		    If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
-		    mMediaList.Append(Medium)
 		  Finally
 		    Me.Unlock()
 		  End Try
@@ -42,7 +41,7 @@ Inherits libvlc.VLCInstance
 		Private Sub Destructor()
 		  If mList <> Nil Then libvlc_media_list_release(mList)
 		  mList = Nil
-		  ReDim mMediaList(-1)
+		  
 		End Sub
 	#tag EndMethod
 
@@ -67,7 +66,6 @@ Inherits libvlc.VLCInstance
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_insert_media(mList, Medium.Handle, Index) <> 0 Then Raise New VLCException("Unable to insert media into the media list.")
-		    mMediaList.Insert(Index, Medium)
 		  Finally
 		    Me.Unlock
 		  End Try
@@ -95,8 +93,7 @@ Inherits libvlc.VLCInstance
 		  Me.Lock()
 		  Try
 		    For i As Integer = 0 To UBound(Added)
-		      Dim medium As libvlc.Medium = Added(i)
-		      If libvlc_media_list_add_media(mList, medium.Handle) = 0 Then mMediaList.Append(medium)
+		      If libvlc_media_list_add_media(mList, Added(i).Handle) <> 0 Then Raise New VLCException("Unable to load medium into the list")
 		    Next
 		  Finally
 		    Me.Unlock()
@@ -143,7 +140,20 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Operator_Convert() As libvlc.Medium()
-		  Return mMediaList
+		  If mList = Nil Then Raise New OutOfBoundsException
+		  Dim m() As Medium
+		  Me.Lock
+		  Try
+		    Dim c As Integer = libvlc_media_list_count(mList)
+		    For i As Integer = 0 To c - 1
+		      Dim p As Ptr = libvlc_media_list_item_at_index(mList, i)
+		      If p <> Nil Then m.Append(New MediumPtr(p, False))
+		    Next
+		  Finally
+		    Me.Unlock
+		  End Try
+		  
+		  Return m
 		End Function
 	#tag EndMethod
 
@@ -153,9 +163,7 @@ Inherits libvlc.VLCInstance
 		  Me.Lock()
 		  Try
 		    For i As Integer = 0 To FromList.Ubound()
-		      Dim Medium As libvlc.Medium = FromList(i)
-		      If libvlc_media_list_add_media(mList, Medium.Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
-		      mMediaList.Append(Medium)
+		      If libvlc_media_list_add_media(mList, FromList(i).Handle) <> 0 Then Raise New VLCException("Unable to add media to the media list.")
 		    Next
 		  Finally
 		    Me.Unlock()
@@ -172,7 +180,6 @@ Inherits libvlc.VLCInstance
 		  Try
 		    For i As Integer = c DownTo NewBounds + 1
 		      If libvlc_media_list_remove_index(mList, i) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
-		      mMediaList.Remove(i)
 		    Next
 		  Finally
 		    Me.Unlock
@@ -211,7 +218,6 @@ Inherits libvlc.VLCInstance
 		  Me.Lock
 		  Try
 		    If libvlc_media_list_remove_index(mList, Index) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
-		    mMediaList.Remove(Index)
 		  Finally
 		    Me.Unlock
 		  End Try
@@ -273,11 +279,9 @@ Inherits libvlc.VLCInstance
 		  Dim count As Integer = UBound(Sortable)
 		  Me.Lock()
 		  Try
-		    ReDim mMediaList(-1)
 		    For i As Integer = 0 To count
 		      Dim p As Ptr = libvlc_media_list_item_at_index(mList, i)
 		      If p = Nil Then Raise New NilObjectException
-		      mMediaList.Append(New MediumPtr(p, False))
 		      Call libvlc_media_list_insert_media(mList, p, Sortable(i))
 		      Call libvlc_media_list_remove_index(mList, i)
 		    Next
@@ -347,11 +351,20 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mList <> Nil Then
-			    ' Dim p As Ptr = libvlc_media_list_media(mList)
-			    ' If p <> Nil Then Return New MediumPtr(p)
-			    For i As Integer = 0 To UBound(mMediaList)
-			      If mMediaList(i).CurrentState = libvlc.PlayerState.PLAYING Then Return mMediaList(i)
+			  If mList = Nil Then Return Nil
+			  ' I have never observed this function to return anything but nil.
+			  ' In the event that it works in future libvlc releases we'll try
+			  ' to use it because it's much more efficient than scanning the list.
+			  Dim p As Ptr = libvlc_media_list_media(mList)
+			  If p <> Nil Then
+			    ' Holy crap it worked.
+			    Return New MediumPtr(p, False) ' False: do not increment refcount
+			  Else
+			    ' It didn't work. Try the slow way.
+			    Dim c As Integer = Count
+			    For i As Integer = 0 To c - 1
+			      Dim m As Medium = Operator_Subscript(i)
+			      If m.CurrentState = libvlc.PlayerState.Playing Then Return m
 			    Next
 			  End If
 			End Get
@@ -390,8 +403,9 @@ Inherits libvlc.VLCInstance
 			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.PlayList.LengthMS
 			  
 			  Dim ms As Int64
-			  For i As Integer = 0 To UBound(mMediaList)
-			    ms = ms + mMediaList(i).DurationMS
+			  Dim c As Integer = Count
+			  For i As Integer = 0 To c - 1
+			    ms = ms + Operator_Subscript(i).DurationMS
 			  Next
 			  Return ms
 			End Get
@@ -405,10 +419,6 @@ Inherits libvlc.VLCInstance
 
 	#tag Property, Flags = &h21
 		Private mLock As Semaphore
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mMediaList() As libvlc.Medium
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -431,9 +441,10 @@ Inherits libvlc.VLCInstance
 			  
 			  If Me.CurrentIndex = -1 Then Return 0
 			  Dim ms As Int64
-			  For i As Integer = 0 To UBound(mMediaList)
+			  Dim c As Integer = Count
+			  For i As Integer = 0 To c - 1
 			    If i < CurrentIndex Then
-			      ms = ms + mMediaList(i).DurationMS
+			      ms = ms + Operator_Subscript(i).DurationMS
 			    Else
 			      Exit For
 			    End If
