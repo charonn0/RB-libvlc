@@ -119,6 +119,29 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return mPlayer.AspectRatio
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.AspectRatio = value
+			End Set
+		#tag EndSetter
+		AspectRatio As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.AudioTracks
+			End Get
+		#tag EndGetter
+		AudioTracks As libvlc.Meta.AudioTrackList
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return mPlayer.CanPause
 			End Get
 		#tag EndGetter
@@ -146,6 +169,20 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return mPlayer.CaptureKeyboard
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.CaptureKeyboard = value
+			End Set
+		#tag EndSetter
+		CaptureKeyboard As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return mPlayer.CaptureMouse
 			End Get
 		#tag EndGetter
@@ -164,6 +201,20 @@ Inherits Canvas
 			End Get
 		#tag EndGetter
 		CurrentState As libvlc.PlayerState
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.Deinterlace
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If mPlayer <> Nil Then mPlayer.Deinterlace = value
+			End Set
+		#tag EndSetter
+		Deinterlace As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -233,7 +284,7 @@ Inherits Canvas
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mPlayer.Media = value
+			  If mPlayer <> Nil Then mPlayer.Media = value
 			End Set
 		#tag EndSetter
 		Media As libvlc.Medium
@@ -311,6 +362,15 @@ Inherits Canvas
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mPlayer <> Nil Then Return mPlayer.Subtitles
+			End Get
+		#tag EndGetter
+		Subtitles As libvlc.Meta.SubtitlesTrackList
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mPlayer <> Nil Then Return mPlayer.TimeMS
 			End Get
 		#tag EndGetter
@@ -329,6 +389,15 @@ Inherits Canvas
 			End Get
 		#tag EndGetter
 		TruePlayer As libvlc.VLCPlayer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mPlayer <> Nil Then Return mPlayer.VideoTracks
+			End Get
+		#tag EndGetter
+		VideoTracks As libvlc.Meta.VideoTrackList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
