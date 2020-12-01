@@ -870,14 +870,8 @@ End
 	#tag EndEvent
 
 	#tag Event
-		Sub Maximize()
-		  mIsMaximized = True
-		End Sub
-	#tag EndEvent
-
-	#tag Event
 		Sub Moved()
-		  If Not mIsMaximized And mPlaylistWindow <> Nil And mPlaylistWindow.LockToParentWindow Then
+		  If mPlaylistWindow <> Nil And mPlaylistWindow.LockToParentWindow Then
 		    mPlaylistWindow.Left = Self.Left + Self.Width
 		    mPlaylistWindow.Top = Self.Top
 		  End If
@@ -898,12 +892,6 @@ End
 		    mPlaylistWindow.Left = Self.Left + Self.Width
 		    mPlaylistWindow.Top = Self.Top
 		  End If
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Sub Restore()
-		  mIsMaximized = False
 		End Sub
 	#tag EndEvent
 
@@ -931,6 +919,12 @@ End
 		    End If
 		  Next
 		  
+		  LoadPlaylist(m)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LoadPlaylist(Items() As libvlc.Medium)
 		  If mPlaylistWindow = Nil Then
 		    mPlaylistWindow = New PlayListWindow
 		    Self.Left = Self.Left - (mPlaylistWindow.Width / 2)
@@ -938,7 +932,7 @@ End
 		    mPlaylistWindow.Top = Self.Top
 		    mPlaylistWindow.Height = Self.Height
 		  End If
-		  mPlaylistWindow.ShowList(Self, Player.TruePlayer, m)
+		  mPlaylistWindow.ShowList(Self, Player.TruePlayer, Items)
 		  
 		End Sub
 	#tag EndMethod
@@ -1087,10 +1081,6 @@ End
 
 	#tag Property, Flags = &h21
 		Private mFractionalSeconds As Boolean
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mIsMaximized As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1559,20 +1549,22 @@ End
 	#tag Event
 		Sub DropObject(obj As DragItem, action As Integer)
 		  #pragma Unused action
-		  Dim m() As FolderItem
+		  Dim m() As libvlc.Medium
 		  
 		  Do
-		    If obj.FolderItem <> Nil Then
+		    Select Case True
+		    Case obj.FolderItem <> Nil
 		      m.Append(obj.FolderItem)
-		    ElseIf mPlaylistWindow <> Nil Then
+		    Case mPlaylistWindow <> Nil
 		      Dim txt As String = obj.Text.Trim
 		      If txt <> "" Then
 		        Dim i As Integer = Val(txt)
 		        If i > mPlaylistWindow.Count - 1 Then Return
 		        mPlaylistWindow.CurrentIndex = i
 		      End If
-		      
-		    End If
+		    Case InStr(obj.Text, "://") > 0
+		      m.Append(obj.Text.Trim)
+		    End Select
 		  Loop Until Not obj.NextItem
 		  
 		  If UBound(m) = 0 And mPlaylistWindow = Nil Then
