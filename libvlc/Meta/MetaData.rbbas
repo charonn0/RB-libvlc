@@ -2,14 +2,14 @@
 Protected Class MetaData
 	#tag Method, Flags = &h0
 		Sub Constructor(Owner As libvlc.Medium)
-		  mOwner = Owner
-		  If Not mOwner.IsParsed Then mOwner.Parse()
+		  mOwner = New WeakRef(Owner)
+		  If Not Owner.IsParsed Then Owner.Parse()
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Flush()
-		  If Not libvlc_media_save_meta(mOwner.Handle) Then Raise New VLCException("Unable to flush metadata changes to the media.")
+		  If Not libvlc_media_save_meta(Owner.Handle) Then Raise New VLCException("Unable to flush metadata changes to the media.")
 		End Sub
 	#tag EndMethod
 
@@ -21,7 +21,7 @@ Protected Class MetaData
 
 	#tag Method, Flags = &h0
 		Function Lookup(Type As libvlc.MetaDataType, DefaultValue As String) As String
-		  Dim mb As MemoryBlock = libvlc_media_get_meta(mOwner.Handle, Type)
+		  Dim mb As MemoryBlock = libvlc_media_get_meta(Owner.Handle, Type)
 		  If mb <> Nil Then Return DefineEncoding(mb.CString(0), Encodings.UTF8)
 		  Return DefaultValue
 		End Function
@@ -29,7 +29,7 @@ Protected Class MetaData
 
 	#tag Method, Flags = &h0
 		Function Value(Type As libvlc.MetaDataType) As String
-		  Dim mb As MemoryBlock = libvlc_media_get_meta(mOwner.Handle, Type)
+		  Dim mb As MemoryBlock = libvlc_media_get_meta(Owner.Handle, Type)
 		  If mb = Nil Then Raise New VLCException("The media does not contain meta data of the specified type.")
 		  Return DefineEncoding(mb.CString(0), Encodings.UTF8)
 		End Function
@@ -37,7 +37,7 @@ Protected Class MetaData
 
 	#tag Method, Flags = &h0
 		Sub Value(Type As libvlc.MetaDataType, Assigns NewValue As String)
-		  libvlc_media_set_meta(mOwner.Handle, Type, NewValue)
+		  libvlc_media_set_meta(Owner.Handle, Type, NewValue)
 		End Sub
 	#tag EndMethod
 
@@ -52,8 +52,17 @@ Protected Class MetaData
 
 
 	#tag Property, Flags = &h21
-		Private mOwner As libvlc.Medium
+		Private mOwner As WeakRef
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mOwner <> Nil And mOwner.Value IsA Medium Then Return Medium(mOwner.Value)
+			End Get
+		#tag EndGetter
+		Owner As libvlc.Medium
+	#tag EndComputedProperty
 
 
 	#tag ViewBehavior
