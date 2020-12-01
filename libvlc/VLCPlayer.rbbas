@@ -139,23 +139,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function EmbeddedWithin() As Integer
-		  ' Returns an OS-specific handle to the window or control in which the player's video output is embedded.
-		  ' Use the EmbedWithin method to specify the window or control.
-		  
-		  If mPlayer = Nil Then Return 0
-		  #If TargetWin32 Then
-		    Return libvlc_media_player_get_hwnd(mPlayer)
-		  #ElseIf TargetMacOS
-		    Return libvlc_media_player_get_nsobject(mPlayer)
-		  #Else
-		    Return libvlc_media_player_get_xwindow(mPlayer)
-		  #endif
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub EmbedWithin(Parent As Integer)
 		  ' Pass the OS-specific handle of a Window, ContainerControl, or RectControl as 'Parent'. The video output (if any) superimposes
 		  ' and obscures the Parent, and will move/resize automatically when the parent does.
@@ -601,6 +584,26 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		Deinterlace As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  ' Returns an OS-specific handle to the window or control in which the player's video output is embedded.
+			  ' Use the EmbedWithin() method to specify the window or control.
+			  
+			  If mPlayer = Nil Then Return 0
+			  #If TargetWin32 Then
+			    Return libvlc_media_player_get_hwnd(mPlayer)
+			  #ElseIf TargetMacOS
+			    Return libvlc_media_player_get_nsobject(mPlayer)
+			  #Else
+			    Return libvlc_media_player_get_xwindow(mPlayer)
+			  #endif
+			  
+			End Get
+		#tag EndGetter
+		EmbeddedWithin As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
