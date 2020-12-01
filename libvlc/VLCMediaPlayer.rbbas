@@ -290,15 +290,6 @@ Inherits Canvas
 		Media As libvlc.Medium
 	#tag EndComputedProperty
 
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  If mPlayer <> Nil Then Return mPlayer.MetaData
-			End Get
-		#tag EndGetter
-		MetaData As libvlc.Meta.MetaData
-	#tag EndComputedProperty
-
 	#tag Property, Flags = &h1
 		Protected mPlayer As libvlc.VLCPlayer
 	#tag EndProperty
