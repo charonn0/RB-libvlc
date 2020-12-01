@@ -114,7 +114,7 @@ End
 		  mPlayer.Play
 		  Do
 		    App.YieldToNextThread
-		  Loop Until mPlayer.CurrentState <> libvlc.PlayerState.OPENING
+		  Loop Until mPlayer.CurrentState <> libvlc.PlayerState.Opening
 		  Return (mStartTime * 100 / p) / 100
 		End Function
 	#tag EndMethod
@@ -128,7 +128,7 @@ End
 		  mPlayer.EmbedWithin(Self)
 		  Do Until mPlayer.Play
 		    App.YieldToNextThread
-		  Loop Until mPlayer.CurrentState = libvlc.PlayerState.ERROR
+		  Loop Until mPlayer.CurrentState = libvlc.PlayerState.Error
 		  SetPositionTimer.Mode = Timer.ModeSingle
 		  Me.ShowModal
 		End Sub
@@ -160,7 +160,7 @@ End
 #tag Events SetPositionTimer
 	#tag Event
 		Sub Action()
-		  If mPlayer.CurrentState <> libvlc.PlayerState.PLAYING Then
+		  If mPlayer.CurrentState <> libvlc.PlayerState.Playing Then
 		    Me.Reset
 		  Else
 		    mPlayer.Position = (mStartTime * 100 / mPlayer.LengthMS) / 100
@@ -172,8 +172,8 @@ End
 	#tag Event
 		Sub Action()
 		  If mPlayer = Nil Then Return
-		  If mPlayer.CurrentState = libvlc.PlayerState.ENDED Or _
-		    mPlayer.CurrentState = libvlc.PlayerState.ERROR Or mPlayer.CurrentState = libvlc.PlayerState.STOPPING Then Self.Close
+		  If mPlayer.CurrentState = libvlc.PlayerState.Ended Or _
+		    mPlayer.CurrentState = libvlc.PlayerState.Error Or mPlayer.CurrentState = libvlc.PlayerState.Stopping Then Self.Close
 		    If mControls = Nil Then
 		      mControls = New FullscreenControls
 		      mControls.ShowPlayer(mPlayer, Self)

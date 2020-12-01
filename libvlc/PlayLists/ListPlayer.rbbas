@@ -146,10 +146,10 @@ Inherits libvlc.VLCInstance
 		  End If
 		  Do
 		    Select Case Me.CurrentState
-		    Case libvlc.PlayerState.BUFFERING, libvlc.PlayerState.IDLE, libvlc.PlayerState.OPENING
+		    Case libvlc.PlayerState.Buffering, libvlc.PlayerState.Idle, libvlc.PlayerState.Opening
 		      App.YieldToNextThread
 		      Continue
-		    Case libvlc.PlayerState.PLAYING
+		    Case libvlc.PlayerState.Playing
 		      If StartPaused Then Me.Pause
 		      #If TargetDesktop Then
 		        App.SleepCurrentThread(100)

@@ -567,7 +567,7 @@ End
 		  If mDirty Then
 		    PrevTrackBtn.Enabled = mPlayer.CanMovePrev
 		    NextTrackBtn.Enabled = mPlayer.CanMoveNext
-		    If mPlayer.CurrentState = libvlc.PlayerState.PLAYING Then
+		    If mPlayer.CurrentState = libvlc.PlayerState.Playing Then
 		      PlayBtn.Caption = "Pause"
 		      StopBtn.Enabled = True
 		    Else

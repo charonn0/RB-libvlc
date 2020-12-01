@@ -1161,7 +1161,7 @@ End
 #tag Events FullscreenRevertTimer
 	#tag Event
 		Sub Action()
-		  If Player.CurrentState <> libvlc.PlayerState.PLAYING Then
+		  If Player.CurrentState <> libvlc.PlayerState.Playing Then
 		    Me.Reset
 		  Else
 		    Player.Position = mLastPosition
@@ -1377,7 +1377,7 @@ End
 	#tag Event
 		Sub Action()
 		  If Me.Caption = "Play" Then
-		    If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop()
+		    If Player.CurrentState = libvlc.PlayerState.Ended Then Player.Stop()
 		    Player.Play()
 		    Me.Caption = "Pause"
 		    If Left(Player.Media.MediaURL, 4) = "dvd:" Then
@@ -1435,7 +1435,7 @@ End
 		  
 		  base.Append(play)
 		  base.Append(stop)
-		  If Me.CurrentState = libvlc.PlayerState.PAUSED Then
+		  If Me.CurrentState = libvlc.PlayerState.Paused Then
 		    base.Append(resume)
 		  Else
 		    base.Append(pause)
@@ -1509,7 +1509,7 @@ End
 		  If Player.Media <> Nil Then url = Player.Media.MediaURL
 		  If Player.TruePlayer.Muted <> IsMuted.Value Then IsMuted.Value = Player.TruePlayer.Muted
 		  
-		  If Player.CurrentState = libvlc.PlayerState.PLAYING Then
+		  If Player.CurrentState = libvlc.PlayerState.Playing Then
 		    PlayButton.Caption = "Pause"
 		  Else
 		    PlayButton.Caption = "Play"
@@ -1538,7 +1538,7 @@ End
 		    ReadMetaData(mPlaylistWindow.CurrentMedium)
 		  End If
 		  
-		  'If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop
+		  'If Player.CurrentState = libvlc.PlayerState.Ended Then Player.Stop
 		End Sub
 	#tag EndEvent
 	#tag Event

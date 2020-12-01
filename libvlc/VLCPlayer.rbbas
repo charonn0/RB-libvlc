@@ -243,15 +243,15 @@ Inherits libvlc.VLCInstance
 		  Catch
 		    Return False
 		  End Try
-		  Do Until Me.CurrentState = libvlc.PlayerState.PAUSED
+		  Do Until Me.CurrentState = libvlc.PlayerState.Paused
 		    #If TargetDesktop Then
 		      App.SleepCurrentThread(100)
 		    #Else
 		      App.DoEvents(100)
 		    #EndIf
-		  Loop Until Me.CurrentState = libvlc.PlayerState.ERROR
+		  Loop Until Me.CurrentState = libvlc.PlayerState.Error
 		  
-		  Return Me.CurrentState = libvlc.PlayerState.PAUSED
+		  Return Me.CurrentState = libvlc.PlayerState.Paused
 		End Function
 	#tag EndMethod
 
@@ -273,10 +273,10 @@ Inherits libvlc.VLCInstance
 		  End Try
 		  Do
 		    Select Case Me.CurrentState
-		    Case libvlc.PlayerState.BUFFERING, libvlc.PlayerState.IDLE, libvlc.PlayerState.OPENING
+		    Case libvlc.PlayerState.Buffering, libvlc.PlayerState.Idle, libvlc.PlayerState.Opening
 		      App.YieldToNextThread
 		      Continue
-		    Case libvlc.PlayerState.PLAYING
+		    Case libvlc.PlayerState.Playing
 		      If StartPaused Then Me.Pause
 		      #If TargetDesktop Then
 		        App.SleepCurrentThread(100)
@@ -336,15 +336,15 @@ Inherits libvlc.VLCInstance
 		  Catch
 		    Return False
 		  End Try
-		  Do Until Me.CurrentState = libvlc.PlayerState.STOPPING
+		  Do Until Me.CurrentState = libvlc.PlayerState.Stopping
 		    #If TargetDesktop Then
 		      App.SleepCurrentThread(100)
 		    #Else
 		      App.DoEvents(100)
 		    #EndIf
-		  Loop Until Me.CurrentState = libvlc.PlayerState.ERROR
+		  Loop Until Me.CurrentState = libvlc.PlayerState.Error
 		  
-		  Return Me.CurrentState = libvlc.PlayerState.STOPPING
+		  Return Me.CurrentState = libvlc.PlayerState.Stopping
 		End Function
 	#tag EndMethod
 
@@ -893,7 +893,7 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
-			  If mPlayer <> Nil And Me.CurrentState = libvlc.PlayerState.PLAYING Then
+			  If mPlayer <> Nil And Me.CurrentState = libvlc.PlayerState.Playing Then
 			    If libvlc_audio_set_volume(mPlayer, value) = -1 Then Raise New VLCException("Volume percent is out of range (0-100)")
 			  End If
 			End Set

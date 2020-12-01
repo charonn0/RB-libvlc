@@ -313,7 +313,7 @@ End
 	#tag Event
 		Sub Action()
 		  If Me.Caption = "Play" Then
-		    If Player.CurrentState = libvlc.PlayerState.ENDED Then Player.Stop()
+		    If Player.CurrentState = libvlc.PlayerState.Ended Then Player.Stop()
 		    Player.Play
 		    Me.Caption = "Pause"
 		  Else

@@ -692,21 +692,21 @@ Protected Module libvlc
 	#tag Method, Flags = &h1
 		Protected Function PlayerStateName(State As libvlc.PlayerState) As String
 		  Select Case State
-		  Case libvlc.PlayerState.BUFFERING
+		  Case libvlc.PlayerState.Buffering
 		    Return "buffering"
-		  Case libvlc.PlayerState.ENDED
+		  Case libvlc.PlayerState.Ended
 		    Return "finished"
-		  Case libvlc.PlayerState.ERROR
+		  Case libvlc.PlayerState.Error
 		    Return "error"
-		  Case libvlc.PlayerState.IDLE
+		  Case libvlc.PlayerState.Idle
 		    Return "idle"
-		  Case libvlc.PlayerState.OPENING
+		  Case libvlc.PlayerState.Opening
 		    Return "opening"
-		  Case libvlc.PlayerState.PAUSED
+		  Case libvlc.PlayerState.Paused
 		    Return "paused"
-		  Case libvlc.PlayerState.PLAYING
+		  Case libvlc.PlayerState.Playing
 		    Return "playing"
-		  Case libvlc.PlayerState.STOPPING
+		  Case libvlc.PlayerState.Stopping
 		    Return "stopping"
 		  End Select
 		End Function
@@ -908,14 +908,14 @@ Protected Module libvlc
 	#tag EndEnum
 
 	#tag Enum, Name = PlayerState, Type = Integer, Flags = &h1
-		IDLE=0
-		  OPENING=1
-		  BUFFERING=2
-		  PLAYING=3
-		  PAUSED=4
-		  STOPPING=5
-		  ENDED=6
-		ERROR=7
+		Idle=0
+		  Opening=1
+		  Buffering=2
+		  Playing=3
+		  Paused=4
+		  Stopping=5
+		  Ended=6
+		Error=7
 	#tag EndEnum
 
 	#tag Enum, Name = TrackType, Type = Integer, Flags = &h1
