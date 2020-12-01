@@ -122,7 +122,7 @@ End
 	#tag Method, Flags = &h0
 		Sub ShowPlayer(Player As libvlc.VLCPlayer)
 		  mPlayer = Player
-		  Self.Title = mPlayer.MetaData.Lookup(libvlc.MetaDataType.Title, "Fullscreen video")
+		  Self.Title = mPlayer.Media.Title + " - Fullscreen"
 		  mStartTime = mPlayer.TimeMS
 		  If Not mPlayer.Stop Then Break
 		  mPlayer.EmbedWithin(Self)

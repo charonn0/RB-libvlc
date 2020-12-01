@@ -1137,9 +1137,8 @@ End
 		      End If
 		      t = "'" + t + "'" + "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		      
-		    ElseIf Player.MetaData <> Nil Then
-		      t = "'" + Player.TruePlayer.MetaData.Lookup(libvlc.MetaDataType.Title, Player.Media.MediaURL) + "'" + _
-		      "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
+		    ElseIf Player.Media <> Nil Then
+		      t = "'" + Player.Media.Title + "'" + "(" + libvlc.PlayerStateName(Player.CurrentState) + ")"
 		    Else
 		      t = "libvlc demo"
 		    End If
