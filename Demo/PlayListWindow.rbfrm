@@ -800,8 +800,6 @@ End
 		    g.ForeColor = &cE2E2E200
 		    g.FillRect(0, 0, g.Width, g.Height)
 		    Return True
-		  Else
-		    
 		  End If
 		End Function
 	#tag EndEvent
@@ -811,10 +809,8 @@ End
 		  #pragma Unused x
 		  #pragma Unused y
 		  If mPlayer = Nil Then Return False
-		  If row = mPlayer.ListIndex Then
-		    g.Bold = True
-		    ' g.ForeColor = &cFFFFFF00
-		  End If
+		  If row = mPlayer.ListIndex Then g.Bold = True
+		  If Me.Selected(row) Then g.ForeColor = &cFFFFFF00
 		End Function
 	#tag EndEvent
 	#tag Event
