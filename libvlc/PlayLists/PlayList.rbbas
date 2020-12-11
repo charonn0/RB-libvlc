@@ -49,11 +49,11 @@ Inherits libvlc.VLCInstance
 		Function IndexOf(Medium As libvlc.Medium) As Integer
 		  If mList = Nil Then Return -1
 		  Dim ret As Integer
-		  Me.Lock
+		  Me.Lock()
 		  Try
 		    ret = libvlc_media_list_index_of_item(mList, Medium.Handle)
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		  
 		  Return ret
@@ -63,11 +63,11 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Insert(Index As Integer, Medium As libvlc.Medium)
 		  If mList = Nil Then Raise New OutOfBoundsException
-		  Me.Lock
+		  Me.Lock()
 		  Try
 		    If libvlc_media_list_insert_media(mList, Medium.Handle, Index) <> 0 Then Raise New VLCException("Unable to insert media into the media list.")
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		End Sub
 	#tag EndMethod
@@ -142,7 +142,7 @@ Inherits libvlc.VLCInstance
 		Function Operator_Convert() As libvlc.Medium()
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Dim m() As Medium
-		  Me.Lock
+		  Me.Lock()
 		  Try
 		    Dim c As Integer = libvlc_media_list_count(mList)
 		    For i As Integer = 0 To c - 1
@@ -150,7 +150,7 @@ Inherits libvlc.VLCInstance
 		      If p <> Nil Then m.Append(New MediumPtr(p, False))
 		    Next
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		  
 		  Return m
@@ -176,13 +176,13 @@ Inherits libvlc.VLCInstance
 		Sub Operator_Redim(NewBounds As Integer)
 		  If mList = Nil Then Me.Constructor()
 		  Dim c As Integer = Me.Count - 1
-		  Me.Lock
+		  Me.Lock()
 		  Try
 		    For i As Integer = c DownTo NewBounds + 1
 		      If libvlc_media_list_remove_index(mList, i) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
 		    Next
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		  
 		End Sub
@@ -192,12 +192,12 @@ Inherits libvlc.VLCInstance
 		Function Operator_Subscript(Index As Integer) As libvlc.Medium
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Dim ret As Medium
-		  Me.Lock
+		  Me.Lock()
 		  Try
 		    Dim p As Ptr = libvlc_media_list_item_at_index(mList, Index)
 		    If p <> Nil Then ret = New MediumPtr(p, False)
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		  
 		  Return ret
@@ -215,11 +215,11 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
 		  If mList = Nil Then Raise New OutOfBoundsException
-		  Me.Lock
+		  Me.Lock()
 		  Try
 		    If libvlc_media_list_remove_index(mList, Index) <> 0 Then Raise New VLCException("The media list does not contain an entry at that index.")
 		  Finally
-		    Me.Unlock
+		    Me.Unlock()
 		  End Try
 		End Sub
 	#tag EndMethod
