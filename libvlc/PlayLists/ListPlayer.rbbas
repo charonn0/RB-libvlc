@@ -232,7 +232,7 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mPlayList <> Nil And Me.ListIndex > 0
+			  Return Me.ListIndex > 0
 			End Get
 		#tag EndGetter
 		CanMovePrev As Boolean
