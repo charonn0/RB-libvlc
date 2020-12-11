@@ -245,6 +245,8 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Shuffle()
+		  ' Sort the playlist randomly.
+		  
 		  Dim indices() As Integer
 		  Dim count As Integer = Me.Count
 		  For i As Integer = 0 To count - 1
@@ -257,12 +259,16 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Sort()
+		  ' Sort the playlist by title.
+		  
 		  Sort(MetaDataType.Title)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Sort(SortBy As libvlc.MetaDataType)
+		  ' Sort the playlist according to the SortBy type (Artist, Album, etc.)
+		  
 		  Dim names() As String
 		  Dim c As Integer = Me.Count - 1
 		  For i As Integer = 0 To c
@@ -276,6 +282,13 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub SortWith(Sortable() As Integer)
+		  ' The Sortable() parameter is an array if indices into the playlist. The first number
+		  ' in the array is the new index for the first item in the play list, the second number
+		  ' is the new index of the second item in the play list, and so on.
+		  '
+		  ' For example if the playlist has three items in it and Sortable() = Array(2, 1, 0)
+		  ' that would swap the first and last items in the playlist (0->2; 1->1; 2->0)
+		  
 		  Dim count As Integer = UBound(Sortable)
 		  Me.Lock()
 		  Try
@@ -293,6 +306,8 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub SortWith(Sortable() As String)
+		  ' Sort Sortable() array and then sort the playlist in exactly the same way.
+		  
 		  Dim indices() As Integer
 		  Dim count As Integer = Me.Count
 		  For i As Integer = 0 To count - 1
