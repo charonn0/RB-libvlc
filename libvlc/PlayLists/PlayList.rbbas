@@ -206,9 +206,15 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Subscript(Index As Integer, Assigns NewMedia As libvlc.Medium)
-		  If mList = Nil Then Raise New OutOfBoundsException
-		  Me.Remove(Index)
-		  Me.Insert(Index, NewMedia)
+		  If mList = Nil Or Index < 0 Or Index > Count - 1 Then Raise New OutOfBoundsException
+		  Me.Lock()
+		  Try
+		    If libvlc_media_list_remove_index(mList, Index) <> 0 Or libvlc_media_list_insert_media(mList, NewMedia.Handle, Index) <> 0 Then
+		      Raise New VLCException("Unable to replace the medium at index.")
+		    End If
+		  Finally
+		    Me.Unlock()
+		  End Try
 		End Sub
 	#tag EndMethod
 
@@ -377,10 +383,23 @@ Inherits libvlc.VLCInstance
 			  Else
 			    ' It didn't work. Try the slow way.
 			    Dim c As Integer = Count
-			    For i As Integer = 0 To c - 1
-			      Dim m As Medium = Operator_Subscript(i)
-			      If m.CurrentState = libvlc.PlayerState.Playing Then Return m
-			    Next
+			    Dim m As Medium
+			    Me.Lock()
+			    Try
+			      For i As Integer = 0 To c - 1
+			        p = libvlc_media_list_item_at_index(mList, i)
+			        If p = Nil Then Continue
+			        Dim state As PlayerState = libvlc_media_get_state(p)
+			        If state = PlayerState.Playing Or state = PlayerState.Paused Then
+			          m = New MediumPtr(p, False)
+			          Exit For
+			        End If
+			        m = Nil
+			      Next
+			    Finally
+			      Me.Unlock()
+			    End Try
+			    Return m
 			  End If
 			End Get
 		#tag EndGetter
