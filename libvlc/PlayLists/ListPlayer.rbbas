@@ -166,10 +166,9 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
-		  If mPlayer <> Nil Then
-		    If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
-		      Raise New VLCException("The media list does not contain an entry at that index.")
-		    End If
+		  If mPlayer = Nil Then Return
+		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
+		    Raise New VLCException("The media list does not contain an entry at that index.")
 		  End If
 		End Sub
 	#tag EndMethod
