@@ -528,6 +528,12 @@ End
 		  If Not mDirty Then mDirty = mLastState <> mPlayer.CurrentState
 		  mLastState = mPlayer.CurrentState
 		  UpdateUI()
+		  If mPlayer.CurrentState = libvlc.PlayerState.Playing Then
+		    If mLastActive > -1 Then MediaList.RowPicture(mLastActive) = PlayArrow
+		  ElseIf mPlayer.CurrentState = libvlc.PlayerState.Paused Then
+		    If mLastActive > -1 Then MediaList.RowPicture(mLastActive) = PauseBars
+		  End If
+		  
 		  If CurrentIndex > -1 Then
 		    Return MediaList.Cell(CurrentIndex, 0)
 		  End If
@@ -1132,11 +1138,9 @@ End
 		Sub Action()
 		  If Me.Caption = "Play" Then
 		    mPlayer.Play()
-		    If mLastActive > -1 Then MediaList.RowPicture(mLastActive) = PlayArrow
 		    Me.Caption = "Pause"
 		  Else
 		    mPlayer.Pause()
-		    If mLastActive > -1 Then MediaList.RowPicture(mLastActive) = PauseBars
 		    Me.Caption = "Play"
 		  End If
 		  
