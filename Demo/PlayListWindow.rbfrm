@@ -576,25 +576,6 @@ End
 		    End If
 		    mDirty = False
 		  End If
-		  Static blank, playarrow As Picture
-		  If blank = Nil Then
-		    blank = New Picture(10, 10, 32)
-		    blank.Transparent = 1
-		  End If
-		  If playarrow = Nil Then
-		    playarrow = New Picture(100, 100, 32)
-		    ' playarrow.Transparent = 1
-		    playarrow.Graphics.AntiAlias = True
-		    playarrow.Graphics.ForeColor = &c00FF0000
-		    playarrow.Graphics.DrawLine(0, 0, 100, 50)
-		    playarrow.Graphics.DrawLine(0, 100, 100, 50)
-		    playarrow.Graphics.DrawLine(1, 1, 1, 100)
-		    playarrow.RGBSurface.FloodFill(50, 50, &c00FF0000)
-		    Dim tmp As New Picture(10, 10, 32)
-		    tmp.Transparent = 1
-		    tmp.Graphics.DrawPicture(playarrow, 0, 0, 10, 10, 0, 0, playarrow.Width, playarrow.Height)
-		    playarrow = tmp
-		  End If
 		  If mLastActive <> mPlayer.ListIndex Then
 		    mLastActive = mPlayer.ListIndex
 		    For i As Integer = 0 To MediaList.ListCount - 1
@@ -603,9 +584,9 @@ End
 		        MediaList.Cell(i, j) = MediaList.Cell(i, j)
 		      Next
 		      If i = CurrentIndex Then
-		        MediaList.RowPicture(i) = playarrow
+		        MediaList.RowPicture(i) = PlayArrow
 		      Else
-		        MediaList.RowPicture(i) = blank
+		        MediaList.RowPicture(i) = Blank
 		      End If
 		    Next
 		    ScrollTo(CurrentIndex)
@@ -614,6 +595,20 @@ End
 		End Sub
 	#tag EndMethod
 
+
+	#tag ComputedProperty, Flags = &h21
+		#tag Getter
+			Get
+			  Static blnk As Picture
+			  If blnk = Nil Then
+			    blnk = New Picture(10, 10, 32)
+			    blnk.Transparent = 1
+			  End If
+			  Return blnk
+			End Get
+		#tag EndGetter
+		Private Shared Blank As Picture
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -714,6 +709,54 @@ End
 	#tag Property, Flags = &h21
 		Private mPlayer As libvlc.PlayLists.ListPlayer
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h21
+		#tag Getter
+			Get
+			  Static pbars As Picture
+			  If pbars = Nil Then
+			    pbars = New Picture(100, 100, 32)
+			    Dim g As Graphics = pbars.Graphics
+			    g.AntiAlias = True
+			    g.ForeColor = &c00FF0000
+			    g.PenWidth = 25
+			    g.PenHeight = 25
+			    g.DrawLine(5, 0, 5, 100)
+			    g.DrawLine(70, 0, 70, 100)
+			    Dim tmp As New Picture(10, 10, 32)
+			    tmp.Transparent = 1
+			    tmp.Graphics.DrawPicture(pbars, 0, 0, 10, 10, 0, 0, pbars.Width, pbars.Height)
+			    pbars = tmp
+			  End If
+			  Return pbars
+			End Get
+		#tag EndGetter
+		Private Shared PauseBars As Picture
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h21
+		#tag Getter
+			Get
+			  Static parrow As Picture
+			  If parrow = Nil Then
+			    parrow = New Picture(100, 100, 32)
+			    Dim g As Graphics = parrow.Graphics
+			    g.AntiAlias = True
+			    g.ForeColor = &c00FF0000
+			    g.DrawLine(0, 0, 100, 50)
+			    g.DrawLine(0, 100, 100, 50)
+			    g.DrawLine(1, 1, 1, 100)
+			    parrow.RGBSurface.FloodFill(50, 50, &c00FF0000)
+			    Dim tmp As New Picture(10, 10, 32)
+			    tmp.Transparent = 1
+			    tmp.Graphics.DrawPicture(parrow, 0, 0, 10, 10, 0, 0, parrow.Width, parrow.Height)
+			    parrow = tmp
+			  End If
+			  Return parrow
+			End Get
+		#tag EndGetter
+		Private Shared PlayArrow As Picture
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -1089,9 +1132,11 @@ End
 		Sub Action()
 		  If Me.Caption = "Play" Then
 		    mPlayer.Play()
+		    If mLastActive > -1 Then MediaList.RowPicture(mLastActive) = PlayArrow
 		    Me.Caption = "Pause"
 		  Else
 		    mPlayer.Pause()
+		    If mLastActive > -1 Then MediaList.RowPicture(mLastActive) = PauseBars
 		    Me.Caption = "Play"
 		  End If
 		  
