@@ -1543,6 +1543,7 @@ End
 	#tag Event
 		Sub Open()
 		  Me.AcceptFileDrop(MediaFileTypes.All)
+		  Self.Title = libvlc.VersionString
 		End Sub
 	#tag EndEvent
 	#tag Event
