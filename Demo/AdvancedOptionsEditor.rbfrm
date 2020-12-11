@@ -287,7 +287,7 @@ Begin ContainerControl AdvancedOptionsEditor
       Selectable      =   False
       TabIndex        =   8
       TabPanelIndex   =   0
-      Text            =   "0000000 KHz"
+      Text            =   "0 kbit/sec"
       TextAlign       =   0
       TextColor       =   &h000000
       TextFont        =   "System"
@@ -377,7 +377,7 @@ Begin ContainerControl AdvancedOptionsEditor
       Selectable      =   False
       TabIndex        =   11
       TabPanelIndex   =   0
-      Text            =   "0000000 KHz"
+      Text            =   "0 kbit/sec"
       TextAlign       =   0
       TextColor       =   &h000000
       TextFont        =   "System"
