@@ -1057,8 +1057,8 @@ End
 #tag Events AddFilesBtn
 	#tag Event
 		Sub Action()
-		  If Me.MenuValue = 0 Then
-		    
+		  Select Case Me.MenuValue
+		  Case 0 ' open files
 		    Dim dlg As New OpenDialog()
 		    dlg.Filter = MediaFileTypes.All + DemoFileTypes.All
 		    dlg.MultiSelect = True
@@ -1073,7 +1073,8 @@ End
 		    Finally
 		      mPendingDirectoriesLock.Release()
 		    End Try
-		  Else
+		    
+		  Case 1 ' open dir
 		    Dim f As FolderItem = SelectFolder()
 		    If f = Nil Then Return
 		    Do Until mPendingDirectoriesLock.TrySignal
@@ -1084,7 +1085,23 @@ End
 		    Finally
 		      mPendingDirectoriesLock.Release()
 		    End Try
-		  End If
+		    
+		  Case 2 ' open m3u
+		    Dim m3u As FolderItem = GetOpenFolderItem(MediaFileTypes.M3UPlaylist)
+		    If m3u = Nil Then Return
+		    Do Until mPendingMediaLock.TrySignal
+		      App.YieldToNextThread
+		    Loop
+		    Dim m() As libvlc.Medium = libvlc.PlayLists.ReadM3U(m3u)
+		    Try
+		      For i As Integer = 0 To UBound(m)
+		        mPendingMedia.Insert(0, m(i))
+		      Next
+		    Finally
+		      mPendingMediaLock.Release()
+		    End Try
+		    
+		  End Select
 		  
 		  Select Case DirectoryLoader.State
 		  Case Thread.Running, Thread.Waiting, Thread.Sleeping
@@ -1101,6 +1118,7 @@ End
 		Sub Open()
 		  Me.AddRow("Load files...")
 		  Me.AddRow("Load folder...")
+		  Me.AddRow("Load playlist...")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
