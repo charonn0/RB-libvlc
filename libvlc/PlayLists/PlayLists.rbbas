@@ -27,6 +27,41 @@ Protected Module PlayLists
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function ParseM3U(ReadFrom As Readable) As Dictionary
+		  Dim list As New Dictionary
+		  If ReadLine(ReadFrom).Trim <> "#EXTM3U" Then Return list
+		  
+		  Dim meta As Dictionary
+		  Do Until ReadFrom.EOF
+		    Dim line As String = ReadLine(ReadFrom).Trim
+		    If line = "" Then Continue
+		    If Left(line, 1) = "#" Then
+		      line = Replace(line, "#", "")
+		      Dim n, v As String
+		      n = NthField(line, ":", 1)
+		      v = Replace(line, n + ":", "")
+		      If meta = Nil Then meta = New Dictionary
+		      meta.Value(n) = v
+		      
+		    Else
+		      Dim m As libvlc.Medium
+		      If InStr(line, "://") > 0 Then ' MRL
+		        m = line
+		      Else ' path
+		        Dim f As FolderItem = GetFolderItem(line, FolderItem.PathTypeAbsolute)
+		        If f = Nil Or Not f.Exists Then Continue
+		        m = f
+		      End If
+		      If m <> Nil Then list.Value(m) = meta
+		      meta = Nil
+		    End If
+		  Loop
+		  
+		  Return list
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function Play(MediaFiles() As FolderItem, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.PlayLists.ListPlayer
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaFiles)
