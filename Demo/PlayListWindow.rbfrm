@@ -568,6 +568,26 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub ShowList(PlayerWindow As PlayerWindow, ListPlayer As libvlc.VLCPlayer, List As libvlc.PlayLists.PlayList)
+		  If mPlayer = Nil Then
+		    mPlayer = New libvlc.PlayLists.ListPlayer(ListPlayer)
+		    AddHandler mPlayer.ChangedState, WeakAddressOf ListPlayerStateChangedHandler
+		  End If
+		  Self.Show()
+		  mPlayer.Playlist = List
+		  For i As Integer = 0 To List.Count - 1
+		    Dim m As libvlc.Medium = List(i)
+		    m.Parse()
+		    MediaList.AddRow(m.Title, m.Artist, m.Album, libvlc.FormatTime(m.DurationMS))
+		    MediaList.RowTag(MediaList.LastIndex) = m
+		  Next
+		  mPlayer.Playlist = List
+		  UpdateUI()
+		  mParentWindow = PlayerWindow
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub UpdateUI()
 		  If mDirty Then
