@@ -128,11 +128,8 @@ Protected Module PlayLists
 		  
 		  For i As Integer = 0 To UBound(Media)
 		    Dim m As libvlc.Medium = Media(i)
-		    If m.MediaFile <> Nil Then
-		      WriteTo.Write(m.MediaFile.AbsolutePath_ + EndOfLine.Windows + EndOfLine.Windows)
-		    Else
-		      WriteTo.Write(m.MediaURL + EndOfLine.Windows + EndOfLine.Windows)
-		    End If
+		    WriteTo.Write("#EXTINF:" + Str(m.DurationMS / 1000, "###############0") + "," + m.Title + EndOfLine.Windows)
+		    WriteTo.Write(m.MediaURL + EndOfLine.Windows + EndOfLine.Windows)
 		  Next
 		  
 		  
