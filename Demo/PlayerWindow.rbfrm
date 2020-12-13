@@ -899,6 +899,14 @@ End
 	#tag Method, Flags = &h21
 		Private Sub LoadMedia(Media As libvlc.Medium)
 		  If Media = Nil Then Return
+		  
+		  If Left(Media.MediaURL, 4) = "cdda" Then
+		    Dim lst As libvlc.PlayLists.PlayList = Media.SubItems
+		    If lst.Count > 0 Then
+		      LoadPlaylist(lst)
+		      Return
+		    End If
+		  End If
 		  Player.Media = Media
 		  ReadMetaData(Media)
 		End Sub
