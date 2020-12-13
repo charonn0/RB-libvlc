@@ -611,6 +611,10 @@ Inherits libvlc.VLCInstance
 		Private mMeta As libvlc.Meta.MetaData
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private mSubItems As libvlc.PlayLists.PlayList
+	#tag EndProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
@@ -706,6 +710,20 @@ Inherits libvlc.VLCInstance
 	#tag Property, Flags = &h21
 		Private Shared Streams As Dictionary
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mSubItems = Nil And mMedium <> Nil Then
+			    Dim p As New VLCPlayer(Me)
+			    If p.Play(True) Then p.Stop()
+			    mSubItems = New libvlc.PlayLists.PlayList(Me)
+			  End If
+			  Return mSubItems
+			End Get
+		#tag EndGetter
+		SubItems As libvlc.PlayLists.PlayList
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter

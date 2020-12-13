@@ -562,6 +562,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_media_subitems Lib VLCLib (Medium As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_media_tracks_get Lib VLCLib (Medium As Ptr, ByRef TrackBuffer As Ptr) As UInt32
 	#tag EndExternalMethod
 

@@ -27,6 +27,20 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1000
+		Sub Constructor(FromMedium As libvlc.Medium)
+		  ' Creates a new playlist from the sub-items of the FromMedium (e.g. the tracks on a CD)
+		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(AddRef As VLCInstance) -- From VLCInstance
+		  Super.Constructor(FromMedium)
+		  mList = libvlc_media_subitems(FromMedium.Handle)
+		  If mList = Nil Then mList = libvlc_media_list_new(Me.Instance) ' no sub-items, create an empty list
+		  If mList = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC media list.")
+		  mLock = New Semaphore
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
 		  // Calling the overridden superclass constructor.
