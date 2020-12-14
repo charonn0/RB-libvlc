@@ -1,7 +1,7 @@
 #tag FileTypeSet
 	#tag FileType
 		CodeName=AllMedia
-		Extension=.3gp;.3gpp;.aa;.aac;.adts;.aif;.aifc;.aiff;.asf;.ass;.asx;.au;.avi;.bwf;.cdda;.cel;.dif;.dv;.flac;.flc;.fli;.flv;.kar;.m15;.m1a;.m1s;.m1v;.m2a;.m4a;.m4b;.m4p;.m4v;.m75;.mid;.midi;.mkv;.moov;.mov;.mp2;.mp3;.mp4;.mpa;.mpe;.mpeg;.mpg;.mpm;.mpv;.mqv;.oga;.ogg;.ogv;.ogx;.opus;.qt;.rm;.sdv;.smf;.snd;.spx;.swa;.ul;.ulw;.vfw;.wav;.wax;.webm;.wm;.wma;.wmv;.wmx;.wvx
+		Extension=.3gp;.3gpp;.aa;.aac;.adts;.aif;.aifc;.aiff;.asf;.ass;.asx;.au;.avi;.bwf;.cdda;.cel;.dif;.dv;.flac;.flc;.fli;.flv;.kar;.m15;.m1a;.m1s;.m1v;.m2a;.m3u;.m3u8;.m4a;.m4b;.m4p;.m4v;.m75;.mid;.midi;.mkv;.moov;.mov;.mp2;.mp3;.mp4;.mpa;.mpe;.mpeg;.mpg;.mpm;.mpv;.mqv;.oga;.ogg;.ogv;.ogx;.opus;.qt;.rm;.sdv;.smf;.snd;.spx;.swa;.ul;.ulw;.vfw;.wav;.wax;.webm;.wm;.wma;.wmv;.wmx;.wvx
 		Flags=&h0
 		MacCreator=TVOD
 		MacType=
