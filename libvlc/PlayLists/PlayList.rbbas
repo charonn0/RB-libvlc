@@ -27,8 +27,8 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1000
-		Sub Constructor(FromMedium As libvlc.Medium)
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(FromMedium As libvlc.Medium)
 		  ' Creates a new playlist from the sub-items of the FromMedium (e.g. the tracks on a CD)
 		  
 		  // Calling the overridden superclass constructor.

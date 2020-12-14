@@ -714,10 +714,14 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' A single Medium object can contain a PlayList. For example if the Medium is an audio
+			  ' CD then its SubItems is a PlayList of the tracks on that CD. 
+			  
 			  If mSubItems = Nil And mMedium <> Nil Then
 			    Dim p As New VLCPlayer(Me)
+			    ' the subitems are populated when the Medium is played
 			    If p.Play(True) Then p.Stop()
-			    mSubItems = New libvlc.PlayLists.PlayList(Me)
+			    mSubItems = New PlayListPtr(Me)
 			  End If
 			  Return mSubItems
 			End Get
