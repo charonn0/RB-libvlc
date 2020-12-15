@@ -46,7 +46,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Constructor(AddRef As libvlc.Medium)
-		  ' Duplicates the Medium. The duplicate is independent of the original.
+		  ' Duplicates AddRef by incrementing its internal refcount. The duplicate is independent of the original.
 		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor(AddRef As VLCInstance) -- From VLCInstance
