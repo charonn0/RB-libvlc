@@ -900,15 +900,13 @@ End
 		Private Sub LoadMedia(Media As libvlc.Medium)
 		  If Media = Nil Then Return
 		  
-		  If Left(Media.MediaURL, 4) = "cdda" Then
-		    Dim lst As libvlc.PlayLists.PlayList = Media.SubItems
-		    If lst.Count > 0 Then
-		      LoadPlaylist(lst)
-		      Return
-		    End If
+		  Dim lst As libvlc.PlayLists.PlayList = Media.SubItems
+		  If lst.Count > 0 Then
+		    LoadPlaylist(lst)
+		  Else
+		    Player.Media = Media
+		    ReadMetaData(Media)
 		  End If
-		  Player.Media = Media
-		  ReadMetaData(Media)
 		End Sub
 	#tag EndMethod
 
