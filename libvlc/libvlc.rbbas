@@ -189,10 +189,6 @@ Protected Module libvlc
 		Private Soft Declare Function libvlc_audio_set_volume Lib VLCLib (Player As Ptr, Percent As Integer) As Integer
 	#tag EndExternalMethod
 
-	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Sub libvlc_callback_t(EventStruct As libvlc_event_t, UserData As Ptr)
-	#tag EndDelegateDeclaration
-
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_clearerr Lib VLCLib ()
 	#tag EndExternalMethod
@@ -224,10 +220,6 @@ Protected Module libvlc
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_get_version Lib VLCLib () As Ptr
 	#tag EndExternalMethod
-
-	#tag DelegateDeclaration, Flags = &h21
-		Private Delegate Sub libvlc_log_cb(UserData As Ptr, Level As Integer, Context As Ptr, Format As CString, Args As Ptr)
-	#tag EndDelegateDeclaration
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Sub libvlc_log_set Lib VLCLib (Instance As Ptr, Callback As Ptr, UserData As Ptr)
