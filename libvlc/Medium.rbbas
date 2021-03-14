@@ -211,9 +211,13 @@ Inherits libvlc.VLCInstance
 		Sub Operator_Convert(FromURL As String)
 		  ' Constructs a new Medium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
 		  
-		  // Calling the superclass constructor.
-		  // Constructor() -- From VLCInstance
-		  Super.Constructor()
+		  If mMedium <> Nil Then
+		    Me.Destructor()
+		  Else
+		    // Calling the superclass constructor.
+		    // Constructor() -- From VLCInstance
+		    Super.Constructor()
+		  End If
 		  mMedium = libvlc_media_new_location(Me.Instance, FromURL)
 		  If mMedium = Nil Then Raise New UnsupportedFormatException
 		End Sub
