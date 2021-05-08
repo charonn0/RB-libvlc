@@ -5,6 +5,14 @@ This project wraps libvlc, the open-source multimedia library behind VLC Media P
 
 _This screen shot depicts the RB-libvlc demo running on Windows 10_
 
+# Highlights
+* Play any media type supported by VLC.
+* [Transcode](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.AddOption#example) one media format to another.
+* [Embed video output](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.EmbedWithin) in any window, container, or control.
+* Read and write [media metadata](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.MetaData) (IDv3 tags, etc.)
+* Open, create, play, and save [playlists](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Playlists).
+* Sound [equalization controls](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer).
+
 ## Synopsis
 There are two main modes of operation: using the [VLCPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer) class to play media without a GUI and the [VLCMediaPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer) which provides a GUI. libvlc also supports playlists through a separate [PlayList](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists) interface.
 
