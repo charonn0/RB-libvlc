@@ -1,6 +1,6 @@
 #tag Class
 Private Class ListPlayerPtr
-Inherits libvlc.PlayLists.ListPlayer
+Inherits libvlc.ListPlayer
 	#tag Method, Flags = &h1000
 		Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
 		  // Calling the overridden superclass constructor.

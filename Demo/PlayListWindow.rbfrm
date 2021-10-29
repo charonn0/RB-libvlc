@@ -500,7 +500,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub AddMedia(List() As libvlc.Medium, UIOnly As Boolean = False)
-		  Dim truelist As libvlc.PlayLists.PlayList = mPlayer.Playlist
+		  Dim truelist As libvlc.PlayList = mPlayer.Playlist
 		  For i As Integer = 0 To UBound(List)
 		    Dim m As libvlc.Medium = List(i)
 		    If truelist.IndexOf(m) > -1 Then Continue ' already added
@@ -513,7 +513,7 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub ListPlayerStateChangedHandler(Sender As libvlc.PlayLists.ListPlayer)
+		Private Sub ListPlayerStateChangedHandler(Sender As libvlc.ListPlayer)
 		  #pragma Unused Sender
 		  mDirty = True
 		  Call NotifyStateChanged()
@@ -558,7 +558,7 @@ End
 	#tag Method, Flags = &h0
 		Sub ShowList(PlayerWindow As PlayerWindow, ListPlayer As libvlc.VLCPlayer, List() As libvlc.Medium)
 		  If mPlayer = Nil Then
-		    mPlayer = New libvlc.PlayLists.ListPlayer(ListPlayer)
+		    mPlayer = New libvlc.ListPlayer(ListPlayer)
 		    AddHandler mPlayer.ChangedState, WeakAddressOf ListPlayerStateChangedHandler
 		  End If
 		  Self.Show()
@@ -569,9 +569,9 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ShowList(PlayerWindow As PlayerWindow, ListPlayer As libvlc.VLCPlayer, List As libvlc.PlayLists.PlayList)
+		Sub ShowList(PlayerWindow As PlayerWindow, ListPlayer As libvlc.VLCPlayer, List As libvlc.PlayList)
 		  If mPlayer = Nil Then
-		    mPlayer = New libvlc.PlayLists.ListPlayer(ListPlayer)
+		    mPlayer = New libvlc.ListPlayer(ListPlayer)
 		    AddHandler mPlayer.ChangedState, WeakAddressOf ListPlayerStateChangedHandler
 		  End If
 		  Self.Show()
@@ -733,7 +733,7 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mPlayer As libvlc.PlayLists.ListPlayer
+		Private mPlayer As libvlc.ListPlayer
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h21
@@ -987,7 +987,7 @@ End
 		    Dim dirs() As FolderItem
 		    Dim media() As libvlc.Medium
 		    If thisdir.IsAPlayListFile Then
-		      Dim m() As libvlc.Medium = libvlc.PlayLists.ReadM3U(thisdir)
+		      Dim m() As libvlc.Medium = libvlc.ReadM3U(thisdir)
 		      For j As Integer = 0 To UBound(m)
 		        media.Append(m(j))
 		      Next
@@ -1000,7 +1000,7 @@ End
 		        ElseIf item.IsAMediaFile Then
 		          media.Append(item)
 		        ElseIf item.IsAPlayListFile Then
-		          Dim m() As libvlc.Medium = libvlc.PlayLists.ReadM3U(item)
+		          Dim m() As libvlc.Medium = libvlc.ReadM3U(item)
 		          For j As Integer = 0 To UBound(m)
 		            media.Append(m(j))
 		          Next
@@ -1112,7 +1112,7 @@ End
 		    Do Until mPendingMediaLock.TrySignal
 		      App.YieldToNextThread
 		    Loop
-		    Dim m() As libvlc.Medium = libvlc.PlayLists.ReadM3U(m3u)
+		    Dim m() As libvlc.Medium = libvlc.ReadM3U(m3u)
 		    Try
 		      For i As Integer = 0 To UBound(m)
 		        mPendingMedia.Insert(0, m(i))
@@ -1203,7 +1203,7 @@ End
 		  Dim dst As FolderItem = GetSaveFolderItem(MediaFileTypes.M3UPlaylist, "Untited playlist")
 		  If dst <> Nil Then
 		    Dim bs As BinaryStream = BinaryStream.Create(dst, True)
-		    libvlc.PlayLists.WriteM3U(mPlayer.Playlist, bs)
+		    libvlc.WriteM3U(mPlayer.Playlist, bs)
 		    bs.Close
 		  End If
 		End Sub

@@ -620,7 +620,7 @@ Inherits libvlc.VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mSubItems As libvlc.PlayLists.PlayList
+		Private mSubItems As libvlc.PlayList
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -734,7 +734,7 @@ Inherits libvlc.VLCInstance
 			  Return mSubItems
 			End Get
 		#tag EndGetter
-		SubItems As libvlc.PlayLists.PlayList
+		SubItems As libvlc.PlayList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

@@ -118,7 +118,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Operator_Compare(OtherInstance As libvlc.PlayLists.ListPlayer) As Integer
+		Function Operator_Compare(OtherInstance As libvlc.ListPlayer) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))
 		  Return i
@@ -138,7 +138,17 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Play(Index As Integer = -1, StartPaused As Boolean = False) As Boolean
+		 Shared Function Play(MediaFiles() As FolderItem, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  Dim m() As libvlc.Medium
+		  For i As Integer = 0 To UBound(MediaFiles)
+		    m.Append(MediaFiles(i))
+		  Next
+		  Return Play(m, TruePlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Play(Index As Integer = - 1, StartPaused As Boolean = False) As Boolean
 		  If Index = -1 Then
 		    Me.Play()
 		  Else
@@ -174,6 +184,15 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Play(Media() As libvlc.Medium, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  Dim play As New ListPlayer
+		  If TruePlayer <> Nil Then play.TruePlayer = TruePlayer
+		  play.PlayList = Media
+		  Return play
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Play(Media As libvlc.Medium)
 		  If mPlayer <> Nil Then
 		    Dim index As Integer = mPlayList.IndexOf(Media)
@@ -186,6 +205,16 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Play(MediaURLs() As String, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  Dim m() As libvlc.Medium
+		  For i As Integer = 0 To UBound(MediaURLs)
+		    m.Append(MediaURLs(i))
+		  Next
+		  Return Play(m, TruePlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
 		  PlayList.Remove(Index)
 		  Playlist = Playlist
@@ -195,7 +224,7 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h21
 		Private Sub StateChangeTimerHandler(Sender As Timer)
 		  #pragma Unused Sender
-		  If mPlayer <> Nil And (Me.CurrentState <> mLastState) Or Me.ListIndex <> mLastIndex Then 
+		  If mPlayer <> Nil And (Me.CurrentState <> mLastState) Or Me.ListIndex <> mLastIndex Then
 		    mLastState = Me.CurrentState
 		    mLastIndex = Me.ListIndex
 		    RaiseEvent ChangedState()
@@ -303,7 +332,7 @@ Inherits libvlc.VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h1
-		Protected mPlayList As libvlc.PlayLists.PlayList
+		Protected mPlayList As libvlc.PlayList
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -321,7 +350,7 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mPlayList = Nil Then mPlayList = New libvlc.PlayLists.PlayList()
+			  If mPlayList = Nil Then mPlayList = New libvlc.PlayList()
 			  Return mPlayList
 			End Get
 		#tag EndGetter
@@ -333,7 +362,7 @@ Inherits libvlc.VLCInstance
 			  End If
 			End Set
 		#tag EndSetter
-		Playlist As libvlc.PlayLists.PlayList
+		Playlist As libvlc.PlayList
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -399,6 +428,16 @@ Inherits libvlc.VLCInstance
 			Type="String"
 			EditorType="MultiLineEditor"
 			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CanMoveNext"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CanMovePrev"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"

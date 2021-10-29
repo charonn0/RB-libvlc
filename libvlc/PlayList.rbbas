@@ -51,6 +51,32 @@ Inherits libvlc.VLCInstance
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		 Shared Function Create(MediaFiles() As FolderItem) As libvlc.PlayList
+		  Dim m() As libvlc.Medium
+		  For i As Integer = 0 To UBound(MediaFiles)
+		    m.Append(MediaFiles(i))
+		  Next
+		  Return Create(m)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(Media() As libvlc.Medium) As libvlc.PlayList
+		  Return Media
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(MediaURLs() As String) As libvlc.PlayList
+		  Dim m() As libvlc.Medium
+		  For i As Integer = 0 To UBound(MediaURLs)
+		    m.Append(MediaURLs(i))
+		  Next
+		  Return Create(m)
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  If mList <> Nil Then libvlc_media_list_release(mList)
@@ -87,7 +113,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.PlayLists.PlayList.Operator_Subscript" )  Function Item(Index As Integer) As libvlc.Medium
+		Attributes( deprecated = "libvlc.PlayList.Operator_Subscript" )  Function Item(Index As Integer) As libvlc.Medium
 		  Return Operator_Subscript(Index)
 		End Function
 	#tag EndMethod
@@ -131,7 +157,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function LoadM3U(M3U As Readable) As Integer
-		  Dim m() As libvlc.Medium = ReadM3U(M3U)
+		  Dim m() As libvlc.Medium = libvlc.ReadM3U(M3U)
 		  If UBound(m) > -1 Then Load(m)
 		  Return UBound(m) + 1
 		End Function
@@ -145,7 +171,7 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Operator_Compare(OtherInstance As libvlc.PlayLists.PlayList) As Integer
+		Function Operator_Compare(OtherInstance As libvlc.PlayList) As Integer
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mList) - Integer(OtherInstance.mList))
 		  Return i
@@ -233,6 +259,15 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Pop() As libvlc.Medium
+		  If Me.Count = -1 Then Raise New OutOfBoundsException
+		  Dim m As libvlc.Medium = Me.Operator_Subscript(Count - 1)
+		  Me.Remove(Count - 1)
+		  Return m
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock()
@@ -259,7 +294,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Save(WriteTo As Writeable, ListName As String = "")
-		  WriteM3U(Me, WriteTo, ListName)
+		  libvlc.WriteM3U(Me, WriteTo, ListName)
 		End Sub
 	#tag EndMethod
 
@@ -422,9 +457,9 @@ Inherits libvlc.VLCInstance
 			  Dim i As Integer = Me.IndexOf(value)
 			  If i > -1 Then
 			    ' Operator_Subscript calls Lock() which is contraindicated for
-			    ' libvlc_media_list_set_media(). Hence we call it separately and 
+			    ' libvlc_media_list_set_media(). Hence we call it separately and
 			    ' store the returned Medium in a local variable before the API call.
-			    Dim m As libvlc.Medium = Operator_Subscript(i) 
+			    Dim m As libvlc.Medium = Operator_Subscript(i)
 			    libvlc_media_list_set_media(mList, m.Handle)
 			  Else
 			    Raise New VLCException("That medium is not in the list.")
@@ -448,7 +483,7 @@ Inherits libvlc.VLCInstance
 			Get
 			  ' Gets the overall length of the playlist, in milliseconds.
 			  '
-			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.PlayList.LengthMS
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.LengthMS
 			  
 			  Dim ms As Int64
 			  Dim c As Integer = Count
@@ -485,7 +520,7 @@ Inherits libvlc.VLCInstance
 			  ' the time up until the beginning of the currently playing item; add the TimeMS property
 			  ' of the VLCPlayer that's playing the list to determine the exact TimeMS of the list.
 			  '
-			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.ListPlayer.TimeMS
+			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.TimeMS
 			  
 			  If Me.CurrentIndex = -1 Then Return 0
 			  Dim ms As Int64
@@ -511,6 +546,16 @@ Inherits libvlc.VLCInstance
 			Type="String"
 			EditorType="MultiLineEditor"
 			InheritedFrom="libvlc.VLCInstance"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Count"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CurrentIndex"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"

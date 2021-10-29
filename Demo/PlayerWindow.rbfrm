@@ -900,7 +900,7 @@ End
 		Private Sub LoadMedia(Media As libvlc.Medium)
 		  If Media = Nil Then Return
 		  
-		  Dim lst As libvlc.PlayLists.PlayList = Media.SubItems
+		  Dim lst As libvlc.PlayList = Media.SubItems
 		  If lst.Count > 0 Then
 		    LoadPlaylist(lst)
 		  Else
