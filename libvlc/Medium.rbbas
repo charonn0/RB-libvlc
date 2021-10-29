@@ -202,7 +202,11 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromFolderItem As FolderItem)
 		  ' Constructs a new Medium from the specified FolderItem. The FolderItem may be a file or a directory/disk drive.
-		  
+		  If FromFolderItem = Nil Then
+		    Dim err As New NilObjectException
+		    err.Message = "FromFolderItem is Nil. Check for nil -before- trying to convert from an object type."
+		    Raise err
+		  End If
 		  Me.Operator_Convert(FromFolderItem.URLPath)
 		End Sub
 	#tag EndMethod
