@@ -138,16 +138,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Play(MediaFiles() As FolderItem, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
-		  Dim m() As libvlc.Medium
-		  For i As Integer = 0 To UBound(MediaFiles)
-		    m.Append(MediaFiles(i))
-		  Next
-		  Return Play(m, TruePlayer)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function Play(Index As Integer = - 1, StartPaused As Boolean = False) As Boolean
 		  If Index = -1 Then
 		    Me.Play()
@@ -184,15 +174,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Play(Media() As libvlc.Medium, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
-		  Dim play As New ListPlayer
-		  If TruePlayer <> Nil Then play.TruePlayer = TruePlayer
-		  play.PlayList = Media
-		  Return play
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Play(Media As libvlc.Medium)
 		  If mPlayer <> Nil Then
 		    Dim index As Integer = mPlayList.IndexOf(Media)
@@ -205,7 +186,26 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Play(MediaURLs() As String, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		 Shared Function PlayAsList(MediaFiles() As FolderItem, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  Dim m() As libvlc.Medium
+		  For i As Integer = 0 To UBound(MediaFiles)
+		    m.Append(MediaFiles(i))
+		  Next
+		  Return Play(m, TruePlayer)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function PlayAsList(Media() As libvlc.Medium, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  Dim play As New ListPlayer
+		  If TruePlayer <> Nil Then play.TruePlayer = TruePlayer
+		  play.PlayList = Media
+		  Return play
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function PlayAsList(MediaURLs() As String, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaURLs)
 		    m.Append(MediaURLs(i))
