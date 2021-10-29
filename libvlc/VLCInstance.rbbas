@@ -2,9 +2,22 @@
 Protected Class VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor()
-		  ' Construct a new instance and store it in Singleton, or increment the refcount on the existing Singleton.
+		  ' Construct a new instance of libvlc and store it in Singleton, or increment the refcount on the existing instance.
 		  
-		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
+		  If Not libvlc.IsAvailable Then
+		    Dim err As New PlatformNotSupportedException
+		    err.Message = "libvlc is not available."
+		    ' We can't find the libvlc binary or one of its dependencies. Verify that all neccesary dll/solib/dylib
+		    ' files are located in the expected directory for your environment. The easiest way to avoid this problem
+		    ' is to add a build step to your project that copies the necessary files automatically.
+		    ' See: http://docs.xojo.com/UserGuide:Build_Automation#Copy_Files
+		    Raise err
+		  End If
+		  
+		  ' Each 'instance' of libvlc can have any number of Medium, VLCPlayer, etc. objects associated with it. So
+		  ' there's no reason for us to spin up more than one instance in our address space. The first subclass of
+		  ' THIS class (VLCInstance) will spin up the instance, and subsequently created subclasses will use that
+		  ' instance.
 		  If Singleton <> Nil Then
 		    Me.Constructor(Singleton)
 		    mUserAgent = Singleton.UserAgent
