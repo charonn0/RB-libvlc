@@ -191,7 +191,7 @@ Inherits libvlc.VLCInstance
 		  For i As Integer = 0 To UBound(MediaFiles)
 		    m.Append(MediaFiles(i))
 		  Next
-		  Return Play(m, TruePlayer)
+		  Return PlayAsList(m, TruePlayer)
 		End Function
 	#tag EndMethod
 
@@ -210,7 +210,7 @@ Inherits libvlc.VLCInstance
 		  For i As Integer = 0 To UBound(MediaURLs)
 		    m.Append(MediaURLs(i))
 		  Next
-		  Return Play(m, TruePlayer)
+		  Return PlayAsList(m, TruePlayer)
 		End Function
 	#tag EndMethod
 
