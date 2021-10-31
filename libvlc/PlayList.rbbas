@@ -4,6 +4,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Append(Medium As libvlc.Medium)
 		  ' Append a medium to the playlist.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Append
 		  
 		  Me.Lock()
 		  Try
@@ -17,6 +20,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  ' Creates a new, empty playlist.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Constructor
 		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
@@ -43,6 +49,10 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  ' Constructs an instance of PlayList using FromPtr. If AddRef is True then libvlc's internal reference count for the
+		  ' FromPtr is incremented. The reference count will be decremented by PlayList.Destructor; refer to the VLC documentation
+		  ' for the function that gave you FromPtr to determine whether the reference count should be incremented.
+		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
 		  Super.Constructor()
@@ -53,6 +63,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(MediaFiles() As FolderItem) As libvlc.PlayList
+		  ' Creates a PlayList from the specified array of media and returns
+		  ' a reference to the list.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Create
+		  
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaFiles)
 		    m.Append(MediaFiles(i))
@@ -63,12 +79,24 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Media() As libvlc.Medium) As libvlc.PlayList
+		  ' Creates a PlayList from the specified array of media and returns
+		  ' a reference to the list.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Create
+		  
 		  Return Media
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(MediaURLs() As String) As libvlc.PlayList
+		  ' Creates a PlayList from the specified array of media and returns
+		  ' a reference to the list.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Create
+		  
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaURLs)
 		    m.Append(MediaURLs(i))
@@ -87,6 +115,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function IndexOf(Medium As libvlc.Medium) As Integer
+		  ' Returns the index of the Medium in the PlayList, or -1 if not present.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.IndexOf
+		  
 		  If mList = Nil Then Return -1
 		  Dim ret As Integer
 		  Me.Lock()
@@ -102,6 +135,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Insert(Index As Integer, Medium As libvlc.Medium)
+		  ' Inserts the specified Medium in the PlayList at Index.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Insert
+		  
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock()
 		  Try
@@ -114,12 +152,24 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Attributes( deprecated = "libvlc.PlayList.Operator_Subscript" )  Function Item(Index As Integer) As libvlc.Medium
+		  ' Note: This method has been deprecated in favor of PlayList.Operator_Subscript.
+		  ' Returns the Medium at index in the PlayList. If there is not item at index then
+		  ' an OutOfBoundsException will be raised.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Item
+		  
 		  Return Operator_Subscript(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Load(Added() As FolderItem)
+		  ' Appends media to the playlist from the specified array of FolderItem objects.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Load
+		  
 		  Dim m() As Medium
 		  For i As Integer = 0 To UBound(Added)
 		    m.Append(Added(i))
@@ -130,6 +180,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Load(Added() As libvlc.Medium)
+		  ' Appends media to the playlist from the specified array of Medium objects.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Load
+		  
 		  Me.Lock()
 		  Try
 		    For i As Integer = 0 To UBound(Added)
@@ -143,6 +198,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function LoadM3U(M3U As FolderItem) As Integer
+		  ' Appends media from the specified M3U playlist. Returns the number of
+		  ' tracks that were added.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.LoadM3U
+		  
 		  Dim c As Integer
 		  Dim bs As BinaryStream
 		  Try
@@ -157,6 +218,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function LoadM3U(M3U As Readable) As Integer
+		  ' Appends media from the specified M3U playlist. Returns the number of
+		  ' tracks that were added.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.LoadM3U
+		  
 		  Dim m() As libvlc.Medium = libvlc.ReadM3U(M3U)
 		  If UBound(m) > -1 Then Load(m)
 		  Return UBound(m) + 1
@@ -172,6 +239,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.PlayList) As Integer
+		  ' Compares two PlayList references for equality. References are considered equal
+		  ' if they refer to the same underlying libvlc handle.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Operator_Compare
+		  
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mList) - Integer(OtherInstance.mList))
 		  Return i
@@ -180,6 +253,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Operator_Convert() As libvlc.Medium()
+		  ' Converts the PlayList to an array of Medium objects.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Operator_Convert
+		  
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Dim m() As Medium
 		  Me.Lock()
@@ -199,6 +277,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromList() As libvlc.Medium)
+		  ' Converts the PlayList from an array of Medium objects. The PlayList is emptied first.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Operator_Convert
+		  
 		  Operator_Redim(-1)
 		  Me.Lock()
 		  Try
@@ -214,6 +297,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Redim(NewBounds As Integer)
+		  ' Truncates the PlayList to the NewBounds. This method cannot be used to enlarge the
+		  ' PlayList, only to shorten it. Pass a NewBounds of -1 to empty the list.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Operator_Redim
+		  
 		  If mList = Nil Then Me.Constructor()
 		  Dim c As Integer = Me.Count - 1
 		  Me.Lock()
@@ -230,6 +319,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Operator_Subscript(Index As Integer) As libvlc.Medium
+		  ' Gets the Medium at index in the PlayList. If there is not item at index
+		  ' then an OutOfBoundsException will be raised.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Operator_Subscript
+		  
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Dim ret As Medium
 		  Me.Lock()
@@ -246,6 +341,15 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Operator_Subscript(Index As Integer, Assigns NewMedia As libvlc.Medium)
+		  ' Sets the Medium at index in the PlayList. If there is not item at index then
+		  ' an OutOfBoundsException will be raised.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Operator_Subscript
+		  '
+		  ' See:
+		  '
+		  
 		  If mList = Nil Or Index < 0 Or Index > Count - 1 Then Raise New OutOfBoundsException
 		  Me.Lock()
 		  Try
@@ -260,6 +364,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Pop() As libvlc.Medium
+		  ' Removes the last Medium from the playlist and returns it. If the playlist is
+		  ' empty then an OutOfBoundsException will be raised.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Pop
+		  
 		  If Me.Count = -1 Then Raise New OutOfBoundsException
 		  Dim m As libvlc.Medium = Me.Operator_Subscript(Count - 1)
 		  Me.Remove(Count - 1)
@@ -269,6 +379,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
+		  ' Removes the Medium at index from the PlayList. If there is not item at
+		  ' index then an OutOfBoundsException will be raised.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Remove
+		  
 		  If mList = Nil Then Raise New OutOfBoundsException
 		  Me.Lock()
 		  Try
@@ -281,6 +397,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Save(WriteTo As FolderItem, ListName As String = "")
+		  ' Saves the current playlist as an M3U playlist. ListName is an optional name
+		  ' for the list to be included in the M3U output.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Save
+		  
 		  Dim bs As BinaryStream
 		  Try
 		    bs = BinaryStream.Create(WriteTo)
@@ -294,6 +416,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Save(WriteTo As Writeable, ListName As String = "")
+		  ' Saves the current playlist as an M3U playlist. ListName is an optional name
+		  ' for the list to be included in the M3U output.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Save
+		  
 		  libvlc.WriteM3U(Me, WriteTo, ListName)
 		End Sub
 	#tag EndMethod
@@ -301,6 +429,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Shuffle()
 		  ' Sort the playlist randomly.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Shuffle
 		  
 		  Dim indices() As Integer
 		  Dim count As Integer = Me.Count
@@ -315,6 +446,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Sort()
 		  ' Sort the playlist by title.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Sort
 		  
 		  Sort(MetaDataType.Title)
 		End Sub
@@ -323,6 +457,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Sort(SortBy As libvlc.MetaDataType)
 		  ' Sort the playlist according to the SortBy type (Artist, Album, etc.)
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Sort
 		  
 		  Dim names() As String
 		  Dim c As Integer = Me.Count - 1
@@ -343,6 +480,9 @@ Inherits libvlc.VLCInstance
 		  '
 		  ' For example if the playlist has three items in it and Sortable() = Array(2, 1, 0)
 		  ' that would swap the first and last items in the playlist (0->2; 1->1; 2->0)
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.SortWith
 		  
 		  Dim count As Integer = UBound(Sortable)
 		  Me.Lock()
@@ -362,6 +502,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub SortWith(Sortable() As String)
 		  ' Sort Sortable() array and then sort the playlist in exactly the same way.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.SortWith
 		  
 		  Dim indices() As Integer
 		  Dim count As Integer = Me.Count
@@ -392,6 +535,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the number of media in the PlayList.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Count
+			  
 			  If mList = Nil Then Return -1
 			  Dim ret As Integer
 			  Me.Lock()
@@ -410,6 +558,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the index of the currently playing media in the PlayList.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.CurrentIndex
+			  
 			  If mList = Nil Then Return -1
 			  Dim item As libvlc.Medium = CurrentItem()
 			  If item <> Nil Then Return IndexOf(item) Else Return -1
@@ -421,6 +574,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the current Medium in the PlayList, or Nil if there is none.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.CurrentItem
+			  
 			  If mList = Nil Then Return Nil
 			  ' I have never observed this function to return anything but nil.
 			  ' In the event that it works in future libvlc releases we'll try
@@ -454,6 +612,11 @@ Inherits libvlc.VLCInstance
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the current Medium in the PlayList. The Medium must already exist in the list.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.CurrentItem
+			  
 			  Dim i As Integer = Me.IndexOf(value)
 			  If i > -1 Then
 			    ' Operator_Subscript calls Lock() which is contraindicated for
@@ -472,6 +635,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the VLC handle for the PlayList.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Handle
+			  
 			  Return mList
 			End Get
 		#tag EndGetter
@@ -483,7 +651,8 @@ Inherits libvlc.VLCInstance
 			Get
 			  ' Gets the overall length of the playlist, in milliseconds.
 			  '
-			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.LengthMS
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.LengthMS
 			  
 			  Dim ms As Int64
 			  Dim c As Integer = Count
@@ -507,6 +676,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns True if the PlayList cannot be modified.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.ReadOnly
+			  
 			  If mList <> Nil Then Return libvlc_media_list_is_readonly(mList)
 			End Get
 		#tag EndGetter
@@ -520,7 +694,8 @@ Inherits libvlc.VLCInstance
 			  ' the time up until the beginning of the currently playing item; add the TimeMS property
 			  ' of the VLCPlayer that's playing the list to determine the exact TimeMS of the list.
 			  '
-			  ' See: https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.TimeMS
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.TimeMS
 			  
 			  If Me.CurrentIndex = -1 Then Return 0
 			  Dim ms As Int64

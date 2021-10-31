@@ -4,6 +4,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Append(Medium As libvlc.Medium)
 		  ' Append a medium to the playlist.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Append
 		  
 		  PlayList.Append(Medium)
 		  Playlist = Playlist
@@ -12,6 +15,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
+		  ' Constructs a new ListPlayer that is not associated with an existing VLCPlayer.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Constructor
+		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
 		  Super.Constructor()
@@ -26,6 +34,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1000
 		Sub Constructor(UsePlayer As libvlc.VLCPlayer)
+		  ' Constructs a new ListPlayer that will use the specified VLCPlayer.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Constructor
+		  
 		  Me.Constructor()
 		  Me.TruePlayer = UsePlayer
 		End Sub
@@ -33,6 +46,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(FromPtr As Ptr, AddRef As Boolean)
+		  ' Take ownership of the specified libvlc reference. If AddRef=True then
+		  ' also increment libvlc's internal refcount for the reference.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Constructor
+		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
 		  Super.Constructor()
@@ -54,18 +73,33 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As RectControl)
+		  ' Embeds video output (if any) in the specified RectControl (c.f. VLCPlayer.EmbedWithin).
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.EmbedWithin
+		  
 		  TruePlayer.EmbedWithin(Parent)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0, CompatibilityFlags = TargetHasGUI
 		Sub EmbedWithin(Parent As Window)
+		  ' Embeds video output (if any) in the specified Window (c.f. VLCPlayer.EmbedWithin).
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.EmbedWithin
+		  
 		  TruePlayer.EmbedWithin(Parent)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Insert(Index As Integer, Medium As libvlc.Medium)
+		  ' Inserts the specified Medium in the PlayList at Index.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Insert
+		  
 		  PlayList.Insert(Index, Medium)
 		  Playlist = Playlist
 		End Sub
@@ -73,12 +107,22 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Item(Index As Integer) As libvlc.Medium
+		  ' Returns the Medium at the specified Index in the PlayList.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Item
+		  
 		  Return Playlist(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Load(Added() As FolderItem)
+		  ' Appends the specified list of FolderItem objects in the PlayList at Index.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Load
+		  
 		  Playlist.Load(Added)
 		  Playlist = Playlist
 		End Sub
@@ -86,6 +130,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Load(Added() As libvlc.Medium)
+		  ' Appends the specified list of Medium objects in the PlayList at Index.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Load
+		  
 		  Playlist.Load(Added)
 		  Playlist = Playlist
 		End Sub
@@ -93,6 +142,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function LoadM3U(M3U As FolderItem) As Integer
+		  ' Appends tracks from the specified M3U playlist. Returns the number of tracks that were loaded.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.LoadM3U
+		  
 		  Call Playlist.LoadM3U(M3U)
 		  Playlist = Playlist
 		End Function
@@ -100,6 +154,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function LoadM3U(M3U As Readable) As Integer
+		  ' Appends tracks from the specified M3U playlist. Returns the number of tracks that were loaded.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.LoadM3U
+		  
 		  Call Playlist.LoadM3U(M3U)
 		  Playlist = Playlist
 		End Function
@@ -107,18 +166,33 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function MoveNext() As Boolean
+		  ' Moves the playlist forward by one. If successful this method returns True.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.MoveNext
+		  
 		  If mPlayer <> Nil Then Return libvlc_media_list_player_next(mPlayer) = 0
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function MovePrev() As Boolean
+		  ' Moves the playlist backward by one. If successful this method returns True.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.MovePrev
+		  
 		  If mPlayer <> Nil Then Return libvlc_media_list_player_previous(mPlayer) = 0
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.ListPlayer) As Integer
+		  ' Compares two ListPlayer references for equality.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Operator_Compare
+		  
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mPlayer) - Integer(OtherInstance.mPlayer))
 		  Return i
@@ -127,18 +201,35 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Pause()
+		  ' Pauses playback, if playing.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Pause
+		  
 		  If mPlayer <> Nil Then libvlc_media_list_player_pause(mPlayer)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Play()
+		  ' Begins or resumes playback.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Play
+		  
 		  If mPlayer <> Nil Then libvlc_media_list_player_play(mPlayer)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Play(Index As Integer = - 1, StartPaused As Boolean = False) As Boolean
+		  ' Begins or resumes playback. Pass the index of a medium in the PlayList to begin playing at that index.
+		  ' If StartPaused=True then the current medium is loaded and then put into the "paused" state.
+		  ' Returns True if the medium was loaded/started(/paused) successfully.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Play
+		  
 		  If Index = -1 Then
 		    Me.Play()
 		  Else
@@ -166,6 +257,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Play(Index As Integer)
+		  ' Begins or resumes playback. Pass the index of a medium in the PlayList to begin playing at that index.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Play
+		  
 		  If mPlayer = Nil Then Return
 		  If libvlc_media_list_player_play_item_at_index(mPlayer, Index) <> 0 Then
 		    Raise New VLCException("The media list does not contain an entry at that index.")
@@ -175,6 +271,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Play(Media As libvlc.Medium)
+		  ' Pass a reference to a Medium in the PlayList to begin playing that Medium. The Medium
+		  ' must already be added to the list.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Play
+		  
 		  If mPlayer <> Nil Then
 		    Dim index As Integer = mPlayList.IndexOf(Media)
 		    If index > -1 Then
@@ -187,6 +289,13 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function PlayAsList(MediaFiles() As FolderItem, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  ' Creates a ListPlayer from the specified array of FolderItem objects and returns a
+		  ' reference to the player. If TruePlayer is specified then the ListPlayer will use
+		  ' it, otherwise it will create an internal player.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayAsList
+		  
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaFiles)
 		    m.Append(MediaFiles(i))
@@ -197,6 +306,13 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function PlayAsList(Media() As libvlc.Medium, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  ' Creates a ListPlayer from the specified array of Medium objects and returns a
+		  ' reference to the player. If TruePlayer is specified then the ListPlayer will use
+		  ' it, otherwise it will create an internal player.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayAsList
+		  
 		  Dim play As New ListPlayer
 		  If TruePlayer <> Nil Then play.TruePlayer = TruePlayer
 		  play.PlayList = Media
@@ -206,6 +322,13 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		 Shared Function PlayAsList(MediaURLs() As String, Optional TruePlayer As libvlc.VLCPlayer) As libvlc.ListPlayer
+		  ' Creates a ListPlayer from the specified array of media resource locators (URLs) and
+		  ' returns a reference to the player. If TruePlayer is specified then the ListPlayer will
+		  ' use it, otherwise it will create an internal player.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayAsList
+		  
 		  Dim m() As libvlc.Medium
 		  For i As Integer = 0 To UBound(MediaURLs)
 		    m.Append(MediaURLs(i))
@@ -216,6 +339,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Remove(Index As Integer)
+		  ' Removes the Medium at the specified Index from the PlayList.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Remove
+		  
 		  PlayList.Remove(Index)
 		  Playlist = Playlist
 		End Sub
@@ -234,6 +362,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Stop()
+		  ' Stops playback if playing.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.Stop
+		  
 		  If mPlayer <> Nil Then libvlc_media_list_player_stop(mPlayer)
 		End Sub
 	#tag EndMethod
@@ -252,6 +385,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns True if the playlist can move forward by one.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.CanMoveNext
+			  
 			  Return ListIndex < ListCount - 1
 			End Get
 		#tag EndGetter
@@ -261,6 +399,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns True if the playlist can move backward by one.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.CanMovePrev
+			  
 			  Return Me.ListIndex > 0
 			End Get
 		#tag EndGetter
@@ -270,6 +413,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' The current state of the player. Refer to the libvlc.PlayerState enum for possible values.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.CurrentState
+			  
 			  If mPlayer <> Nil Then Return libvlc_media_list_player_get_state(mPlayer)
 			End Get
 		#tag EndGetter
@@ -279,6 +427,14 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns True if the player is currently playing.
+			  ' NOTE: Use ListPlayer.CurrentState for more detailed information about the current state
+			  ' of the player. In particular, IsPlaying will return False for an indeterminate period of
+			  ' time after calling the ListPlayer.Play while the medium is being loaded.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.IsPlaying
+			  
 			  If mPlayer <> Nil Then Return libvlc_media_list_player_is_playing(mPlayer)
 			End Get
 		#tag EndGetter
@@ -288,6 +444,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the overall length of the playlist, in milliseconds.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.LengthMS
+			  
 			  If mPlayList = Nil Then Return -1
 			  Return mPlayList.LengthMS
 			End Get
@@ -298,6 +459,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the number of items in the play list. The index of the last item is at ListCount - 1.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.ListCount
+			  
 			  If mPlayList <> Nil Then Return mPlaylist.Count
 			End Get
 		#tag EndGetter
@@ -307,12 +473,22 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the zero-based index of the currently playing item.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.ListIndex
+			  
 			  If mPlayList = Nil Then Return -1
 			  return mPlayList.CurrentIndex
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the zero-based index of the currently playing item.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.ListIndex
+			  
 			  Me.Play(value)
 			End Set
 		#tag EndSetter
@@ -350,12 +526,22 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the PlayList of media to be played.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayList
+			  
 			  If mPlayList = Nil Then mPlayList = New libvlc.PlayList()
 			  Return mPlayList
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the PlayList of media to be played, replacing any previously-set list.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayList
+			  
 			  If mPlayer <> Nil Then
 			    libvlc_media_list_player_set_media_list(mPlayer, value.Handle)
 			    mPlayList = value
@@ -368,11 +554,21 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the playback mode for the PlayList.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayMode
+			  
 			  return mPlayMode
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the playback mode for the PlayList.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.PlayMode
+			  
 			  If mPlayer <> Nil Then
 			    libvlc_media_list_player_set_playback_mode(mPlayer, value)
 			    mPlayMode = value
@@ -385,6 +581,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the current overall position within the playlist, in milliseconds.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.TimeMS
+			  
 			  If mPlayList = Nil Or ListIndex = -1 Then Return -1
 			  Return mPlayList.TimeMS + TruePlayer.TimeMS
 			End Get
@@ -395,6 +596,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the VLCPlayer instance responsible for actually playing media in the PlayList.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.TruePlayer
+			  
 			  If mPlayer = Nil Then Return Nil
 			  ' libvlc_media_list_player_get_media_player is documented, but is not always exported by the library
 			  ' https://github.com/oaubert/python-vlc/issues/13
@@ -409,6 +615,9 @@ Inherits libvlc.VLCInstance
 			Set
 			  ' Replaces the current VLCPlayer. If there are no other references to the old VLCPlayer then
 			  ' it is destroyed.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer.TruePlayer
 			  
 			  If mPlayer = Nil Then Raise New NilObjectException
 			  libvlc_media_list_player_set_media_player(mPlayer, value.Handle)

@@ -35,6 +35,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(FileDescriptor As Integer)
+		  ' Constructs a new Medium object from the specified file handle.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Constructor
+		  
 		  If FileDescriptor = 0 Then Raise New NilObjectException
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
@@ -47,6 +52,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Constructor(AddRef As libvlc.Medium)
 		  ' Duplicates AddRef by incrementing its internal refcount. The duplicate is independent of the original.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Constructor
 		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor(AddRef As VLCInstance) -- From VLCInstance
@@ -61,7 +69,9 @@ Inherits libvlc.VLCInstance
 		  ' Constructs an instance of Medium using FromPtr. If AddRef is True then libvlc's internal reference count for the
 		  ' FromPtr is incremented. The reference count will be decremented by Medium.Destructor; refer to the VLC documentation
 		  ' for the function that gave you FromPtr to determine whether the reference count should be incremented.
-		  
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Constructor
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
 		  Super.Constructor()
@@ -73,6 +83,14 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h1000
 		Sub Constructor(FromStream As Readable, Optional Length As UInt64)
+		  ' Constructs a new Medium object from the specified Readable stream.
+		  ' DANGER: This feature can never work safely in Xojo due to re-entrancy
+		  ' concerns. It may appear to work, but that's just luck. USE AT YOUR
+		  ' OWN RISK.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Constructor
+		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor() -- From VLCInstance
 		  Super.Constructor()
@@ -193,6 +211,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.Medium) As Integer
+		  ' Compares two Medium references for equality. References are considered equal
+		  ' if they refer to the same underlying libvlc handle.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Operator_Compare
+		  
 		  Dim i As Integer = Super.Operator_Compare(OtherInstance)
 		  If i = 0 Then i = Sign(Integer(mMedium) - Integer(OtherInstance.mMedium))
 		  Return i
@@ -202,6 +226,10 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromFolderItem As FolderItem)
 		  ' Constructs a new Medium from the specified FolderItem. The FolderItem may be a file or a directory/disk drive.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Operator_Convert
+		  
 		  If FromFolderItem = Nil Then
 		    Dim err As New NilObjectException
 		    err.Message = "FromFolderItem is Nil. Check for nil -before- trying to convert from an object type."
@@ -214,6 +242,9 @@ Inherits libvlc.VLCInstance
 	#tag Method, Flags = &h0
 		Sub Operator_Convert(FromURL As String)
 		  ' Constructs a new Medium from the specified URL. The URL may refer to a local or network location, using any supported protocol.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Operator_Convert
 		  
 		  If mMedium <> Nil Then
 		    Me.Destructor()
@@ -229,8 +260,12 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Parse()
-		  ' Parses the media's meta data without playing it. Parsing is done automatically when media are played; call the IsParsed() method to
-		  ' determine whether the metadata has already been parsed. Refer to the MetaData class, and the VLCPlayer.MetaData method.
+		  ' Parses the media's meta data without playing it. Parsing is done automatically
+		  ' when media are played; check the IsParsed property to determine whether the metadata
+		  ' has already been parsed. Refer to the MetaData class, and the VLCPlayer.MetaData method.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Parse
 		  
 		  If mMedium <> Nil Then libvlc_media_parse(mMedium)
 		  mMeta = New libvlc.Meta.MetaData(Me)
@@ -239,6 +274,11 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub SaveMetaData()
+		  ' Save metadata changes to the file.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.SaveMetaData
+		  
 		  If mMeta <> Nil Then mMeta.Flush()
 		End Sub
 	#tag EndMethod
@@ -295,8 +335,11 @@ Inherits libvlc.VLCInstance
 	#tag Property, Flags = &h0
 		#tag Note
 			Set this property to False to disallow fetching the album artwork from network locations.
-			By default fetching is allowed unless specifically disallowed. 
+			By default fetching is allowed unless specifically disallowed.
 			Change the FETCH_ARTWORK_FROM_NETWORK_DEFAULT constant to change the default behavior.
+			
+			See:
+			https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.AllowFetchArtwork
 		#tag EndNote
 		AllowFetchArtwork As Boolean = FETCH_ARTWORK_FROM_NETWORK_DEFAULT
 	#tag EndProperty
@@ -391,6 +434,12 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' The current state of the medium. Refer to the libvlc.PlayerState enum
+			  ' for possible values.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.CurrentState
+			  
 			  If mMedium <> Nil Then Return libvlc_media_get_state(mMedium)
 			End Get
 		#tag EndGetter
@@ -480,6 +529,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the duration of the Medium, in milliseconds.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.DurationMS
+			  
 			  If Not Me.IsParsed Then Me.Parse()
 			  If mMedium <> Nil Then Return libvlc_media_get_duration(mMedium)
 			End Get
@@ -538,6 +592,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the VLC handle for the Medium.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Handle
+			  
 			  Return mMedium
 			End Get
 		#tag EndGetter
@@ -549,6 +608,9 @@ Inherits libvlc.VLCInstance
 			Get
 			  ' Returns True if the medium's meta data has been parsed. Parsing is done when media are played;
 			  ' call the Parse() method to read metadata without playing.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.IsParsed
 			  
 			  If mMedium <> Nil Then Return libvlc_media_is_parsed(mMedium)
 			End Get
@@ -579,6 +641,12 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns a FolderItem representing the media file. If the Medium is not a
+			  ' file, directory, disc, etc. then this method will return Nil.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.MediaFile
+			  
 			  Dim url As String = Me.MediaURL
 			  If Left(url, 5) = "file:" Then Return GetFolderItem(url, FolderItem.PathTypeURL)
 			  Select Case NthField(url, "://", 1)
@@ -596,7 +664,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media constructed from FolderItems, this is the URLPath.
+			  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media
+			  ' constructed from FolderItems, this is the URLPath.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.MediaURL
 			  
 			  If mMedium <> Nil Then
 			    Dim mb As MemoryBlock = libvlc_media_get_mrl(mMedium)
@@ -723,7 +795,10 @@ Inherits libvlc.VLCInstance
 		#tag Getter
 			Get
 			  ' A single Medium object can contain a PlayList. For example if the Medium is an audio
-			  ' CD then its SubItems is a PlayList of the tracks on that CD. 
+			  ' CD then its SubItems is a PlayList of the tracks on that CD.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.SubItems
 			  
 			  If mSubItems = Nil And mMedium <> Nil Then
 			    Dim p As New VLCPlayer(Me)
@@ -773,7 +848,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  ' Returns a TrackList object representing the tracks of the media (audio, video, subtitles, etc.)
+			  ' Returns a TrackList object representing the tracks of the media (audio,
+			  ' video, subtitles, etc.)
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.TrackList
 			  
 			  If mMedium <> Nil Then Return New libvlc.Meta.MediaTrackList(Me)
 			End Get
@@ -810,7 +889,11 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  ' Returns a member of the libvlc.MediaType enum, representing the type of media being handled (file, disc, stream, etc.)
+			  ' Returns a member of the libvlc.MediaType enum, representing the type of
+			  ' media being handled (file, disc, stream, etc.)
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Type
 			  
 			  If mMedium <> Nil Then Return libvlc_media_get_type(mMedium)
 			End Get
@@ -819,6 +902,9 @@ Inherits libvlc.VLCInstance
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			The URL encoded in the metadata. Not to be confused with the MediaURL.
+		#tag EndNote
 		#tag Getter
 			Get
 			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)

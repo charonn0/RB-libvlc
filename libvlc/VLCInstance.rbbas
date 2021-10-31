@@ -2,7 +2,11 @@
 Protected Class VLCInstance
 	#tag Method, Flags = &h1
 		Protected Sub Constructor()
-		  ' Construct a new instance of libvlc and store it in Singleton, or increment the refcount on the existing instance.
+		  ' Construct a new instance of libvlc and store it in Singleton, or increment
+		  ' the refcount on the existing instance.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.Constructor
 		  
 		  If Not libvlc.IsAvailable Then
 		    Dim err As New PlatformNotSupportedException
@@ -73,6 +77,9 @@ Protected Class VLCInstance
 		  ' Increments the refcount of the instance represented by AddRef. Subclasses that
 		  ' provide a Constructor(VLCInstance) method must also call this Constructor with
 		  ' the same parameter.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.Constructor
 		  
 		  libvlc_retain(AddRef.Instance)
 		  mInstance = AddRef.Instance
@@ -90,6 +97,12 @@ Protected Class VLCInstance
 
 	#tag Method, Flags = &h0
 		Function Operator_Compare(OtherInstance As libvlc.VLCInstance) As Integer
+		  ' Compares two VLCInstance references for equality. References are considered equal
+		  ' if they refer to the same underlying libvlc handle.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.Operator_Compare
+		  
 		  If OtherInstance Is Nil Then Return 1
 		  Return Sign(Integer(mInstance) - Integer(OtherInstance.mInstance))
 		End Function
@@ -99,11 +112,21 @@ Protected Class VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the human-readable name of the application.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.AppName
+			  
 			  return mAppName
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the human-readable name of the application.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.AppName
+			  
 			  If mInstance <> Nil Then
 			    libvlc_set_user_agent(mInstance, value, mUserAgent)
 			    mAppName = value
@@ -155,11 +178,21 @@ Protected Class VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Gets the HTTP user-agent string of the application.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.UserAgent
+			  
 			  return mUserAgent
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' Sets the HTTP user-agent string of the application.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.UserAgent
+			  
 			  If mInstance <> Nil Then
 			    libvlc_set_user_agent(mInstance, mAppName, value)
 			    mUserAgent = value

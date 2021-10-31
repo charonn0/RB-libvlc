@@ -3,7 +3,11 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		Function Amplification(Band As UInt32) As Single
 		  ' Gets the amplification for the specified band. The Band parameter is the index of the band.
-		  ' Amplification values are in the range of -20.0 to +20.0 inclusive.
+		  ' Amplification values are in the range of -20.0 to +20.0 inclusive. Returns NaN if the band
+		  ' index is invalid.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Amplification
 		  
 		  If mEqualizer <> Nil Then Return libvlc_audio_equalizer_get_amp_at_index(mEqualizer, Band)
 		End Function
@@ -13,6 +17,9 @@ Protected Class Equalizer
 		Sub Amplification(Band As UInt32, Assigns NewAmplification As Single)
 		  ' Sets the amplification for the specified band. The Band parameter is the index of the band.
 		  ' Amplification values are in the range of -20.0 to +20.0 inclusive.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Amplification
 		  
 		  If mEqualizer <> Nil Then
 		    If libvlc_audio_equalizer_set_amp_at_index(mEqualizer, NewAmplification, Band) <> 0 Then
@@ -25,6 +32,9 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  ' Construct a new instance of Equalizer.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Constructor
 		  
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  mEqualizer = libvlc_audio_equalizer_new()
@@ -36,6 +46,9 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		Sub Constructor(CopyFrequencies As libvlc.Equalizer)
 		  ' Construct a new instance of Equalizer and copy the frequencies of the CopyFrequencies instance.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Constructor
 		  
 		  Me.Constructor()
 		  mIndex = CopyFrequencies.mIndex
@@ -50,6 +63,9 @@ Protected Class Equalizer
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Preset As UInt32)
 		  ' Construct a new instance of Equalizer from the index of a preset.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Constructor
 		  
 		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
 		  mEqualizer = libvlc_audio_equalizer_new_from_preset(Preset)
@@ -69,6 +85,9 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		 Shared Function GetBandCount() As UInt32
 		  ' Gets the number of frequency bands.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.GetBandCount
 		  
 		  If libvlc.IsAvailable Then Return libvlc_audio_equalizer_get_band_count() Else Raise New PlatformNotSupportedException
 		End Function
@@ -78,6 +97,9 @@ Protected Class Equalizer
 		 Shared Function GetBandFrequency(BandNumber As UInt32) As Single
 		  ' Gets the frequency of the band at BandNumber, in Hertz. The first index is zero; the last
 		  ' index is at Equalizer.GetBandCount- 1
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.GetBandFrequency
 		  
 		  If libvlc.IsAvailable Then Return libvlc_audio_equalizer_get_band_frequency(BandNumber) Else Raise New PlatformNotSupportedException
 		End Function
@@ -86,6 +108,9 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		 Shared Function GetPreset(Index As UInt32) As libvlc.Equalizer
 		  ' Gets the Equalizer preset at Index. The last Index is at GetPresetCount - 1.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.GetPreset
 		  
 		  If Index < 0 Or Index > GetPresetCount() - 1 Then Raise New OutOfBoundsException
 		  Return New Equalizer(Index)
@@ -95,6 +120,9 @@ Protected Class Equalizer
 	#tag Method, Flags = &h0
 		 Shared Function GetPresetCount() As UInt32
 		  ' Gets the number of equalizer presets.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.GetPresetCount
 		  
 		  If libvlc.IsAvailable Then Return libvlc_audio_equalizer_get_preset_count() Else Raise New PlatformNotSupportedException
 		End Function
@@ -104,6 +132,11 @@ Protected Class Equalizer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the equalizer's VLC handle.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Handle
+			  
 			  Return mEqualizer
 			End Get
 		#tag EndGetter
@@ -121,6 +154,12 @@ Protected Class Equalizer
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' If the Equalizer represents a named preset then this property contains the name.
+			  ' e.g. "Full bass", "Soft", "Techno".
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.Name
+			  
 			  If mIndex > -1 Then
 			    Dim mb As MemoryBlock = libvlc_audio_equalizer_get_preset_name(mIndex)
 			    If mb <> Nil Then Return mb.CString(0)
@@ -134,6 +173,9 @@ Protected Class Equalizer
 		#tag Getter
 			Get
 			  ' Gets the pre-amplification value for the Equalizer, in Hertz. Valid values are between -20.0 and +20.0.
+			  '
+			  ' See:
+			  'https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.PreAmplification
 			  
 			  If mEqualizer <> Nil Then Return libvlc_audio_equalizer_get_preamp(mEqualizer)
 			End Get
@@ -141,6 +183,9 @@ Protected Class Equalizer
 		#tag Setter
 			Set
 			  ' Sets the pre-amplification value for the Equalizer, in Hertz. Valid values are between -20.0 and +20.0.
+			  '
+			  ' See:
+			  'https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.PreAmplification
 			  
 			  If mEqualizer <> Nil Then
 			    If libvlc_audio_equalizer_set_preamp(mEqualizer, value) <> 0 Then Raise New VLCException("Unable to set the pre-amplification value for the equalizer.")
@@ -155,6 +200,9 @@ Protected Class Equalizer
 			Get
 			  ' If the Equalizer instance represents a named preset then this property contains the
 			  ' index of that preset. Otherwise it contains -1.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer.PresetIndex
 			  
 			  Return mIndex
 			End Get
