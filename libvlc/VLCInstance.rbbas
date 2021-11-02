@@ -1,5 +1,32 @@
 #tag Class
 Protected Class VLCInstance
+	#tag Method, Flags = &h0
+		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
+		  ' Returns a ModuleList listing the available audio output filters.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.AudioFilters
+		  
+		  Dim i As New VLCInstance()
+		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance), i)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function AudioOutputs() As libvlc.Meta.AudioOutputList
+		  ' Returns an AudioOutputList listing the available audio output modules.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.AudioOutputs
+		  
+		  Dim i As New VLCInstance()
+		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
+		  If p <> Nil Then Return New libvlc.Meta.AudioOutputList(p)
+		  Raise New VLCException("Unable to get the list of audio output modules.")
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor()
 		  ' Construct a new instance of libvlc and store it in Singleton, or increment
@@ -105,6 +132,19 @@ Protected Class VLCInstance
 		  
 		  If OtherInstance Is Nil Then Return 1
 		  Return Sign(Integer(mInstance) - Integer(OtherInstance.mInstance))
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
+		  ' Returns a ModuleList listing the available video output filters.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCInstance.VideoFilters
+		  
+		  Dim i As New VLCInstance()
+		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance), i)
+		  
 		End Function
 	#tag EndMethod
 

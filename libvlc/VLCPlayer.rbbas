@@ -14,33 +14,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function AudioFilters() As libvlc.Meta.ModuleList
-		  ' Returns a ModuleList listing the available audio output filters.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.AudioFilters
-		  
-		  Dim i As New VLCInstance()
-		  Return New libvlc.Meta.ModuleList(libvlc_audio_filter_list_get(i.Instance), i)
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		 Shared Function AudioOutputs() As libvlc.Meta.AudioOutputList
-		  ' Returns an AudioOutputList listing the available audio output modules.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.AudioOutputs
-		  
-		  Dim i As New VLCInstance()
-		  Dim p As Ptr = libvlc_audio_output_list_get(i.Instance)
-		  If p <> Nil Then Return New libvlc.Meta.AudioOutputList(p)
-		  Raise New VLCException("Unable to get the list of audio output modules.")
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Attributes( deprecated = """libvlc.VLCPlayer.AudioTracks.CurrentTrackID" )  Function AudioTrack() As Integer
 		  ' Returns the I_ID of the current track.
 		  
@@ -532,19 +505,6 @@ Inherits libvlc.VLCInstance
 		  
 		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, CType(Option, UInt32), NewValue)
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		 Shared Function VideoFilters() As libvlc.Meta.ModuleList
-		  ' Returns a ModuleList listing the available video output filters.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.VideoFilters
-		  
-		  Dim i As New VLCInstance()
-		  Return New libvlc.Meta.ModuleList(libvlc_video_filter_list_get(i.Instance), i)
-		  
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
