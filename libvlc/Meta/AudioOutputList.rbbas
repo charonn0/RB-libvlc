@@ -34,7 +34,7 @@ Inherits libvlc.Meta.LinkedList
 
 
 	#tag Note, Name = libvlc_audio_output_t
-		This class wraps a pointer to a  structure. The libvlc_audio_output_t
+		This class wraps a pointer to a structure. The libvlc_audio_output_t
 		structure contains information about an available audio output channel
 		
 		https://www.videolan.org/developers/vlc/doc/doxygen/html/structlibvlc__audio__output__t.html
