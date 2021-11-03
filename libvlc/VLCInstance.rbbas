@@ -64,42 +64,6 @@ Protected Class VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(CommandLine As String)
-		  ' This Constructor is deprecated; do not use.
-		  
-		  If Not libvlc.IsAvailable Then Raise New PlatformNotSupportedException
-		  If CommandLine = DEFAULT_ARGS And Singleton <> Nil Then
-		    Me.Constructor(Singleton)
-		  Else
-		    Dim cmds() As String = SplitQuoted(CommandLine)
-		    Dim argc As Integer = UBound(cmds) + 1
-		    #If Target32Bit Then
-		      Dim argv As New MemoryBlock((argc + 1) * 4)
-		    #Else
-		      Dim argv As New MemoryBlock((argc + 1) * 8)
-		    #EndIf
-		    Dim ptrs() As MemoryBlock
-		    For i As Integer = 0 To argc - 1
-		      Dim mb As MemoryBlock = cmds(i).Trim + Chr(0)
-		      ptrs.Append(mb)
-		      #If Target32Bit Then
-		        argv.Ptr(i * 4) = mb
-		      #Else
-		        argv.Ptr(i * 8) = mb
-		      #EndIf
-		    Next
-		    
-		    mInstance = libvlc_new(argc, argv)
-		    If mInstance = Nil Then Raise New libvlc.VLCException("Unable to construct a VLC instance.")
-		    If CommandLine = DEFAULT_ARGS Then Singleton = Me
-		  End If
-		  mUserAgent = "RB-VLC/1.0"
-		  Me.AppName = App.ExecutableFile.Name
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
 		Protected Sub Constructor(AddRef As VLCInstance)
 		  ' Increments the refcount of the instance represented by AddRef. Subclasses that
 		  ' provide a Constructor(VLCInstance) method must also call this Constructor with

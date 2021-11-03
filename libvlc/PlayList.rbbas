@@ -151,19 +151,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.PlayList.Operator_Subscript" )  Function Item(Index As Integer) As libvlc.Medium
-		  ' Note: This method has been deprecated in favor of PlayList.Operator_Subscript.
-		  ' Returns the Medium at index in the PlayList. If there is not item at index then
-		  ' an OutOfBoundsException will be raised.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList.Item
-		  
-		  Return Operator_Subscript(Index)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Load(Added() As FolderItem)
 		  ' Appends media to the playlist from the specified array of FolderItem objects.
 		  '

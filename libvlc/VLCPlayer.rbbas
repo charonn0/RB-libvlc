@@ -14,61 +14,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = """libvlc.VLCPlayer.AudioTracks.CurrentTrackID" )  Function AudioTrack() As Integer
-		  ' Returns the I_ID of the current track.
-		  
-		  If mPlayer <> Nil Then Return libvlc_audio_get_track(mPlayer)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = """libvlc.VLCPlayer.AudioTracks.CurrentTrackID" )  Sub AudioTrack(Assigns NewTrack As Integer)
-		  ' Sets the audio track to the I_ID specified by NewTrack. Call AudioTrackID to get the I_ID.
-		  
-		  If mPlayer = Nil Then Raise New NilObjectException
-		  If libvlc_audio_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the audio track to that index.")
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.Count" )  Function AudioTrackCount() As Integer
-		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
-		  If lst <> Nil Then Return lst.Count
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.Name" )  Function AudioTrackDescription(TrackNumber As Integer) As String
-		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
-		  If lst <> Nil Then Return lst.Name(TrackNumber)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.ID" )  Function AudioTrackID(TrackNumber As Integer) As Integer
-		  ' Returns the I_ID member of the Audio Track at TrackNumber
-		  
-		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
-		  If lst <> Nil Then Return lst.ID(TrackNumber)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.AudioTracks.IndexOf" )  Function AudioTrackIndex(TrackID As Integer) As Integer
-		  ' Returns the index of the Audio Track corresponding to TrackID, or -1
-		  
-		  Dim lst As libvlc.Meta.TrackList = Me.AudioTracks
-		  If lst <> Nil Then
-		    Dim c As Integer = lst.Count
-		    For i As Integer = 0 To c - 1
-		      If lst.ID(i) = TrackID Then Return i
-		    Next
-		  End If
-		  Return -1
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Constructor()
 		  ' Constructs a new player instance
 		  '
@@ -474,18 +419,6 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Attributes( deprecated = "VLCPlayer.Subtitles.CurrentTrackID" )  Sub ToggleTeletext()
-		  ' Note: This method has been deprecated in favor of VLCPlayer.Subtitles.CurrentTrackID.
-		  ' Toggles subtitles on and off.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.ToggleTeletext
-		  
-		  If mPlayer <> Nil Then libvlc_toggle_teletext(mPlayer)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function VideoAdjustment(Option As libvlc.AdjustOption) As Integer
 		  ' Gets the value of the specified video adjustment option.
 		  '
@@ -505,55 +438,6 @@ Inherits libvlc.VLCInstance
 		  
 		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, CType(Option, UInt32), NewValue)
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentTrackID" )  Function VideoTrack() As Integer
-		  If mPlayer <> Nil Then Return libvlc_video_get_track(mPlayer)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.CurrentTrackID" )  Sub VideoTrack(Assigns NewTrack As Integer)
-		  If mPlayer = Nil Then Raise New NilObjectException
-		  If libvlc_video_set_track(mPlayer, NewTrack) <> 0 Then Raise New VLCException("Unable to set the video track to that index.")
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.Count" )  Function VideoTrackCount() As Integer
-		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
-		  If lst <> Nil Then Return lst.Count
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.Name" )  Function VideoTrackDescription(TrackNumber As Integer) As String
-		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
-		  If lst <> Nil Then Return lst.Name(TrackNumber)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.ID" )  Function VideoTrackID(TrackNumber As Integer) As Integer
-		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
-		  If lst <> Nil Then Return lst.ID(TrackNumber)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Attributes( deprecated = "libvlc.VLCPlayer.VideoTracks.IndexOf" )  Function VideoTrackIndex(TrackID As Integer) As Integer
-		  ' Returns the index of the Video Track corresponding to TrackID, or -1
-		  
-		  Dim lst As libvlc.Meta.TrackList = Me.VideoTracks
-		  If lst <> Nil Then
-		    Dim c As Integer = lst.Count
-		    For i As Integer = 0 To c - 1
-		      If lst.ID(i) = TrackID Then Return i
-		    Next
-		  End If
-		  Return -1
-		End Function
 	#tag EndMethod
 
 
@@ -970,19 +854,6 @@ Inherits libvlc.VLCInstance
 		Private mEqualizer As libvlc.Equalizer
 	#tag EndProperty
 
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  Dim m As libvlc.Medium = Media
-			  If m <> Nil Then
-			    If Not m.IsParsed Then m.Parse
-			    Return New libvlc.Meta.MetaData(m)
-			  End If
-			End Get
-		#tag EndGetter
-		Attributes( deprecated ) MetaData As libvlc.Meta.MetaData
-	#tag EndComputedProperty
-
 	#tag Property, Flags = &h21
 		Private mLastState As libvlc.PlayerState
 	#tag EndProperty
@@ -1091,30 +962,6 @@ Inherits libvlc.VLCInstance
 			End Set
 		#tag EndSetter
 		Speed As Single
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  If mPlayer <> Nil Then Return libvlc_video_get_spu_count(mPlayer)
-			End Get
-		#tag EndGetter
-		Attributes( deprecated = "libvlc.VLCPlayer.Subtitles.Count" ) SubtitleCount As Integer
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  If mPlayer <> Nil Then Return libvlc_video_get_spu(mPlayer)
-			End Get
-		#tag EndGetter
-		#tag Setter
-			Set
-			  If mPlayer = Nil Then Return
-			  If libvlc_video_set_spu(mPlayer, value) <> 0 Then Raise New VLCException("Unable to assign that subtitle index.")
-			End Set
-		#tag EndSetter
-		Attributes( deprecated = "libvlc.VLCPlayer.Subtitles.CurrentTrackID" ) SubtitleIndex As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
