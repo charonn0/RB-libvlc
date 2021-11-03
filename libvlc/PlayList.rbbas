@@ -461,7 +461,7 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub SortWith(Sortable() As Integer)
-		  ' The Sortable() parameter is an array if indices into the playlist. The first number
+		  ' The Sortable() parameter is an array of indices into the playlist. The first number
 		  ' in the array is the new index for the first item in the play list, the second number
 		  ' is the new index of the second item in the play list, and so on.
 		  '
