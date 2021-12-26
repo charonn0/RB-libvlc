@@ -398,7 +398,7 @@ Inherits libvlc.VLCInstance
 		  If mPlayer = Nil Then Return Nil
 		  
 		  Dim tmp As FolderItem = GetTemporaryFolderItem()
-		  Dim r As REALbasic.Rect = GetVideoDimensions()
+		  Dim r As REALbasic.Rect = GetVideoDimensions(VideoIndex)
 		  If r <> Nil And libvlc_video_take_snapshot(mPlayer, VideoIndex, tmp.AbsolutePath_, r.Width, r.Height) = 0 Then
 		    Return Picture.Open(tmp)
 		  End If
