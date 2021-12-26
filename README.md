@@ -10,11 +10,11 @@ _This screen shot depicts the RB-libvlc demo running on Windows 10_
 * [Transcode](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.AddOption#example) one media format to another.
 * [Embed video output](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.EmbedWithin) in any window, container, or control.
 * Read and write [media metadata](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.MetaData) (IDv3 tags, etc.)
-* Open, create, play, and save [playlists](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Playlists).
+* Open, create, play, and save [playlists](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Playlist).
 * Sound [equalization controls](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer).
 
 ## Synopsis
-There are two main modes of operation: using the [VLCPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer) class to play media without a GUI and the [VLCMediaPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer) which provides a GUI. libvlc also supports playlists through a separate [PlayList](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists) interface.
+There are two main modes of operation: using the [VLCPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer) class to play media without a GUI and the [VLCMediaPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer) which provides a GUI. libvlc also supports playlists through a separate [PlayList](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList) interface.
 
 |Object Class|Comment|
 |------------|-------|
@@ -22,8 +22,8 @@ There are two main modes of operation: using the [VLCPlayer](https://github.com/
 |[`VLCMediaPlayer`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer)|A media player session [embedded](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.EmbedWithin) in a `Canvas` control.| 
 |[`Medium`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium)|A media resource such as a file or internet stream.|
 |[`Equalizer`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer)|An audio equalizer.|
-|[`PlayList`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.PlayList)|A list of `Medium` objects.|
-|[`ListPlayer`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayLists.ListPlayer)|A specialized player for playing `PlayLists`.|
+|[`PlayList`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList)|A list of `Medium` objects.|
+|[`ListPlayer`](https://github.com/charonn0/RB-libvlc/wiki/libvlc.ListPlayer)|A specialized player for playing `PlayLists`.|
 
 To play a media file or stream, create an instance of the Medium class by converting from a URL(as string) or a FolderItem.
 
