@@ -1,5 +1,5 @@
 # RB-libvlc
-This project wraps libvlc, the open-source multimedia library behind VLC Media Player. 
+[libvlc](https://www.videolan.org/vlc/libvlc.html) is the open-source multimedia library that powers VLC Media Player. **RB-libvlc** is libvlc [binding](http://en.wikipedia.org/wiki/Language_binding) for Realbasic and Xojo ("classic" framework) projects.
 
 ![RB-libvlc under Windows 10](https://i.imgur.com/KsgRxUY.png)
 
