@@ -419,24 +419,30 @@ Inherits libvlc.VLCInstance
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function VideoAdjustment(Option As libvlc.AdjustOption) As Integer
+		Function VideoAdjustment(Option As libvlc.AdjustOption) As Single
 		  ' Gets the value of the specified video adjustment option.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.VideoAdjustment
 		  
-		  If mPlayer <> Nil Then Return libvlc_video_get_adjust_int(mPlayer, CType(Option, UInt32))
+		  If mPlayer <> Nil Then 
+		    Dim value As Single = libvlc_video_get_adjust_float(mPlayer, CType(Option, UInt32))
+		    If value <= 0.000 Then
+		      value = libvlc_video_get_adjust_int(mPlayer, CType(Option, UInt32))
+		    End If
+		    Return value
+		  End If
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub VideoAdjustment(Option As libvlc.AdjustOption, Assigns NewValue As Integer)
+		Sub VideoAdjustment(Option As libvlc.AdjustOption, Assigns NewValue As Single)
 		  ' Sets the value of the specified video adjustment option.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.VideoAdjustment
 		  
-		  If mPlayer <> Nil Then libvlc_video_set_adjust_int(mPlayer, CType(Option, UInt32), NewValue)
+		  If mPlayer <> Nil Then libvlc_video_set_adjust_float(mPlayer, CType(Option, UInt32), NewValue)
 		End Sub
 	#tag EndMethod
 

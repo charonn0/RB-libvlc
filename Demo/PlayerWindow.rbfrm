@@ -857,6 +857,37 @@ Begin Window PlayerWindow
       Visible         =   True
       Width           =   80
    End
+   Begin PushButton VideoAdjustBtn
+      AutoDeactivate  =   True
+      Bold            =   ""
+      ButtonStyle     =   0
+      Cancel          =   ""
+      Caption         =   "Adjust video"
+      Default         =   ""
+      Enabled         =   False
+      Height          =   22
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   431
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   38
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   344
+      Underline       =   ""
+      Visible         =   True
+      Width           =   80
+   End
 End
 #tag EndWindow
 
@@ -1120,6 +1151,7 @@ End
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
 		    FullscreenBtn.Enabled = False
+		    VideoAdjustBtn.Enabled = False
 		    Slider1.Enabled = False
 		    VolControl.Enabled = False
 		  Else
@@ -1154,9 +1186,11 @@ End
 		    PlayButton.Enabled = True
 		    StopButton.Enabled = True
 		    FullscreenBtn.Enabled = True
+		    VideoAdjustBtn.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
 		    FullscreenBtn.Enabled = Player.HasVideo
+		    VideoAdjustBtn.Enabled = Player.HasVideo
 		    AspectRatio.Enabled = Player.HasVideo
 		    
 		  End If
@@ -1524,6 +1558,7 @@ End
 		    PlayButton.Enabled = False
 		    StopButton.Enabled = False
 		    FullscreenBtn.Enabled = False
+		    VideoAdjustBtn.Enabled = False
 		    Slider1.Enabled = False
 		    VolControl.Enabled = False
 		    
@@ -1531,6 +1566,7 @@ End
 		    PlayButton.Enabled = True
 		    StopButton.Enabled = True
 		    FullscreenBtn.Enabled = True
+		    VideoAdjustBtn.Enabled = True
 		    Slider1.Enabled = True
 		    VolControl.Enabled = True
 		    Do Until Not mLock
@@ -1619,6 +1655,13 @@ End
 		  Next
 		  
 		  LoadPlaylist(f)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events VideoAdjustBtn
+	#tag Event
+		Sub Action()
+		  VideoAdjustSettingsWindow.ShowVideoOptions(Player.TruePlayer)
 		End Sub
 	#tag EndEvent
 #tag EndEvents

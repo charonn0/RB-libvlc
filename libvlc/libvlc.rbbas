@@ -606,6 +606,10 @@ Protected Module libvlc
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function libvlc_video_get_adjust_float Lib VLCLib (Player As Ptr, Option As Single) As Integer
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_adjust_int Lib VLCLib (Player As Ptr, Option As UInt32) As Integer
 	#tag EndExternalMethod
 
@@ -643,6 +647,10 @@ Protected Module libvlc
 
 	#tag ExternalMethod, Flags = &h21
 		Private Soft Declare Function libvlc_video_get_track_description Lib VLCLib (Player As Ptr) As Ptr
+	#tag EndExternalMethod
+
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Sub libvlc_video_set_adjust_float Lib VLCLib (Player As Ptr, Option As UInt32, Value As Single)
 	#tag EndExternalMethod
 
 	#tag ExternalMethod, Flags = &h21
