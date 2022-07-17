@@ -477,8 +477,15 @@ Inherits libvlc.VLCInstance
 		    For i As Integer = 0 To count
 		      Dim p As Ptr = libvlc_media_list_item_at_index(mList, i)
 		      If p = Nil Then Raise New NilObjectException
-		      Call libvlc_media_list_insert_media(mList, p, Sortable(i))
-		      Call libvlc_media_list_remove_index(mList, i)
+		      If i < Sortable(i) Then
+		        ' insertion index > removal index so insert before removing
+		        Call libvlc_media_list_insert_media(mList, p, Sortable(i))
+		        Call libvlc_media_list_remove_index(mList, i)
+		      Else
+		        ' insertion index <= removal index so remove before inserting
+		        Call libvlc_media_list_remove_index(mList, i)
+		        Call libvlc_media_list_insert_media(mList, p, Sortable(i))
+		      End If
 		    Next
 		  Finally
 		    Me.Unlock()
