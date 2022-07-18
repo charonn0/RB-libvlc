@@ -238,12 +238,20 @@ Inherits libvlc.VLCInstance
 		  Do
 		    Select Case Me.CurrentState
 		    Case libvlc.PlayerState.Buffering, libvlc.PlayerState.Idle, libvlc.PlayerState.Opening
-		      App.YieldToNextThread
+		      #If RBVersion > 2020.01
+		        Thread.YieldToNext()
+		      #Else
+		        App.YieldToNextThread()
+		      #EndIf
 		      Continue
 		    Case libvlc.PlayerState.Playing
 		      If StartPaused Then Me.Pause
 		      #If TargetDesktop Then
-		        App.SleepCurrentThread(100)
+		        #If RBVersion > 2020.01
+		          Thread.SleepCurrent(100)
+		        #Else
+		          App.SleepCurrentThread(100)
+		        #EndIf
 		      #Else
 		        App.DoEvents(100)
 		      #EndIf
