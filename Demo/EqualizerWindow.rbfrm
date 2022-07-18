@@ -21,13 +21,77 @@ Begin Window EqualizerWindow
    MinWidth        =   64
    Placement       =   0
    Resizeable      =   False
-   Title           =   "Equalizer"
+   Title           =   "Graphical Equalizer - VLC"
    Visible         =   True
-   Width           =   6.56e+2
+   Width           =   6.26e+2
+   Begin ComboBox Presets
+      AutoComplete    =   False
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialValue    =   ""
+      Italic          =   ""
+      Left            =   353
+      ListIndex       =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   False
+      Scope           =   0
+      TabIndex        =   25
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   237
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   True
+      Width           =   273
+   End
+   Begin CheckBox EnableEqualizerChkBx
+      AutoDeactivate  =   True
+      Bold            =   ""
+      Caption         =   "Equalizer enabled"
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   6
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Scope           =   0
+      State           =   1
+      TabIndex        =   24
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   238
+      Underline       =   ""
+      Value           =   True
+      Visible         =   True
+      Width           =   162
+   End
    Begin Slider PreAmp
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -43,11 +107,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   0
+      TabIndex        =   27
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   True
       Width           =   24
@@ -55,7 +119,7 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   0
       InitialParent   =   ""
@@ -71,11 +135,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   1
+      TabIndex        =   28
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -83,11 +147,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   1
       InitialParent   =   ""
-      Left            =   125
+      Left            =   122
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -99,11 +163,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   2
+      TabIndex        =   29
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -111,11 +175,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   4
       InitialParent   =   ""
-      Left            =   290
+      Left            =   278
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -127,11 +191,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   5
+      TabIndex        =   30
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -139,11 +203,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   5
       InitialParent   =   ""
-      Left            =   345
+      Left            =   330
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -155,11 +219,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   6
+      TabIndex        =   31
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -167,11 +231,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   6
       InitialParent   =   ""
-      Left            =   400
+      Left            =   382
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -183,11 +247,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   7
+      TabIndex        =   32
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -195,11 +259,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   7
       InitialParent   =   ""
-      Left            =   455
+      Left            =   434
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -211,11 +275,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   8
+      TabIndex        =   33
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -223,11 +287,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   8
       InitialParent   =   ""
-      Left            =   510
+      Left            =   486
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -239,11 +303,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   9
+      TabIndex        =   34
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -251,11 +315,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   9
       InitialParent   =   ""
-      Left            =   565
+      Left            =   538
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -267,11 +331,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   10
+      TabIndex        =   35
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -279,11 +343,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   10
       InitialParent   =   ""
-      Left            =   620
+      Left            =   590
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -295,46 +359,14 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   11
+      TabIndex        =   36
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
-   End
-   Begin ComboBox Presets
-      AutoComplete    =   False
-      AutoDeactivate  =   True
-      Bold            =   ""
-      DataField       =   ""
-      DataSource      =   ""
-      Enabled         =   True
-      Height          =   20
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialValue    =   ""
-      Italic          =   ""
-      Left            =   0
-      ListIndex       =   0
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   ""
-      LockTop         =   False
-      Scope           =   0
-      TabIndex        =   13
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   241
-      Underline       =   ""
-      UseFocusRing    =   True
-      Visible         =   True
-      Width           =   303
    End
    Begin Label Label1
       AutoDeactivate  =   True
@@ -356,9 +388,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   14
+      TabIndex        =   37
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "Preamp"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -366,7 +397,7 @@ Begin Window EqualizerWindow
       TextSize        =   10
       TextUnit        =   0
       Top             =   215
-      Transparent     =   False
+      Transparent     =   True
       Underline       =   ""
       Visible         =   True
       Width           =   47
@@ -391,9 +422,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   15
+      TabIndex        =   38
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -417,7 +447,7 @@ Begin Window EqualizerWindow
       Index           =   1
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   114
+      Left            =   111
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -426,9 +456,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   16
+      TabIndex        =   39
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -452,7 +481,7 @@ Begin Window EqualizerWindow
       Index           =   2
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   169
+      Left            =   163
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -461,9 +490,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   17
+      TabIndex        =   40
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -487,7 +515,7 @@ Begin Window EqualizerWindow
       Index           =   3
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   224
+      Left            =   215
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -496,9 +524,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   18
+      TabIndex        =   41
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -522,7 +549,7 @@ Begin Window EqualizerWindow
       Index           =   4
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   279
+      Left            =   267
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -531,9 +558,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   19
+      TabIndex        =   42
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -557,7 +583,7 @@ Begin Window EqualizerWindow
       Index           =   5
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   334
+      Left            =   319
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -566,9 +592,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   20
+      TabIndex        =   43
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -592,7 +617,7 @@ Begin Window EqualizerWindow
       Index           =   6
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   389
+      Left            =   371
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -601,9 +626,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   21
+      TabIndex        =   44
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -627,7 +651,7 @@ Begin Window EqualizerWindow
       Index           =   7
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   444
+      Left            =   423
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -636,9 +660,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   22
+      TabIndex        =   45
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -662,7 +685,7 @@ Begin Window EqualizerWindow
       Index           =   8
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   499
+      Left            =   475
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -671,9 +694,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   23
+      TabIndex        =   46
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -697,7 +719,7 @@ Begin Window EqualizerWindow
       Index           =   9
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   554
+      Left            =   527
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -706,9 +728,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   24
+      TabIndex        =   47
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -732,7 +753,7 @@ Begin Window EqualizerWindow
       Index           =   10
       InitialParent   =   ""
       Italic          =   ""
-      Left            =   609
+      Left            =   579
       LockBottom      =   ""
       LockedInPosition=   False
       LockLeft        =   True
@@ -741,9 +762,8 @@ Begin Window EqualizerWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   25
+      TabIndex        =   48
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "0000Hz"
       TextAlign       =   1
       TextColor       =   &h000000
@@ -759,11 +779,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   3
       InitialParent   =   ""
-      Left            =   235
+      Left            =   226
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -775,11 +795,11 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   4
+      TabIndex        =   49
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
@@ -787,11 +807,11 @@ Begin Window EqualizerWindow
    Begin Slider BandFreq
       AutoDeactivate  =   True
       Enabled         =   True
-      Height          =   203
+      Height          =   217
       HelpTag         =   ""
       Index           =   2
       InitialParent   =   ""
-      Left            =   180
+      Left            =   174
       LineStep        =   1
       LiveScroll      =   ""
       LockBottom      =   ""
@@ -803,14 +823,48 @@ Begin Window EqualizerWindow
       Minimum         =   -20
       PageStep        =   20
       Scope           =   0
-      TabIndex        =   3
+      TabIndex        =   50
       TabPanelIndex   =   0
       TabStop         =   True
       TickStyle       =   0
-      Top             =   14
+      Top             =   0
       Value           =   0
       Visible         =   False
       Width           =   24
+   End
+   Begin Label PresetLbl
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   252
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   ""
+      LockTop         =   True
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   51
+      TabPanelIndex   =   0
+      Text            =   "Presets:"
+      TextAlign       =   2
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   238
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   100
    End
 End
 #tag EndWindow
@@ -869,6 +923,8 @@ End
 		      BandName(i).Text = FormatHertz(mPlayer.Equalizer.GetBandFrequency(i))
 		    Next
 		    PreAmp.Value = mPlayer.Equalizer.PreAmplification * -1
+		    Self.Width = BandName(c - 1).Left + BandName(c - 1).Width + 10
+		    
 		    Dim nm As String = mPlayer.Equalizer.Name
 		    If nm <> "" Then
 		      For i As Integer = 0 To Presets.ListCount - 1
@@ -890,11 +946,16 @@ End
 	#tag Method, Flags = &h0
 		Sub ShowEqualizer(Player As libvlc.VLCPlayer)
 		  mPlayer = Player
+		  If mPlayer.Media <> Nil Then Self.Title = "Graphical Equalizer - '" + mPlayer.Media.Title + "' - VLC"
 		  SetSliders()
 		  Me.ShowModal()
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private mLastEqualizer As libvlc.Equalizer
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mLock As Boolean
@@ -907,20 +968,6 @@ End
 
 #tag EndWindowCode
 
-#tag Events PreAmp
-	#tag Event
-		Sub ValueChanged()
-		  If Not mLock Then mPlayer.Equalizer.PreAmplification = Me.Value * -1
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events BandFreq
-	#tag Event
-		Sub ValueChanged(index as Integer)
-		  If Not mLock Then mPlayer.Equalizer.Amplification(index) = Me.Value * -1
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events Presets
 	#tag Event
 		Sub Open()
@@ -938,6 +985,45 @@ End
 		    mPlayer.Equalizer = Me.RowTag(Me.ListIndex)
 		    SetSliders()
 		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events EnableEqualizerChkBx
+	#tag Event
+		Sub Action()
+		  If Me.Value Then
+		    mPlayer.Equalizer = mLastEqualizer
+		    mLastEqualizer = Nil
+		    Presets.Enabled = True
+		    Dim c As UInt32 = mPlayer.Equalizer.GetBandCount
+		    For i As Integer = 0 To c - 1
+		      BandFreq(i).Enabled = True
+		    Next
+		    PreAmp.Enabled = True
+		  Else
+		    mLastEqualizer = mPlayer.Equalizer
+		    mPlayer.Equalizer = Nil
+		    Presets.Enabled = False
+		    Dim c As UInt32 = mPlayer.Equalizer.GetBandCount
+		    For i As Integer = 0 To c - 1
+		      BandFreq(i).Enabled = False
+		    Next
+		    PreAmp.Enabled = False
+		  End If
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PreAmp
+	#tag Event
+		Sub ValueChanged()
+		  If Not mLock Then mPlayer.Equalizer.PreAmplification = Me.Value * -1
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events BandFreq
+	#tag Event
+		Sub ValueChanged(index as Integer)
+		  If Not mLock Then mPlayer.Equalizer.Amplification(index) = Me.Value * -1
 		End Sub
 	#tag EndEvent
 #tag EndEvents
