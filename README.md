@@ -9,6 +9,8 @@ _This screen shot depicts the RB-libvlc demo running on Windows 10_
 * Play any media type supported by VLC.
 * [Transcode](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.AddOption#example) one media format to another.
 * [Embed video output](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.EmbedWithin) in any window, container, or control.
+* Works in console applications (video output will display in a window).
+* 64-bit ready.
 * Read and write [media metadata](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.MetaData) (IDv3 tags, etc.)
 * Open, create, play, and save [playlists](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Playlist).
 * Sound [equalization controls](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer).
