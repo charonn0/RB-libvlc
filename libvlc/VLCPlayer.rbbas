@@ -690,8 +690,12 @@ Inherits libvlc.VLCInstance
 			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.Equalizer
 			  
 			  If mPlayer = Nil Then Return
-			  If Not value IsA LiveEqualizer Then value = New LiveEqualizer(Me, value)
-			  If libvlc_media_player_set_equalizer(mPlayer, value.Handle) <> 0 Then Raise New VLCException("Unable to assign the equalizer to this player.")
+			  If value Is Nil Then
+			    If libvlc_media_player_set_equalizer(mPlayer, Nil) <> 0 Then Raise New VLCException("Unable to clear the equalizer from this player.")
+			  Else
+			    If Not value IsA LiveEqualizer Then value = New LiveEqualizer(Me, value)
+			    If libvlc_media_player_set_equalizer(mPlayer, value.Handle) <> 0 Then Raise New VLCException("Unable to assign the equalizer to this player.")
+			  End If
 			  mEqualizer = value
 			End Set
 		#tag EndSetter
