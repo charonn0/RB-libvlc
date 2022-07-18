@@ -131,7 +131,7 @@ Protected Class Equalizer
 
 	#tag Method, Flags = &h1
 		Protected Sub UpdateValues()
-		  // meh. Only interesting to LiveEqualizer
+		  mIndex = -1
 		End Sub
 	#tag EndMethod
 

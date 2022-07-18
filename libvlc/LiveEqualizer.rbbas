@@ -15,7 +15,6 @@ Inherits libvlc.Equalizer
 		  Me.Constructor(TargetPlayer)
 		  mUpdateLock = True
 		  Try
-		    mIndex = Preset.mIndex
 		    Dim c As UInt32 = Me.GetBandCount
 		    For i As Integer = 0 To c - 1
 		      Me.Amplification(i) = Preset.Amplification(i)
@@ -25,6 +24,7 @@ Inherits libvlc.Equalizer
 		    mUpdateLock = False
 		  End Try
 		  UpdateValues()
+		  mIndex = Preset.mIndex
 		End Sub
 	#tag EndMethod
 
@@ -33,6 +33,7 @@ Inherits libvlc.Equalizer
 		  If Not mUpdateLock And mPlayer <> Nil And mPlayer.Value IsA VLCPlayer Then
 		    Dim p As VLCPlayer = VLCPlayer(mPlayer.Value)
 		    p.Equalizer = Me
+		    mIndex = -1
 		  End If
 		End Sub
 	#tag EndMethod

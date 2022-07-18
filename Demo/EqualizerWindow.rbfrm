@@ -934,7 +934,7 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub Change()
-		  If Me.ListIndex > -1 Then
+		  If Me.ListIndex > -1 And Not mLock Then
 		    mPlayer.Equalizer = Me.RowTag(Me.ListIndex)
 		    SetSliders()
 		  End If
