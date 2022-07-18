@@ -26,6 +26,7 @@ Protected Class Equalizer
 		      Raise New VLCException("Unable to set the amplification value for the specified frequency band.")
 		    End If
 		  End If
+		  UpdateValues()
 		End Sub
 	#tag EndMethod
 
@@ -128,6 +129,12 @@ Protected Class Equalizer
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Sub UpdateValues()
+		  // meh. Only interesting to LiveEqualizer
+		End Sub
+	#tag EndMethod
+
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -143,12 +150,16 @@ Protected Class Equalizer
 		Handle As Ptr
 	#tag EndComputedProperty
 
-	#tag Property, Flags = &h21
-		Private mEqualizer As Ptr
+	#tag Property, Flags = &h1
+		Protected mEqualizer As Ptr
 	#tag EndProperty
 
-	#tag Property, Flags = &h21
-		Private mIndex As Integer = -1
+	#tag Property, Flags = &h1
+		Protected mIndex As Integer = -1
+	#tag EndProperty
+
+	#tag Property, Flags = &h1
+		Protected mUpdateLock As Boolean
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -190,6 +201,7 @@ Protected Class Equalizer
 			  If mEqualizer <> Nil Then
 			    If libvlc_audio_equalizer_set_preamp(mEqualizer, value) <> 0 Then Raise New VLCException("Unable to set the pre-amplification value for the equalizer.")
 			  End If
+			  UpdateValues()
 			End Set
 		#tag EndSetter
 		PreAmplification As Single

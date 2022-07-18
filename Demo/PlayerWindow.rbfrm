@@ -1499,8 +1499,7 @@ End
 		  Case "Pause"
 		    Me.Pause
 		  Case "Equalizer"
-		    Dim e As libvlc.Equalizer = EqualizerWindow.ShowEqualizer(Player.Equalizer)
-		    If e <> Nil Then Player.Equalizer = e
+		    EqualizerWindow.ShowEqualizer(Player.TruePlayer)
 		  Case "Load file"
 		    Dim f As FolderItem = GetOpenFolderItem(MediaFileTypes.All)
 		    If f <> Nil Then LoadMedia(f)

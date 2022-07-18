@@ -4,6 +4,7 @@ MinIDEVersion=20070100
 Class=App;App.rbbas;&h4D840FFF;&h0;false
 BuildSteps=Build Automation;Build Automation.rbbas;&h1E8C87FF;&h0;false
 Module=libvlc;libvlc/libvlc.rbbas;&h114C37FF;&h0;false
+Class=LiveEqualizer;libvlc/LiveEqualizer.rbbas;&h5A4D67FF;&h114C37FF;false
 Class=ListPlayerPtr;libvlc/ListPlayerPtr.rbbas;&h3BC50FFF;&h114C37FF;false
 Class=PlayList;libvlc/PlayList.rbbas;&h68743FFF;&h114C37FF;false
 Class=ListPlayer;libvlc/ListPlayer.rbbas;&h69519FFF;&h114C37FF;false

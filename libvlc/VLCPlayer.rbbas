@@ -678,7 +678,7 @@ Inherits libvlc.VLCInstance
 			  ' See:
 			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.Equalizer
 			  
-			  If mEqualizer = Nil Then mEqualizer = New libvlc.Equalizer
+			  If mEqualizer = Nil Then mEqualizer = New LiveEqualizer(Me)
 			  return mEqualizer
 			End Get
 		#tag EndGetter
@@ -690,6 +690,7 @@ Inherits libvlc.VLCInstance
 			  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer.Equalizer
 			  
 			  If mPlayer = Nil Then Return
+			  If Not value IsA LiveEqualizer Then value = New LiveEqualizer(Me, value)
 			  If libvlc_media_player_set_equalizer(mPlayer, value.Handle) <> 0 Then Raise New VLCException("Unable to assign the equalizer to this player.")
 			  mEqualizer = value
 			End Set

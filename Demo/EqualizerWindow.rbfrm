@@ -2,7 +2,7 @@
 Begin Window EqualizerWindow
    BackColor       =   &hFFFFFF
    Backdrop        =   ""
-   CloseButton     =   False
+   CloseButton     =   True
    Composite       =   False
    Frame           =   0
    FullScreen      =   False
@@ -812,68 +812,6 @@ Begin Window EqualizerWindow
       Visible         =   False
       Width           =   24
    End
-   Begin PushButton OKBtn
-      AutoDeactivate  =   True
-      Bold            =   ""
-      ButtonStyle     =   0
-      Cancel          =   ""
-      Caption         =   "OK"
-      Default         =   True
-      Enabled         =   True
-      Height          =   22
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   576
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      Scope           =   0
-      TabIndex        =   26
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   241
-      Underline       =   ""
-      Visible         =   True
-      Width           =   80
-   End
-   Begin PushButton CancelBtn
-      AutoDeactivate  =   True
-      Bold            =   ""
-      ButtonStyle     =   0
-      Cancel          =   True
-      Caption         =   "Cancel"
-      Default         =   False
-      Enabled         =   True
-      Height          =   22
-      HelpTag         =   ""
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   ""
-      Left            =   491
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   False
-      LockRight       =   True
-      LockTop         =   False
-      Scope           =   0
-      TabIndex        =   27
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   241
-      Underline       =   ""
-      Visible         =   True
-      Width           =   80
-   End
 End
 #tag EndWindow
 
@@ -923,15 +861,15 @@ End
 		Private Sub SetSliders()
 		  mLock = True
 		  Try
-		    Dim c As UInt32 = mEqualizer.GetBandCount
+		    Dim c As UInt32 = mPlayer.Equalizer.GetBandCount
 		    For i As Integer = 0 To c - 1
 		      BandFreq(i).Visible = True
-		      BandFreq(i).Value = mEqualizer.Amplification(i) * -1
+		      BandFreq(i).Value = mPlayer.Equalizer.Amplification(i) * -1
 		      BandName(i).Visible = True
-		      BandName(i).Text = FormatHertz(mEqualizer.GetBandFrequency(i))
+		      BandName(i).Text = FormatHertz(mPlayer.Equalizer.GetBandFrequency(i))
 		    Next
-		    PreAmp.Value = mEqualizer.PreAmplification * -1
-		    Dim nm As String = mEqualizer.Name
+		    PreAmp.Value = mPlayer.Equalizer.PreAmplification * -1
+		    Dim nm As String = mPlayer.Equalizer.Name
 		    If nm <> "" Then
 		      For i As Integer = 0 To Presets.ListCount - 1
 		        If Presets.List(i) = nm Then
@@ -950,21 +888,20 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ShowEqualizer(Equalizer As libvlc.Equalizer) As libvlc.Equalizer
-		  mEqualizer = Equalizer
+		Sub ShowEqualizer(Player As libvlc.VLCPlayer)
+		  mPlayer = Player
 		  SetSliders()
-		  Me.ShowModal
-		  Return mEqualizer
-		End Function
+		  Me.ShowModal()
+		End Sub
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h1
-		Protected mEqualizer As libvlc.Equalizer
+	#tag Property, Flags = &h21
+		Private mLock As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mLock As Boolean
+		Private mPlayer As VLCPlayer
 	#tag EndProperty
 
 
@@ -973,23 +910,23 @@ End
 #tag Events PreAmp
 	#tag Event
 		Sub ValueChanged()
-		  If Not mLock Then mEqualizer.PreAmplification = Me.Value * -1
+		  If Not mLock Then mPlayer.Equalizer.PreAmplification = Me.Value * -1
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events BandFreq
 	#tag Event
 		Sub ValueChanged(index as Integer)
-		  If Not mLock Then mEqualizer.Amplification(index) = Me.Value * -1
+		  If Not mLock Then mPlayer.Equalizer.Amplification(index) = Me.Value * -1
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events Presets
 	#tag Event
 		Sub Open()
-		  Dim c As UInt32 = mEqualizer.GetPresetCount
+		  Dim c As UInt32 = mPlayer.Equalizer.GetPresetCount
 		  For i As Integer = 0 To c - 1
-		    Dim e As libvlc.Equalizer = mEqualizer.GetPreset(i)
+		    Dim e As libvlc.Equalizer = mPlayer.Equalizer.GetPreset(i)
 		    Me.AddRow(e.Name)
 		    Me.RowTag(i) = e
 		  Next
@@ -998,24 +935,9 @@ End
 	#tag Event
 		Sub Change()
 		  If Me.ListIndex > -1 Then
-		    mEqualizer = Me.RowTag(Me.ListIndex)
+		    mPlayer.Equalizer = Me.RowTag(Me.ListIndex)
 		    SetSliders()
 		  End If
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events OKBtn
-	#tag Event
-		Sub Action()
-		  Self.Close
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events CancelBtn
-	#tag Event
-		Sub Action()
-		  mEqualizer = Nil
-		  Self.Close
 		End Sub
 	#tag EndEvent
 #tag EndEvents
