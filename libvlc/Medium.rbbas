@@ -18,6 +18,7 @@ Inherits libvlc.VLCInstance
 		  Else
 		    libvlc_media_add_option_flag(mMedium, Options, Flags)
 		  End If
+		  mOptions.Append(Options)
 		End Sub
 	#tag EndMethod
 
@@ -692,6 +693,10 @@ Inherits libvlc.VLCInstance
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mOptions() As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mSubItems As libvlc.PlayList
 	#tag EndProperty
 
@@ -803,7 +808,8 @@ Inherits libvlc.VLCInstance
 			  If mSubItems = Nil And mMedium <> Nil Then
 			    Dim p As New VLCPlayer(Me)
 			    ' the subitems are populated when the Medium is played
-			    If p.Play(True) Then p.Stop()
+			    ' but we shouldn't autopopulate if there are options present
+			    If UBound(mOptions) = -1 And p.Play(True) Then p.Stop()
 			    mSubItems = New PlayListPtr(Me)
 			  End If
 			  Return mSubItems
