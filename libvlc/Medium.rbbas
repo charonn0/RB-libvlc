@@ -261,9 +261,9 @@ Inherits libvlc.VLCInstance
 
 	#tag Method, Flags = &h0
 		Sub Parse()
-		  ' Parses the media's meta data without playing it. Parsing is done automatically
+		  ' Parses the medium's metadata without playing it. Parsing is done automatically
 		  ' when media are played; check the IsParsed property to determine whether the metadata
-		  ' has already been parsed. Refer to the MetaData class, and the VLCPlayer.MetaData method.
+		  ' have already been parsed.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/RB-libvlc/wiki/libvlc.Medium.Parse
@@ -665,7 +665,7 @@ Inherits libvlc.VLCInstance
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the media. For media
+			  ' Returns the Media Resource Locator ("MRL", AKA "URL") of the medium. For media
 			  ' constructed from FolderItems, this is the URLPath.
 			  '
 			  ' See:
@@ -823,7 +823,7 @@ Inherits libvlc.VLCInstance
 			Get
 			  If mMeta = Nil Then mMeta = New libvlc.Meta.MetaData(Me)
 			  If mMeta.HasKey(libvlc.MetaDataType.Title) Then Return mMeta.Value(libvlc.MetaDataType.Title)
-			  Return MediaURL()
+			  Return MediaURL
 			End Get
 		#tag EndGetter
 		#tag Setter
