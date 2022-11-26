@@ -30,7 +30,7 @@ There are two main modes of operation: using the [VLCPlayer](https://github.com/
 To play a media file or stream, create an instance of the Medium class by converting from a URL(as string) or a FolderItem.
 
 ## Example
-```vbnet
+```realbasic
  Dim vlc As New VLCPlayer
  vlc.Media = GetFolderItem("C:\example\music.mp3")
  vlc.Play()
