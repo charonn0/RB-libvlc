@@ -405,29 +405,36 @@ Protected Class TranscodeOptions
 			
 			Available options are :
 			
-			ts: the MPEG-TS muxer. This the standard muxer used to stream MPEG-2. This muxer can be used with any access method.
-			Supported codecs are MPEG 1/2/4, MJPEG, H263, H264, I263, WMV 1/2 and Theora for video, MPEG audio, AAC and a52
-			for the audio stream.
-			ps: the MPEG-PS muxer. This the standard muxer for MPEG 2 files (.mpg). It can be used with the file and http output
-			methods. Supported codecs are MPEG 1/2 and MJPEG for video, MPEG audio and a52 for audio streams.
-			mpeg1: the standard MPEG 1 muxer. This muxer should be used instead of ps with MPEG 1 video streams, when saved to a
-			file or streamed over HTTP. Supported codecs are MPEG 1 and MPEG audio. (same as for the PS muxer)
-			ogg: the ogg muxer. This is the muxer from the Xiph project. It can be used with the HTTP and file output methods.
-			Supported codecs are MPEG 1/2/4, MJPEG WMV 1/2 and Theora, audio streams can be vorbis, flac, speex, a52 or MPEG
-			audio.
-			asf: the Microsoft ASF muxer. This is the standard muxer used for streaming by Microsoft applications. Is also used as
-			container for WMA audio files. This muxer can be used with the file and HTTP output methods. Supported codecs are
-			MPEG-4, MJPEG, WMV 1/2 for video, MPEG audio, and a52 for audio streams.
-			asfh: this is a special version of the ASF muxer, that should be used for MMSH streaming. MMSH is the only supported
-			output method. Supported codecs are the same as for ASF.
-			avi: the Microsoft AVI muxer. This is very common encapsulation format for MPEG-4 files. The only supported output
-			method is file. Supported codecs are MPEG 1/2/4, H263, H264 and I263 for video, MPEG audio and a52 for audio streams.
-			Note: The avi muxer in VLC is known to produce corrupt files.
+			  ts: the MPEG-TS muxer. This the standard muxer used to stream MPEG-2. This muxer can be used with any access method.
+			  Supported codecs are MPEG 1/2/4, MJPEG, H263, H264, I263, WMV 1/2 and Theora for video, MPEG audio, AAC and a52
+			  for the audio stream.
 			
-			mpjpeg: the multipart jpeg muxer. This encapsulation format is mostly used on surveillance video cameras with an integrated
-			web server. Such streams are usually embedded in web pages and seen with standard Internet browsers, as they are
-			seen as a succession of jpeg images. The only supported output method is HTTP. The only usable codec is MJPEG. No
-			sound track can be muxed in such streams.
+			  ps: the MPEG-PS muxer. This the standard muxer for MPEG 2 files (.mpg). It can be used with the file and http output
+			  methods. Supported codecs are MPEG 1/2 and MJPEG for video, MPEG audio and a52 for audio streams.
+			
+			  mpeg1: the standard MPEG 1 muxer. This muxer should be used instead of ps with MPEG 1 video streams, when saved to a
+			  file or streamed over HTTP. Supported codecs are MPEG 1 and MPEG audio. (same as for the PS muxer)
+			
+			  ogg: the ogg muxer. This is the muxer from the Xiph project. It can be used with the HTTP and file output methods.
+			  Supported codecs are MPEG 1/2/4, MJPEG WMV 1/2 and Theora, audio streams can be vorbis, flac, speex, a52 or MPEG
+			  audio.
+			
+			  asf: the Microsoft ASF muxer. This is the standard muxer used for streaming by Microsoft applications. Is also used as
+			  container for WMA audio files. This muxer can be used with the file and HTTP output methods. Supported codecs are
+			  MPEG-4, MJPEG, WMV 1/2 for video, MPEG audio, and a52 for audio streams.
+			
+			  asfh: this is a special version of the ASF muxer, that should be used for MMSH streaming. MMSH is the only supported
+			  output method. Supported codecs are the same as for ASF.
+			
+			  avi: the Microsoft AVI muxer. This is very common encapsulation format for MPEG-4 files. The only supported output
+			  method is file. Supported codecs are MPEG 1/2/4, H263, H264 and I263 for video, MPEG audio and a52 for audio streams.
+			  Note: The avi muxer in VLC is known to produce corrupt files.
+			
+			  mpjpeg: the multipart jpeg muxer. This encapsulation format is mostly used on surveillance video cameras with an integrated
+			  web server. Such streams are usually embedded in web pages and seen with standard Internet browsers, as they are
+			  seen as a succession of jpeg images. The only supported output method is HTTP. The only usable codec is MJPEG. No
+			  sound track can be muxed in such streams.
+			
 		#tag EndNote
 		OutputMuxer As String
 	#tag EndProperty
