@@ -41,7 +41,7 @@ Protected Class VLCInstance
 		    ' We can't find the libvlc binary or one of its dependencies. Verify that all neccesary dll/solib/dylib
 		    ' files are located in the expected directory for your environment. The easiest way to avoid this problem
 		    ' is to add a build step to your project that copies the necessary files automatically.
-		    ' See: http://docs.xojo.com/UserGuide:Build_Automation#Copy_Files
+		    ' See: https://documentation.xojo.com/topics/build_automation/introduction.html
 		    Raise err
 		  End If
 		  
