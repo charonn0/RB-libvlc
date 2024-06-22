@@ -15,6 +15,9 @@ _This screen shot depicts the RB-libvlc demo running on Windows 10_
 * Open, create, play, and save [playlists](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Playlist).
 * Sound [equalization controls](https://github.com/charonn0/RB-libvlc/wiki/libvlc.Equalizer).
 
+## Become a sponsor
+If you use this code in a commercial project, or just want to show your appreciation, please consider sponsoring me through GitHub. https://github.com/sponsors/charonn0
+
 ## Synopsis
 There are two main modes of operation: using the [VLCPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCPlayer) class to play media without a GUI and the [VLCMediaPlayer](https://github.com/charonn0/RB-libvlc/wiki/libvlc.VLCMediaPlayer) which provides a GUI. libvlc also supports playlists through a separate [PlayList](https://github.com/charonn0/RB-libvlc/wiki/libvlc.PlayList) interface.
 
